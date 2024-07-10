@@ -1,0 +1,424 @@
+// main variables
+:root {
+  // colors
+  --clr-primary: #EB662B;
+  --clr-primary-lighter: #d45c27;
+  --clr-primary-light: #F28555;
+  --clr-dark-yellow: #E2AD64;
+  --clr-light-yellow: #FDF0EA;
+  --clr-dark-blue: #05073C;
+  --clr-blue-lighter: #1E2050;
+
+  --clr-white: #fff;
+  --clr-light-white: #FEF7F4;
+  --clr-light-white-2: #F5F5F5;
+  --clr-silver: #E7E6E6;
+  --clr-silver-dark: #969696;
+  --clr-grey: #717171;
+  --clr-darker-grey: #757575;
+  --clr-darker-grey-2: #5e5e5e;
+  --clr-purple: #4A43C4;
+  --clr-error: #EB2B2B;
+  --clr-success: #20CD85;
+  --clr-info: #333;
+
+  --clr-black: #000;
+  --linear-orange-and-light-orange: #EB662B, #F28555;
+
+  // font
+  --font-inter: 'Inter', serif;
+}
+
+//  fonts
+// icons, if there are
+
+// root variables
+
+// basic styles
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  // disable the ability to zoom in on the page
+  touch-action: manipulation;
+}
+
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+*:focus {
+  outline: none;
+  /*    outline: dotted 2px var(--clr-primary);
+      border-radius: 10rem;
+      padding-top: .4rem;
+      padding-bottom: .4rem;
+      box-shadow: 0 0 0 2px var(--clr-primary-light);
+      border-radius: 3px;*/
+}
+
+.focus {
+  outline: dotted 2px var(--clr-primary);
+  border-radius: 10rem;
+  transform: translateY(-2px);
+}
+
+.no-focus {
+  outline: none;
+}
+
+*::selection {
+  background-color: var(--clr-primary);
+  color: var(--clr-white);
+}
+
+html {
+  font-size: 62.5%;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  @media only screen and (max-width: 75em) {
+    font-size: 50%;
+  }
+  @media only screen and (max-width: 37.5em) {
+    font-size: 45%;
+  }
+}
+
+body {
+  font-family: var(--font-inter), serif;
+  font-weight: 400;
+  font-size: 1.6rem;
+  padding-left: 3.2rem;
+  padding-right: 3.2rem;
+  @media only screen and (max-width: 37.5px) {
+    padding: 1.6rem;
+    padding-top: 0;
+  }
+}
+
+input {
+  font-family: inherit;
+}
+
+.container {
+  max-width: 127.9rem;
+  padding: 3.2rem;
+  margin: 0 auto;
+}
+
+li {
+  list-style: none;
+}
+
+.link {
+  &-marked {
+    font-weight: 500;
+    padding: 1.4rem 2rem;
+    background-color: var(--clr-primary);
+    color: var(--clr-white) !important;
+    border-radius: 10rem;
+
+    &:hover, &:active {
+      text-decoration: none !important;
+      background-color: var(--clr-primary-lighter);
+      color: var(--clr-white);
+    }
+
+  }
+
+  &-active {
+    color: var(--clr-primary);
+    text-decoration: none;
+    transition: all .3s;
+    display: inline-block;
+
+    &:hover, &:active {
+      box-shadow: 0 1px 0 rgba(235, 102, 43, .6);
+      transform: translateX(3%);
+    }
+  }
+}
+
+.link:visited,
+.link:link {
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--clr-dark-blue);
+  font-size: 1.4rem;
+  transition: all .4s;
+
+  &:hover, &:active {
+    text-decoration: underline;
+    color: var(--clr-primary);
+  }
+
+}
+
+.paragraph {
+  font-size: 1.465rem;
+
+  &-hero {
+    color: var(--clr-white);
+    margin-bottom: 7rem;
+    @media only screen and (max-width: 30.25px) {
+      padding-left: 1.6rem;
+      padding-right: 1.6rem;
+    }
+  }
+
+  &-cta {
+    color: var(--clr-dark-blue);
+    margin-bottom: 4.4rem;
+  }
+
+  &--travel-articles-date {
+    color: var(--clr-dark-blue);
+    padding-right: 1.2rem;
+    margin-right: 1.2rem;
+    border-right: 2px solid var(--clr-silver);
+  }
+}
+
+.btn {
+  border: none;
+  border-radius: 12px;
+  font-family: inherit;
+  cursor: pointer;
+
+  &--search {
+    color: var(--clr-white);
+    background-color: var(--clr-primary);
+    padding: 1.6rem 3.2rem;
+    width: 35.2rem;
+    transition: all .3s;
+    font-size: 1.4rem;
+    font-weight: 600;
+    border-radius: 9px;
+    height: 5.6rem;
+
+    &:hover, &:active {
+      background-color: var(--clr-primary-lighter);
+    }
+  }
+
+  &--hero {
+    height: 5.6rem;
+  }
+
+  &--hero, &--cta {
+    color: var(--clr-white);
+    transition: all .2s;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+
+    &:hover, &:active {
+      text-decoration: none;
+      background-color: var(--clr-primary-lighter);
+      color: var(--clr-white);
+      transform: translateY(-3%);
+    }
+  }
+
+  &--hero {
+    padding: 2rem 3rem 2rem 3.8rem;
+    background-color: var(--clr-primary);
+  }
+
+  &--cta {
+    padding: 2rem 3rem 2rem 3rem;
+    background-color: var(--clr-primary);
+  }
+
+  &--cta-secondary {
+    transition: all .3s;
+    background-color: var(--clr-white);
+    color: var(--clr-purple);
+    font-weight: 500;
+    padding: 2rem 3rem 2rem;
+    backface-visibility: hidden;
+    border: 1px solid var(--clr-purple);
+    width: 10rem;
+    @media only screen and (max-width: 37.5px) {
+      padding: 1.8rem 3rem 1.8rem;
+      font-size: 1.5rem;
+    }
+
+    &:hover, &:active {
+      background-color: var(--clr-purple);
+      border: 1px solid var(--clr-white);
+      color: var(--clr-white);
+      transform: translateX(10px);
+
+      @media only screen and (max-width: 28.5625px) {
+        transform: translateX(0);
+      }
+    }
+  }
+}
+
+.heading-scale-effect {
+  transition: all 0.3s;
+
+  &:hover, &:active {
+    transform: scale(1.04);
+  }
+}
+
+// for hiding sections nd then showing them when they are scrolled into view
+.section--hidden {
+  opacity: 0;
+  transform: translateY(8rem);
+}
+
+section {
+  transition: transform 1s, opacity 1s;
+}
+
+// for loading lazy images
+// this class basically blurs the image and then removes the blur effect when the image is loaded
+img {
+  transition: filter 0.5s;
+}
+
+.lazy-img {
+  filter: blur(10px);
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+.gap-sm {
+  gap: .5rem
+}
+
+.on-alpha {
+  color: var(--clr-silver-dark) !important;
+}
+
+// grid utility classes
+.grid {
+  display: grid;
+}
+
+.grid-two-cols {
+  grid-template-columns: 1fr 1fr;
+}
+
+.grid-three-cols {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.grid-four-cols {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+
+.grid-five-cols {
+  grid-template-columns: repeat(5, 1fr);
+}
+
+//////////////////////////////////////
+
+// flex utility classes
+
+.flex {
+  display: flex;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+
+.flex-space-between {
+  justify-content: space-between;
+}
+
+.flex.justify-center {
+  justify-content: center;
+}
+
+.flex-align-center {
+  align-items: center;
+}
+
+/////////////////////////////////////
+
+// IMG, SPAN
+
+img,
+span {
+  display: block;
+}
+
+.container {
+  max-width: 124.7rem;
+  padding: 3.2rem;
+  margin: 0 auto;
+}
+
+.container-cta {
+  max-width: 152.7rem;
+  padding: 3.2rem;
+  margin: 0 auto;
+}
+
+.container-trending-destinations {
+  max-width: 152.7rem;
+  padding: 3.2rem;
+  margin: 0 auto;
+}
+
+.margin-bottom-small {
+  margin-bottom: 2rem;
+}
+
+.margin-bottom-very-small {
+  margin-bottom: 1rem;
+}
+
+.margin-right-very-small {
+  margin-right: 1rem;
+}
+
+.icon {
+  &--search {
+    margin-right: .6rem;
+    margin-bottom: 1.4rem;
+  }
+
+  &--search--btn {
+    margin-right: 1rem;
+  }
+
+  &--location, &--pin, &--clock, &--type {
+    color: var(--clr-primary);
+    font-size: 2rem;
+  }
+
+  &--call {
+    color: var(--clr-primary);
+    font-size: 2.2rem;
+    width: 4rem;
+    @media only screen and (max-width: 26.75em) {
+      font-size: 3rem;
+      background-color: var(--clr-primary);
+      color: var(--clr-white);
+      padding: 1.2rem;
+      width: 1.8rem;
+      height: 1.8rem;
+      border-radius: 50%;
+    }
+  }
+}
+
+.highlighted {
+  color: var(--clr-primary);
+  font-weight: 600;
+}
