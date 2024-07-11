@@ -116,11 +116,14 @@
         font-size: 2.8rem;
       }
       .btn--hero {
+        display: flex;
+        gap: 1.9rem;
         width: 100%;
       }
     }
 
     &-empty-box {
+      position: relative;
       border: 2px solid var(--clr-silver);
       background-color: #fff;
       padding: 1.4rem;

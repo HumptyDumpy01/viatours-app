@@ -400,6 +400,13 @@ span {
   &--location, &--pin, &--clock, &--type {
     color: var(--clr-primary);
     font-size: 2rem;
+    position: absolute;
+    top: .1rem;
+    left: 1.4rem;
+    @media only screen and (max-width: 37.5em) {
+      top: -.8rem;
+      left: .7rem;
+    }
   }
 
   &--call {
