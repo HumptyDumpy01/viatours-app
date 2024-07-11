@@ -2,7 +2,7 @@ import Image from 'next/image';
 import headerLogo from '@/assets/images/navigation/logo-1.svg';
 import './MainNavigation.scss';
 import NavButton from '@/components/UI/NavButton';
-import NavigationResponsive from '@/components/Header/NavigationResponsive';
+import NavigationResponsive from '@/components/Header/Navigation/NavigationResponsive';
 
 // 'use client';
 

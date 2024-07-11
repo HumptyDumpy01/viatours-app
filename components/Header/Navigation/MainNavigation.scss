@@ -215,3 +215,12 @@
   }
 
 }
+
+#nav-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+#nav-list-open {
+  transform: translateX(0);
+}

@@ -1,0 +1,11 @@
+.burger-link {
+  font-size: 2.4rem;
+  color: var(--clr-blue-lighter);
+  cursor: pointer;
+  transition: all .4s;
+  text-decoration: none;
+
+  &:hover, &:active {
+    color: var(--clr-primary);
+  }
+}

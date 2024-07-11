@@ -1,6 +1,11 @@
+'use client';
+
 import './Header.scss';
-import MainNavigation from '@/components/Header/MainNavigation';
-// 'use client';
+import MainNavigation from '@/components/Header/Navigation/MainNavigation';
+import store from '@/store/store';
+import { Provider } from 'react-redux';
+import NavigationBurger from '@/components/Header/Navigation/NavigationBurger';
+import React from 'react';
 
 /*interface HeaderInterface {
   // children: ReactNode;
@@ -9,10 +14,13 @@ import MainNavigation from '@/components/Header/MainNavigation';
 export default function Header(/*{  }: HeaderInterface*/) {
   return (
     <>
-      <header className={`header`}>
-        <MainNavigation />
-      </header>
-      <div className={`header-placeholder`}></div>
+      <Provider store={store}>
+        <header className={`header`}>
+          <MainNavigation />
+        </header>
+        <div className={`header-placeholder`}></div>
+        <NavigationBurger />
+      </Provider>
     </>
   );
 }
