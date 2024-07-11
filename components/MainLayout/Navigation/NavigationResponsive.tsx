@@ -24,6 +24,11 @@ export default function NavigationResponsive(/*{  }: NavigationBurgerInterface*/
     console.log(`Executing isOpen: `, isOpen);
   }
 
+  function openSideNav() {
+    console.log(`openSideNav clicked`);
+    dispatch(navigationSliceActions.toggleSideNavigation(`open`));
+  }
+
   return (
     <>
       <div className="navigation__responsive">
@@ -39,7 +44,9 @@ export default function NavigationResponsive(/*{  }: NavigationBurgerInterface*/
         <div className="nav-icon-wrapper flex flex-align-center">
           {/* @ts-ignore*/}
           <ion-icon name="search-outline" className="nav-icon nav-icon--search"></ion-icon>
-          <Image priority src={userIcon} alt="user icon" className={`nav-icon nav-icon--user-icon`} />
+          <button className={`btn`} onClick={openSideNav}>
+            <Image priority src={userIcon} alt="user icon" className={`nav-icon nav-icon--user-icon`} />
+          </button>
         </div>
       </div>
     </>

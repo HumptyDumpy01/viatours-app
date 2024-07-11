@@ -5,7 +5,8 @@ const navigationSlice = createSlice({
   initialState: {
     // define some initial values for your app
     // e.g. counter: 0,
-    navIsOpen: false
+    navIsOpen: false,
+    sideNavIsOpen: false
   },
   reducers: {
     // create a function that will open the navigation
@@ -15,6 +16,14 @@ const navigationSlice = createSlice({
       }
       if (action.payload === `open`) {
         state.navIsOpen = true;
+      }
+    },
+    toggleSideNavigation(state, action) {
+      if (action.payload === `close`) {
+        state.sideNavIsOpen = false;
+      }
+      if (action.payload === `open`) {
+        state.sideNavIsOpen = true;
       }
     }
   }

@@ -4,7 +4,7 @@ import Image from 'next/image';
 import './MainNavigation.scss';
 import { useCartDispatch, useCartSelector } from '@/store/hooks';
 import { navigationSliceActions } from '@/store/navigationSlice';
-import NavBurgerLink from '@/components/UI/NavBurgerLink';
+import NavBurgerLink from '@/components/UI/Link/NavBurgerLink';
 
 /*interface NavigationBurgerInterface {
   // children: ReactNode;

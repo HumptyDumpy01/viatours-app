@@ -6,6 +6,7 @@ import store from '@/store/store';
 import { Provider } from 'react-redux';
 import NavigationBurger from '@/components/MainLayout/Navigation/NavigationBurger';
 import React from 'react';
+import NavSideBar from '@/components/MainLayout/Sidebar/NavSideBar';
 
 /*interface HeaderInterface {
   // children: ReactNode;
@@ -20,6 +21,7 @@ export default function Header(/*{  }: HeaderInterface*/) {
         </header>
         <div className={`header-placeholder`}></div>
         <NavigationBurger />
+        <NavSideBar />
       </Provider>
     </>
   );
