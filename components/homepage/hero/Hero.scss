@@ -1,0 +1,134 @@
+.hero {
+  &__second-part {
+    &-third-col.flex {
+      @media only screen and (max-width: 41.25em) {
+        background-color: #000;
+        display: none;
+      }
+    }
+
+    &-details {
+      text-align: left;
+      margin-top: .4rem;
+
+      &-span {
+        color: var(--clr-dark-blue);
+        font-weight: 500;
+        margin-bottom: .4rem;
+      }
+    }
+
+    p {
+      color: var(--clr-grey);
+    }
+  }
+}
+
+.hero {
+  border-radius: 12px 12px 2px 2px;
+
+  text-align: center;
+  align-items: center;
+  padding: 21.8rem 0 21.8rem 0;
+
+  @media only screen and (max-width: 37.5em) {
+    padding-top: 17rem;
+    padding-bottom: 17rem;
+  }
+  //url('../img/hero/heroBg.jpg')
+  background: linear-gradient(to right bottom, rgba(235, 0, 0, 0.3), rgba(0, 0, 0, 0.4)), url('/hero/heroBg.jpg');
+
+  // the same background as above but more with the primary color
+  background-size: cover;
+  background-position: center;
+  position: relative;
+
+  &-select-type {
+    border: none;
+    color: var(--clr-dark-blue);
+    font-family: inherit;
+    background-color: var(--clr-white);
+
+    &:focus {
+      // insert a typical box-shadow that wraps the input
+      box-shadow: 0 0 3px rgba(235, 102, 43, .6);
+    }
+
+    &:active, &:focus {
+      border: none;
+      outline: none;
+    }
+  }
+
+  // making a clip at the end of the section
+  //clip-path: polygon(0 0, 100% 0, 100% 75vh, 0 100%);
+  &-input {
+    color: var(--clr-dark-blue);
+    background-color: #fff;
+    transition: all .3s;
+
+
+    &:focus {
+      box-shadow: 0 1px 0 rgba(235, 102, 43, .6);
+
+      &::placeholder {
+        transition: all .7s;
+        color: var(--clr-darker-grey);
+      }
+    }
+
+    &::placeholder {
+      transition: all .7s;
+      color: var(--clr-dark-blue);
+    }
+
+    &-destinations {
+      transition: all .3s;
+      border: none;
+
+      &-datepicker {
+        cursor: pointer;
+      }
+    }
+  }
+
+  &__img-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transform: translate(-3%, 4px);
+    width: 104%;
+    border-bottom: 3px solid transparent;
+  }
+
+  &__second-part {
+    transition: all .7s;
+    background-color: #fff;
+    padding: 1.2rem 2rem;
+    border-radius: 12px;
+    column-gap: 3.2rem;
+    @media only screen and (max-width: 57.375em) {
+      flex-direction: column;
+      row-gap: 3rem;
+      z-index: 1;
+
+      span {
+        font-size: 2.8rem;
+      }
+      .btn--hero {
+        width: 100%;
+      }
+    }
+
+    &-empty-box {
+      border: 2px solid var(--clr-silver);
+      background-color: #fff;
+      padding: 1.4rem;
+      width: 5rem;
+      height: 5rem;
+      border-radius: 12px;
+      margin-right: 1.2rem;
+      margin-top: .2rem;
+    }
+  }
+}

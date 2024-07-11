@@ -426,3 +426,31 @@ span {
 .cursor-not-allowed {
   cursor: not-allowed;
 }
+
+.main-heading {
+  font-size: 7rem;
+  font-weight: 600;
+  color: var(--clr-white);
+  @media only screen and (max-width: 30.25em) {
+    font-size: 5rem;
+  }
+}
+
+.secondary-heading {
+  font-weight: 600;
+  color: var(--clr-dark-blue);
+}
+
+.tertiary-heading {
+  font-weight: 500;
+  color: var(--clr-dark-blue);
+}
+
+.subheading {
+  color: var(--clr-primary);
+  font-weight: 600;
+  margin-bottom: 0;
+  text-transform: uppercase;
+  display: flex;
+  justify-content: left;
+}
