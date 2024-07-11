@@ -4,7 +4,7 @@ import closeMenuImg from '@/assets/images/close-menu.svg';
 import userIcon from '@/assets/images/user-icon.svg';
 import './Header.scss';
 import Image from 'next/image';
-import Link from 'next/link';
+import NavButton from '@/components/UI/NavButton';
 
 // 'use client';
 
@@ -35,11 +35,11 @@ export default function Header(/*{  }: HeaderInterface*/) {
               </div>
             </div>
             <div className={`navigation-wrapper-2 flex flex-align-center`}>
-              <Link href={`/`} className={`link btn--scroll-to navigation__link`}>Destinations</Link>
-              <Link href={`/`} className={`link navigation__link`}>Activities</Link>
-              <Link href={`/`} className={`link navigation__link`}>Wishlist</Link>
-              <Link href={`/`} className={`link navigation__link`}>Sign up</Link>
-              <Link href={`/`} className={`link link-marked navigation__link link-log-in"`}>Log in</Link>
+              <NavButton pathName={`/tours`}>All Tours</NavButton>
+              <NavButton pathName={`/articles`}>Tour Articles</NavButton>
+              <NavButton pathName={`/account-settings/wishlist`}>Wishlist</NavButton>
+              <NavButton pathName={`/sign-up`}>Sign up</NavButton>
+              <NavButton marked pathName={`/log-in`}>Log in</NavButton>
             </div>
           </div>
           <div className={`navigation__responsive`}>
