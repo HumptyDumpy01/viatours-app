@@ -1,0 +1,217 @@
+.navigation.container {
+  padding-top: 1.4rem !important;
+
+  @media only screen and (max-width: 64.0625em) {
+    width: 100%;
+  }
+}
+
+.logo {
+  transition: opacity .4s;
+  cursor: pointer;
+}
+
+// added a sticky class to the navigation
+.sticky {
+  position: fixed;
+  top: 0;
+  z-index: 999;
+  background-color: var(--clr-white);
+  opacity: 0.97;
+}
+
+.navigation {
+  &-background {
+    transition: all .5s cubic-bezier(0.83, 0, 0.17, 1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding-bottom: 4rem;
+    z-index: 9999;
+    background-color: var(--clr-white);
+    opacity: 0;
+    visibility: hidden;
+
+    &__list {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      gap: 3rem;
+      transition: all .7s cubic-bezier(0.83, 0, 0.17, 1);
+
+      // making the navigation links appear from the left(toggle to 0 via javascript function)
+      transform: translateX(-100%);
+
+      .link.navigation-background__link {
+        font-size: 3.2rem;
+        text-decoration: none;
+        transition: all .4s;
+      }
+    }
+
+    &-close-icon {
+      position: absolute;
+      top: 3.2rem;
+      right: 3.2rem;
+      height: 5.5rem;
+      width: 5.5rem;
+      cursor: pointer;
+      transition: all .9s;
+      transform: translateX(14rem);
+
+      &:hover, &:active {
+        transform: translateX(14rem);
+      }
+    }
+  }
+}
+
+.navigation {
+  position: relative;
+  width: 100%;
+
+  &-wrapper {
+    margin-right: auto;
+    margin-left: 3.2rem;
+    gap: 2.4rem;
+  }
+
+  &-wrapper-2 {
+    margin-right: 2.2rem;
+    gap: 4.4rem;
+    display: flex;
+    align-items: center;
+  }
+
+  &__responsive {
+    padding-right: 3.2rem;
+    display: none;
+    @media only screen and (max-width: 64.0625em) {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+
+  .navigation__ul.flex {
+    justify-items: space-between;
+    @media only screen and (max-width: 64.0625em) {
+      display: none !important;
+    }
+  }
+
+  &__logo {
+    width: 14.4rem;
+  }
+
+  &--search, &--datepicker-mobile {
+    transition: all .3s;
+    border: 1px solid var(--clr-primary);
+    border-radius: 10rem;
+    padding: 2.2rem;
+    height: 4.9rem;
+    width: 35rem;
+    margin-top: .6rem;
+    font-size: 1.6rem;
+    color: var(--clr-darker-grey);
+    padding-left: 4.4rem;
+    position: relative;
+    @media only screen and (max-width: 41.25em) {
+      height: 5.6rem;
+      margin-bottom: .6rem;
+    }
+
+    &-wrapper {
+      position: absolute;
+      top: 54%;
+      left: 26rem;
+      transform: translate(-50%, -50%);
+    }
+
+    &:focus {
+      outline: none;
+    }
+
+    &-input-wrapper {
+      position: relative;
+    }
+
+    &-icon {
+      position: absolute;
+      top: 50%;
+      left: 1.6rem;
+      transform: translateY(-50%);
+      width: 2.4rem;
+      height: 2.4rem;
+      color: var(--clr-primary);
+    }
+  }
+
+  .nav-icon {
+    transition: transform .4s;
+
+    &-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 2.4rem;
+    }
+
+    &--search {
+      font-size: 2.4rem;
+      color: var(--clr-primary);
+    }
+
+    &--user-icon {
+      width: 2.8rem;
+      height: 2.8rem;
+    }
+
+    &--menu-icon, &--close-menu-icon {
+      width: 2.8rem;
+      height: 2.8rem;
+    }
+
+    &--close-menu-icon {
+      display: none;
+      transition: transform .4s;
+    }
+
+    &--user-icon, &--search {
+      @media only screen and (max-width: 37.5em) {
+        margin-top: .3rem;
+      }
+    }
+
+    &--search {
+      @media only screen and (max-width: 37.5em) {
+        font-size: 3rem;
+      }
+    }
+
+    &--user-icon {
+      @media only screen and (max-width: 37.5px) {
+        width: 3.2rem;
+        height: 3.2rem;
+      }
+    }
+
+    &--search, &--user-icon, &--menu-icon, &--close-menu-icon {
+      cursor: pointer;
+      transition: all .4s;
+
+      &:hover, &:active {
+        transform: scale(1.2) translateY(-1px);
+        border-radius: 100px;
+      }
+
+      &:active {
+        transform: scale(1.2);
+      }
+    }
+  }
+
+}
