@@ -1,10 +1,10 @@
 'use client';
 
 import './Header.scss';
-import MainNavigation from '@/components/Header/Navigation/MainNavigation';
+import MainNavigation from '@/components/MainLayout/Navigation/MainNavigation';
 import store from '@/store/store';
 import { Provider } from 'react-redux';
-import NavigationBurger from '@/components/Header/Navigation/NavigationBurger';
+import NavigationBurger from '@/components/MainLayout/Navigation/NavigationBurger';
 import React from 'react';
 
 /*interface HeaderInterface {

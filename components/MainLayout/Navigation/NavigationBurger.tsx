@@ -20,11 +20,21 @@ export default function NavigationBurger(/*{  }: NavigationBurgerInterface*/) {
   return (
     <div className="navigation-background" id={isOpen ? 'nav-open' : ''} onClick={handleCloseNavigation}>
       <ul className="navigation-background__list" id={isOpen ? `nav-list-open` : ''}>
-        <NavBurgerLink pathName={`/tours`}>All Tours</NavBurgerLink>
-        <NavBurgerLink pathName={`/articles`}>Tour Articles</NavBurgerLink>
-        <NavBurgerLink pathName={`/account-settings/wishlist`}>Wishlist</NavBurgerLink>
-        <NavBurgerLink pathName={`/sign-up`}>Sign up</NavBurgerLink>
-        <NavBurgerLink marked pathName={`/sign-up`}>Log in</NavBurgerLink>
+        <li>
+          <NavBurgerLink pathName={`/tours`}>All Tours</NavBurgerLink>
+        </li>
+        <li>
+          <NavBurgerLink pathName={`/articles`}>Tour Articles</NavBurgerLink>
+        </li>
+        <li>
+          <NavBurgerLink pathName={`/account-settings/wishlist`}>Wishlist</NavBurgerLink>
+        </li>
+        <li>
+          <NavBurgerLink pathName={`/sign-up`}>Sign up</NavBurgerLink>
+        </li>
+        <li>
+          <NavBurgerLink marked pathName={`/log-in`}>Log in</NavBurgerLink>
+        </li>
       </ul>
       <Image priority src={closeMenuIcon} alt="close menu icon" className="navigation-background-close-icon" />
     </div>

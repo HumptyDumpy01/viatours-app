@@ -2,7 +2,8 @@ import Image from 'next/image';
 import headerLogo from '@/assets/images/navigation/logo-1.svg';
 import './MainNavigation.scss';
 import NavButton from '@/components/UI/NavButton';
-import NavigationResponsive from '@/components/Header/Navigation/NavigationResponsive';
+import NavigationResponsive from '@/components/MainLayout/Navigation/NavigationResponsive';
+import Link from 'next/link';
 
 // 'use client';
 
@@ -14,7 +15,9 @@ export default function MainNavigation(/*{  }: MainNavigationInterface*/) {
     <nav className={`navigation container`}>
       <div className={`navigation__ul flex`}>
         <div className={`navigation-wrapper flex flex-align-center`}>
-          <Image priority src={headerLogo} alt="viatours logo" className={`logo navigation__logo`} />
+          <Link href={`/`}>
+            <Image priority src={headerLogo} alt="viatours logo" className={`logo navigation__logo`} />
+          </Link>
           <label>
             <input type="search" className={`navigation--search`}
                    placeholder="Search destinations or activities" />
