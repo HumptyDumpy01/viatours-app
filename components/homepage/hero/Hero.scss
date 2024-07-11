@@ -135,3 +135,36 @@
     }
   }
 }
+
+.icon--clock {
+  @media only screen and (max-width: 75em) {
+    margin-top: -.4rem;
+    margin-left: -.3rem;
+  }
+  @media only screen and (max-width: 37.5em) {
+    margin-top: -.1rem;
+    margin-left: .24rem;
+  }
+}
+
+.icon--pin {
+  @media only screen and (max-width: 75em) {
+    margin-top: -.4rem;
+    margin-left: -.3rem;
+  }
+  @media only screen and (max-width: 37.5em) {
+    margin-top: -.1rem;
+    margin-left: .24rem;
+  }
+}
+
+.icon--type {
+  @media only screen and (max-width: 75em) {
+    margin-top: -.4rem;
+    margin-left: -.3rem;
+  }
+  @media only screen and (max-width: 37.5em) {
+    margin-top: -.1rem;
+    margin-left: .24rem;
+  }
+}

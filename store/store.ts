@@ -1,12 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
 import navigationSlice from '@/store/navigationSlice';
+import heroSlice from '@/store/heroSlice';
 
 const store = configureStore({
   reducer: {
     // The prop would be used to access your slice. The slice can be
     // imported with the .reducer in the end or without it. If you add
     // .reducer, then type the name of the slice, if not, then YOUR_SLICE.reducer
-    navigation: navigationSlice
+    navigation: navigationSlice,
+    hero: heroSlice
   }
 });
 

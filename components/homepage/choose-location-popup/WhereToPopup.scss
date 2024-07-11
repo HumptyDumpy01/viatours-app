@@ -3,8 +3,8 @@
 }
 
 .where-to-popup {
-  opacity: 0;
-  visibility: hidden;
+  opacity: 1;
+  visibility: visible;
   z-index: 9999;
   background-color: #fff;
   position: absolute;
@@ -15,9 +15,9 @@
   border-radius: 12px;
   border: 1px solid var(--clr-silver);
   padding: 3rem 4.6rem;
-  @media only screen and (max-width: 57.1875em) {
+  @media only screen and (max-width: 57.3125em) {
     width: 60rem;
-    left: -14rem;
+    left: 2rem;
   }
 
   &__element, {
@@ -50,6 +50,9 @@
     }
 
     &__image-wrapper {
+      position: relative;
+      width: 5.3rem;
+      height: 5.3rem;
       object-fit: cover;
       border-radius: 12px;
     }

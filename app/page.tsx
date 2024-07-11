@@ -1,11 +1,11 @@
 import '../components/homepage/hero/Hero.scss';
-import Hero from '@/components/homepage/hero/Hero';
+import HeroWrapper from '@/components/homepage/hero/HeroWrapper';
 
 export default function Home() {
   return (
     <main>
       <section className="hero flex flex-column">
-        <Hero />
+        <HeroWrapper />
       </section>
     </main>
   );
