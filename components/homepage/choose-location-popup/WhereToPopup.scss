@@ -20,6 +20,15 @@
     left: 2rem;
   }
 
+  @media only screen and (max-width: 32.0625em) {
+    width: 100%;
+    left: 0;
+    padding: 2rem 2.4rem;
+    span, p {
+      font-size: 1.4rem;
+    }
+  }
+
   &__element, {
     &--search-all {
       gap: 1.1rem;

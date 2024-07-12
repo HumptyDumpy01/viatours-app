@@ -168,3 +168,9 @@
     margin-left: .24rem;
   }
 }
+
+.hero-form {
+  @media only screen and (max-width: 32.0625em) {
+    width: 80%;
+  }
+}
