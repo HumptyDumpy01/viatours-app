@@ -26,6 +26,18 @@ export default function TrendingDestinations(/*{  }: TrendingDestinationsInterfa
           );
         })}
 
+        {DUMMY_TOURS.map(function(item) {
+          return (
+            <TrendingDestination
+              key={item.id}
+              country={item.country}
+              alt={item.title}
+              href={`/tours/${item.id}`}
+              text={item.city}
+              imgSrc={item.images[0]}
+            />
+          );
+        })}
       </div>
     </>
   );

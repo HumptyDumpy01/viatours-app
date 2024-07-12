@@ -6,7 +6,7 @@ import './TrendingDestinations.scss';
 
 interface TrendingDestinationInterface {
   href: string;
-  imgSrc: StaticImageData;
+  imgSrc: string;
   alt: string;
   country: string;
   text: string;

@@ -2,10 +2,10 @@ import tourCard1 from '@/assets/images/topTrending/tourCard_image_5.svg';
 import tourCard2 from '@/assets/images/topTrending/tourCard_image_6.svg';
 import tourCard6 from '@/assets/images/topTrending/tourCard_image_6.svg';
 import tourCard3 from '@/assets/images/topTrending/tourCard_image_7.svg';
+import tourCard7 from '@/assets/images/topTrending/tourCard_image_7.svg';
 import tourCard4 from '@/assets/images/topTrending/tourCard_image_8.svg';
+import tourCard8 from '@/assets/images/topTrending/tourCard_image_8.svg';
 import tourCard5 from '@/assets/images/topTrending/tourCard_image_9.svg';
-// import tourCard7 from '@/assets/images/topTrending/tourCard_image_7.svg';
-// import tourCard8 from '@/assets/images/topTrending/tourCard_image_8.svg';
 // import tourCard9 from '@/assets/images/topTrending/tourCard_image_9.svg';
 // import tourCard10 from '@/assets/images/topTrending/tourCard_image_10.svg';
 
@@ -233,7 +233,7 @@ export const DUMMY_TOURS: TourInterface[] = [
       tourCard2
     ],
     duration: [
-      '1-3'
+      '7-14'
     ],
     group_size: 15,
     ages: [
@@ -320,7 +320,7 @@ export const DUMMY_TOURS: TourInterface[] = [
       tourCard3
     ],
     duration: [
-      '1-3'
+      '3-7'
     ],
     group_size: 20,
     ages: [
@@ -614,5 +614,177 @@ export const DUMMY_TOURS: TourInterface[] = [
         id: `c6`
       }
     ]
+  },
+  {
+    id: `e7`,
+    title: `Cappadocia Underground City & Fairy Chimneys Tour`,
+    overview: `Dive deep into the heart of Cappadocia with a guided tour of its ancient underground cities and iconic fairy chimneys. Learn about the historical significance of these unique landscapes.`,
+    country: 'Turkey',
+    city: 'Cappadocia',
+    reviewed: 312,
+    views: 1345,
+    rating: {
+      overall: 4.8,
+      location: 5,
+      amenities: 4.3,
+      food: 4.2,
+      price: 4.7,
+      rooms: 4.4,
+      tour_operator: 4.9
+    },
+    type: [
+      'Cultural Tours',
+      'Adventure Tours'
+    ],
+    price: {
+      adult: 180.00,
+      youth: 120.00,
+      children: 90.00
+    },
+    price_for_extra: {
+      service_per_booking: 25,
+      service_per_person: 10
+    },
+    tag: [
+      'popular',
+      'price:100-200'
+    ],
+    booked: 725,
+    images: [
+      tourCard7
+    ],
+    duration: [
+      '7-14'
+    ],
+    group_size: 15,
+    ages: [
+      '14-99'
+    ],
+    languages: [
+      'English',
+      'Turkish'
+    ],
+    tour_highlights: [
+      'Explore the ancient underground cities of Cappadocia',
+      'Marvel at the natural beauty of the fairy chimneys',
+      'Learn about the historical and cultural significance of the sites',
+      'Enjoy a traditional Turkish lunch in a local restaurant'
+    ],
+    what_included: {
+      'green': [
+        'Guided tour of underground cities and fairy chimneys',
+        'Professional guide',
+        'Lunch',
+        'Entrance fees to all sites'
+      ],
+      'red': [
+        'Hotel pickup and drop-off',
+        'Gratuities',
+        'Personal expenses'
+      ]
+    },
+    itinerary: {
+      day_1: 'Departure from Göreme and visit to Derinkuyu Underground City',
+      day_2: 'Visit to the fairy chimneys in Pasabag and Monks Valley',
+      day_3: 'Lunch in Avanos and visit to pottery workshops',
+      day_4: 'Return to Göreme and end of the tour'
+    },
+    tour_map: [
+      { lat: 38.6270, long: 34.7129 }, // Derinkuyu Underground City
+      { lat: 38.6419, long: 34.8444 }, // Pasabag Monks Valley
+      { lat: 38.7191, long: 34.8486 }  // Avanos
+    ],
+    comments: [
+      {
+        id: `c7`
+      }
+    ]
+  },
+  {
+    id: `e8`,
+    title: `Paris Louvre and Seine River Combo Tour`,
+    overview: `Experience the best of Paris with a combined tour of the iconic Louvre Museum and a relaxing cruise on the Seine River. See world-famous art and enjoy stunning views of Parisian landmarks.`,
+    country: 'France',
+    city: 'Paris',
+    reviewed: 198,
+    views: 1025,
+    rating: {
+      overall: 4.7,
+      location: 5,
+      amenities: 4.5,
+      food: 4.3,
+      price: 4.6,
+      rooms: 4.5,
+      tour_operator: 4.8
+    },
+    type: [
+      'Cultural Tours',
+      'City Tours',
+      'Cruises Tours'
+    ],
+    price: {
+      adult: 210.00,
+      youth: 160.00,
+      children: 100.00
+    },
+    price_for_extra: {
+      service_per_booking: 20,
+      service_per_person: 10
+    },
+    tag: [
+      'exclusive',
+      'price:200-300'
+    ],
+    booked: 530,
+    images: [
+      tourCard8
+    ],
+    duration: [
+      '7-14'
+    ],
+    group_size: 25,
+    ages: [
+      '6-99'
+    ],
+    languages: [
+      'English',
+      'French',
+      'Spanish'
+    ],
+    tour_highlights: [
+      'Skip-the-line access to the Louvre Museum',
+      'Guided tour of the museum’s key masterpieces',
+      'Scenic cruise on the Seine River with panoramic views',
+      'Pass by iconic landmarks like the Eiffel Tower and Notre Dame'
+    ],
+    what_included: {
+      'green': [
+        'Louvre Museum entrance ticket',
+        'Seine River cruise ticket',
+        'Professional guide',
+        'Headsets to hear the guide clearly'
+      ],
+      'red': [
+        'Hotel pickup and drop-off',
+        'Meals and drinks',
+        'Gratuities'
+      ]
+    },
+    itinerary: {
+      day_1: 'Meet at the Louvre Museum for a guided tour',
+      day_2: 'Board the cruise at Pont Neuf and enjoy a scenic ride on the Seine River',
+      day_3: 'Tour concludes at the Eiffel Tower, with free time to explore'
+    },
+    tour_map: [
+      { lat: 48.8606, long: 2.3376 }, // Louvre Museum
+      { lat: 48.8575, long: 2.3408 }, // Pont Neuf
+      { lat: 48.8584, long: 2.2945 }  // Eiffel Tower
+    ],
+    comments: [
+      {
+        id: `c8`
+      }
+    ]
   }
+
 ];
