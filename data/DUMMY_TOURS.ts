@@ -79,6 +79,7 @@ export const DUMMY_TOURS: TourInterface[] = [
     type: [
       'Nature Tours'
       // 'Adventure tours',
+      // 'Museum tours',
       // 'Cultural Tours',
       // 'Food Tours',
       // 'City Tours',
@@ -727,8 +728,7 @@ export const DUMMY_TOURS: TourInterface[] = [
     },
     type: [
       'Cultural Tours',
-      'City Tours',
-      'Cruises Tours'
+      'Museum tours'
     ],
     price: {
       adult: 210.00,
@@ -877,6 +877,1002 @@ export const DUMMY_TOURS: TourInterface[] = [
         id: `c9`
       }
     ]
-  }
+  },
+
+  {
+    id: `e1`,
+    title: `Eiffel Tower Tour`,
+    overview: `The Eiffel Tower is a wrought-iron lattice tower on the Champ de Mars in Paris, France. It is named after the engineer Gustave Eiffel, whose company designed and built the tower.`,
+    country: 'France',
+    city: 'Paris',
+    reviewed: 179,
+    views: 999,
+    //////////////////////////////////////
+    rating: {
+      // depending on the total number of reviews, assuming 5 is 100% we need to calculate the total rating
+      // in this math way: total rating = (5 * 100) / reviewed
+      overall: 4.33,
+      location: 5,
+      amenities: 5,
+      food: 5,
+      price: 5,
+      rooms: 5,
+      tour_operator: 5
+    },
+    //////////////////////////////////////
+    type: [
+      'Nature Tours'
+      // 'Adventure tours',
+      // 'Museum tours',
+      // 'Cultural Tours',
+      // 'Food Tours',
+      // 'City Tours',
+      // 'Cruises Tours',
+      // 'Family',
+      // 'Relaxing',
+      // 'Nightlife'
+    ],
+    //////////////////////////////////////
+    price: {
+      adult: 231.99,
+      youth: 199.99,
+      children: 99.99
+    },
+    //////////////////////////////////////
+    price_for_extra: {
+      service_per_booking: 40,
+      service_per_person: 20
+    },
+    //////////////////////////////////////
+    tag: [
+      // INFO: MANY OF THESE
+      'new',
+      // '5-off',
+      // '20-off',
+      // '60-off',
+      // '90-off',
+      'price:100-300',
+      // 'price:300-700',
+      // 'price:700-1299'
+      'duration:1-3'
+    ],
+    //////////////////////////////////////
+    booked: 1009,
+    //////////////////////////////////////
+    images: [
+      // INFO: TO SEVEN IMAGES. MIN - 4
+      tourCard1
+    ],
+    //////////////////////////////////////
+    duration: [
+      // INFO: ONE OF THESE
+      '3 days'
+    ],
+    //////////////////////////////////////
+    group_size: 10,
+    //////////////////////////////////////
+    ages: [
+      // INFO: ONE OF THESE
+      '6-99'
+      // '14-99',
+      // '18-99'
+    ],
+    //////////////////////////////////////
+    languages: [
+      // INFO: ONE OF THESE
+      // 'Ukrainian',
+      'English',
+      'French'
+      // 'Spanish'
+    ],
+    //////////////////////////////////////
+    tour_highlights: [
+      'Experience the thrill of a speedboat to the stunning Phi Phi Islands',
+      'Swim and snorkel in the crystal clear waters of Maya Bay',
+      'Marvel at the limestone karst formations of Viking Cave',
+      'Enjoy a delicious buffet lunch on Phi Phi Don Island',
+      'Visit the famous Monkey Beach and feed the friendly monkeys',
+      'Relax on the white sand beach of Bamboo Island',
+      'Cool off with a swim in the Andaman Sea',
+      'Snorkel among colorful fish and coral reefs'
+      // INFO: AND SO ON....
+    ],
+    //////////////////////////////////////
+    what_included: {
+      'green': [
+        'Beverages, drinking water, morning tea and buffet lunch',
+        'Snorkeling equipment and life jacket',
+        'National park entrance fee',
+        'Professional guide',
+        'Life insurance'
+        // INFO: AND SO ON....
+      ],
+      'red': [
+        'Tips',
+        'Towel',
+        'Personal expenses',
+        'Hotel transfer',
+        'Alcoholic drinks'
+        // INFO: AND SO ON....
+      ]
+    },
+    //////////////////////////////////////
+    itinerary: {
+      day_1: 'Here is the first day itinerary',
+      day_2: 'Here is the second day itinerary',
+      day_3: 'Here is the third day itinerary',
+      day_4: 'Here is the fourth day itinerary',
+      day_5: 'Here is the fifth day itinerary',
+      day_6: 'Here is the sixth day itinerary'
+    },
+    //////////////////////////////////////
+    tour_map: [
+      { lat: 48.8566, long: 2.3522 }, // Central Paris
+      { lat: 48.8602, long: 2.3508 }, // Louvre Museum
+      { lat: 48.8584, long: 2.2945 }, // Eiffel Tower
+      { lat: 48.8738, long: 2.2950 }, // Arc de Triomphe
+      { lat: 48.8606, long: 2.3376 }  // Musée d'Orsay
+    ],
+    //////////////////////////////////////
+    comments: [
+      // INFO: INJECT COMMENT SCHEMA
+      {
+        id: `c1`
+      }
+    ]
+  },
+
+  {
+    id: `e1`,
+    title: `Eiffel Tower Tour`,
+    overview: `The Eiffel Tower is a wrought-iron lattice tower on the Champ de Mars in Paris, France. It is named after the engineer Gustave Eiffel, whose company designed and built the tower.`,
+    country: 'France',
+    city: 'Paris',
+    reviewed: 179,
+    views: 999,
+    //////////////////////////////////////
+    rating: {
+      // depending on the total number of reviews, assuming 5 is 100% we need to calculate the total rating
+      // in this math way: total rating = (5 * 100) / reviewed
+      overall: 4.33,
+      location: 5,
+      amenities: 5,
+      food: 5,
+      price: 5,
+      rooms: 5,
+      tour_operator: 5
+    },
+    //////////////////////////////////////
+    type: [
+      'Nature Tours'
+      // 'Adventure tours',
+      // 'Museum tours',
+      // 'Cultural Tours',
+      // 'Food Tours',
+      // 'City Tours',
+      // 'Cruises Tours',
+      // 'Family',
+      // 'Relaxing',
+      // 'Nightlife'
+    ],
+    //////////////////////////////////////
+    price: {
+      adult: 231.99,
+      youth: 199.99,
+      children: 99.99
+    },
+    //////////////////////////////////////
+    price_for_extra: {
+      service_per_booking: 40,
+      service_per_person: 20
+    },
+    //////////////////////////////////////
+    tag: [
+      // INFO: MANY OF THESE
+      'new',
+      // '5-off',
+      // '20-off',
+      // '60-off',
+      // '90-off',
+      'price:100-300',
+      // 'price:300-700',
+      // 'price:700-1299'
+      'duration:1-3'
+    ],
+    //////////////////////////////////////
+    booked: 1009,
+    //////////////////////////////////////
+    images: [
+      // INFO: TO SEVEN IMAGES. MIN - 4
+      tourCard1
+    ],
+    //////////////////////////////////////
+    duration: [
+      // INFO: ONE OF THESE
+      '3 days'
+    ],
+    //////////////////////////////////////
+    group_size: 10,
+    //////////////////////////////////////
+    ages: [
+      // INFO: ONE OF THESE
+      '6-99'
+      // '14-99',
+      // '18-99'
+    ],
+    //////////////////////////////////////
+    languages: [
+      // INFO: ONE OF THESE
+      // 'Ukrainian',
+      'English',
+      'French'
+      // 'Spanish'
+    ],
+    //////////////////////////////////////
+    tour_highlights: [
+      'Experience the thrill of a speedboat to the stunning Phi Phi Islands',
+      'Swim and snorkel in the crystal clear waters of Maya Bay',
+      'Marvel at the limestone karst formations of Viking Cave',
+      'Enjoy a delicious buffet lunch on Phi Phi Don Island',
+      'Visit the famous Monkey Beach and feed the friendly monkeys',
+      'Relax on the white sand beach of Bamboo Island',
+      'Cool off with a swim in the Andaman Sea',
+      'Snorkel among colorful fish and coral reefs'
+      // INFO: AND SO ON....
+    ],
+    //////////////////////////////////////
+    what_included: {
+      'green': [
+        'Beverages, drinking water, morning tea and buffet lunch',
+        'Snorkeling equipment and life jacket',
+        'National park entrance fee',
+        'Professional guide',
+        'Life insurance'
+        // INFO: AND SO ON....
+      ],
+      'red': [
+        'Tips',
+        'Towel',
+        'Personal expenses',
+        'Hotel transfer',
+        'Alcoholic drinks'
+        // INFO: AND SO ON....
+      ]
+    },
+    //////////////////////////////////////
+    itinerary: {
+      day_1: 'Here is the first day itinerary',
+      day_2: 'Here is the second day itinerary',
+      day_3: 'Here is the third day itinerary',
+      day_4: 'Here is the fourth day itinerary',
+      day_5: 'Here is the fifth day itinerary',
+      day_6: 'Here is the sixth day itinerary'
+    },
+    //////////////////////////////////////
+    tour_map: [
+      { lat: 48.8566, long: 2.3522 }, // Central Paris
+      { lat: 48.8602, long: 2.3508 }, // Louvre Museum
+      { lat: 48.8584, long: 2.2945 }, // Eiffel Tower
+      { lat: 48.8738, long: 2.2950 }, // Arc de Triomphe
+      { lat: 48.8606, long: 2.3376 }  // Musée d'Orsay
+    ],
+    //////////////////////////////////////
+    comments: [
+      // INFO: INJECT COMMENT SCHEMA
+      {
+        id: `c1`
+      }
+    ]
+  },
+  {
+    id: `e1`,
+    title: `Eiffel Tower Tour`,
+    overview: `The Eiffel Tower is a wrought-iron lattice tower on the Champ de Mars in Paris, France. It is named after the engineer Gustave Eiffel, whose company designed and built the tower.`,
+    country: 'France',
+    city: 'Paris',
+    reviewed: 179,
+    views: 999,
+    //////////////////////////////////////
+    rating: {
+      // depending on the total number of reviews, assuming 5 is 100% we need to calculate the total rating
+      // in this math way: total rating = (5 * 100) / reviewed
+      overall: 4.33,
+      location: 5,
+      amenities: 5,
+      food: 5,
+      price: 5,
+      rooms: 5,
+      tour_operator: 5
+    },
+    //////////////////////////////////////
+    type: [
+      'Nature Tours'
+      // 'Adventure tours',
+      // 'Museum tours',
+      // 'Cultural Tours',
+      // 'Food Tours',
+      // 'City Tours',
+      // 'Cruises Tours',
+      // 'Family',
+      // 'Relaxing',
+      // 'Nightlife'
+    ],
+    //////////////////////////////////////
+    price: {
+      adult: 231.99,
+      youth: 199.99,
+      children: 99.99
+    },
+    //////////////////////////////////////
+    price_for_extra: {
+      service_per_booking: 40,
+      service_per_person: 20
+    },
+    //////////////////////////////////////
+    tag: [
+      // INFO: MANY OF THESE
+      'new',
+      // '5-off',
+      // '20-off',
+      // '60-off',
+      // '90-off',
+      'price:100-300',
+      // 'price:300-700',
+      // 'price:700-1299'
+      'duration:1-3'
+    ],
+    //////////////////////////////////////
+    booked: 1009,
+    //////////////////////////////////////
+    images: [
+      // INFO: TO SEVEN IMAGES. MIN - 4
+      tourCard1
+    ],
+    //////////////////////////////////////
+    duration: [
+      // INFO: ONE OF THESE
+      '3 days'
+    ],
+    //////////////////////////////////////
+    group_size: 10,
+    //////////////////////////////////////
+    ages: [
+      // INFO: ONE OF THESE
+      '6-99'
+      // '14-99',
+      // '18-99'
+    ],
+    //////////////////////////////////////
+    languages: [
+      // INFO: ONE OF THESE
+      // 'Ukrainian',
+      'English',
+      'French'
+      // 'Spanish'
+    ],
+    //////////////////////////////////////
+    tour_highlights: [
+      'Experience the thrill of a speedboat to the stunning Phi Phi Islands',
+      'Swim and snorkel in the crystal clear waters of Maya Bay',
+      'Marvel at the limestone karst formations of Viking Cave',
+      'Enjoy a delicious buffet lunch on Phi Phi Don Island',
+      'Visit the famous Monkey Beach and feed the friendly monkeys',
+      'Relax on the white sand beach of Bamboo Island',
+      'Cool off with a swim in the Andaman Sea',
+      'Snorkel among colorful fish and coral reefs'
+      // INFO: AND SO ON....
+    ],
+    //////////////////////////////////////
+    what_included: {
+      'green': [
+        'Beverages, drinking water, morning tea and buffet lunch',
+        'Snorkeling equipment and life jacket',
+        'National park entrance fee',
+        'Professional guide',
+        'Life insurance'
+        // INFO: AND SO ON....
+      ],
+      'red': [
+        'Tips',
+        'Towel',
+        'Personal expenses',
+        'Hotel transfer',
+        'Alcoholic drinks'
+        // INFO: AND SO ON....
+      ]
+    },
+    //////////////////////////////////////
+    itinerary: {
+      day_1: 'Here is the first day itinerary',
+      day_2: 'Here is the second day itinerary',
+      day_3: 'Here is the third day itinerary',
+      day_4: 'Here is the fourth day itinerary',
+      day_5: 'Here is the fifth day itinerary',
+      day_6: 'Here is the sixth day itinerary'
+    },
+    //////////////////////////////////////
+    tour_map: [
+      { lat: 48.8566, long: 2.3522 }, // Central Paris
+      { lat: 48.8602, long: 2.3508 }, // Louvre Museum
+      { lat: 48.8584, long: 2.2945 }, // Eiffel Tower
+      { lat: 48.8738, long: 2.2950 }, // Arc de Triomphe
+      { lat: 48.8606, long: 2.3376 }  // Musée d'Orsay
+    ],
+    //////////////////////////////////////
+    comments: [
+      // INFO: INJECT COMMENT SCHEMA
+      {
+        id: `c1`
+      }
+    ]
+  },
+  {
+    id: `e1`,
+    title: `Eiffel Tower Tour`,
+    overview: `The Eiffel Tower is a wrought-iron lattice tower on the Champ de Mars in Paris, France. It is named after the engineer Gustave Eiffel, whose company designed and built the tower.`,
+    country: 'France',
+    city: 'Paris',
+    reviewed: 179,
+    views: 999,
+    //////////////////////////////////////
+    rating: {
+      // depending on the total number of reviews, assuming 5 is 100% we need to calculate the total rating
+      // in this math way: total rating = (5 * 100) / reviewed
+      overall: 4.33,
+      location: 5,
+      amenities: 5,
+      food: 5,
+      price: 5,
+      rooms: 5,
+      tour_operator: 5
+    },
+    //////////////////////////////////////
+    type: [
+      'Nature Tours'
+      // 'Adventure tours',
+      // 'Museum tours',
+      // 'Cultural Tours',
+      // 'Food Tours',
+      // 'City Tours',
+      // 'Cruises Tours',
+      // 'Family',
+      // 'Relaxing',
+      // 'Nightlife'
+    ],
+    //////////////////////////////////////
+    price: {
+      adult: 231.99,
+      youth: 199.99,
+      children: 99.99
+    },
+    //////////////////////////////////////
+    price_for_extra: {
+      service_per_booking: 40,
+      service_per_person: 20
+    },
+    //////////////////////////////////////
+    tag: [
+      // INFO: MANY OF THESE
+      'new',
+      // '5-off',
+      // '20-off',
+      // '60-off',
+      // '90-off',
+      'price:100-300',
+      // 'price:300-700',
+      // 'price:700-1299'
+      'duration:1-3'
+    ],
+    //////////////////////////////////////
+    booked: 1009,
+    //////////////////////////////////////
+    images: [
+      // INFO: TO SEVEN IMAGES. MIN - 4
+      tourCard1
+    ],
+    //////////////////////////////////////
+    duration: [
+      // INFO: ONE OF THESE
+      '3 days'
+    ],
+    //////////////////////////////////////
+    group_size: 10,
+    //////////////////////////////////////
+    ages: [
+      // INFO: ONE OF THESE
+      '6-99'
+      // '14-99',
+      // '18-99'
+    ],
+    //////////////////////////////////////
+    languages: [
+      // INFO: ONE OF THESE
+      // 'Ukrainian',
+      'English',
+      'French'
+      // 'Spanish'
+    ],
+    //////////////////////////////////////
+    tour_highlights: [
+      'Experience the thrill of a speedboat to the stunning Phi Phi Islands',
+      'Swim and snorkel in the crystal clear waters of Maya Bay',
+      'Marvel at the limestone karst formations of Viking Cave',
+      'Enjoy a delicious buffet lunch on Phi Phi Don Island',
+      'Visit the famous Monkey Beach and feed the friendly monkeys',
+      'Relax on the white sand beach of Bamboo Island',
+      'Cool off with a swim in the Andaman Sea',
+      'Snorkel among colorful fish and coral reefs'
+      // INFO: AND SO ON....
+    ],
+    //////////////////////////////////////
+    what_included: {
+      'green': [
+        'Beverages, drinking water, morning tea and buffet lunch',
+        'Snorkeling equipment and life jacket',
+        'National park entrance fee',
+        'Professional guide',
+        'Life insurance'
+        // INFO: AND SO ON....
+      ],
+      'red': [
+        'Tips',
+        'Towel',
+        'Personal expenses',
+        'Hotel transfer',
+        'Alcoholic drinks'
+        // INFO: AND SO ON....
+      ]
+    },
+    //////////////////////////////////////
+    itinerary: {
+      day_1: 'Here is the first day itinerary',
+      day_2: 'Here is the second day itinerary',
+      day_3: 'Here is the third day itinerary',
+      day_4: 'Here is the fourth day itinerary',
+      day_5: 'Here is the fifth day itinerary',
+      day_6: 'Here is the sixth day itinerary'
+    },
+    //////////////////////////////////////
+    tour_map: [
+      { lat: 48.8566, long: 2.3522 }, // Central Paris
+      { lat: 48.8602, long: 2.3508 }, // Louvre Museum
+      { lat: 48.8584, long: 2.2945 }, // Eiffel Tower
+      { lat: 48.8738, long: 2.2950 }, // Arc de Triomphe
+      { lat: 48.8606, long: 2.3376 }  // Musée d'Orsay
+    ],
+    //////////////////////////////////////
+    comments: [
+      // INFO: INJECT COMMENT SCHEMA
+      {
+        id: `c1`
+      }
+    ]
+  },
+  {
+    id: `e1`,
+    title: `Eiffel Tower Tour`,
+    overview: `The Eiffel Tower is a wrought-iron lattice tower on the Champ de Mars in Paris, France. It is named after the engineer Gustave Eiffel, whose company designed and built the tower.`,
+    country: 'France',
+    city: 'Paris',
+    reviewed: 179,
+    views: 999,
+    //////////////////////////////////////
+    rating: {
+      // depending on the total number of reviews, assuming 5 is 100% we need to calculate the total rating
+      // in this math way: total rating = (5 * 100) / reviewed
+      overall: 4.33,
+      location: 5,
+      amenities: 5,
+      food: 5,
+      price: 5,
+      rooms: 5,
+      tour_operator: 5
+    },
+    //////////////////////////////////////
+    type: [
+      'Nature Tours'
+      // 'Adventure tours',
+      // 'Museum tours',
+      // 'Cultural Tours',
+      // 'Food Tours',
+      // 'City Tours',
+      // 'Cruises Tours',
+      // 'Family',
+      // 'Relaxing',
+      // 'Nightlife'
+    ],
+    //////////////////////////////////////
+    price: {
+      adult: 231.99,
+      youth: 199.99,
+      children: 99.99
+    },
+    //////////////////////////////////////
+    price_for_extra: {
+      service_per_booking: 40,
+      service_per_person: 20
+    },
+    //////////////////////////////////////
+    tag: [
+      // INFO: MANY OF THESE
+      'new',
+      // '5-off',
+      // '20-off',
+      // '60-off',
+      // '90-off',
+      'price:100-300',
+      // 'price:300-700',
+      // 'price:700-1299'
+      'duration:1-3'
+    ],
+    //////////////////////////////////////
+    booked: 1009,
+    //////////////////////////////////////
+    images: [
+      // INFO: TO SEVEN IMAGES. MIN - 4
+      tourCard1
+    ],
+    //////////////////////////////////////
+    duration: [
+      // INFO: ONE OF THESE
+      '3 days'
+    ],
+    //////////////////////////////////////
+    group_size: 10,
+    //////////////////////////////////////
+    ages: [
+      // INFO: ONE OF THESE
+      '6-99'
+      // '14-99',
+      // '18-99'
+    ],
+    //////////////////////////////////////
+    languages: [
+      // INFO: ONE OF THESE
+      // 'Ukrainian',
+      'English',
+      'French'
+      // 'Spanish'
+    ],
+    //////////////////////////////////////
+    tour_highlights: [
+      'Experience the thrill of a speedboat to the stunning Phi Phi Islands',
+      'Swim and snorkel in the crystal clear waters of Maya Bay',
+      'Marvel at the limestone karst formations of Viking Cave',
+      'Enjoy a delicious buffet lunch on Phi Phi Don Island',
+      'Visit the famous Monkey Beach and feed the friendly monkeys',
+      'Relax on the white sand beach of Bamboo Island',
+      'Cool off with a swim in the Andaman Sea',
+      'Snorkel among colorful fish and coral reefs'
+      // INFO: AND SO ON....
+    ],
+    //////////////////////////////////////
+    what_included: {
+      'green': [
+        'Beverages, drinking water, morning tea and buffet lunch',
+        'Snorkeling equipment and life jacket',
+        'National park entrance fee',
+        'Professional guide',
+        'Life insurance'
+        // INFO: AND SO ON....
+      ],
+      'red': [
+        'Tips',
+        'Towel',
+        'Personal expenses',
+        'Hotel transfer',
+        'Alcoholic drinks'
+        // INFO: AND SO ON....
+      ]
+    },
+    //////////////////////////////////////
+    itinerary: {
+      day_1: 'Here is the first day itinerary',
+      day_2: 'Here is the second day itinerary',
+      day_3: 'Here is the third day itinerary',
+      day_4: 'Here is the fourth day itinerary',
+      day_5: 'Here is the fifth day itinerary',
+      day_6: 'Here is the sixth day itinerary'
+    },
+    //////////////////////////////////////
+    tour_map: [
+      { lat: 48.8566, long: 2.3522 }, // Central Paris
+      { lat: 48.8602, long: 2.3508 }, // Louvre Museum
+      { lat: 48.8584, long: 2.2945 }, // Eiffel Tower
+      { lat: 48.8738, long: 2.2950 }, // Arc de Triomphe
+      { lat: 48.8606, long: 2.3376 }  // Musée d'Orsay
+    ],
+    //////////////////////////////////////
+    comments: [
+      // INFO: INJECT COMMENT SCHEMA
+      {
+        id: `c1`
+      }
+    ]
+  },
+  {
+    id: `e1`,
+    title: `Eiffel Tower Tour`,
+    overview: `The Eiffel Tower is a wrought-iron lattice tower on the Champ de Mars in Paris, France. It is named after the engineer Gustave Eiffel, whose company designed and built the tower.`,
+    country: 'France',
+    city: 'Paris',
+    reviewed: 179,
+    views: 999,
+    //////////////////////////////////////
+    rating: {
+      // depending on the total number of reviews, assuming 5 is 100% we need to calculate the total rating
+      // in this math way: total rating = (5 * 100) / reviewed
+      overall: 4.33,
+      location: 5,
+      amenities: 5,
+      food: 5,
+      price: 5,
+      rooms: 5,
+      tour_operator: 5
+    },
+    //////////////////////////////////////
+    type: [
+      'Nature Tours'
+      // 'Adventure tours',
+      // 'Museum tours',
+      // 'Cultural Tours',
+      // 'Food Tours',
+      // 'City Tours',
+      // 'Cruises Tours',
+      // 'Family',
+      // 'Relaxing',
+      // 'Nightlife'
+    ],
+    //////////////////////////////////////
+    price: {
+      adult: 231.99,
+      youth: 199.99,
+      children: 99.99
+    },
+    //////////////////////////////////////
+    price_for_extra: {
+      service_per_booking: 40,
+      service_per_person: 20
+    },
+    //////////////////////////////////////
+    tag: [
+      // INFO: MANY OF THESE
+      'new',
+      // '5-off',
+      // '20-off',
+      // '60-off',
+      // '90-off',
+      'price:100-300',
+      // 'price:300-700',
+      // 'price:700-1299'
+      'duration:1-3'
+    ],
+    //////////////////////////////////////
+    booked: 1009,
+    //////////////////////////////////////
+    images: [
+      // INFO: TO SEVEN IMAGES. MIN - 4
+      tourCard1
+    ],
+    //////////////////////////////////////
+    duration: [
+      // INFO: ONE OF THESE
+      '3 days'
+    ],
+    //////////////////////////////////////
+    group_size: 10,
+    //////////////////////////////////////
+    ages: [
+      // INFO: ONE OF THESE
+      '6-99'
+      // '14-99',
+      // '18-99'
+    ],
+    //////////////////////////////////////
+    languages: [
+      // INFO: ONE OF THESE
+      // 'Ukrainian',
+      'English',
+      'French'
+      // 'Spanish'
+    ],
+    //////////////////////////////////////
+    tour_highlights: [
+      'Experience the thrill of a speedboat to the stunning Phi Phi Islands',
+      'Swim and snorkel in the crystal clear waters of Maya Bay',
+      'Marvel at the limestone karst formations of Viking Cave',
+      'Enjoy a delicious buffet lunch on Phi Phi Don Island',
+      'Visit the famous Monkey Beach and feed the friendly monkeys',
+      'Relax on the white sand beach of Bamboo Island',
+      'Cool off with a swim in the Andaman Sea',
+      'Snorkel among colorful fish and coral reefs'
+      // INFO: AND SO ON....
+    ],
+    //////////////////////////////////////
+    what_included: {
+      'green': [
+        'Beverages, drinking water, morning tea and buffet lunch',
+        'Snorkeling equipment and life jacket',
+        'National park entrance fee',
+        'Professional guide',
+        'Life insurance'
+        // INFO: AND SO ON....
+      ],
+      'red': [
+        'Tips',
+        'Towel',
+        'Personal expenses',
+        'Hotel transfer',
+        'Alcoholic drinks'
+        // INFO: AND SO ON....
+      ]
+    },
+    //////////////////////////////////////
+    itinerary: {
+      day_1: 'Here is the first day itinerary',
+      day_2: 'Here is the second day itinerary',
+      day_3: 'Here is the third day itinerary',
+      day_4: 'Here is the fourth day itinerary',
+      day_5: 'Here is the fifth day itinerary',
+      day_6: 'Here is the sixth day itinerary'
+    },
+    //////////////////////////////////////
+    tour_map: [
+      { lat: 48.8566, long: 2.3522 }, // Central Paris
+      { lat: 48.8602, long: 2.3508 }, // Louvre Museum
+      { lat: 48.8584, long: 2.2945 }, // Eiffel Tower
+      { lat: 48.8738, long: 2.2950 }, // Arc de Triomphe
+      { lat: 48.8606, long: 2.3376 }  // Musée d'Orsay
+    ],
+    //////////////////////////////////////
+    comments: [
+      // INFO: INJECT COMMENT SCHEMA
+      {
+        id: `c1`
+      }
+    ]
+  },
+  {
+    id: `e1`,
+    title: `Eiffel Tower Tour`,
+    overview: `The Eiffel Tower is a wrought-iron lattice tower on the Champ de Mars in Paris, France. It is named after the engineer Gustave Eiffel, whose company designed and built the tower.`,
+    country: 'France',
+    city: 'Paris',
+    reviewed: 179,
+    views: 999,
+    //////////////////////////////////////
+    rating: {
+      // depending on the total number of reviews, assuming 5 is 100% we need to calculate the total rating
+      // in this math way: total rating = (5 * 100) / reviewed
+      overall: 4.33,
+      location: 5,
+      amenities: 5,
+      food: 5,
+      price: 5,
+      rooms: 5,
+      tour_operator: 5
+    },
+    //////////////////////////////////////
+    type: [
+      'Nature Tours'
+      // 'Adventure tours',
+      // 'Museum tours',
+      // 'Cultural Tours',
+      // 'Food Tours',
+      // 'City Tours',
+      // 'Cruises Tours',
+      // 'Family',
+      // 'Relaxing',
+      // 'Nightlife'
+    ],
+    //////////////////////////////////////
+    price: {
+      adult: 231.99,
+      youth: 199.99,
+      children: 99.99
+    },
+    //////////////////////////////////////
+    price_for_extra: {
+      service_per_booking: 40,
+      service_per_person: 20
+    },
+    //////////////////////////////////////
+    tag: [
+      // INFO: MANY OF THESE
+      'new',
+      // '5-off',
+      // '20-off',
+      // '60-off',
+      // '90-off',
+      'price:100-300',
+      // 'price:300-700',
+      // 'price:700-1299'
+      'duration:1-3'
+    ],
+    //////////////////////////////////////
+    booked: 1009,
+    //////////////////////////////////////
+    images: [
+      // INFO: TO SEVEN IMAGES. MIN - 4
+      tourCard1
+    ],
+    //////////////////////////////////////
+    duration: [
+      // INFO: ONE OF THESE
+      '3 days'
+    ],
+    //////////////////////////////////////
+    group_size: 10,
+    //////////////////////////////////////
+    ages: [
+      // INFO: ONE OF THESE
+      '6-99'
+      // '14-99',
+      // '18-99'
+    ],
+    //////////////////////////////////////
+    languages: [
+      // INFO: ONE OF THESE
+      // 'Ukrainian',
+      'English',
+      'French'
+      // 'Spanish'
+    ],
+    //////////////////////////////////////
+    tour_highlights: [
+      'Experience the thrill of a speedboat to the stunning Phi Phi Islands',
+      'Swim and snorkel in the crystal clear waters of Maya Bay',
+      'Marvel at the limestone karst formations of Viking Cave',
+      'Enjoy a delicious buffet lunch on Phi Phi Don Island',
+      'Visit the famous Monkey Beach and feed the friendly monkeys',
+      'Relax on the white sand beach of Bamboo Island',
+      'Cool off with a swim in the Andaman Sea',
+      'Snorkel among colorful fish and coral reefs'
+      // INFO: AND SO ON....
+    ],
+    //////////////////////////////////////
+    what_included: {
+      'green': [
+        'Beverages, drinking water, morning tea and buffet lunch',
+        'Snorkeling equipment and life jacket',
+        'National park entrance fee',
+        'Professional guide',
+        'Life insurance'
+        // INFO: AND SO ON....
+      ],
+      'red': [
+        'Tips',
+        'Towel',
+        'Personal expenses',
+        'Hotel transfer',
+        'Alcoholic drinks'
+        // INFO: AND SO ON....
+      ]
+    },
+    //////////////////////////////////////
+    itinerary: {
+      day_1: 'Here is the first day itinerary',
+      day_2: 'Here is the second day itinerary',
+      day_3: 'Here is the third day itinerary',
+      day_4: 'Here is the fourth day itinerary',
+      day_5: 'Here is the fifth day itinerary',
+      day_6: 'Here is the sixth day itinerary'
+    },
+    //////////////////////////////////////
+    tour_map: [
+      { lat: 48.8566, long: 2.3522 }, // Central Paris
+      { lat: 48.8602, long: 2.3508 }, // Louvre Museum
+      { lat: 48.8584, long: 2.2945 }, // Eiffel Tower
+      { lat: 48.8738, long: 2.2950 }, // Arc de Triomphe
+      { lat: 48.8606, long: 2.3376 }  // Musée d'Orsay
+    ],
+    //////////////////////////////////////
+    comments: [
+      // INFO: INJECT COMMENT SCHEMA
+      {
+        id: `c1`
+      }
+    ]
+  },
 
 ];

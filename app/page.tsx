@@ -4,6 +4,9 @@ import TrendingDestinations from '@/components/homepage/trending-destinations/Tr
 import FindPopularTours from '@/components/homepage/find-popular-tours/FindPopularTours';
 import CTA from '@/components/homepage/cta/CTA';
 import PopularThingsToDo from '@/components/homepage/popular-things-to-do/PopularThingsToDo';
+import TopTrendingHeading from '@/components/homepage/top-trending/TopTrendingHeading';
+import TopTrendingWrapper from '@/components/homepage/top-trending/TopTrendingWrapper';
+import TopTrendingSlider from '@/components/homepage/top-trending/TopTrendingSlider';
 
 export default function Home() {
   return (
@@ -30,6 +33,15 @@ export default function Home() {
 
       <section className="popular-things-to-do container grid">
         <PopularThingsToDo />
+      </section>
+
+      <div>
+        <TopTrendingHeading />
+      </div>
+      <section className="top-trending container-cta">
+        <TopTrendingWrapper>
+          <TopTrendingSlider />
+        </TopTrendingWrapper>
       </section>
     </main>
   );

@@ -15,6 +15,7 @@
     "@mui/x-date-pickers": "^7.9.0",
     "@reduxjs/toolkit": "^2.2.6",
     "dayjs": "^1.11.11",
+    "gsap": "^3.12.5",
     "next": "14.2.5",
     "react": "^18",
     "react-dom": "^18",

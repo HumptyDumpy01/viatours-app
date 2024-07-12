@@ -1,0 +1,89 @@
+.top-trending.container-cta {
+  margin-top: -6rem;
+}
+
+.top-trending {
+  // bug: seems that I messed up with the absolute positioning.
+  //  the content of  wrapper that contains of the figures overlaps the parent container
+  //  background color only partially visible
+  //background-color: var(--clr-light-white-2);
+  &__heading-wrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  &__items {
+    &-wrapper {
+      position: relative;
+      overflow: hidden;
+      height: 50rem;
+      @media only screen and (max-width: 68.4375em) {
+        overflow-x: auto;
+        scrollbar-width: thin;
+        scrollbar-color: transparent transparent;
+        padding-left: 0 !important;
+      }
+    }
+
+    &-container {
+      display: flex;
+      gap: 2.4rem;
+    }
+
+    position: absolute;
+    display: flex;
+    gap: 3rem;
+    //transform: translateX(20%);
+    transition: transform .8s;
+  }
+
+  &-wrapper.container {
+    //overflow: hidden;
+    position: relative;
+
+  }
+
+  &-toggle-left, &-toggle-right {
+    content: "";
+    position: absolute;
+    display: flex;
+    align-items: center;
+    width: 4.5rem;
+    height: 4.5rem;
+    border-radius: 50%;
+    background-color: var(--clr-white);
+    box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.1);
+    justify-content: center;
+    cursor: pointer;
+    transition: all .3s;
+  }
+
+  &-toggle-left {
+    top: 48%;
+    left: 0;
+
+    &:hover, &:active {
+      box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    @media only screen and (max-width: 68.4375em) {
+      display: none;
+    }
+  }
+
+  &-toggle-left, &-toggle-right {
+    @media only screen and (max-width: 68.4375em) {
+      display: none;
+    }
+  }
+
+  &-toggle-right {
+    top: 48%;
+    right: 2%;
+
+    &:hover, &:active {
+      box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.1);
+    }
+  }
+
+}
