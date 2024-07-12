@@ -17,6 +17,8 @@
       position: relative;
       overflow: hidden;
       height: 50rem;
+      // adding smooth scroll
+      scroll-behavior: smooth;
       @media only screen and (max-width: 68.4375em) {
         overflow-x: auto;
         scrollbar-width: thin;

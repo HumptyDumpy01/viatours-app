@@ -14,25 +14,23 @@ export default function TopTrendingSlider() {
   }
   return (
     <>
-      <div className="top-trending__items">
-        {tours.map((item) => (
-          <TourCard
-            key={item.id}
-            href={`/tours/${item.id}`}
-            imgSrc={item.images[0]}
-            imgAlt={item.title}
-            info={[{
-              country: item.country,
-              city: item.city,
-              heading: item.title,
-              rating: item.rating.overall,
-              ratingCount: item.reviewed,
-              duration: item.duration[0],
-              price: item.price.children
-            }]}
-          />
-        ))}
-      </div>
+      {tours.map((item) => (
+        <TourCard
+          key={item.id}
+          href={`/tours/${item.id}`}
+          imgSrc={item.images[0]}
+          imgAlt={item.title}
+          info={[{
+            country: item.country,
+            city: item.city,
+            heading: item.title,
+            rating: item.rating.overall,
+            ratingCount: item.reviewed,
+            duration: item.duration[0],
+            price: item.price.children
+          }]}
+        />
+      ))}
     </>
   );
 }
