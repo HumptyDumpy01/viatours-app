@@ -1,0 +1,75 @@
+.trending-destinations {
+  row-gap: 3.8rem;
+  text-align: center;
+
+  &__img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  &-figure-wrapper {
+    column-gap: 3.8rem;
+    overflow-x: auto;
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: transparent transparent; /* Firefox */
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+
+    &-img {
+      position: relative;
+      width: 12rem;
+      height: 12rem;
+    }
+  }
+
+  &-figure {
+    cursor: pointer;
+    transition: all 0.3s;
+    // disabling the ability to select the text
+    user-select: none;
+    border-radius: none;
+
+    &-link {
+      text-decoration: none;
+      color: var(--clr-dark-blue);
+      border-radius: 1px;
+    }
+
+    img {
+      width: 12rem;
+      height: 12rem;
+      margin-bottom: 2.8rem;
+      position: relative;
+    }
+
+    /*
+    &__absolute-button {
+      position: absolute;
+      top: 21%;
+      left: 22%;
+      opacity: 0.9;
+      color: var(--clr-white);
+      border-radius: 100px;
+      width: 4rem;
+      font-weight: 500;
+      padding: 0.2rem 3.2rem;
+      font-size: 2.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all .3s;
+      z-index: 9999;
+    }
+    */
+
+    h3 {
+      margin-bottom: 1rem;
+    }
+
+    &:hover, &:active {
+      transform: translateY(-3%);
+    }
+  }
+
+}
