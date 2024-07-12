@@ -19,7 +19,7 @@
     }
   }
   align-items: center;
-  background-image: url('../img/cta/cta-background.svg');
+  background-image: url('/homepage/cta/cta-background.svg');
   padding: 0 !important;
 
   overflow: hidden;
@@ -29,7 +29,7 @@
     padding-right: 8rem;
     width: 55.6rem;
 
-    @include respond(bp-859px) {
+    @media only screen and (max-width: 53.6875em) {
       padding-bottom: 4rem;
     }
 
@@ -53,7 +53,7 @@
   }
 
   &__right-side {
-    @include respond(bp-859px) {
+    @media only screen and (max-width: 53.6875em) {
       grid-row: 1 / -1;
     }
 
@@ -61,7 +61,7 @@
       width: 100%;
       transition: all 0.3s;
       position: relative;
-      @include respond(bp-859px) {
+      @media only screen and (max-width: 53.6875em) {
         margin-bottom: 2rem;
         clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%);
         // add a position relative to the image this background will be added to
@@ -92,7 +92,7 @@
       top: 0;
       left: 0;
       z-index: 11;
-      @include respond(bp-859px) {
+      @media only screen and (max-width: 53.6875em) {
         display: none;
       }
     }

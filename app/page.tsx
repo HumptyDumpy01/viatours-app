@@ -2,6 +2,7 @@ import HeroWrapper from '@/components/homepage/hero/HeroWrapper';
 import Features from '@/components/homepage/features/Features';
 import TrendingDestinations from '@/components/homepage/trending-destinations/TrendingDestinations';
 import FindPopularTours from '@/components/homepage/find-popular-tours/FindPopularTours';
+import CTA from '@/components/homepage/cta/CTA';
 
 export default function Home() {
   return (
@@ -23,6 +24,7 @@ export default function Home() {
       </section>
 
       <section className="cta container-cta grid">
+        <CTA />
       </section>
     </main>
   );
