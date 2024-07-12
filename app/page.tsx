@@ -8,6 +8,8 @@ import TopTrendingHeading from '@/components/homepage/top-trending/TopTrendingHe
 import TopTrendingWrapper from '@/components/homepage/top-trending/TopTrendingWrapper';
 import TopTrendingSlider from '@/components/homepage/top-trending/TopTrendingSlider';
 import CustomerReviews from '@/components/homepage/customer-reviews/CustomerReviews';
+import CTASecondary from '@/components/homepage/cta-2/CTASecondary';
+import TravelArticles from '@/components/homepage/travel-articles/TravelArticles';
 
 export default function Home() {
   return (
@@ -47,6 +49,14 @@ export default function Home() {
 
       <section className="customer-reviews container-cta">
         <CustomerReviews />
+      </section>
+
+      <section className="cta-secondary container-cta">
+        <CTASecondary />
+      </section>
+
+      <section className="travel-articles container">
+        <TravelArticles />
       </section>
     </main>
   );

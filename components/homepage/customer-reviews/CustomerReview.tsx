@@ -17,11 +17,14 @@ export default function CustomerReview({ customerLogoImg, title, text, initials,
       <div className="customer-reviews__review">
         <div className="customer-reviews__review-img">
           <div className={`customer-reviews__review-img-wrapper`}>
-            <Image fill src={customerLogoImg}
-                   alt="Image of a customer" className="customer-reviews__img" />
+            <Image
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              src={customerLogoImg}
+              alt="Image of a customer" className="customer-reviews__img" />
           </div>
           <div className="customer-reviews__quote">
-            <Image src={quoteIcon} alt="quote icon" />
+            <Image width={10} src={quoteIcon} alt="quote icon" />
           </div>
         </div>
         <span className="customer-reviews__subheading">{title}</span>

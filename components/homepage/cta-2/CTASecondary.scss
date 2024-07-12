@@ -1,0 +1,115 @@
+.cta-secondary.container-cta {
+  margin-bottom: 13rem;
+}
+
+.cta-secondary {
+  &__form {
+    @media only screen and (max-width: 37.5em) {
+
+      gap: 1rem;
+    }
+  }
+
+  background-image: url('/homepage/cta2/cta-bg.svg');
+  background-position: center bottom; /* Adjust as needed */
+  background-repeat: no-repeat;
+  transition: all 0.4s;
+  @media only screen and (max-width: 58.06em) {
+    background-image: none;
+    background-color: var(--clr-purple);
+    border-radius: 12px;
+    &:hover, &:active {
+      transform: translateY(-3%);
+      box-shadow: 0 5px 10px 5px rgba(0, 0, 0, 0.1);
+    }
+  }
+  // to fix the issue with the background dropping down, delete no-repeat via media query
+  overflow: hidden;
+
+  &-wrapper {
+    grid-template-columns: repeat(2, minmax(30rem, 1fr));
+    @media only screen and (max-width: 58.06em) {
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr 1fr;
+      margin-top: -10rem;
+      margin-bottom: -10rem;
+      padding: 3.2rem;
+    }
+    @media only screen and (max-width: 46.6875em) {
+      margin-bottom: 1rem;
+    }
+    @media only screen and (max-width: 28.5625em) {
+      row-gap: 3rem;
+    }
+    justify-content: center;
+    align-items: center;
+    padding-left: 10rem;
+
+    &-second-col {
+      @media only screen and (max-width: 58.06em) {
+        grid-row: 1;
+
+      }
+
+      &__img {
+        width: 110%;
+        height: 100%;
+        transform: translateY(10%);
+        transition: all 0.5s;
+        @media only screen and (max-width: 58.06em) {
+          margin: 0 auto;
+          //clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%);
+          border-bottom: 1px solid var(--clr-white);
+          width: 100%;
+          &:hover, &:active {
+            transform: translateY(10%) scale(1.05);
+          }
+        }
+      }
+    }
+  }
+
+  &__heading, &__paragraph, &__input-heading {
+    color: var(--clr-white);
+  }
+
+  &__heading {
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+    padding-top: 3.2rem;
+    @media only screen and (max-width: 28.5625em) {
+      font-size: 3.4rem;
+    }
+  }
+
+  &__paragraph {
+    font-size: 1.465rem;
+    line-height: 2.8rem;
+    margin-bottom: 5rem;
+  }
+
+  &__input-heading {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+    font-weight: 400;
+  }
+
+  &__input {
+    transition: all 0.3s;
+    width: 35rem;
+    height: 6rem;
+    padding: 1.5rem 1.5rem 1.5rem 2rem;
+    font-size: 1.5rem;
+    border-radius: 12px;
+    border: none;
+    margin-right: 1rem;
+    @media only screen and (max-width: 28.5625em) {
+      width: 100%;
+    }
+
+    &:focus {
+      color: var(--clr-darker-grey);
+      transform: translateY(-3%);
+    }
+  }
+}
