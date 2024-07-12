@@ -1,0 +1,25 @@
+.popular-things-to-do.container {
+  margin-top: 8rem;
+  margin-bottom: 8rem;
+  @media only screen and (max-width: 50.3125em) {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+.popular-things-to-do {
+  &__heading-wrapper {
+    margin-bottom: 5rem;
+    @media only screen and (max-width: 50.3125em) {
+      padding-left: 3.2rem;
+      padding-right: 3.2rem;
+    }
+  }
+
+  &__tour {
+    &-link {
+      text-decoration: none;
+      color: var(--clr-dark-blue);
+    }
+  }
+}

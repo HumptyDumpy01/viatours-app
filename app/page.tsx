@@ -3,6 +3,7 @@ import Features from '@/components/homepage/features/Features';
 import TrendingDestinations from '@/components/homepage/trending-destinations/TrendingDestinations';
 import FindPopularTours from '@/components/homepage/find-popular-tours/FindPopularTours';
 import CTA from '@/components/homepage/cta/CTA';
+import PopularThingsToDo from '@/components/homepage/popular-things-to-do/PopularThingsToDo';
 
 export default function Home() {
   return (
@@ -25,6 +26,10 @@ export default function Home() {
 
       <section className="cta container-cta grid">
         <CTA />
+      </section>
+
+      <section className="popular-things-to-do container grid">
+        <PopularThingsToDo />
       </section>
     </main>
   );

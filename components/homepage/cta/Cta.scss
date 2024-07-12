@@ -1,5 +1,6 @@
 .cta {
   grid-template-columns: repeat(2, minmax(50.6rem, 1fr));
+  border-radius: 9px;
   @media only screen and (max-width: 53.6875em) {
     grid-template-columns: repeat(1, 1fr);
     grid-template-rows: 1fr 1fr;
