@@ -5,11 +5,13 @@ import './PopularThingsGallery.scss';
   // children: ReactNode;
 }*/
 import PopularThingsHeading from '@/components/homepage/popular-things-to-do/PopularThingsHeading';
+import PopularThingsGallery from '@/components/homepage/popular-things-to-do/PopularThingsGallery';
 
 export default function PopularThingsToDo(/*{  }: PopularThingsToDoInterface*/) {
   return (
     <>
       <PopularThingsHeading />
+      <PopularThingsGallery />
     </>
   );
 }
