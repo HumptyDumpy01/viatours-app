@@ -1,7 +1,7 @@
-import '../components/homepage/hero/Hero.scss';
 import HeroWrapper from '@/components/homepage/hero/HeroWrapper';
 import Features from '@/components/homepage/features/Features';
 import TrendingDestinations from '@/components/homepage/trending-destinations/TrendingDestinations';
+import FindPopularTours from '@/components/homepage/find-popular-tours/FindPopularTours';
 
 export default function Home() {
   return (
@@ -16,6 +16,10 @@ export default function Home() {
 
       <section className="trending-destinations container grid" id="section-destinations">
         <TrendingDestinations />
+      </section>
+
+      <section className="find-popular-tours container">
+        <FindPopularTours />
       </section>
     </main>
   );

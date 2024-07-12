@@ -6,8 +6,9 @@ import tourCard7 from '@/assets/images/topTrending/tourCard_image_7.svg';
 import tourCard4 from '@/assets/images/topTrending/tourCard_image_8.svg';
 import tourCard8 from '@/assets/images/topTrending/tourCard_image_8.svg';
 import tourCard5 from '@/assets/images/topTrending/tourCard_image_9.svg';
+import tourCard10 from '@/assets/images/topTrending/tourCard_image_10.svg';
+
 // import tourCard9 from '@/assets/images/topTrending/tourCard_image_9.svg';
-// import tourCard10 from '@/assets/images/topTrending/tourCard_image_10.svg';
 
 export interface TourInterface {
   id: string;
@@ -105,9 +106,10 @@ export const DUMMY_TOURS: TourInterface[] = [
       // '20-off',
       // '60-off',
       // '90-off',
-      'price:100-300'
+      'price:100-300',
       // 'price:300-700',
       // 'price:700-1299'
+      'duration:1-3'
     ],
     //////////////////////////////////////
     booked: 1009,
@@ -119,7 +121,7 @@ export const DUMMY_TOURS: TourInterface[] = [
     //////////////////////////////////////
     duration: [
       // INFO: ONE OF THESE
-      '1-3'
+      '3 days'
     ],
     //////////////////////////////////////
     group_size: 10,
@@ -198,8 +200,8 @@ export const DUMMY_TOURS: TourInterface[] = [
     id: `e2`,
     title: `Louvre Museum Discovery`,
     overview: `Explore the world-renowned Louvre Museum in Paris, home to thousands of classic and modern masterpieces. This tour offers an intimate look at the highlights of the museum, including the Mona Lisa and the Venus de Milo.`,
-    country: 'France',
-    city: 'Paris',
+    country: 'Spain',
+    city: 'Barcelona',
     reviewed: 215,
     views: 1500,
     rating: {
@@ -226,14 +228,15 @@ export const DUMMY_TOURS: TourInterface[] = [
     },
     tag: [
       'new',
-      'price:100-300'
+      'price:100-300',
+      'duration:7-14'
     ],
     booked: 780,
     images: [
       tourCard2
     ],
     duration: [
-      '7-14'
+      '12 days'
     ],
     group_size: 15,
     ages: [
@@ -284,8 +287,8 @@ export const DUMMY_TOURS: TourInterface[] = [
     id: `e3`,
     title: `Seine River Cruise`,
     overview: `Enjoy a scenic cruise on the Seine River in Paris. This tour offers breathtaking views of the city's most famous landmarks from the water, including the Eiffel Tower, Notre Dame, and the Louvre Museum.`,
-    country: 'France',
-    city: 'Paris',
+    country: 'Italy',
+    city: 'Roma',
     reviewed: 300,
     views: 2000,
     rating: {
@@ -313,18 +316,19 @@ export const DUMMY_TOURS: TourInterface[] = [
     },
     tag: [
       'new',
-      'price:300-700'
+      'price:300-700',
+      'duration:3-7'
     ],
     booked: 1200,
     images: [
       tourCard3
     ],
     duration: [
-      '3-7'
+      '7 days'
     ],
     group_size: 20,
     ages: [
-      '-99'
+      '6-99'
     ],
     languages: [
       'English',
@@ -396,14 +400,15 @@ export const DUMMY_TOURS: TourInterface[] = [
     },
     tag: [
       'new',
-      'price:100-300'
+      'price:100-300',
+      'duration:1-3'
     ],
     booked: 320,
     images: [
       tourCard4
     ],
     duration: [
-      '1-3'
+      '2 days'
     ],
     group_size: 15,
     ages: [
@@ -480,14 +485,15 @@ export const DUMMY_TOURS: TourInterface[] = [
     },
     tag: [
       'featured',
-      'price:300-700'
+      'price:300-700',
+      'duration:1-3'
     ],
     booked: 412,
     images: [
       tourCard5
     ],
     duration: [
-      '1-3'
+      '3 days'
     ],
     group_size: 20,
     ages: [
@@ -562,14 +568,15 @@ export const DUMMY_TOURS: TourInterface[] = [
     },
     tag: [
       'featured',
-      'price:100-300'
+      'price:100-300',
+      'duration:7-14'
     ],
     booked: 890,
     images: [
       tourCard6
     ],
     duration: [
-      '1-3'
+      '13 days'
     ],
     group_size: 16,
     ages: [
@@ -617,7 +624,7 @@ export const DUMMY_TOURS: TourInterface[] = [
   },
   {
     id: `e7`,
-    title: `Cappadocia Underground City & Fairy Chimneys Tour`,
+    title: `Cappadocia Underground City & Fairy Chimneys`,
     overview: `Dive deep into the heart of Cappadocia with a guided tour of its ancient underground cities and iconic fairy chimneys. Learn about the historical significance of these unique landscapes.`,
     country: 'Turkey',
     city: 'Cappadocia',
@@ -647,14 +654,15 @@ export const DUMMY_TOURS: TourInterface[] = [
     },
     tag: [
       'popular',
-      'price:100-200'
+      'price:100-200',
+      'duration:7-14'
     ],
     booked: 725,
     images: [
       tourCard7
     ],
     duration: [
-      '7-14'
+      '10 days'
     ],
     group_size: 15,
     ages: [
@@ -733,14 +741,15 @@ export const DUMMY_TOURS: TourInterface[] = [
     },
     tag: [
       'exclusive',
-      'price:200-300'
+      'price:200-300',
+      'duration:7-14'
     ],
     booked: 530,
     images: [
       tourCard8
     ],
     duration: [
-      '7-14'
+      '8 days'
     ],
     group_size: 25,
     ages: [
@@ -783,6 +792,89 @@ export const DUMMY_TOURS: TourInterface[] = [
     comments: [
       {
         id: `c8`
+      }
+    ]
+  },
+  {
+    id: `e9`,
+    title: `London Eye & Thames River Sightseeing Cruise`,
+    overview: `Experience breathtaking views of London from the iconic London Eye followed by a scenic cruise on the Thames River, showcasing the city's historical sites and modern architecture.`,
+    country: 'United Kingdom',
+    city: 'London',
+    reviewed: 289,
+    views: 1150,
+    rating: {
+      overall: 4.8,
+      location: 5,
+      amenities: 4.4,
+      food: 4.3,
+      price: 4.5,
+      rooms: 4.6,
+      tour_operator: 4.9
+    },
+    type: [
+      'City Tours',
+      'Cruises Tours'
+    ],
+    price: {
+      adult: 120.00,
+      youth: 90.00,
+      children: 60.00
+    },
+    price_for_extra: {
+      service_per_booking: 10,
+      service_per_person: 5
+    },
+    tag: [
+      'featured',
+      'price:100-300',
+      'duration:3-7'
+    ],
+    booked: 650,
+    images: [
+      tourCard10
+    ],
+    duration: [
+      '4 days'
+    ],
+    group_size: 30,
+    ages: [
+      'All ages'
+    ],
+    languages: [
+      'English'
+    ],
+    tour_highlights: [
+      'Panoramic views of London from the London Eye',
+      'Scenic Thames River cruise past iconic landmarks',
+      'Live commentary providing insights into London’s rich history',
+      'Opportunities for stunning photographs at every turn'
+    ],
+    what_included: {
+      'green': [
+        'Fast-track entry to the London Eye',
+        'Thames River cruise ticket',
+        'Live commentary on the cruise',
+        'Access to the London Eye 4D cinema experience'
+      ],
+      'red': [
+        'Hotel pickup and drop-off',
+        'Meals and drinks',
+        'Gratuities'
+      ]
+    },
+    itinerary: {
+      day_1: 'Start with the London Eye experience, including the 4D cinema',
+      day_2: 'Board the Thames River cruise at the London Eye Pier',
+      day_3: 'Enjoy the cruise with live commentary, ending at Tower Bridge'
+    },
+    tour_map: [
+      { lat: 51.5033, long: -0.1195 }, // London Eye
+      { lat: 51.5044, long: -0.0769 }  // Tower Bridge
+    ],
+    comments: [
+      {
+        id: `c9`
       }
     ]
   }
