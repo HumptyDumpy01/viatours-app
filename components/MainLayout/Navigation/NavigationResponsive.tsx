@@ -1,9 +1,9 @@
 'use client';
 
-import headerLogo from '@/assets/images/navigation/logo-1.svg';
-import friesMenuImg from '@/assets/images/fries-menu.png';
-import closeMenuImg from '@/assets/images/close-menu.svg';
-import userIcon from '@/assets/images/user-icon.svg';
+import headerLogo from '@/assets/images/homepage/navigation/logo-1.svg';
+import friesMenuImg from '@/assets/images/homepage/fries-menu.png';
+import closeMenuImg from '../../../assets/images/homepage/close-menu.svg';
+import userIcon from '../../../assets/images/homepage/user-icon.svg';
 import './MainNavigation.scss';
 import Image from 'next/image';
 import { useCartDispatch, useCartSelector } from '@/store/hooks';

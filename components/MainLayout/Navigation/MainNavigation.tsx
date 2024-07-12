@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import headerLogo from '@/assets/images/navigation/logo-1.svg';
+import headerLogo from '@/assets/images/homepage/navigation/logo-1.svg';
 import './MainNavigation.scss';
 import NavButton from '@/components/UI/Link/NavButton';
 import NavigationResponsive from '@/components/MainLayout/Navigation/NavigationResponsive';

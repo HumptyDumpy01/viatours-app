@@ -1,7 +1,7 @@
 // 'use client';
 
 import './Hero.scss';
-import shapeImg from '@/assets/images/hero/shape.svg';
+import shapeImg from '../../../assets/images/homepage/hero/shape.svg';
 
 /*interface HeroHeadingInterface {
   // children: ReactNode;

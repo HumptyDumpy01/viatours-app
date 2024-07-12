@@ -1,7 +1,7 @@
 'use client';
 
 // import userIcon from '@/assets/images/userActionsSidebar/user-icon.svg';
-import closeIcon from '@/assets/images/grab-up-banner/close-icon.svg';
+import closeIcon from '../../../assets/images/homepage/grab-up-banner/close-icon.svg';
 import './NavSidebar.scss';
 import { useCartDispatch, useCartSelector } from '@/store/hooks';
 import { navigationSliceActions } from '@/store/navigationSlice';

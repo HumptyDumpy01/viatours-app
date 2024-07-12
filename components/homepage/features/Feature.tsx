@@ -1,9 +1,9 @@
 // 'use client';
 
 import ticketIcon from '@/assets/images/why-choose-tourz/ticket.svg';
-import balloonIcon from '@/assets/images/why-choose-tourz/hot-air-balloon.svg';
-import diamondIcon from '@/assets/images/why-choose-tourz/diamond.svg';
-import medalIcon from '@/assets/images/why-choose-tourz/medal.svg';
+import balloonIcon from '../../../assets/images/homepage/why-choose-tourz/hot-air-balloon.svg';
+import diamondIcon from '../../../assets/images/homepage/why-choose-tourz/diamond.svg';
+import medalIcon from '../../../assets/images/homepage/why-choose-tourz/medal.svg';
 import Image from 'next/image';
 
 interface FeatureInterface {

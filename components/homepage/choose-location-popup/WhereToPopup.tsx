@@ -1,11 +1,11 @@
 // 'use client';
 
-import whereToImg1 from '@/assets/images/where-to-popup/where-to-image-1.svg';
-import whereToImg2 from '@/assets/images/where-to-popup/where-to-image-2.svg';
-import whereToImg3 from '@/assets/images/where-to-popup/where-to-image-3.svg';
-import whereToImg4 from '@/assets/images/where-to-popup/where-to-image-4.svg';
-import whereToImg5 from '@/assets/images/where-to-popup/where-to-image-5.svg';
-import whereToImg6 from '@/assets/images/where-to-popup/where-to-image-6.svg';
+import whereToImg1 from '@/assets/images/homepage/where-to-popup/where-to-image-1.svg';
+import whereToImg2 from '../../../assets/images/homepage/where-to-popup/where-to-image-2.svg';
+import whereToImg3 from '../../../assets/images/homepage/where-to-popup/where-to-image-3.svg';
+import whereToImg4 from '../../../assets/images/homepage/where-to-popup/where-to-image-4.svg';
+import whereToImg5 from '../../../assets/images/homepage/where-to-popup/where-to-image-5.svg';
+import whereToImg6 from '../../../assets/images/homepage/where-to-popup/where-to-image-6.svg';
 
 import './WhereToPopup.scss';
 import WhereToElement from '@/components/homepage/choose-location-popup/WhereToElement';

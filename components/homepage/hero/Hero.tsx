@@ -4,10 +4,10 @@
   // children: ReactNode;
 }*/
 
-import pinIcon from '@/assets/images/hero/pin-outline.svg';
-import timeIcon from '@/assets/images/hero/time-outline.svg';
-import typeIcon from '@/assets/images/hero/keypad-outline.svg';
-import searchIcon from '@/assets/images/hero/search-icon.svg';
+import pinIcon from '../../../assets/images/homepage/hero/pin-outline.svg';
+import timeIcon from '../../../assets/images/homepage/hero/time-outline.svg';
+import typeIcon from '../../../assets/images/homepage/hero/keypad-outline.svg';
+import searchIcon from '../../../assets/images/homepage/hero/search-icon.svg';
 
 import HeroHeading from '@/components/homepage/hero/HeroHeading';
 import WhereToPopup from '@/components/homepage/choose-location-popup/WhereToPopup';

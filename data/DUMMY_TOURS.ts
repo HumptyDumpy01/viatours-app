@@ -1,12 +1,12 @@
-import tourCard1 from '@/assets/images/topTrending/tourCard_image_5.svg';
-import tourCard2 from '@/assets/images/topTrending/tourCard_image_6.svg';
-import tourCard6 from '@/assets/images/topTrending/tourCard_image_6.svg';
-import tourCard3 from '@/assets/images/topTrending/tourCard_image_7.svg';
-import tourCard7 from '@/assets/images/topTrending/tourCard_image_7.svg';
-import tourCard4 from '@/assets/images/topTrending/tourCard_image_8.svg';
-import tourCard8 from '@/assets/images/topTrending/tourCard_image_8.svg';
-import tourCard5 from '@/assets/images/topTrending/tourCard_image_9.svg';
-import tourCard10 from '@/assets/images/topTrending/tourCard_image_10.svg';
+import tourCard1 from '@/assets/images/homepage/topTrending/tourCard_image_5.svg';
+import tourCard2 from '@/assets/images/homepage/topTrending/tourCard_image_6.svg';
+import tourCard6 from '../assets/images/homepage/topTrending/tourCard_image_6.svg';
+import tourCard3 from '../assets/images/homepage/topTrending/tourCard_image_7.svg';
+import tourCard7 from '../assets/images/homepage/topTrending/tourCard_image_7.svg';
+import tourCard4 from '../assets/images/homepage/topTrending/tourCard_image_8.svg';
+import tourCard8 from '../assets/images/homepage/topTrending/tourCard_image_8.svg';
+import tourCard5 from '../assets/images/homepage/topTrending/tourCard_image_9.svg';
+import tourCard10 from '../assets/images/homepage/topTrending/tourCard_image_10.svg';
 
 // import tourCard9 from '@/assets/images/topTrending/tourCard_image_9.svg';
 

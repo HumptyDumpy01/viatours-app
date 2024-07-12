@@ -21,6 +21,9 @@ export default function Home() {
       <section className="find-popular-tours container">
         <FindPopularTours />
       </section>
+
+      <section className="cta container-cta grid">
+      </section>
     </main>
   );
 }

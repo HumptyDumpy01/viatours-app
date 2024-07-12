@@ -1,5 +1,5 @@
 'use client';
-import closeMenuIcon from '@/assets/images/close-menu.svg';
+import closeMenuIcon from '@/assets/images/homepage/close-menu.svg';
 import Image from 'next/image';
 import './MainNavigation.scss';
 import { useCartDispatch, useCartSelector } from '@/store/hooks';

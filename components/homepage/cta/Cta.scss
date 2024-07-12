@@ -1,0 +1,112 @@
+.cta {
+  grid-template-columns: repeat(2, minmax(50.6rem, 1fr));
+  @media only screen and (max-width: 53.6875em) {
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: 1fr 1fr;
+    border-radius: 20px;
+  }
+
+  @media only screen and (max-width: 41.8125em) {
+    overflow: hidden;
+    transition: all 0.3s;
+    &:hover, &:active {
+      transform: translateY(-15px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+
+      img {
+        transform: scale(1.05);
+      }
+    }
+  }
+  align-items: center;
+  background-image: url('../img/cta/cta-background.svg');
+  padding: 0 !important;
+
+  overflow: hidden;
+
+  &__left-side {
+    padding-left: 8rem;
+    padding-right: 8rem;
+    width: 55.6rem;
+
+    @include respond(bp-859px) {
+      padding-bottom: 4rem;
+    }
+
+    span {
+      margin-left: 1rem;
+      transition: all 0.2s;
+    }
+
+    .btn--cta {
+      &:hover, &:active {
+        transform: translateY(-7px);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+
+        .icon-arr {
+          transform: translateX(10px);
+        }
+      }
+    }
+
+
+  }
+
+  &__right-side {
+    @include respond(bp-859px) {
+      grid-row: 1 / -1;
+    }
+
+    &-img {
+      width: 100%;
+      transition: all 0.3s;
+      position: relative;
+      @include respond(bp-859px) {
+        margin-bottom: 2rem;
+        clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%);
+        // add a position relative to the image this background will be added to
+        // also, add this pseudo class under the image class itself.
+        // add a background onto this image via pseudo element
+        &::before {
+          content: '';
+          width: 100%;
+          height: 100%;
+          position: absolute;
+          top: 0;
+          left: 0;
+          z-index: 1;
+          background: linear-gradient(rgba(235, 102, 43, .3), rgba(235, 102, 43, .6));
+          border-radius: 12px;
+        }
+      }
+    }
+
+    &-wrapper {
+      position: relative;
+    }
+
+    &-shape {
+      position: absolute;
+      height: 100%;
+      display: block;
+      top: 0;
+      left: 0;
+      z-index: 11;
+      @include respond(bp-859px) {
+        display: none;
+      }
+    }
+  }
+
+  &__heading {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    color: var(--clr-dark-blue);
+
+    span {
+      display: inline-block;
+      color: var(--clr-primary);
+      font-weight: 600;
+    }
+  }
+}

@@ -1,8 +1,8 @@
 // 'use client';
 
-import locationIcon from '@/assets/images/findPopularTours/location-icon.svg';
-import starFilled from '@/assets/images/findPopularTours/one-star.svg';
-import starEmpty from '@/assets/images/findPopularTours/empty-star.svg';
+import locationIcon from '@/assets/images/homepage/findPopularTours/location-icon.svg';
+import starFilled from '../../../assets/images/homepage/findPopularTours/one-star.svg';
+import starEmpty from '../../../assets/images/homepage/findPopularTours/empty-star.svg';
 import Link from 'next/link';
 import '@/components/homepage/trending-destinations/TrendingDestinations.scss';
 import Image from 'next/image';
