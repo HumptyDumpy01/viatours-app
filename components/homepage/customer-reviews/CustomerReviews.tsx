@@ -42,21 +42,21 @@ export default function CustomerReviews() {
         />
         <CustomerReview
           customerLogoImg={customer2}
-          title="Amazing!"
+          title="Amazing to explore new things!"
           text="I went on a tour to the Amazon Rainforest with Viatours Travel Agency and it was amazing!"
           initials="Jane Doe"
           job="Nurse"
         />
         <CustomerReview
           customerLogoImg={customer3}
-          title="Fantastic!"
+          title="That was Fantastic!"
           text="I went on a tour to the Great Barrier Reef with Viatours Travel Agency and it was fantastic!"
           initials="John Doe"
           job="Doctor"
         />
         <CustomerReview
           customerLogoImg={customer4}
-          title="Wonderful!"
+          title="Wonderful! Thanks a lot Viatours!"
           text="I went on a tour to the Grand Canyon with Viatours Travel Agency and it was wonderful!"
           initials="Jane Smith"
           job="Teacher"
