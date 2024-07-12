@@ -1,0 +1,202 @@
+.customer-reviews__review-wrapper {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+  width: 100%; // Ensure this is set to the full width of a single review
+}
+
+.customer-reviews__review {
+  width: 100%; // This ensures each review takes up the full width of the container
+  flex-shrink: 0; // Prevents the reviews from shrinking
+}
+
+.customer-reviews.container-cta {
+  background-image: url('/homepage/customerReviews/bgImage.png');
+  background-position: center bottom; /* Adjust as needed */
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin-bottom: 9rem;
+  @media only screen and (max-width: 25.125em) {
+    margin-bottom: 4rem;
+  }
+}
+
+.customer-reviews {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  overflow: hidden;
+
+  &-btn-wrapper {
+    @media only screen and (max-width: 25.125em) {
+      margin-top: 10rem;
+    }
+    gap: 1.2rem;
+    justify-content: center;
+    align-items: center;
+    z-index: 99;
+  }
+
+  &__heading {
+    margin-bottom: 3rem;
+  }
+
+  &__img {
+    width: 10rem;
+    object-fit: cover;
+    margin: 0 auto 4.4rem;
+    transition: all 0.3s;
+
+    &:hover, &:active {
+      transform: scale(1.02);
+    }
+  }
+
+  &__review-img {
+    position: relative;
+
+    &-wrapper {
+      position: relative;
+      width: 10rem;
+      height: 10rem;
+      margin: 0 auto 2rem auto;
+    }
+  }
+
+  &__quote {
+    img {
+      width: 30%;
+    }
+
+    content: "";
+    position: absolute;
+    display: flex;
+    align-items: center;
+    top: 0;
+    right: 51.2%;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    background-color: var(--clr-primary);
+    box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.1);
+    justify-content: center;
+  }
+
+  &__subheading {
+    color: var(--clr-primary);
+    font-weight: 500;
+    margin-bottom: 3.2rem;
+    line-height: 2.2rem;
+  }
+
+  &__commentary {
+    color: var(--clr-dark-blue);
+    font-size: 1.5rem;
+    font-weight: 500;
+    line-height: 2.8rem;
+    margin-bottom: 3rem;
+  }
+
+  &__job {
+    color: var(--clr-dark-blue);
+    font-size: 1.5rem;
+    font-weight: 500;
+    line-height: 2.8rem;
+  }
+
+  &__author {
+    color: var(--clr-dark-blue);
+    font-size: 1.5rem;
+    line-height: 2.8rem;
+    margin-bottom: 1rem;
+  }
+
+  &__review {
+    &-wrapper {
+      width: 100%;
+      height: 40rem;
+      margin: 0 auto;
+      position: relative;
+      border-radius: .9rem;
+      /* IN THE END */
+      //overflow: hidden;
+
+
+    }
+
+    // make all the  customer-reviews__review elements absolutely positioned
+
+    // the items are stretched down as a column, but that is not right. They should stretch to the right as a row
+    //position: absolute;
+    //top: 0;
+    width: 100%;
+    height: 50rem;
+    align-items: center;
+    justify-content: center;
+
+    /* THIS creates the animation! */
+    transition: transform 1s;
+  }
+}
+
+///////////////////////
+
+.trending-destinations-toggle-wrapper {
+  column-gap: .8rem;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  transition: all .4s;
+
+  &:hover, &:active {
+    transform: scale(1.1);
+  }
+}
+
+.trending-destinations-toggle-line {
+  content: "";
+  display: block;
+  width: 18px;
+  height: 8px;
+  border-radius: 12px;
+  background-color: var(--clr-primary);
+  cursor: pointer;
+  transition: all .4s;
+
+  &-current {
+    background-color: var(--clr-dark-blue);
+  }
+
+  &:hover, &:active {
+    transform: translateY(-9%);
+  }
+
+  &:active {
+    transform: translateY(9%);
+  }
+}
+
+.customer-reviews-toggle-btn {
+  display: block;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 100px;
+  background-color: var(--clr-dark-blue);
+  cursor: pointer;
+  transition: all .4s;
+
+  &--active {
+    background-color: var(--clr-primary);
+    width: 1.4rem;
+    height: 1.4rem;
+  }
+
+  &:hover, &:active {
+    text-decoration: none;
+    background-color: var(--clr-primary-lighter);
+    color: var(--clr-white);
+    transform: translateY(-3%);
+  }
+
+}
