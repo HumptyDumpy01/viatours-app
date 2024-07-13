@@ -4,6 +4,8 @@ import './globals.scss';
 import React from 'react';
 import Header from '@/components/MainLayout/Header/Header';
 import Footer from '@/components/MainLayout/Footer/Footer';
+import StoreProvider from '@/components/UI/Provider/StoreProvider';
+import ToastContainer from '@/components/UI/Toast/ToastContainer';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -20,6 +22,9 @@ export default function RootLayout({ children }: Readonly<{
   return (
     <html lang="en">
     <body className={inter.className}>
+    <StoreProvider>
+      <ToastContainer />
+    </StoreProvider>
     <Header />
     {children}
     <section className="footer">

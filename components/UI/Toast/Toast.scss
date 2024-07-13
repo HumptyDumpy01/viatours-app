@@ -1,0 +1,163 @@
+.action-notificator {
+  cursor: pointer;
+  width: 61.854rem;
+  @media only screen and (max-width: 30em) {
+    width: 51.854rem;
+  }
+  @media only screen and (max-width: 24.5em) {
+    width: 45.854rem;
+  }
+  background-color: var(--clr-white);
+  box-shadow: 0 0 1.6rem rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 8.8rem;
+  right: 0;
+  z-index: 1000;
+  padding: 2.4rem;
+  border-top-left-radius: 1.6rem;
+  border-bottom-left-radius: 1.6rem;
+  overflow: hidden;
+  visibility: hidden;
+  opacity: 0;
+  transition: all .4s;
+  transform: translateX(100%);
+  // add a position relative to the image this background will be added to
+  &::before {
+    content: '';
+    width: 40rem;
+    height: 40rem;
+    position: absolute;
+    top: -32rem;
+    left: -28rem;
+    z-index: -1;
+    background-color: #333;
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  // we should add an underline to the entire action notificator using after pseudo element
+  &::after {
+    content: '';
+    width: 0;
+    height: 4px;
+    background-color: var(--clr-primary);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+  }
+
+  &__state {
+    text-transform: uppercase;
+    height: 3.4rem;
+    padding: .8rem 1.3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    border-radius: 10rem;
+    font-weight: 600;
+
+    &--info {
+      background-color: #333;
+      color: var(--clr-white);
+      padding: .8rem 1.3rem;
+      border-radius: 10rem;
+      font-weight: 600;
+    }
+
+    &--error {
+      background-color: var(--clr-error);
+      color: var(--clr-white);
+    }
+
+    &--success {
+      background-color: var(--clr-success);
+      color: var(--clr-white);
+    }
+  }
+
+  &__logo {
+    width: 13.2rem;
+    height: 2.4702rem;
+  }
+
+  &__message {
+    gap: 1.228rem;
+  }
+
+  &__status {
+    gap: 1.528rem;
+    margin-bottom: .6rem;
+  }
+
+  &__icon {
+    width: 2.9rem;
+    height: 2.9rem;
+
+    &--error {
+      width: 4.5rem;
+      height: 4.4rem;
+    }
+
+    &--sad-smile {
+      width: 5rem;
+      height: 4.9rem;
+    }
+
+    &--delete-item {
+      width: 5rem;
+      height: 4.9rem;
+    }
+
+    &--phone {
+      width: 5rem;
+      height: 4.9rem;
+    }
+
+    &--smile {
+      width: 5rem;
+      height: 4.9rem;
+    }
+
+    &--star {
+      width: 4.8rem;
+      height: 4.6rem;
+    }
+
+    &--email {
+      width: 4.8rem;
+      height: 4.6rem;
+      padding: 0;
+    }
+
+    &--password {
+      width: 4.8rem;
+      height: 4.6rem;
+    }
+
+    &--tour {
+      width: 4.8rem;
+      height: 4.6rem;
+    }
+  }
+
+  &__p {
+    font-size: 1.4rem;
+    line-height: 1.4;
+  }
+}
+
+@keyframes SlideOut {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.toast-open {
+  visibility: visible;
+  opacity: 1;
+  transform: translateX(0);
+}
