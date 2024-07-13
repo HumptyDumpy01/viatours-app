@@ -4,6 +4,7 @@ import './MainNavigation.scss';
 import NavButton from '@/components/UI/Link/NavButton';
 import NavigationResponsive from '@/components/MainLayout/Navigation/NavigationResponsive';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 // 'use client';
 
@@ -11,8 +12,25 @@ import Link from 'next/link';
   // children: ReactNode;
 }*/
 export default function MainNavigation(/*{  }: MainNavigationInterface*/) {
+
+  const [isSticky, setIsSticky] = useState(false);
+
+  const handleScroll = () => {
+    const position = window.scrollY;
+    const stickyThreshold = window.innerHeight * 0.35;
+    setIsSticky(position > stickyThreshold);
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   return (
-    <nav className={`navigation container`}>
+    <nav className={`navigation container ${isSticky ? `sticky` : undefined}`}>
       <div className={`navigation__ul flex`}>
         <div className={`navigation-wrapper flex flex-align-center`}>
           <Link href={`/`}>
@@ -23,7 +41,9 @@ export default function MainNavigation(/*{  }: MainNavigationInterface*/) {
                    placeholder="Search destinations or activities" />
           </label>
           <div className={`navigation--search-wrapper`}>
-            <svg className={`icon--search`} xmlns="http://www.w3.org/2000/svg" width="20" height="19"
+            <svg className={`icon--search ${isSticky ? `icon--search-sticky` : undefined}`}
+                 xmlns="http://www.w3.org/2000/svg" width="20"
+                 height="19"
                  viewBox="0 0 20 19"
                  fill="none">
               <path

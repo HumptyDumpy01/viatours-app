@@ -4,6 +4,7 @@
   @media only screen and (max-width: 64.0625em) {
     width: 100%;
   }
+
 }
 
 .logo {
@@ -16,10 +17,14 @@
 // added a sticky class to the navigation
 .sticky {
   position: fixed;
+  height: 8rem;
+  margin-top: -1rem;
+  padding: 1.6rem 0 0 1.6rem;
   top: 0;
   z-index: 999;
   background-color: var(--clr-white);
   opacity: 0.97;
+
 }
 
 .navigation {
@@ -225,4 +230,15 @@
 
 #nav-list-open {
   transform: translateX(0);
+}
+
+.icon--search-sticky {
+  position: absolute;
+  top: -1rem;
+  left: -2.3rem;
+  width: 2rem;
+}
+
+.navigation__responsive--sticky {
+  padding-top: 1.6rem;
 }
