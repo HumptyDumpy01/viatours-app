@@ -65,7 +65,7 @@
 
   &-img {
     //position: relative;
-    height: 100%;
+    height: 40rem;
     border-radius: 12px;
     transition: all .4s;
 
@@ -287,4 +287,21 @@
     }
   }
 
+}
+
+.all-tours__content__figures__figure-img {
+  object-fit: cover;
+}
+
+.all-tours__content__figures__figure-img-container {
+  position: relative;
+  width: 28rem;
+  height: 28rem;
+  overflow: hidden;
+  border-radius: 12px;
+
+  @media only screen and (max-width: 64.375em) {
+    width: 100%;
+    height: 40rem;
+  }
 }

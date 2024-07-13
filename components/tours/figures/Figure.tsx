@@ -31,8 +31,8 @@ export default function Figure({ href, imgSrc, imgAlt, info }: TourCardInterface
     <>
       <div className="all-tours__content__figures__figure-wrapper">
         <div className="all-tours__content__figures__figure grid">
-          <div className="all-tours__content__figures__figure-img">
-            <Image src={imgSrc}
+          <div className="all-tours__content__figures__figure-img-container">
+            <Image fill src={imgSrc}
                    alt={imgAlt}
                    className="all-tours__content__figures__figure-img" />
             {/* <!--                <span
@@ -66,7 +66,8 @@ export default function Figure({ href, imgSrc, imgAlt, info }: TourCardInterface
           <div className="all-tours__content__figures__figure-details">
             <span className="all-tours__content__figures__figure-details-descr">{info[0].duration} long</span>
             <span className="all-tours__content__figures__figure-details-price--crossed">$1200</span>
-            <span className="all-tours__content__figures__figure-details-price">From <span>${info[0].price}</span></span>
+            <span
+              className="all-tours__content__figures__figure-details-price">From <span>${info[0].price}</span></span>
             <a href={`/tours/${href}`} className="link all-tours__content__figures__figure-details-link">View
               Details</a>
           </div>
