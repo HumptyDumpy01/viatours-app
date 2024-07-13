@@ -6,7 +6,7 @@ import Header from '@/components/MainLayout/Header/Header';
 import Footer from '@/components/MainLayout/Footer/Footer';
 import StoreProvider from '@/components/UI/Provider/StoreProvider';
 import ToastContainer from '@/components/UI/Toast/ToastContainer';
-import IconIon from '@/components/UI/IonIcon/IconIon';
+import GoToTheTopBtn from '@/components/MainLayout/Button/GoToTheTopBtn';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -23,10 +23,7 @@ export default function RootLayout({ children }: Readonly<{
   return (
     <html lang="en">
     <body className={inter.className}>
-
-    <div className="go-to-the-top-button">
-      <IconIon type={`chevronUpOutline`} className={`go-to-the-top-button-icon`} />
-    </div>
+    <GoToTheTopBtn />
     <StoreProvider>
       <ToastContainer />
     </StoreProvider>
