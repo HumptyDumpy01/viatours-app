@@ -2,7 +2,16 @@
 
 import React from 'react';
 import { IonIcon } from '@ionic/react';
-import { callOutline, logoFacebook, logoInstagram, logoTwitter, logoWhatsapp, logoAndroid, logoApple } from 'ionicons/icons';
+import {
+  callOutline,
+  chevronUpOutline,
+  logoAndroid,
+  logoApple,
+  logoFacebook,
+  logoInstagram,
+  logoTwitter,
+  logoWhatsapp
+} from 'ionicons/icons';
 
 
 const iconMap = {
@@ -13,6 +22,7 @@ const iconMap = {
   logoWhatsapp,
   logoAndroid,
   logoApple,
+  chevronUpOutline
 };
 
 interface IconIonProps {

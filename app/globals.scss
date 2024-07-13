@@ -476,3 +476,47 @@ span {
   -ms-user-select: none;
   cursor: grab;
 }
+
+// created a button to go to the top of the page. It is an absolute positioned button
+.go-to-the-top-button {
+  position: fixed;
+  bottom: 5rem;
+  right: 5rem;
+  background-color: var(--clr-primary);
+  color: var(--clr-white);
+  border: none;
+  border-radius: 50%;
+  width: 4rem;
+  height: 4rem;
+  font-size: 2.4rem;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  transition: all .7s;
+  z-index: 9999;
+  box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.1);
+
+  @media only screen and (max-width: 50.3125em) {
+    width: 6rem;
+    height: 6rem;
+  }
+
+  &-icon {
+    font-size: 1.8rem;
+    @media only screen and (max-width: 50.3125em) {
+      font-size: 2.1rem;
+    }
+  }
+
+  &:hover, &:active {
+    background-color: var(--clr-primary-lighter);
+    transform: translateY(-3%);
+    cursor: pointer;
+    box-shadow: 0 0 10px 5px rgba(235, 102, 43, 0.4);
+  }
+
+  &:active {
+    transform: translateY(20%);
+  }
+
+}
