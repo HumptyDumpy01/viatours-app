@@ -1,0 +1,47 @@
+.main {
+  padding-bottom: 10rem;
+}
+
+.container-all-tours {
+  max-width: 127.5rem;
+  padding: 0 3.2rem;
+  margin: 0 auto;
+  @media only screen and (max-width: 75em) {
+    max-width: 135.5rem;
+  }
+}
+
+
+.all-tours {
+  margin-top: 3.2rem;
+
+  &__heading {
+    margin-top: 3.2rem;
+    margin-bottom: 2.5rem;
+    @media only screen and (max-width: 37.5em) {
+      font-size: 2.9rem;
+    }
+  }
+
+  &__navigation {
+    span {
+      display: inline-block;
+      font-size: 1.4rem;
+      margin-right: -.3rem
+    }
+
+    &__second--span {
+      font-size: 1.4rem;
+      color: var(--clr-dark-blue);
+      transition: all .4s;
+
+      &:hover, &:active {
+        color: var(--clr-primary);
+      }
+    }
+  }
+
+  &__content {
+    margin-top: 3rem;
+  }
+}

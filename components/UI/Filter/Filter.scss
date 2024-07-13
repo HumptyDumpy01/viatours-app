@@ -1,0 +1,270 @@
+.filter {
+  z-index: 100;
+
+  &-background {
+
+    // disable the scrolling of the body when the navigation is open. Use some scroll-y property to disable the scrolling
+    transition: all .7s cubic-bezier(0.83, 0, 0.17, 1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    padding-bottom: 4rem;
+    z-index: 99;
+    background-color: var(--clr-white);
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+.all-tours {
+
+  &__navigation__wrapper {
+    @media only screen and (max-width: 37.5em) {
+      flex-direction: column;
+      row-gap: 1.4rem;
+      .link__navigation__link, span {
+        font-size: 1.6rem;
+      }
+    }
+  }
+
+  &__content__filter {
+    position: relative;
+    transition: all .7s;
+    @media only screen and (max-width: 58.375em) {
+      position: absolute;
+      top: 20%;
+      background-color: var(--clr-white);
+      left: 3%;
+      z-index: 100;
+      transform: translateX(-150%);
+      opacity: .96;
+    }
+  }
+
+  &__content__filter {
+    width: 28.9rem;
+    border-radius: 12px;
+    border: 1px solid var(--clr-silver);
+    padding-bottom: .5rem;
+    height: fit-content;
+
+    .icon--close-filter {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      font-size: 3.5rem;
+      color: var(--clr-white);
+      cursor: pointer;
+      transition: all .4s;
+    }
+
+    &-filter-item {
+      display: flex;
+
+      &-hidden {
+        display: none;
+        margin-bottom: 1.6rem;
+      }
+
+      p {
+        margin-left: .4rem;
+        font-size: 1.3rem;
+        @media only screen and (max-width: 37.5em) {
+          font-size: 1.6rem;
+        }
+      }
+
+      &:not(:last-child) {
+        margin-bottom: 1.6rem;
+      }
+
+      &-wrapper {
+        padding-bottom: 2rem;
+      }
+
+      &-heading {
+        font-weight: 500;
+        color: var(--clr-dark-blue);
+        font-size: 1.8rem;
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+        cursor: pointer;
+      }
+
+      label {
+        color: var(--clr-dark-blue);
+        font-size: 1.5rem;
+        cursor: pointer;
+        transition: all .4s;
+      }
+    }
+
+    &-tour-type,
+    &-price,
+    &-duration,
+    &-language,
+    &-rating,
+    &-specials {
+      margin-left: 3rem;
+      margin-right: 3rem;
+      border-bottom: 1px solid var(--clr-silver);
+    }
+
+    &-specials {
+      border-bottom: none;
+    }
+
+    &-tour-type {
+      &__see-more {
+        color: var(--clr-purple);
+        border: none;
+        background-color: var(--clr-white);
+        font-weight: 500;
+        font-family: inherit;
+        margin-bottom: 2rem;
+        transition: all .4s;
+        font-size: 1.6rem;
+
+        &:hover, &:active {
+          cursor: pointer;
+          transform: translateX(3%);
+        }
+      }
+
+      &__item {
+        display: flex;
+
+        &:not(:last-child) {
+          margin-bottom: 1.6rem;
+        }
+
+        label {
+          color: var(--clr-dark-blue);
+          cursor: pointer;
+          transition: all .4s;
+        }
+      }
+
+      &__checkbox {
+        margin-right: 1rem;
+        display: inline-block;
+        cursor: pointer;
+        // making the checkboxes huger
+        width: 1.7rem;
+        border: 1px solid var(--clr-dark-blue);
+
+        &__label.flex {
+          font-size: 1.7rem;
+        }
+
+        &:checked + label {
+          font-weight: 500;
+        }
+      }
+
+      &-heading {
+        font-weight: 500;
+        color: var(--clr-dark-blue);
+        font-size: 1.8rem;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+      }
+    }
+
+    &-datepicker {
+      border: none;
+      padding: 1.2rem;
+      border-radius: 12px;
+      width: 100%;
+      font-size: 1.42rem;
+
+      &__btns {
+        gap: 1.2rem;
+      }
+
+      &-apply, &-reset {
+        cursor: pointer;
+        margin-top: 1.6rem;
+        color: var(--clr-white);
+        background-color: var(--clr-primary-lighter);
+        padding: 1.2rem 2.4rem;
+        border-radius: 100px;
+        border: none;
+        transition: all .4s;
+
+        &:hover, &:active {
+          background-color: var(--clr-white);
+          color: var(--clr-primary-lighter);
+          transform: translateY(-3%);
+        }
+      }
+
+      &:focus {
+        color: var(--clr-primary);
+        font-weight: 500;
+
+        &::placeholder {
+          transition: all .5s;
+          color: var(--clr-primary);
+        }
+      }
+
+      &::placeholder {
+        color: var(--clr-darker-grey);
+        font-size: 1.42rem;
+        transition: all .5s;
+      }
+    }
+  }
+
+  .all-tours__content__filter--responsive {
+    display: none;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+    @media only screen and (max-width: 58.375em) {
+      // the filter container should become absolute positioned and should be placed at the top of the page
+      position: absolute;
+      top: 20%;
+      background-color: var(--clr-white);
+      left: 5%;
+      z-index: 100;
+    }
+  }
+
+  &__content {
+    margin-top: 3rem;
+    grid-template-columns: 25fr 75fr;
+    grid-gap: 3rem;
+    @media only screen and (max-width: 58.375em) {
+      grid-template-columns: 1fr;
+      grid-gap: 2rem;
+    }
+
+    &__filter-header {
+      background-color: var(--clr-primary);
+      padding: 3rem;
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+      margin-bottom: 3rem;
+
+      span {
+        color: var(--clr-white);
+        font-weight: 500;
+        margin-bottom: 1rem;
+
+        &::selection {
+          background-color: var(--clr-primary-lighter);
+        }
+      }
+    }
+  }
+}
+
+.see-more-clicked {
+  margin-top: 1.6rem;
+  margin-bottom: .4rem;
+}

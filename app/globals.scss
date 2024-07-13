@@ -1,29 +1,26 @@
 // main variables
 :root {
   // colors
-  --clr-primary: #eb6600;
+  --clr-primary: #EB662B;
   --clr-primary-lighter: #d45c27;
   --clr-primary-light: #F28555;
+  --clr-primary-darker: #aa4a1f;
   --clr-dark-yellow: #E2AD64;
   --clr-light-yellow: #FDF0EA;
   --clr-dark-blue: #05073C;
-  --clr-blue-lighter: #1E2050;
 
   --clr-white: #fff;
   --clr-light-white: #FEF7F4;
   --clr-light-white-2: #F5F5F5;
+  --clr-grey-3: #EFEEEE;
   --clr-silver: #E7E6E6;
-  --clr-silver-dark: #969696;
   --clr-grey: #717171;
   --clr-darker-grey: #757575;
   --clr-darker-grey-2: #5e5e5e;
   --clr-purple: #4A43C4;
-  --clr-error: #EB2B2B;
-  --clr-success: #20CD85;
-  --clr-info: #333;
-
   --clr-black: #000;
   --linear-orange-and-light-orange: #EB662B, #F28555;
+  --clr-strawberry-red: #fa1e2d;
 
   // font
   --font-inter: 'Inter', serif;
@@ -99,6 +96,10 @@ body {
 
 input {
   font-family: inherit;
+
+  &:focus {
+    outline: none; // Add this line to remove the outline when the input is focused
+  }
 }
 
 .container {
@@ -523,4 +524,8 @@ span {
 
 .go-to-the-top-button-visible {
   display: flex !important;
+}
+
+.hidden {
+  display: none;
 }

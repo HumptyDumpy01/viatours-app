@@ -5,6 +5,7 @@ import { IonIcon } from '@ionic/react';
 import {
   callOutline,
   chevronUpOutline,
+  closeOutline,
   logoAndroid,
   logoApple,
   logoFacebook,
@@ -22,7 +23,8 @@ const iconMap = {
   logoWhatsapp,
   logoAndroid,
   logoApple,
-  chevronUpOutline
+  chevronUpOutline,
+  closeOutline
 };
 
 interface IconIonProps {

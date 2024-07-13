@@ -1,0 +1,47 @@
+.all-tours {
+
+  &__search {
+    &-tour-wrapper {
+      gap: 1.3rem;
+      margin-bottom: 3.2rem;
+    }
+
+    &-tour-btn {
+      transition: all .3s;
+      width: 8.9rem;
+      height: 5.8rem;
+      padding: 1.7rem 1.95rem;
+      border-radius: 12px;
+      border: none;
+      font-weight: 700;
+      font-size: 1.4rem;
+      color: var(--clr-white);
+      background-color: var(--clr-primary);
+      cursor: pointer;
+
+      &:hover, &:active {
+        background-color: var(--clr-white);
+        border: 1px solid var(--clr-primary);
+        color: var(--clr-primary);
+      }
+    }
+
+    &-tour-input {
+      transition: all .3s;
+      width: 35.5rem;
+      height: 5.8rem;
+      padding: 2rem 2rem 2rem 2rem;
+      align-items: center;
+      border-radius: 12px;
+      border: none;
+      background-color: var(--clr-grey-3);
+      font-size: 1.5rem;
+
+      &::placeholder {
+        color: var(--clr-darker-grey);
+        font-size: 1.5rem;
+      }
+    }
+  }
+
+}
