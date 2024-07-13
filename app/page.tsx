@@ -10,6 +10,7 @@ import TopTrendingSlider from '@/components/homepage/top-trending/TopTrendingSli
 import CustomerReviews from '@/components/homepage/customer-reviews/CustomerReviews';
 import CTASecondary from '@/components/homepage/cta-2/CTASecondary';
 import TravelArticles from '@/components/homepage/travel-articles/TravelArticles';
+import Footer from '@/components/MainLayout/Footer/Footer';
 
 export default function Home() {
   return (
@@ -57,6 +58,10 @@ export default function Home() {
 
       <section className="travel-articles container">
         <TravelArticles />
+      </section>
+
+      <section className="footer">
+        <Footer />
       </section>
     </main>
   );
