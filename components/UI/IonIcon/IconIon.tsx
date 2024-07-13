@@ -6,6 +6,7 @@ import {
   callOutline,
   chevronUpOutline,
   closeOutline,
+  filterOutline,
   logoAndroid,
   logoApple,
   logoFacebook,
@@ -24,7 +25,8 @@ const iconMap = {
   logoAndroid,
   logoApple,
   chevronUpOutline,
-  closeOutline
+  closeOutline,
+  filterOutline
 };
 
 interface IconIonProps {

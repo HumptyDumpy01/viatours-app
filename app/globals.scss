@@ -412,6 +412,16 @@ span {
     }
   }
 
+  &--filter {
+    color: var(--clr-dark-blue);
+    font-size: 3.6rem;
+    display: none;
+    cursor: pointer;
+    @media only screen and (max-width: 58.375em) {
+      display: flex;
+    }
+  }
+
   &--call {
     color: var(--clr-primary);
     font-size: 2.2rem;

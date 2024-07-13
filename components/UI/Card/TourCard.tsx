@@ -7,7 +7,7 @@ import Link from 'next/link';
 import '@/components/homepage/trending-destinations/TrendingDestinations.scss';
 import Image from 'next/image';
 
-interface TourCardInterface {
+export interface TourCardInterface {
   href: string;
   imgSrc: string;
   imgAlt: string;
@@ -19,6 +19,7 @@ interface TourCardInterface {
     ratingCount: number;
     duration: string;
     price: number;
+    overview: string;
   }[];
   // children: ReactNode;
 }
