@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { IonIcon } from '@ionic/react';
-import { callOutline, logoFacebook, logoInstagram, logoTwitter, logoWhatsapp, searchOutline } from 'ionicons/icons';
+import { callOutline, logoFacebook, logoInstagram, logoTwitter, logoWhatsapp, logoAndroid, logoApple } from 'ionicons/icons';
+
 
 const iconMap = {
   callOutline,
@@ -10,7 +11,8 @@ const iconMap = {
   logoFacebook,
   logoTwitter,
   logoWhatsapp,
-  searchOutline
+  logoAndroid,
+  logoApple,
 };
 
 interface IconIonProps {
@@ -20,27 +22,9 @@ interface IconIonProps {
 
 const IconIon: React.FC<IconIonProps> = ({ type, className }) => {
 
-  // here I am using useEffect to suppress the warning that is being thrown by Ionicons
-  // this warning is not relevant to the app and is just noise
-  useEffect(() => {
-    const originalConsoleWarn = console.warn;
-    console.warn = (...args) => {
-      if (args[0].startsWith('[Ionicons Warning]')) {
-        return;
-      }
-      originalConsoleWarn(...args);
-    };
-
-    // Cleanup function to restore the original console.warn
-    return () => {
-      console.warn = originalConsoleWarn;
-    };
-  }, []); // Empty dependency array means this effect runs once on mount
-
   const IconComponent = iconMap[type];
   if (!IconComponent) {
-    console.warn(`IconIon: No icon found for type "${type}"`);
-    return null;
+    throw new Error(`Invalid icon type: ${type}`);
   }
   return <IonIcon icon={IconComponent} className={className} />;
 };

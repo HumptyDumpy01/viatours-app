@@ -59,10 +59,6 @@ export default function Home() {
       <section className="travel-articles container">
         <TravelArticles />
       </section>
-
-      <section className="footer">
-        <Footer />
-      </section>
     </main>
   );
 }
