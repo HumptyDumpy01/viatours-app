@@ -25,8 +25,8 @@ export default function DateCalendarValue() {
       <div className={`calendar`}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DemoContainer components={['DateCalendar', 'DateCalendar']}>
-            <DateCalendar value={value} onChange={(newValue) => setValue(newValue)} sx={{
-            }} />
+            <DateCalendar value={value} onChange={(newValue) => setValue(newValue)}
+            />
           </DemoContainer>
         </LocalizationProvider>
       </div>

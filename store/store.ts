@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import navigationSlice from '@/store/navigationSlice';
 import heroSlice from '@/store/heroSlice';
+import toastSlice from '@/store/ToastSlice';
 
 const store = configureStore({
   reducer: {
@@ -8,7 +9,8 @@ const store = configureStore({
     // imported with the .reducer in the end or without it. If you add
     // .reducer, then type the name of the slice, if not, then YOUR_SLICE.reducer
     navigation: navigationSlice,
-    hero: heroSlice
+    hero: heroSlice,
+    notification: toastSlice
   }
 });
 

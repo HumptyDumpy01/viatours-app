@@ -9,6 +9,7 @@ import Image from 'next/image';
 import { useCartDispatch, useCartSelector } from '@/store/hooks';
 import { navigationSliceActions } from '@/store/navigationSlice';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 /*interface NavigationBurgerInterface {
   // children: ReactNode;
@@ -29,9 +30,26 @@ export default function NavigationResponsive(/*{  }: NavigationBurgerInterface*/
     dispatch(navigationSliceActions.toggleSideNavigation(`open`));
   }
 
+  const [isSticky, setIsSticky] = useState(false);
+
+  const handleScroll = () => {
+    const position = window.scrollY;
+    const stickyThreshold = window.innerHeight * 2;
+    setIsSticky(position > stickyThreshold);
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+
   return (
     <>
-      <div className="navigation__responsive">
+      <div className={`navigation__responsive ${isSticky ? `navigation__responsive--sticky` : undefined}`}>
         <div className="navigation__menu-container">
           <Image width={120} height={120} src={friesMenuImg} alt="menu icon"
                  className={`nav-icon nav-icon--menu-icon`} onClick={openNavBurger} />

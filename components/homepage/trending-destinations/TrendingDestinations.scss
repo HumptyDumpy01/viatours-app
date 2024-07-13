@@ -7,11 +7,13 @@
     height: 100%;
     border-radius: 50%;
     object-fit: cover;
+    -webkit-user-drag: none;
   }
 
   &-figure-wrapper {
     column-gap: 3.8rem;
     overflow-x: auto;
+    width: 100%;
     scrollbar-width: thin; /* Firefox */
     scrollbar-color: transparent transparent; /* Firefox */
     border-left: 1px solid rgba(0, 0, 0, 0.1);
@@ -38,6 +40,7 @@
       text-decoration: none;
       color: var(--clr-dark-blue);
       border-radius: 1px;
+      -webkit-user-drag: none;
     }
 
     img {
@@ -76,4 +79,18 @@
     }
   }
 
+}
+
+.trending-destinations-figure-wrapper {
+  user-select: none;
+  cursor: grab; /* Change cursor to indicate draggable area */
+}
+
+/* Change cursor to grabbing when actually dragging */
+.trending-destinations-figure-wrapper:active {
+  cursor: grabbing;
+}
+
+.disable-pointer-events .trending-destinations-figure-link {
+  pointer-events: none;
 }
