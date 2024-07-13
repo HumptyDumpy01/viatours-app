@@ -17,7 +17,8 @@ export default function FormSubmit({ btnClassName, btnTextIsPending, btnTextDefa
 
   return (
     <>
-      <button className={btnClassName} disabled={isPending}>{!isPending ? btnTextDefault : btnTextIsPending}</button>
+      <button style={{ fontFamily: `Inter` }} className={btnClassName}
+              disabled={isPending}>{!isPending ? btnTextDefault : btnTextIsPending}</button>
     </>
   );
 }
