@@ -30,7 +30,7 @@ export default function FooterNewsletter(/*{  }: FooterNewsletterInterface*/) {
     timer.current = setTimeout(() => {
       dispatch(ToastSliceActions.hideNotification());
       console.log(`Newsletter sign up toast hidden!`);
-    }, 3000);
+    }, 6000);
   }
 
   return (

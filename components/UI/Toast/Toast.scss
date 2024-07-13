@@ -35,16 +35,16 @@
     pointer-events: none;
   }
 
-  // we should add an underline to the entire action notificator using after pseudo element
-  &::after {
-    content: '';
-    width: 0;
-    height: 4px;
-    background-color: var(--clr-primary);
-    position: absolute;
-    bottom: 0;
-    left: 0;
-  }
+  //// we should add an underline to the entire action notificator using after pseudo element
+  //&::after {
+  //  content: '';
+  //  width: 0;
+  //  height: 4px;
+  //  background-color: var(--clr-primary);
+  //  position: absolute;
+  //  bottom: 0;
+  //  left: 0;
+  //}
 
   &__state {
     text-transform: uppercase;
@@ -147,7 +147,7 @@
   }
 }
 
-@keyframes SlideOut {
+@keyframes slideUnderline {
   from {
     width: 0;
   }
@@ -156,8 +156,23 @@
   }
 }
 
+.action-notificator::after {
+  content: '';
+  height: 4px;
+  background-color: var(--clr-primary);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0; // Start with no width
+  z-index: 999;
+}
+
 .toast-open {
   visibility: visible;
   opacity: 1;
   transform: translateX(0);
+}
+
+.apply-animation.action-notificator::after {
+  animation: slideUnderline 6s forwards; // Ensure animation is correctly named and duration matches
 }
