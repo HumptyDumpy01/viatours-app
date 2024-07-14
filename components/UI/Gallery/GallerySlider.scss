@@ -1,0 +1,109 @@
+html {
+  position: relative;
+}
+
+.description__gallery-images-slider {
+  // this container should stick to the top of the page
+  position: fixed; // changed from absolute to fixed
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  background-color: rgba(0, 0, 0, 0.9);
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+  transition: all .4s;
+  opacity: 0;
+  visibility: hidden;
+
+
+  &-wrapper {
+    position: absolute;
+    top: 50%;
+    bottom: 50%;
+    display: flex;
+    justify-content: space-between;
+    gap: 2.4rem;
+    align-items: center;
+    margin-left: 3.2rem;
+    transition: all 1.5s;
+    transform: translateX(-100%);
+
+    img {
+      width: 60rem;
+      height: 40rem;
+      object-fit: cover;
+    }
+  }
+
+  &-img {
+    transition: all 0.4s;
+    width: 100%;
+    height: 100%;
+    border-radius: 9px;
+
+    &:hover, &:active {
+      transform: scale(1.01);
+    }
+
+    &-container {
+      overflow: hidden;
+      border-radius: 9px;
+      // add some wonderful box shadow
+      box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.4);
+      transition: all 0.4s;
+      backface-visibility: hidden;
+    }
+  }
+
+  &-span {
+    position: absolute;
+    left: 1.2rem;
+    bottom: -28rem;
+    border: 1px solid var(--clr-primary);
+    border-radius: 9px;
+    width: 26rem;
+    padding: 1.2rem;
+    right: 1.6rem;
+    font-size: 1.2rem;
+    color: var(--clr-primary);
+    z-index: 9999;
+    transition: all 0.4s;
+  }
+}
+
+.description__gallery-images-slider.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.description__gallery-images-slider-wrapper.open {
+  transform: translateX(0);
+}
+
+.icon--close-gallery {
+  visibility: hidden;
+  position: fixed;
+  top: 6.3rem;
+  left: 4.2rem;
+  width: 6rem;
+  height: 6rem;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all .8s;
+  background-color: var(--clr-primary);
+  z-index: 9999;
+  transform: translateX(-200%);
+
+  &:hover, &:active {
+    background-color: var(--clr-strawberry-red);
+    //color: var(--clr-primary-light);
+  }
+}
+
+.icon--close-gallery.open {
+  visibility: visible;
+  transform: translateX(0);
+}

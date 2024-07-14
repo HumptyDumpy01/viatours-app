@@ -1,4 +1,3 @@
-import tourCard1 from '@/assets/images/homepage/topTrending/tourCard_image_5.svg';
 import tourCard2 from '@/assets/images/homepage/topTrending/tourCard_image_6.svg';
 import tourCard6 from '../assets/images/homepage/topTrending/tourCard_image_6.svg';
 import tourCard3 from '../assets/images/homepage/topTrending/tourCard_image_7.svg';
@@ -7,6 +6,15 @@ import tourCard4 from '../assets/images/homepage/topTrending/tourCard_image_8.sv
 import tourCard8 from '../assets/images/homepage/topTrending/tourCard_image_8.svg';
 import tourCard5 from '../assets/images/homepage/topTrending/tourCard_image_9.svg';
 import tourCard10 from '../assets/images/homepage/topTrending/tourCard_image_10.svg';
+
+import eiffelImage1 from '@/assets/images/homepage/topTrending/Eiffel/Eiffel-1.png';
+import eiffelImage2 from '@/assets/images/homepage/topTrending/Eiffel/Eiffel-2.png';
+import eiffelImage3 from '@/assets/images/homepage/topTrending/Eiffel/Eiffel-3.png';
+import eiffelImage4 from '@/assets/images/homepage/topTrending/Eiffel/Eiffel-4.png';
+import eiffelImage5 from '@/assets/images/homepage/topTrending/Eiffel/Eiffel-5.png';
+import eiffelImage6 from '@/assets/images/homepage/topTrending/Eiffel/Eiffel-6.png';
+import { StaticImageData } from 'next/image';
+
 
 // import tourCard9 from '@/assets/images/topTrending/tourCard_image_9.svg';
 
@@ -39,7 +47,7 @@ export interface TourInterface {
   };
   tag: string[];
   booked: number;
-  images: string[];
+  images: StaticImageData[];
   duration: string[];
   group_size: number;
   ages: string[];
@@ -116,7 +124,12 @@ export const DUMMY_TOURS: TourInterface[] = [
     //////////////////////////////////////
     images: [
       // INFO: TO SEVEN IMAGES. MIN - 4
-      tourCard1
+      eiffelImage1,
+      eiffelImage2,
+      eiffelImage3,
+      eiffelImage4,
+      eiffelImage5,
+      eiffelImage6
     ],
     //////////////////////////////////////
     duration: [

@@ -5,6 +5,8 @@ import DescriptionTag from '@/components/tourDescription/DescriptionTag';
 import { DUMMY_TOURS } from '@/data/DUMMY_TOURS';
 import { notFound } from 'next/navigation';
 import TourStats from '@/components/tourDescription/TourStats';
+import Gallery from '@/components/UI/Gallery/Gallery';
+import GallerySlider from '@/components/UI/Gallery/GallerySlider';
 
 type TourDescriptionType = {
   params: {
@@ -26,19 +28,29 @@ export default function TourDescriptionSection({ params }: TourDescriptionType) 
       <section className="description container">
         <DescriptionTag />
         <h1 className="description__heading margin-bottom-small">{currTour.title}</h1>
+        <div className="description__stats-wrapper flex flex-space-between">
+          <TourStats
+            info={{
+              rating: currTour.rating.overall,
+              totalReviews: currTour.reviewed,
+              city: currTour.city,
+              country: currTour.country,
+              booked: currTour.booked
+            }}
+          />
+        </div>
+        <Gallery info={{
+          images: currTour.images,
+          title: currTour.title
+        }} />
+        <GallerySlider info={
+          {
+            images: currTour.images,
+            title: currTour.title
+          }
+        } />
       </section>
 
-      <div className="description__stats-wrapper flex flex-space-between">
-        <TourStats
-          info={{
-            rating: currTour.rating.overall,
-            totalReviews: currTour.reviewed,
-            city: currTour.city,
-            country: currTour.country,
-            booked: currTour.booked
-          }}
-        />
-      </div>
     </>
   );
 }
