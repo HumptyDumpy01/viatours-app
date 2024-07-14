@@ -24,6 +24,10 @@
   }
 
   &__navigation {
+    a {
+      text-decoration: none;
+    }
+
     span {
       display: inline-block;
       font-size: 1.4rem;
