@@ -52,6 +52,10 @@
     height: fit-content;
 
     .icon--close-filter {
+      display: none;
+      @media only screen and (max-width: 58.375em) {
+        display: block;
+      }
       position: absolute;
       top: 1.5rem;
       right: 1.5rem;
@@ -267,4 +271,10 @@
 .see-more-clicked {
   margin-top: 1.6rem;
   margin-bottom: .4rem;
+}
+
+.all-tours__content__filter.filter--open {
+  transform: translateX(0);
+  opacity: 1;
+  visibility: visible;
 }

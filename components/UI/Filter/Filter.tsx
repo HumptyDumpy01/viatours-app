@@ -1,4 +1,5 @@
-// 'use client';
+'use client';
+
 import './Filter.scss';
 /*interface FilterInterface {
   // children: ReactNode;
@@ -10,10 +11,18 @@ import Acordeon from '@/components/UI/Acordeon/Acordeon';
 import AccordionWithSeeMoreBtn from '@/components/UI/Acordeon/AccordeonWithSeeMoreBtn';
 
 export default function Filter(/*{  }: FilterInterface*/) {
+
+  function handleOpenFilter() {
+    const filter = document.querySelector('.all-tours__content__filter');
+    filter?.classList.toggle('filter--open');
+  }
+
   return (
     <>
       <form className="all-tours__content__filter">
-        <IconIon type="closeOutline" className="icon icon--close-filter" />
+        <div onClick={handleOpenFilter}>
+          <IconIon type="closeOutline" className="icon icon--close-filter" />
+        </div>
         <div className="all-tours__content__filter-header">
           <span>When you are travelling?</span>
           <InputTiny id={`date`} name={`date`} placeholder={`e.g. February 05`} />
