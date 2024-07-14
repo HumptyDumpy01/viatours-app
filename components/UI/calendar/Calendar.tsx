@@ -13,10 +13,11 @@ interface DateCalendarValueProps {
 }
 
 export default function DateCalendarValue({ className, usage }: DateCalendarValueProps) {
-  const [value, setValue] = React.useState<Dayjs | null>(dayjs('2022-04-17'));
+  const currDate = new Date();
+  const [value, setValue] = React.useState<Dayjs | null>(dayjs(currDate));
   console.log(value!.format('YYYY-MM-DD'));
 
-  // when the date is picked by the user, the calendar will close and the date will be displayed in the input field
+  // when the user picks the date, the calendar will close and the date will be displayed in the input field
   if (value && usage === `home-hero`) {
     const dateInput = document.querySelector('.hero-input-destinations-datepicker');
     dateInput?.setAttribute('value', value.format('YYYY-MM-DD'));

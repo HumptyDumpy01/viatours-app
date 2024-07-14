@@ -6,13 +6,15 @@ type InputTinyInterface = {
   placeholder: string;
   id: string;
   name: string;
+  readonly?: boolean | undefined;
   // children: ReactNode;
 } & ComponentPropsWithoutRef<'input'>;
 
-export default function InputTiny({ placeholder, id, name, ...props }: InputTinyInterface) {
+export default function InputTiny({ placeholder, id, name, readonly, ...props }: InputTinyInterface) {
   return (
     <label htmlFor={id}>
       <input
+        readOnly={readonly}
         id={id}
         {...props}
         name={name}

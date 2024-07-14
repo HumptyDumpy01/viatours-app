@@ -27,6 +27,7 @@ export default function Filter(/*{  }: FilterInterface*/) {
 
   function handleUncheckAllCheckboxes() {
     const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    const input = document.querySelector(`.all-tours__content__filter-datepicker`)! as HTMLInputElement;
     checkboxes.forEach((checkbox) => {
       (checkbox as HTMLInputElement).checked = false;
     });
@@ -44,7 +45,7 @@ export default function Filter(/*{  }: FilterInterface*/) {
         </div>
         <div className="all-tours__content__filter-header">
           <span>When you are travelling?</span>
-          <InputTiny onClick={handleOpenCalendar} id={`date`} name={`date`} placeholder={`e.g. February 05`} />
+          <InputTiny readonly onClick={handleOpenCalendar} id={`date`} name={`date`} placeholder={`e.g. February 05`} />
           <div className="all-tours__content__filter-datepicker__btns flex flex-justify-center">
             <button type={`button`} onClick={handleUncheckAllCheckboxes}
                     className="link all-tours__content__filter-datepicker-reset">Reset

@@ -88,7 +88,7 @@ export default function Hero(/*{  }: HeroInterface*/) {
           }}>
             <span className="hero__second-part-details-span">When</span>
             <label>
-              <input type="text" name="date" placeholder="Choose the date" onFocus={handleOpenCalendar}
+              <input readOnly type="text" name="date" placeholder="Choose the date" onFocus={handleOpenCalendar}
                      className="hero-input hero-input-destinations hero-input-destinations-datepicker" required />
             </label>
           </HeroInput>
