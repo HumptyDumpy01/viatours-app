@@ -1,25 +1,40 @@
-// 'use client';
+import React from 'react';
 import './Pagination.scss';
-/*interface PaginationInterface {
-  // children: ReactNode;
-}*/
 
-export default function Pagination(/*{  }: PaginationInterface*/) {
+interface PaginationInterface {
+  currentPage: number;
+  setCurrentPage: (page: number) => void;
+  totalTours: number;
+  toursPerPage: number;
+}
+
+const Pagination = ({ currentPage, setCurrentPage, totalTours, toursPerPage }: PaginationInterface) => {
+  const pageNumbers = [];
+  for (let i = 1; i <= Math.ceil(totalTours / toursPerPage); i++) {
+    pageNumbers.push(i);
+  }
+
   return (
     <>
       <div className="pagination">
-        <a href="#" className="pagination__link pagination__link--active">1</a>
-        <a href="#" className="pagination__link">2</a>
-        <a href="#" className="pagination__link">3</a>
-        <a href="#" className="pagination__link">4</a>
-        <span>...</span>
-        <a href="#" className="pagination__link">20</a>
+        {pageNumbers.map(number => (
+          <a
+            key={number}
+            href="#"
+            onClick={() => setCurrentPage(number)}
+            className={`pagination__link ${currentPage === number ? 'pagination__link--active' : ''}`}
+          >
+            {number}
+          </a>
+        ))}
       </div>
       <div className="pagination__results-info">
-        <p>Showing results <span className="pagination__results-info-from">1</span>-<span
-          className="pagination__results-info-to">20</span>&nbsp;
-           of <span className="pagination__results-info-total"></span>1,415</p>
+        <p>Showing results <span className="pagination__results-info-from">{(currentPage - 1) * toursPerPage + 1}</span>-<span
+          className="pagination__results-info-to">{Math.min(currentPage * toursPerPage, totalTours)}</span> of <span
+          className="pagination__results-info-total">{totalTours}</span></p>
       </div>
     </>
   );
-}
+};
+
+export default Pagination;

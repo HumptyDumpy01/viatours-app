@@ -6,7 +6,12 @@ import './FiguresHeader.scss';
 }*/
 import IconIon from '@/components/UI/IonIcon/IconIon';
 
-export default function FiguresHeader(/*{  }: FiguresHeaderInterface*/) {
+type FiguresHeaderInterface = {
+  summarizedResults: number;
+  // children: ReactNode;
+};
+
+export default function FiguresHeader({ summarizedResults }: FiguresHeaderInterface) {
 
   function handleOpenFilter() {
     const filter = document.querySelector('.all-tours__content__filter');
@@ -16,7 +21,8 @@ export default function FiguresHeader(/*{  }: FiguresHeaderInterface*/) {
   return (
     <>
       <div className="all-tours__content__figures__header flex flex-align-center flex-space-between">
-        <p><span className="all-tours__content__figures__header-number-of-results">1362</span> results</p>
+        <p><span className="all-tours__content__figures__header-number-of-results">{summarizedResults}</span> results
+        </p>
         <div className="all-tours__content__figures__header-sort">
           <div onClick={handleOpenFilter}>
             <IconIon type="filterOutline" className="icon icon--filter" />
