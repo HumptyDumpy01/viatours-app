@@ -11,7 +11,7 @@ import searchIcon from '../../../assets/images/homepage/hero/search-icon.svg';
 
 import HeroHeading from '@/components/homepage/hero/HeroHeading';
 import WhereToPopup from '@/components/homepage/choose-location-popup/WhereToPopup';
-import BasicDateCalendar from '@/components/homepage/calendar/Calendar';
+import BasicDateCalendar from '@/components/UI/calendar/Calendar';
 import React, { FormEvent } from 'react';
 import HeroInput from '@/components/homepage/hero/HeroInput';
 import Image from 'next/image';
@@ -54,7 +54,7 @@ export default function Hero(/*{  }: HeroInterface*/) {
 
   return (
     <>
-      {calendarIsOpen && (<BasicDateCalendar />)}
+      {calendarIsOpen && (<BasicDateCalendar usage={`home-hero`} className={`MuiDateCalendar-root-hero`} />)}
       <form onSubmit={handleSubmit} className={`hero-form`}>
         <HeroHeading />
         <div className="hero__second-part flex">

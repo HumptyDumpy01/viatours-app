@@ -1,0 +1,75 @@
+.calendar-bg {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  padding: 0;
+  z-index: 998;
+  pointer-events: none;
+  visibility: hidden;
+  opacity: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  transition: all .4s;
+}
+
+#calendar-open {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: all;
+}
+
+.MuiDateCalendar-root-hero {
+  position: absolute;
+  z-index: 999;
+  top: 50%;
+  left: 50%;
+  background-color: #fff;
+  border-radius: 6px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(235, 102, 0, 0.3);
+  @media only screen and (max-width: 57.3125em) {
+    left: 24%;
+    top: 60%;
+  }
+
+  button, span {
+    font-size: 1.3rem;
+  }
+
+  div {
+    font-size: 1.3rem;
+  }
+
+  @media only screen and (max-width: 32.0625em) {
+    left: 10%;
+    top: 60%;
+  }
+}
+
+
+.MuiDateCalendar-root-filter {
+  position: absolute;
+  z-index: 999;
+  top: 20%;
+  left: 20%;
+  background-color: #fff;
+  border-radius: 6px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(235, 102, 0, 0.3);
+  @media only screen and (max-width: 57.3125em) {
+    left: 24%;
+    top: 60%;
+  }
+
+  button, span {
+    font-size: 1.3rem;
+  }
+
+  div {
+    font-size: 1.3rem;
+  }
+
+  @media only screen and (max-width: 32.0625em) {
+    left: 10%;
+    top: 60%;
+  }
+}

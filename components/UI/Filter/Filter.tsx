@@ -9,8 +9,16 @@ import InputTiny from '@/components/UI/Input/InputTiny';
 import CheckBox from '@/components/UI/Checkbox/CheckBox';
 import Acordeon from '@/components/UI/Acordeon/Acordeon';
 import AccordionWithSeeMoreBtn from '@/components/UI/Acordeon/AccordeonWithSeeMoreBtn';
+import DateCalendarValue from '@/components/UI/calendar/Calendar';
+import StoreProvider from '@/components/UI/Provider/StoreProvider';
+import { useCartDispatch, useCartSelector } from '@/store/hooks';
+import { HeroSliceActions } from '@/store/heroSlice';
 
 export default function Filter(/*{  }: FilterInterface*/) {
+
+  const calendarIsOpen = useCartSelector((state) => state.hero.calendarIsOpen);
+
+  const dispatch = useCartDispatch();
 
   function handleOpenFilter() {
     const filter = document.querySelector('.all-tours__content__filter');
@@ -24,6 +32,10 @@ export default function Filter(/*{  }: FilterInterface*/) {
     });
   }
 
+  function handleOpenCalendar() {
+    dispatch(HeroSliceActions.toggleCalendar(true));
+  }
+
   return (
     <>
       <form className="all-tours__content__filter">
@@ -32,7 +44,7 @@ export default function Filter(/*{  }: FilterInterface*/) {
         </div>
         <div className="all-tours__content__filter-header">
           <span>When you are travelling?</span>
-          <InputTiny id={`date`} name={`date`} placeholder={`e.g. February 05`} />
+          <InputTiny onClick={handleOpenCalendar} id={`date`} name={`date`} placeholder={`e.g. February 05`} />
           <div className="all-tours__content__filter-datepicker__btns flex flex-justify-center">
             <button type={`button`} onClick={handleUncheckAllCheckboxes}
                     className="link all-tours__content__filter-datepicker-reset">Reset
@@ -87,7 +99,14 @@ export default function Filter(/*{  }: FilterInterface*/) {
           <CheckBox tag={`specials`} id={`60-off-sale`} label={`60% off`} />
           <CheckBox tag={`specials`} id={`90-off-sale`} label={`90% off`} />
         </Acordeon>
+
+        {calendarIsOpen && (
+          <StoreProvider>
+            <DateCalendarValue usage={`filter`} className={`MuiDateCalendar-root-filter`} />
+          </StoreProvider>
+        )}
       </form>
+
     </>
   );
 }
