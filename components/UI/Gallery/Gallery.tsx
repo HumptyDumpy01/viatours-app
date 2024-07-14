@@ -1,7 +1,7 @@
 'use client';
 
 import './Gallery.scss';
-import { useCartDispatch } from '@/store/hooks';
+import { useCartDispatch, useCartSelector } from '@/store/hooks';
 import { tourSliceActions } from '@/store/tourSlice';
 
 export type GalleryType = {
@@ -22,13 +22,20 @@ export default function Gallery({ info }: GalleryType) {
   const mainImage = info.images[0];
   const restOfImages = info.images.slice(1, 4);
 
+  // when clicking on Esc, close the gallery slider
+  window.addEventListener(`keydown`, (e) => {
+    if (e.key === `Escape`) {
+      dispatch(tourSliceActions.setGallerySliderVisibility(false));
+    }
+  });
+
   return (
     <>
       <div className="description__gallery">
         <div className="description__gallery-images grid">
           <div className="description__gallery-img-1">
             {/*// @ts-ignore*/}
-            <img src={mainImage.src}
+            <img onClick={() => dispatch(tourSliceActions.setGallerySliderVisibility(true))} src={mainImage.src}
                  alt={info.title} />
           </div>
 
@@ -37,7 +44,7 @@ export default function Gallery({ info }: GalleryType) {
               return (
                 <div key={index} className={`description__gallery-img-${index + 2}`}>
                   {/*// @ts-ignore*/}
-                  <img src={image.src}
+                  <img onClick={() => dispatch(tourSliceActions.setGallerySliderVisibility(true))} src={image.src}
                        alt={info.title}
                        className="description__gallery-img-2" />
                 </div>

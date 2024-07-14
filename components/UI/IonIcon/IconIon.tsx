@@ -3,6 +3,8 @@
 import React from 'react';
 import { IonIcon } from '@ionic/react';
 import {
+  arrowBackOutline,
+  arrowForwardOutline,
   callOutline,
   chevronUpOutline,
   closeOutline,
@@ -26,7 +28,9 @@ const iconMap = {
   logoApple,
   chevronUpOutline,
   closeOutline,
-  filterOutline
+  filterOutline,
+  arrowForwardOutline,
+  arrowBackOutline
 };
 
 interface IconIonProps {

@@ -4,6 +4,7 @@ html {
 
 .description__gallery-images-slider {
   // this container should stick to the top of the page
+  scroll-behavior: smooth;
   position: fixed; // changed from absolute to fixed
   width: 100%;
   height: 100%;
@@ -83,6 +84,45 @@ html {
   transform: translateX(0);
 }
 
+.icon-container {
+  @media (hover: none) {
+    display: none;
+  }
+
+  position: fixed;
+  top: 45%;
+  transform: translateY(-50%);
+  visibility: hidden;
+  width: 6rem;
+  height: 6rem;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all .8s;
+  background-color: var(--clr-black);
+  color: var(--clr-white);
+  z-index: 9999;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2.9rem;
+
+  &:hover, &:active {
+    background-color: var(--clr-strawberry-red);
+    //color: var(--clr-primary-light);
+  }
+}
+
+.icon-left {
+  left: 4.2rem;
+  transform: translateX(-200%);
+}
+
+.icon-right {
+  right: 4.2rem;
+  transform: translateX(200%);
+}
+
 .icon--close-gallery {
   visibility: hidden;
   position: fixed;
@@ -95,7 +135,6 @@ html {
   transition: all .8s;
   background-color: var(--clr-primary);
   z-index: 9999;
-  transform: translateX(-200%);
 
   &:hover, &:active {
     background-color: var(--clr-strawberry-red);
@@ -103,7 +142,10 @@ html {
   }
 }
 
-.icon--close-gallery.open {
+.icon--close-gallery.open,
+.icon-left.open,
+.icon-right.open {
   visibility: visible;
   transform: translateX(0);
 }
+
