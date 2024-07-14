@@ -47,13 +47,13 @@ export default function Figures() {
               overview: tour.overview
             }]} />
         ))}
-        <Pagination
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-          totalTours={DUMMY_TOURS.length}
-          toursPerPage={toursPerPage}
-        />
       </div>
+      <Pagination
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        totalItems={DUMMY_TOURS.length}
+        itemsPerPage={toursPerPage}
+      />
     </>
   );
 }

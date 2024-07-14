@@ -4,13 +4,13 @@ import './Pagination.scss';
 interface PaginationInterface {
   currentPage: number;
   setCurrentPage: (page: number) => void;
-  totalTours: number;
-  toursPerPage: number;
+  totalItems: number;
+  itemsPerPage: number;
 }
 
-const Pagination = ({ currentPage, setCurrentPage, totalTours, toursPerPage }: PaginationInterface) => {
+const Pagination = ({ currentPage, setCurrentPage, totalItems, itemsPerPage }: PaginationInterface) => {
   const pageNumbers = [];
-  for (let i = 1; i <= Math.ceil(totalTours / toursPerPage); i++) {
+  for (let i = 1; i <= Math.ceil(totalItems / itemsPerPage); i++) {
     pageNumbers.push(i);
   }
 
@@ -29,9 +29,9 @@ const Pagination = ({ currentPage, setCurrentPage, totalTours, toursPerPage }: P
         ))}
       </div>
       <div className="pagination__results-info">
-        <p>Showing results <span className="pagination__results-info-from">{(currentPage - 1) * toursPerPage + 1}</span>-<span
-          className="pagination__results-info-to">{Math.min(currentPage * toursPerPage, totalTours)}</span> of <span
-          className="pagination__results-info-total">{totalTours}</span></p>
+        <p>Showing results <span className="pagination__results-info-from">{(currentPage - 1) * itemsPerPage + 1}</span>-<span
+          className="pagination__results-info-to">{Math.min(currentPage * itemsPerPage, totalItems)}</span> of <span
+          className="pagination__results-info-total">{totalItems}</span></p>
       </div>
     </>
   );
