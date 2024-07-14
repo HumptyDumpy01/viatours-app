@@ -6,6 +6,7 @@ import { DUMMY_TOURS, TourInterface } from '@/data/DUMMY_TOURS';
 import Figure from './Figure';
 import Pagination from '@/components/UI/Pagnation/Pagination';
 import FiguresHeader from '@/components/tours/figures/FiguresHeader';
+import NoItemsFound from '@/components/UI/Layout/NoItems/NoItemsFound';
 
 export default function Figures() {
   /* IMPORTANT: BEFORE DOING ANYTHING, DEFINE THE ACTUAL TYPE OF YOUR DATA FOR TS
@@ -26,34 +27,45 @@ export default function Figures() {
     setCurrentTours(DUMMY_TOURS.slice(indexOfFirstTour, indexOfLastTour));
   }, [currentPage]);
 
+  // TODO: Implement the clear filters function
+  // it should basically load all the tours again
+  // and reset all the checkboxes
+  function handleClearFilters() {
+  }
+
   return (
     <>
-      <FiguresHeader summarizedResults={DUMMY_TOURS.length} />
-      <div className="all-tours__content__figures__figure-container">
-        {currentTours.map((tour) => (
-          <Figure
-            key={tour.id}
-            href={tour.id}
-            imgSrc={tour.images[0]}
-            imgAlt={tour.title}
-            info={[{
-              country: tour.country,
-              city: tour.city,
-              heading: tour.title,
-              rating: tour.rating.overall,
-              ratingCount: tour.reviewed,
-              duration: tour.duration[0],
-              price: tour.price.children,
-              overview: tour.overview
-            }]} />
-        ))}
-      </div>
-      <Pagination
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-        totalItems={DUMMY_TOURS.length}
-        itemsPerPage={toursPerPage}
-      />
+      {DUMMY_TOURS.length === 0 && <NoItemsFound clearFilters={handleClearFilters} />}
+      {DUMMY_TOURS.length > 0 && (
+        <>
+          <FiguresHeader summarizedResults={DUMMY_TOURS.length} />
+          <div className="all-tours__content__figures__figure-container">
+            {currentTours.map((tour) => (
+              <Figure
+                key={tour.id}
+                href={tour.id}
+                imgSrc={tour.images[0]}
+                imgAlt={tour.title}
+                info={[{
+                  country: tour.country,
+                  city: tour.city,
+                  heading: tour.title,
+                  rating: tour.rating.overall,
+                  ratingCount: tour.reviewed,
+                  duration: tour.duration[0],
+                  price: tour.price.children,
+                  overview: tour.overview
+                }]} />
+            ))}
+          </div>
+          <Pagination
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            totalItems={DUMMY_TOURS.length}
+            itemsPerPage={toursPerPage}
+          />
+        </>
+      )}
     </>
   );
 }

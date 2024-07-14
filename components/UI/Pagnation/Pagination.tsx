@@ -1,5 +1,6 @@
 import React from 'react';
 import './Pagination.scss';
+import Link from 'next/link';
 
 interface PaginationInterface {
   currentPage: number;
@@ -14,18 +15,30 @@ const Pagination = ({ currentPage, setCurrentPage, totalItems, itemsPerPage }: P
     pageNumbers.push(i);
   }
 
+  const handleClick = (number: number, event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    event.preventDefault(); // Prevent the default anchor action
+    setCurrentPage(number);
+
+    // Calculate 10% from the top of the page
+    const scrollToPosition = window.innerHeight / 10;
+    window.scrollTo({
+      top: scrollToPosition,
+      behavior: 'smooth' // Smooth scroll
+    });
+  };
+
   return (
     <>
       <div className="pagination">
         {pageNumbers.map(number => (
-          <a
+          <Link
             key={number}
             href="#"
-            onClick={() => setCurrentPage(number)}
+            onClick={(event) => handleClick(number, event)}
             className={`pagination__link ${currentPage === number ? 'pagination__link--active' : ''}`}
           >
             {number}
-          </a>
+          </Link>
         ))}
       </div>
       <div className="pagination__results-info">
