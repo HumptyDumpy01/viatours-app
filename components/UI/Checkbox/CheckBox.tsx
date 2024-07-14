@@ -34,8 +34,8 @@ export default function CheckBox(props: CheckBoxInterface | CheckBoxRatingInterf
   if (props.tag === `tour-rating`) {
     return (
       <div className="all-tours__content__filter-filter-item">
-        <input type="checkbox" id="2-stars" className="all-tours__content__filter-tour-type__checkbox" />
-        <label className="all-tours__content__filter-tour-type__checkbox__label flex" htmlFor="2-stars">
+        <input type="checkbox" id={`${props.stars}-stars`} className="all-tours__content__filter-tour-type__checkbox" />
+        <label className="all-tours__content__filter-tour-type__checkbox__label flex" htmlFor={`${props.stars}-stars`}>
           {/* based on the star number, output the exact amount of star images*/}
           {Array.from({ length: props.stars }).map((_, index) => (
             <Image key={index} width={15} height={15} src={starFilled} alt="star filled" />
