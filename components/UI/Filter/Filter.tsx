@@ -17,6 +17,13 @@ export default function Filter(/*{  }: FilterInterface*/) {
     filter?.classList.toggle('filter--open');
   }
 
+  function handleUncheckAllCheckboxes() {
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    checkboxes.forEach((checkbox) => {
+      (checkbox as HTMLInputElement).checked = false;
+    });
+  }
+
   return (
     <>
       <form className="all-tours__content__filter">
@@ -27,7 +34,9 @@ export default function Filter(/*{  }: FilterInterface*/) {
           <span>When you are travelling?</span>
           <InputTiny id={`date`} name={`date`} placeholder={`e.g. February 05`} />
           <div className="all-tours__content__filter-datepicker__btns flex flex-justify-center">
-            <button type={`button`} className="link all-tours__content__filter-datepicker-reset">Reset</button>
+            <button type={`button`} onClick={handleUncheckAllCheckboxes}
+                    className="link all-tours__content__filter-datepicker-reset">Reset
+            </button>
             <button className="link all-tours__content__filter-datepicker-apply">Apply</button>
           </div>
         </div>
