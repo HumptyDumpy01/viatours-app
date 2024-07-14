@@ -5,16 +5,21 @@ import { IonIcon } from '@ionic/react';
 import {
   arrowBackOutline,
   arrowForwardOutline,
+  body,
   callOutline,
   chevronUpOutline,
   closeOutline,
   filterOutline,
+  hourglass,
+  language,
   logoAndroid,
   logoApple,
   logoFacebook,
   logoInstagram,
   logoTwitter,
-  logoWhatsapp
+  logoWhatsapp,
+  people,
+  ellipse
 } from 'ionicons/icons';
 
 
@@ -30,7 +35,12 @@ const iconMap = {
   closeOutline,
   filterOutline,
   arrowForwardOutline,
-  arrowBackOutline
+  arrowBackOutline,
+  hourglass,
+  people,
+  body,
+  language,
+  ellipse
 };
 
 interface IconIonProps {

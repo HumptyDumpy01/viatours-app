@@ -159,6 +159,7 @@ li {
 .paragraph {
   font-size: 1.465rem;
   line-height: 2.1rem;
+  color: var(--clr-dark-blue);
 
   &-hero {
     color: var(--clr-white);
@@ -187,6 +188,42 @@ li {
   border-radius: 12px;
   font-family: inherit;
   cursor: pointer;
+
+
+  &--book-now {
+    margin-top: 2.4rem;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .4rem;
+    padding: 1.6rem 2.4rem;
+    background-color: var(--clr-primary);
+    color: var(--clr-white);
+    font-size: 1.465rem;
+    transition: all .4s;
+    border: 1px solid var(--clr-primary);
+
+    &-container {
+      // the button should be 35rem in width
+      width: 35rem;
+      display: none;
+      @media only screen and (max-width: 62.625em) {
+        display: flex;
+      }
+    }
+
+    &:hover, &:active {
+      background-color: var(--clr-white);
+      color: var(--clr-primary);
+      box-shadow: 0 0 20px 1px rgba(235, 102, 43, 0.4);
+
+      .icon--right-arrow {
+        transition: all .4s;
+        transform: translateX(15%);
+      }
+    }
+  }
 
   &--search {
     color: var(--clr-white);
@@ -399,6 +436,16 @@ span {
   &--search {
     margin-right: .6rem;
     margin-bottom: 1.4rem;
+  }
+
+
+  &--dot {
+    font-size: .5rem;
+    color: var(--clr-dark-blue);
+    // the icon should always be at the top of the li element
+    position: absolute;
+    top: .9rem;
+    left: -1.3rem;
   }
 
   &--search--btn {
