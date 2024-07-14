@@ -57,7 +57,7 @@ export default function Filter(/*{  }: FilterInterface*/) {
             '.MuiOutlinedInput-notchedOutline': {
               border: `none`
             }
-          }} type={`mobile`} />
+          }} />
 
           <div className="all-tours__content__filter-datepicker__btns flex flex-justify-center">
             <button type={`button`} onClick={handleUncheckAllCheckboxes}

@@ -98,7 +98,7 @@ export default function Hero(/*{  }: HeroInterface*/) {
               '.MuiOutlinedInput-notchedOutline': {
                 border: `none`
               }
-            }} type={`mobile`} />
+            }} />
           </HeroInput>
 
           <HeroInput icon={{
