@@ -26,7 +26,6 @@ export default function RootLayout({ children }: Readonly<{
     <body className={inter.className}>
     <StoreProvider>
       <GoToTheTopBtn />
-      <CalendarBg />
       <ToastContainer />
       <Header />
       {children}

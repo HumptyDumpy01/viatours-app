@@ -5,7 +5,6 @@ import './Filter.scss';
   // children: ReactNode;
 }*/
 import IconIon from '@/components/UI/IonIcon/IconIon';
-import InputTiny from '@/components/UI/Input/InputTiny';
 import CheckBox from '@/components/UI/Checkbox/CheckBox';
 import Acordeon from '@/components/UI/Acordeon/Acordeon';
 import AccordionWithSeeMoreBtn from '@/components/UI/Acordeon/AccordeonWithSeeMoreBtn';
@@ -13,6 +12,7 @@ import DateCalendarValue from '@/components/UI/calendar/Calendar';
 import StoreProvider from '@/components/UI/Provider/StoreProvider';
 import { useCartDispatch, useCartSelector } from '@/store/hooks';
 import { HeroSliceActions } from '@/store/heroSlice';
+import DatePicker from '@/components/UI/DatePicker/DatePicker';
 
 export default function Filter(/*{  }: FilterInterface*/) {
 
@@ -45,7 +45,20 @@ export default function Filter(/*{  }: FilterInterface*/) {
         </div>
         <div className="all-tours__content__filter-header">
           <span>When you are travelling?</span>
-          <InputTiny readonly onClick={handleOpenCalendar} id={`date`} name={`date`} placeholder={`e.g. February 05`} />
+          {/*<InputTiny readonly onClick={handleOpenCalendar} id={`date`} name={`date`} placeholder={`e.g. February 05`} />*/}
+          <DatePicker sx={{
+            '.MuiInputBase-input': {
+              padding: '1rem 2rem',
+              borderRadius: '5rem',
+              border: `none`,
+              fontWeight: 500,
+              color: `#f36f00`
+            },
+            '.MuiOutlinedInput-notchedOutline': {
+              border: `none`
+            }
+          }} type={`mobile`} />
+
           <div className="all-tours__content__filter-datepicker__btns flex flex-justify-center">
             <button type={`button`} onClick={handleUncheckAllCheckboxes}
                     className="link all-tours__content__filter-datepicker-reset">Reset

@@ -1,9 +1,8 @@
 'use client';
-
+import '@/components/UI/DatePicker/DatePicker.scss';
 /*interface HeroInterface {
   // children: ReactNode;
 }*/
-
 import pinIcon from '../../../assets/images/homepage/hero/pin-outline.svg';
 import timeIcon from '../../../assets/images/homepage/hero/time-outline.svg';
 import typeIcon from '../../../assets/images/homepage/hero/keypad-outline.svg';
@@ -11,17 +10,17 @@ import searchIcon from '../../../assets/images/homepage/hero/search-icon.svg';
 
 import HeroHeading from '@/components/homepage/hero/HeroHeading';
 import WhereToPopup from '@/components/homepage/choose-location-popup/WhereToPopup';
-import BasicDateCalendar from '@/components/UI/calendar/Calendar';
 import React, { FormEvent } from 'react';
 import HeroInput from '@/components/homepage/hero/HeroInput';
 import Image from 'next/image';
 import { useCartDispatch, useCartSelector } from '@/store/hooks';
 import { HeroSliceActions } from '@/store/heroSlice';
+import DatePicker from '@/components/UI/DatePicker/DatePicker';
 
 export default function Hero(/*{  }: HeroInterface*/) {
 
   const locationIsOpen = useCartSelector((state) => state.hero.locationIsOpen);
-  const calendarIsOpen = useCartSelector((state) => state.hero.calendarIsOpen);
+  // const calendarIsOpen = useCartSelector((state) => state.hero.calendarIsOpen);
 
   const dispatch = useCartDispatch();
 
@@ -39,9 +38,9 @@ export default function Hero(/*{  }: HeroInterface*/) {
   }
 
 
-  function handleOpenCalendar() {
-    dispatch(HeroSliceActions.toggleCalendar(true));
-  }
+  // function handleOpenCalendar() {
+  //   dispatch(HeroSliceActions.toggleCalendar(true));
+  // }
 
   function handleOpenChooseLocation(event: React.ChangeEvent<HTMLInputElement> | React.FocusEvent<HTMLInputElement>) {
     dispatch(HeroSliceActions.toggleLocation(true));
@@ -54,7 +53,7 @@ export default function Hero(/*{  }: HeroInterface*/) {
 
   return (
     <>
-      {calendarIsOpen && (<BasicDateCalendar usage={`home-hero`} className={`MuiDateCalendar-root-hero`} />)}
+      {/*{calendarIsOpen && (<BasicDateCalendar usage={`home-hero`} className={`MuiDateCalendar-root-hero`} />)}*/}
       <form onSubmit={handleSubmit} className={`hero-form`}>
         <HeroHeading />
         <div className="hero__second-part flex">
@@ -87,10 +86,19 @@ export default function Hero(/*{  }: HeroInterface*/) {
             className: `icon--clock`
           }}>
             <span className="hero__second-part-details-span">When</span>
-            <label>
-              <input readOnly type="text" name="date" placeholder="Choose the date" onFocus={handleOpenCalendar}
-                     className="hero-input hero-input-destinations hero-input-destinations-datepicker" required />
-            </label>
+            {/*<label>*/}
+            {/*  <input readOnly type="text" name="date" placeholder="Choose the date" onFocus={handleOpenCalendar}*/}
+            {/*         className="hero-input hero-input-destinations hero-input-destinations-datepicker" required />*/}
+            {/*</label>*/}
+            <DatePicker sx={{
+              '.MuiInputBase-input': {
+                border: `none`,
+                color: `#f36f00`
+              },
+              '.MuiOutlinedInput-notchedOutline': {
+                border: `none`
+              }
+            }} type={`mobile`} />
           </HeroInput>
 
           <HeroInput icon={{

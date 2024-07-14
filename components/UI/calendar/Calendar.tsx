@@ -15,7 +15,6 @@ interface DateCalendarValueProps {
 export default function DateCalendarValue({ className, usage }: DateCalendarValueProps) {
   const currDate = new Date();
   const [value, setValue] = React.useState<Dayjs | null>(dayjs(currDate));
-  console.log(value!.format('YYYY-MM-DD'));
 
   // when the user picks the date, the calendar will close and the date will be displayed in the input field
   if (value && usage === `home-hero`) {
