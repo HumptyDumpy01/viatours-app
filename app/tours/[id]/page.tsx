@@ -1,5 +1,7 @@
 // 'use client';
 
+import TourDescriptionSection from '@/components/tourDescription/TourDescription';
+
 interface TourDescriptionInterface {
   params: {
     id: string;
@@ -8,10 +10,9 @@ interface TourDescriptionInterface {
 }
 
 export default function TourDescription({ params }: TourDescriptionInterface) {
-  const id = params.id;
   return (
     <>
-      <h1>This is a tour description of {id}</h1>
+      <TourDescriptionSection params={params} />
     </>
   );
 }

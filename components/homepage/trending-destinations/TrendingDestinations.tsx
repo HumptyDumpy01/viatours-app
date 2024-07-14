@@ -62,7 +62,8 @@ export default function TrendingDestinations() {
             key={item.id}
             country={item.country}
             alt={item.title}
-            href={`/tours/${item.id}`}
+            // href={`/tours/${item.id}`}
+            href={`/tours/?country=${item.country}`}
             text={item.city}
             imgSrc={item.images[0]}
           />

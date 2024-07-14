@@ -8,7 +8,7 @@ type PageNavigationType = {
     href: string;
     label: string;
   }[]
-  subheading: string;
+  subheading?: string;
   // children: ReactNode;
 }
 
@@ -26,7 +26,8 @@ export default function PageNavigation({ links, subheading }: PageNavigationType
           )}
         </div>
         <div className="all-tours__navigation__second">
-          <span className="all-tours__navigation__second--span">{subheading}</span>
+          {subheading && <span className="all-tours__navigation__second--span">{subheading}</span>}
+
         </div>
       </div>
     </>

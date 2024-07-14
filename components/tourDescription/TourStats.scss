@@ -1,0 +1,42 @@
+.description__stats {
+  gap: 4rem;
+
+  &-rating {
+    cursor: pointer;
+    gap: .4rem;
+    align-items: center;
+
+    &--rate {
+      gap: .4rem;
+    }
+
+    img {
+      width: 1.4rem;
+      height: 1.4rem;
+    }
+  }
+
+  &-share {
+    gap: 3rem;
+
+    &-icons {
+      gap: .6rem;
+      align-items: center;
+    }
+
+    &-icon {
+      width: 2rem;
+      height: 2rem;
+      color: var(--clr-primary);
+      transition: all .4s;
+      cursor: pointer;
+
+      &:hover, &:active {
+        color: var(--clr-dark-blue);
+        transform: translateY(-5%);
+      }
+    }
+  }
+
+
+}

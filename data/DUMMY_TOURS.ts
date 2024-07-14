@@ -57,7 +57,7 @@ export interface TourInterface {
 export const DUMMY_TOURS: TourInterface[] = [
   {
     id: `e1`,
-    title: `Eiffel Tower Tour`,
+    title: `Explore the Eiffel Tower to the Fullest!`,
     overview: `The Eiffel Tower is a wrought-iron lattice tower on the Champ de Mars in Paris, France. It is named after the engineer Gustave Eiffel, whose company designed and built the tower.`,
     country: 'France',
     city: 'Paris',
@@ -119,27 +119,27 @@ export const DUMMY_TOURS: TourInterface[] = [
       tourCard1
     ],
     //////////////////////////////////////
-      duration: [
-        // INFO: ONE OF THESE
-        '3 days'
-      ],
-      //////////////////////////////////////
-      group_size: 10,
-      //////////////////////////////////////
-      ages: [
-        // INFO: ONE OF THESE
-        '6-99'
-        // '14-99',
-        // '18-99'
-      ],
-      //////////////////////////////////////
-      languages: [
-        // INFO: ONE OF THESE
-        // 'Ukrainian',
-        'English',
-        'French'
-        // 'Spanish'
-      ],
+    duration: [
+      // INFO: ONE OF THESE
+      '3 days'
+    ],
+    //////////////////////////////////////
+    group_size: 10,
+    //////////////////////////////////////
+    ages: [
+      // INFO: ONE OF THESE
+      '6-99'
+      // '14-99',
+      // '18-99'
+    ],
+    //////////////////////////////////////
+    languages: [
+      // INFO: ONE OF THESE
+      // 'Ukrainian',
+      'English',
+      'French'
+      // 'Spanish'
+    ],
     //////////////////////////////////////
     tour_highlights: [
       'Experience the thrill of a speedboat to the stunning Phi Phi Islands',

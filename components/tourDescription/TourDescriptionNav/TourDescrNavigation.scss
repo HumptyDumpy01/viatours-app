@@ -1,0 +1,49 @@
+.page-navigation.container {
+  padding-top: 1.7rem;
+  align-items: center;
+}
+
+.page-navigation {
+  @media only screen and (max-width: 28.75em) {
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+  }
+
+  &__heading {
+    color: var(--clr-dark-blue);
+  }
+
+  .page-navigation__link.link {
+    text-decoration: none;
+    @media only screen and (max-width: 32.1875em) {
+      font-size: 1.8rem;
+    }
+  }
+
+  .page-navigation__link--active {
+    color: var(--clr-primary);
+    margin-left: .4rem;
+  }
+
+  &__link {
+    color: var(--clr-dark-blue);
+    transition: all .4s;
+    cursor: pointer;
+    display: block;
+
+    &--active {
+      font-weight: 500;
+    }
+
+    @media only screen and (max-width: 32.1875em) {
+      font-size: 1.8rem;
+    }
+
+    &:hover, &:active {
+      color: var(--clr-primary);
+      font-weight: 500;
+      transform: translateX(1%);
+    }
+  }
+}
