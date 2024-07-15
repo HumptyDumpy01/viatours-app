@@ -8,10 +8,11 @@ import IconIon from '@/components/UI/IonIcon/IconIon';
 import { GalleryType } from '@/components/UI/Gallery/Gallery';
 import { useCartDispatch, useCartSelector } from '@/store/hooks';
 import { tourSliceActions } from '@/store/tourSlice';
-import React from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 
 export default function GallerySlider({ info }: GalleryType) {
   const galleryVisibility = useCartSelector((state) => state.tour.gallerySliderVisibility);
+  const [buttons, setButtons] = useState<ReactNode>();
 
   const dispatch = useCartDispatch();
 
@@ -21,34 +22,45 @@ export default function GallerySlider({ info }: GalleryType) {
 
   const mainImage = info.images[0];
   const restOfImages = info.images.slice(1);
-  const slider = document.querySelector(`.description__gallery-images-slider`);
 
-  function handleScrollToRight() {
-    if (slider) {
-      // smooth scrolling should be added
-      slider.scrollLeft += 800;
-    }
-  }
+  useEffect(() => {
+    const slider = document.querySelector(`.description__gallery-images-slider`);
 
-  function handleScrollToLeft() {
-    if (slider) {
-      slider.scrollLeft -= 800;
+    function handleScrollToRight() {
+      if (slider) {
+        // smooth scrolling should be added
+        slider.scrollLeft += 800;
+      }
     }
-  }
+
+    function handleScrollToLeft() {
+      if (slider) {
+        slider.scrollLeft -= 800;
+      }
+    }
+
+    setButtons(
+      <>
+        <div onClick={handleScrollToLeft} className={`icon-container icon-left ${galleryVisibility ? `open` : ``}`}>
+          <IconIon type={`arrowBackOutline`}
+                   className={`icon`} />
+        </div>
+        <div onClick={handleScrollToRight} className={`icon-container icon-right ${galleryVisibility ? `open` : ``}`}>
+          <IconIon type={`arrowForwardOutline`}
+                   className={`icon`} />
+        </div>
+      </>
+    );
+
+  }, [galleryVisibility]);
+
 
   return (
     <>
       <div onClick={() => dispatch(tourSliceActions.setGallerySliderVisibility(false))}>
         <IconIon type={`closeOutline`} className={`icon icon--close-gallery ${galleryVisibility ? `open` : ``}`} />
       </div>
-      <div onClick={handleScrollToLeft} className={`icon-container icon-left ${galleryVisibility ? `open` : ``}`}>
-        <IconIon type={`arrowBackOutline`}
-                 className={`icon`} />
-      </div>
-      <div onClick={handleScrollToRight} className={`icon-container icon-right ${galleryVisibility ? `open` : ``}`}>
-        <IconIon type={`arrowForwardOutline`}
-                 className={`icon`} />
-      </div>
+      {buttons}
       <div className={`description__gallery-images-slider ${galleryVisibility ? `open` : ``}`}>
         <div className={`description__gallery-images-slider-wrapper  ${galleryVisibility ? `open` : ``}`}>
           <div className="description__gallery-images-slider-img-container">
