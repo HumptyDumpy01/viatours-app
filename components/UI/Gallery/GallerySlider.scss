@@ -125,6 +125,7 @@ html {
 
 .icon--close-gallery {
   visibility: hidden;
+  opacity: 0;
   position: fixed;
   top: 6.3rem;
   left: 4.2rem;
@@ -147,6 +148,7 @@ html {
 .icon-left.open,
 .icon-right.open {
   visibility: visible;
+  opacity: 1;
   transform: translateX(0);
 }
 

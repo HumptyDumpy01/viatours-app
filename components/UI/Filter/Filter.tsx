@@ -48,6 +48,7 @@ export default function Filter(/*{  }: FilterInterface*/) {
           {/*<InputTiny readonly onClick={handleOpenCalendar} id={`date`} name={`date`} placeholder={`e.g. February 05`} />*/}
           <DatePicker sx={{
             '.MuiInputBase-input': {
+              backgroundColor: `#fff`,
               padding: '1rem 2rem',
               borderRadius: '5rem',
               border: `none`,

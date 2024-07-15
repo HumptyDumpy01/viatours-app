@@ -1,3 +1,5 @@
+'use client';
+
 import * as React from 'react';
 import { ComponentPropsWithoutRef } from 'react';
 import dayjs, { Dayjs } from 'dayjs';

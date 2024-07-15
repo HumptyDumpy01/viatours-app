@@ -1,32 +1,51 @@
 // 'use client';
 
 import IconIon from '@/components/UI/IonIcon/IconIon';
+import { useState } from 'react';
 
 type ItineraryItemType = {
   type: `flag` | `default`;
+  itinerary: {
+    title: string;
+    description: string;
+  };
   // children: ReactNode;
 }
 
-export default function ItineraryItem({ type }: ItineraryItemType) {
+export default function ItineraryItem({ type, itinerary }: ItineraryItemType) {
+
+  if (!type) {
+    throw new Error(`Type is required for Itinerary Item!`);
+  }
+
+  const [descriptionVisibility, setDescriptionVisibility] = useState<boolean>(false);
+
+  function toggleDescription() {
+    setDescriptionVisibility((prev) => !prev);
+  }
 
   if (type === `flag`) {
     return (
-      <div className="description__tour-overview-itinerary-list__item list__item--1">
+      <div className="description__tour-overview-itinerary-list__item">
         <div className="h3-wrapper">
           <div className="description__tour-overview-itinerary-list__item-shape--1">
             <IconIon type={`flagOutline`} className="icon icon--flag" />
           </div>
-          <h3 className="description__tour-overview-itinerary__h3">Day 1: Airport Pickup</h3>
-          <p className="paragraph">Our team will be waiting for you at the airport to take you to your hotel. You can
-            rest
-            after your flight and start exploring the city at your own pace.</p>
+          <h3 onClick={toggleDescription} className="description__tour-overview-itinerary__h3">{itinerary.title}</h3>
+          <p className="paragraph">{itinerary.description}</p>
         </div>
       </div>
     );
   }
-
-  return (
-    <>
-    </>
-  );
+  if (type === `default`) {
+    return (
+      <div className="description__tour-overview-itinerary-list__item">
+        <div className="h3-wrapper">
+          <div className="description__tour-overview-itinerary-list__item-shape--2"></div>
+          <h3 onClick={toggleDescription} className="description__tour-overview-itinerary__h3">{itinerary.title}</h3>
+          <p className={`paragraph ${!descriptionVisibility ? `hidden-p` : ``} `}>{itinerary.description}</p>
+        </div>
+      </div>
+    );
+  }
 }

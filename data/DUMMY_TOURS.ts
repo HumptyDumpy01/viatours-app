@@ -57,7 +57,10 @@ export interface TourInterface {
     green: string[];
     orange: string[];
   };
-  itinerary: {}[];
+  itinerary: {
+    title: string;
+    description: string;
+  }[];
   tour_map: { lat: number; long: number }[];
   comments: { id: string }[];
 }
@@ -117,7 +120,7 @@ export const DUMMY_TOURS: TourInterface[] = [
       'price:100-300',
       // 'price:300-700',
       // 'price:700-1299'
-      'duration:1-3'
+      'duration:7-14'
     ],
     //////////////////////////////////////
     booked: 1009,
@@ -134,7 +137,7 @@ export const DUMMY_TOURS: TourInterface[] = [
     //////////////////////////////////////
     duration: [
       // INFO: ONE OF THESE
-      '3 days'
+      '7 days'
     ],
     //////////////////////////////////////
     group_size: 10,

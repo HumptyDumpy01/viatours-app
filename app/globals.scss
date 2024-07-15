@@ -440,6 +440,13 @@ span {
     margin-bottom: 1.4rem;
   }
 
+  &--flag {
+    margin-left: .8rem;
+    margin-top: .7rem;
+    font-size: 1.2rem;
+    color: var(--clr-white);
+  }
+
   &--checkmark {
     width: 1.3rem;
     height: 1.3rem;

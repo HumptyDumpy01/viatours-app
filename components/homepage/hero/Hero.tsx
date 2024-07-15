@@ -92,6 +92,8 @@ export default function Hero(/*{  }: HeroInterface*/) {
             {/*</label>*/}
             <DatePicker sx={{
               '.MuiInputBase-input': {
+                fontSize: `1.5rem`,
+                padding: `0`,
                 border: `none`,
                 color: `#f36f00`
               },
