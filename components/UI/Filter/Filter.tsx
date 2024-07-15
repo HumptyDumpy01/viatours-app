@@ -6,8 +6,8 @@ import './Filter.scss';
 }*/
 import IconIon from '@/components/UI/IonIcon/IconIon';
 import CheckBox from '@/components/UI/Checkbox/CheckBox';
-import Acordeon from '@/components/UI/Acordeon/Acordeon';
-import AccordionWithSeeMoreBtn from '@/components/UI/Acordeon/AccordeonWithSeeMoreBtn';
+import Accordion from '@/components/UI/Accordion/Accordion';
+import AccordionWithSeeMoreBtn from '@/components/UI/Accordion/AccordionWithSeeMoreBtn';
 import DateCalendarValue from '@/components/UI/calendar/Calendar';
 import StoreProvider from '@/components/UI/Provider/StoreProvider';
 import { useCartDispatch, useCartSelector } from '@/store/hooks';
@@ -83,37 +83,37 @@ export default function Filter(/*{  }: FilterInterface*/) {
             <CheckBox tag={`tour-type`} id={`relaxing`} label={`Relaxing`} />
           </>
         } />
-        <Acordeon label={`Filter Price`}>
+        <Accordion label={`Filter Price`}>
           <CheckBox tag={`filter-price`} id={`100-300`} label={`100$-300$`} />
           <CheckBox tag={`filter-price`} id={`300-700`} label={`300$-700$`} />
           <CheckBox tag={`filter-price`} id={`700-1299`} label={`700$-1299$`} />
-        </Acordeon>
+        </Accordion>
 
-        <Acordeon label={`Duration`}>
+        <Accordion label={`Duration`}>
           <CheckBox tag={`tour-duration`} id={`1-3`} label={`1-3 days`} />
           <CheckBox tag={`tour-duration`} id={`3-7`} label={`3-7 days`} />
           <CheckBox tag={`tour-duration`} id={`7-14`} label={`7 to 14 days`} />
-        </Acordeon>
+        </Accordion>
 
-        <Acordeon label={`Language`}>
+        <Accordion label={`Language`}>
           <CheckBox tag={`tour-language`} id={`english`} label={`English`} />
           <CheckBox tag={`tour-language`} id={`french`} label={`French`} />
           <CheckBox tag={`tour-language`} id={`spanish`} label={`Spanish`} />
           <CheckBox tag={`tour-language`} id={`ukrainian`} label={`Ukrainian`} />
-        </Acordeon>
-        <Acordeon label={`Rating`}>
+        </Accordion>
+        <Accordion label={`Rating`}>
           <CheckBox tag={`tour-rating`} id={`1-star`} label={`1 star`} stars={1} rated={0} />
           <CheckBox tag={`tour-rating`} id={`2-stars`} label={`2 stars`} stars={2} rated={12} />
           <CheckBox tag={`tour-rating`} id={`3-stars`} label={`3 stars`} stars={3} rated={36} />
           <CheckBox tag={`tour-rating`} id={`4-stars`} label={`4 stars`} stars={4} rated={1599} />
           <CheckBox tag={`tour-rating`} id={`5-stars`} label={`5 stars`} stars={5} rated={4911} />
-        </Acordeon>
-        <Acordeon label={`Specials`}>
+        </Accordion>
+        <Accordion label={`Specials`}>
           <CheckBox tag={`specials`} id={`5-off`} label={`5% off`} />
           <CheckBox tag={`specials`} id={`20-off-sale`} label={`20% off`} />
           <CheckBox tag={`specials`} id={`60-off-sale`} label={`60% off`} />
           <CheckBox tag={`specials`} id={`90-off-sale`} label={`90% off`} />
-        </Acordeon>
+        </Accordion>
 
         {calendarIsOpen && (
           <StoreProvider>

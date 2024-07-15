@@ -1,0 +1,26 @@
+.faq {
+  margin-top: 5.5rem;
+  padding-top: 5.5rem;
+  border-top: 1px solid var(--clr-silver);
+  color: var(--clr-dark-blue);
+  margin-bottom: 5.5rem;
+  padding-bottom: 2.8rem;
+  border-bottom: 1px solid var(--clr-silver);
+
+  &__heading {
+    cursor: pointer;
+  }
+
+  &__container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__question {
+    border: 1px solid var(--clr-silver);
+    padding: 2rem;
+    margin-bottom: 2.5rem;
+    border-radius: 12px;
+  }
+}

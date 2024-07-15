@@ -14,6 +14,7 @@ import TourHighlights from '@/components/tourDescription/TourOverview/TourHighli
 import TourIncluded from '@/components/tourDescription/TourOverview/TourIncluded';
 import TourItinerary from '@/components/tourDescription/TourOverview/Itinerary/TourItinerary';
 import GoogleMap from '@/components/UI/Map/Map';
+import QuestionAnswer from '@/components/tourDescription/FAQ/QuestionAnswer';
 
 type TourDescriptionType = {
   params: {
@@ -70,6 +71,7 @@ export default function TourDescriptionSection({ params }: TourDescriptionType) 
           <TourIncluded what_included={currTour.what_included} />
           <TourItinerary itinerary={currTour.itinerary} />
           <GoogleMap locations={currTour.tour_map} />
+          <QuestionAnswer />
         </DescriptionOverview>
       </section>
 

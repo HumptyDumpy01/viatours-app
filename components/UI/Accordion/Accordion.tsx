@@ -3,12 +3,12 @@
 import '../Filter/Filter.scss';
 import { ReactNode, useState } from 'react';
 
-interface AcordeonInterface {
+interface AccordionInterface {
   children: ReactNode;
   label: string;
 }
 
-export default function Acordeon({ children, label }: AcordeonInterface) {
+export default function Accordion({ children, label }: AccordionInterface) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   function handleToggleOpen() {
