@@ -79,12 +79,12 @@ export const DUMMY_TOURS: TourInterface[] = [
       // depending on the total number of reviews, assuming 5 is 100% we need to calculate the total rating
       // in this math way: total rating = (5 * 100) / reviewed
       overall: 4.33,
-      location: 5,
-      amenities: 5,
-      food: 5,
-      price: 5,
-      rooms: 5,
-      tour_operator: 5
+      location: 3.77,
+      amenities: 4,
+      food: 4.7,
+      price: 3.8,
+      rooms: 4.5,
+      tour_operator: 4.2
     },
     //////////////////////////////////////
     type: [

@@ -337,6 +337,10 @@ img {
   gap: 1.2rem;
 }
 
+.gap-md {
+  gap: 2.6rem;
+}
+
 .on-alpha {
   color: var(--clr-silver-dark) !important;
 }
@@ -442,6 +446,14 @@ span {
   &--search {
     margin-right: .6rem;
     margin-bottom: 1.4rem;
+  }
+
+  &--overall-rate {
+    font-size: 2.4rem;
+    padding: .6rem;
+    border-radius: 50%;
+    color: var(--clr-black);
+    background-color: var(--clr-white);
   }
 
   &--flag {

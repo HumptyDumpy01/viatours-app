@@ -6,11 +6,18 @@ import {
   arrowBackOutline,
   arrowForwardOutline,
   body,
+  businessOutline,
   callOutline,
+  callSharp,
+  checkmark,
   chevronUpOutline,
   closeOutline,
+  ellipse,
   filterOutline,
+  flagOutline,
+  happyOutline,
   hourglass,
+  iceCreamOutline,
   language,
   logoAndroid,
   logoApple,
@@ -18,10 +25,10 @@ import {
   logoInstagram,
   logoTwitter,
   logoWhatsapp,
+  mapOutline,
   people,
-  ellipse,
-  checkmark,
-  flagOutline
+  restaurantOutline,
+  walletOutline
 } from 'ionicons/icons';
 
 
@@ -44,7 +51,14 @@ const iconMap = {
   language,
   ellipse,
   checkmark,
-  flagOutline
+  flagOutline,
+  happyOutline,
+  mapOutline,
+  iceCreamOutline,
+  restaurantOutline,
+  walletOutline,
+  businessOutline,
+  callSharp
 };
 
 interface IconIonProps {
