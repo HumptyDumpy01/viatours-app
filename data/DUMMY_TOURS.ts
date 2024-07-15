@@ -47,7 +47,7 @@ export interface TourInterface {
   };
   tag: string[];
   booked: number;
-  images: StaticImageData[];
+  images: StaticImageData[] | string;
   duration: string[];
   group_size: number;
   ages: string[];

@@ -1,12 +1,12 @@
 // 'use client';
 
-import Image from 'next/image';
+import Image, { StaticImageData } from 'next/image';
 import Link from 'next/link';
 import './TrendingDestinations.scss';
 
 interface TrendingDestinationInterface {
   href: string;
-  imgSrc: string;
+  imgSrc: StaticImageData | string;
   alt: string;
   country: string;
   text: string;

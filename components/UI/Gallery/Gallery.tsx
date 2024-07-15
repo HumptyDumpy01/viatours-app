@@ -1,12 +1,13 @@
 'use client';
 
 import './Gallery.scss';
-import { useCartDispatch, useCartSelector } from '@/store/hooks';
+import { useCartDispatch } from '@/store/hooks';
 import { tourSliceActions } from '@/store/tourSlice';
+import { StaticImageData } from 'next/image';
 
 export type GalleryType = {
   info: {
-    images: {}[];
+    images: StaticImageData[] | string;
     title: string;
   };
   // children: ReactNode;
@@ -21,13 +22,13 @@ export default function Gallery({ info }: GalleryType) {
 
   const mainImage = info.images[0];
   const restOfImages = info.images.slice(1, 4);
-
-  // when clicking on Esc, close the gallery slider
-  window.addEventListener(`keydown`, (e) => {
-    if (e.key === `Escape`) {
-      dispatch(tourSliceActions.setGallerySliderVisibility(false));
-    }
-  });
+  /*
+    // when clicking on Esc, close the gallery slider
+    window.addEventListener(`keydown`, (e) => {
+      if (e.key === `Escape`) {
+        dispatch(tourSliceActions.setGallerySliderVisibility(false));
+      }
+    });*/
 
   return (
     <>
@@ -40,6 +41,7 @@ export default function Gallery({ info }: GalleryType) {
           </div>
 
           <div className="description__gallery-images-container-1 grid grid-two-cols">
+            {/*// @ts-ignore*/}
             {restOfImages.map((image, index) => {
               return (
                 <div key={index} className={`description__gallery-img-${index + 2}`}>

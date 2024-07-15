@@ -54,7 +54,7 @@ export default function Figure({ href, imgSrc, imgAlt, info }: TourCardInterface
                 className="all-tours__content__figures__figure-description-rate-numbers"><span>{info[0].rating.toFixed(1)}</span> ({info[0].ratingCount})</span>
             </div>
             <p
-              className="all-tours__content__figures__figure-description-text">{info[0].overview.slice(0, 80) + '...'}</p>
+              className="all-tours__content__figures__figure-description-text">{info[0].overview!.slice(0, 80) + '...'}</p>
             <div
               className="all-tours__content__figures__figure-description-features flex flex-align-center flex-space-between">
                   <span

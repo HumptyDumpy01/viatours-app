@@ -5,11 +5,11 @@ import starFilled from '../../../assets/images/homepage/findPopularTours/one-sta
 import starEmpty from '../../../assets/images/homepage/findPopularTours/empty-star.svg';
 import Link from 'next/link';
 import '@/components/homepage/trending-destinations/TrendingDestinations.scss';
-import Image from 'next/image';
+import Image, { StaticImageData } from 'next/image';
 
 export interface TourCardInterface {
   href: string;
-  imgSrc: string;
+  imgSrc: StaticImageData | string;
   imgAlt: string;
   info: {
     country: string;
@@ -19,7 +19,7 @@ export interface TourCardInterface {
     ratingCount: number;
     duration: string;
     price: number;
-    overview: string;
+    overview?: string;
   }[];
   // children: ReactNode;
 }

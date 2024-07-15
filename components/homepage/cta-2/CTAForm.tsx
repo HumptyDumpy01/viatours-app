@@ -13,8 +13,8 @@ export default function CTAForm({ action }) {
     <div className="cta-secondary-wrapper-first-col">
       <h2 className="secondary-heading cta-secondary__heading">Get 5% off your 1st <br />
         app booking</h2>
-      <p className="cta-secondary__paragraph">Booking's better on the app. Use promo code <br />
-        "TourBooking" to save!</p>
+      <p className="cta-secondary__paragraph">Booking&apos;s better on the app. Use promo code <br />
+        &quot;TourBooking&quot; to save!</p>
       <h4 className="cta-secondary__input-heading">Get a magic link sent to your email</h4>
       <div className="cta-secondary__input-container flex">
         <form action="#" className="cta-secondary__form flex">

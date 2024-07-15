@@ -58,6 +58,7 @@ export default function GallerySlider({ info }: GalleryType) {
                  className="description__gallery-images-slider-img" />
             <span className="description__gallery-images-slider-span">*Scroll to the right to see more</span>
           </div>
+          {/*// @ts-ignore*/}
           {restOfImages.map((image, index) => {
             return (
               <div key={index} className="description__gallery-images-slider-img-container">
