@@ -135,6 +135,7 @@ html {
   transition: all .8s;
   background-color: var(--clr-primary);
   z-index: 9999;
+  transform: translateY(-200%);
 
   &:hover, &:active {
     background-color: var(--clr-strawberry-red);
