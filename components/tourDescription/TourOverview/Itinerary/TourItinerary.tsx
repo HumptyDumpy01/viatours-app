@@ -19,19 +19,19 @@ export default function TourItinerary({ itinerary }: TourItineraryType) {
       <div className="description__tour-overview-itinerary-list">
         {itinerary.map((item, index) => {
           if (itinerary.length - 1 === index || index === 0) {
-            return <>
-              <ItineraryItem type={`flag`} itinerary={{
+            return (
+              <ItineraryItem key={item.description} type={`flag`} itinerary={{
                 title: item.title, description: item.description
               }
               } />
-            </>;
+            );
           } else {
-            return <>
-              <ItineraryItem type={`default`} itinerary={{
+            return (
+              <ItineraryItem key={item.description} type={`default`} itinerary={{
                 title: item.title, description: item.description
               }
               } />
-            </>;
+            );
           }
         })}
       </div>

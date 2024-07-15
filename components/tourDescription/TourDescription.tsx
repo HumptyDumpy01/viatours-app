@@ -13,6 +13,7 @@ import TourOverviewHeading from '@/components/tourDescription/TourOverview/TourO
 import TourHighlights from '@/components/tourDescription/TourOverview/TourHighlights';
 import TourIncluded from '@/components/tourDescription/TourOverview/TourIncluded';
 import TourItinerary from '@/components/tourDescription/TourOverview/Itinerary/TourItinerary';
+import GoogleMap from '@/components/UI/Map/Map';
 
 type TourDescriptionType = {
   params: {
@@ -68,6 +69,7 @@ export default function TourDescriptionSection({ params }: TourDescriptionType) 
           <TourHighlights tour_highlights={currTour.tour_highlights} />
           <TourIncluded what_included={currTour.what_included} />
           <TourItinerary itinerary={currTour.itinerary} />
+          <GoogleMap />
         </DescriptionOverview>
       </section>
 

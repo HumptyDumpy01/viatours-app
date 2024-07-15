@@ -1,0 +1,23 @@
+.description__tour-overview-map {
+  border-bottom: 1px solid var(--clr-silver);
+  padding-bottom: 6rem;
+  margin-bottom: 3rem;
+
+  .map-image {
+    max-width: 100%;
+    height: auto;
+  }
+
+  &-container {
+  }
+
+  &-img {
+    width: 100%;
+    border-radius: 2px;
+    margin: 0 auto;
+  }
+}
+
+#map {
+  height: 50rem;
+}
