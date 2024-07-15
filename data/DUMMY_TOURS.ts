@@ -62,7 +62,7 @@ export interface TourInterface {
     description: string;
   }[];
   tour_map: { key: string, location: google.maps.LatLngLiteral }[];
-  comments: { id: string }[];
+  // comments: { id: string }[];
 }
 
 export const DUMMY_TOURS: TourInterface[] = [
@@ -244,14 +244,14 @@ export const DUMMY_TOURS: TourInterface[] = [
         location: { lat: 48.8566, lng: 2.3522 },
         key: 'eiffelTower'
       }
-    ],
-    //////////////////////////////////////
-    comments: [
-      // INFO: INJECT COMMENT SCHEMA
-      {
-        id: `c1`
-      }
     ]
+    //////////////////////////////////////
+    // comments: [
+    //   // INFO: INJECT COMMENT SCHEMA
+    //   {
+    //     id: `c1`
+    //   }
+    // ]
   },
   {
     id: `e2`,
@@ -354,12 +354,12 @@ export const DUMMY_TOURS: TourInterface[] = [
         location: { lat: 48.8738, lng: 2.2950 },
         key: 'arcDeTriomphe'
       }
-    ],
-    comments: [
-      {
-        id: `c2`
-      }
     ]
+    // comments: [
+    //   {
+    //     id: `c2`
+    //   }
+    // ]
   },
   {
     id: `e3`,
@@ -454,12 +454,12 @@ export const DUMMY_TOURS: TourInterface[] = [
         location: { lat: 48.8606, lng: 2.3376 },
         key: 'seineRiver'
       }
-    ],
-    comments: [
-      {
-        id: `c3`
-      }
     ]
+    // comments: [
+    //   {
+    //     id: `c3`
+    //   }
+    // ]
   },
   {
     id: `e4`,
@@ -554,12 +554,12 @@ export const DUMMY_TOURS: TourInterface[] = [
         location: { lat: 50.4547, lng: 30.5238 },
         key: 'dnieperRiver'
       }
-    ],
-    comments: [
-      {
-        id: `c4`
-      }
     ]
+    // comments: [
+    //   {
+    //     id: `c4`
+    //   }
+    // ]
   },
   {
     id: `e5`,
@@ -652,12 +652,12 @@ export const DUMMY_TOURS: TourInterface[] = [
         location: { lat: 48.8869, lng: 2.3372 },
         key: 'sacreCoeur'
       }
-    ],
-    comments: [
-      {
-        id: `c5`
-      }
     ]
+    // comments: [
+    //   {
+    //     id: `c5`
+    //   }
+    // ]
   },
   {
     id: `e6`,
@@ -756,12 +756,12 @@ export const DUMMY_TOURS: TourInterface[] = [
         location: { lat: 38.6434, lng: 34.8303 },  // Landing site
         key: 'landingSite'
       }
-    ],
-    comments: [
-      {
-        id: `c6`
-      }
     ]
+    // comments: [
+    //   {
+    //     id: `c6`
+    //   }
+    // ]
   },
   {
     id: `e7`,
@@ -863,12 +863,12 @@ export const DUMMY_TOURS: TourInterface[] = [
         location: { lat: 38.7191, lng: 34.8486 }, // Avanos
         key: 'avanos'
       }
-    ],
-    comments: [
-      {
-        id: `c7`
-      }
     ]
+    // comments: [
+    //   {
+    //     id: `c7`
+    //   }
+    // ]
   },
   {
     id: `e8`,
@@ -972,12 +972,12 @@ export const DUMMY_TOURS: TourInterface[] = [
         location: { lat: 48.8584, lng: 2.2945 },  // Eiffel Tower
         key: 'eiffelTower'
       }
-    ],
-    comments: [
-      {
-        id: `c8`
-      }
     ]
+    // comments: [
+    //   {
+    //     id: `c8`
+    //   }
+    // ]
   },
   {
     id: `e9`,
@@ -1070,12 +1070,12 @@ export const DUMMY_TOURS: TourInterface[] = [
         location: { lat: 51.5044, lng: -0.0769 }, // Tower Bridge
         key: 'towerBridge'
       }
-    ],
-    comments: [
-      {
-        id: `c9`
-      }
     ]
+    // comments: [
+    //   {
+    //     id: `c9`
+    //   }
+    // ]
   }
 
 ];
