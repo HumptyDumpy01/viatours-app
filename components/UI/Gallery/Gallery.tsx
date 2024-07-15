@@ -8,7 +8,7 @@ import watermarkImage from '@/assets/images/viatours-watermark-logo.svg';
 
 export type GalleryType = {
   info: {
-    images: StaticImageData[] | string;
+    images: StaticImageData[] | string[];
     title: string;
   };
   // children: ReactNode;

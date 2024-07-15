@@ -448,6 +448,12 @@ span {
     margin-bottom: 1.4rem;
   }
 
+  &--thumbs-up, &--thumbs-down {
+    @media only screen and (max-width: 37.5em) {
+      font-size: 2.2rem;
+    }
+  }
+
   &--overall-rate {
     font-size: 2.4rem;
     padding: .6rem;

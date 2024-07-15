@@ -43,7 +43,7 @@ export default function TourCard({ href, imgSrc, imgAlt, info }: TourCardInterfa
 
           <h3 className="find-popular-tours__figure__heading">{info[0].heading}</h3>
           <div className="find-popular-tours__figure__rating flex">
-            {/*make a loop for the rating. We should ouput five stars, empty or filled
+            {/*make a loop for the rating. We should output five stars, empty or filled
             depending on the rating*/}
             {Array.from({ length: 5 }, (_, i) => {
               if (i < Number(info[0].rating.toFixed(0))) {

@@ -28,6 +28,8 @@ import {
   mapOutline,
   people,
   restaurantOutline,
+  thumbsDownOutline,
+  thumbsUpOutline,
   walletOutline
 } from 'ionicons/icons';
 
@@ -58,7 +60,9 @@ const iconMap = {
   restaurantOutline,
   walletOutline,
   businessOutline,
-  callSharp
+  callSharp,
+  thumbsUpOutline,
+  thumbsDownOutline
 };
 
 interface IconIonProps {

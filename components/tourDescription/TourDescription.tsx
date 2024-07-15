@@ -13,9 +13,10 @@ import TourOverviewHeading from '@/components/tourDescription/TourOverview/TourO
 import TourHighlights from '@/components/tourDescription/TourOverview/TourHighlights';
 import TourIncluded from '@/components/tourDescription/TourOverview/TourIncluded';
 import TourItinerary from '@/components/tourDescription/TourOverview/Itinerary/TourItinerary';
-import GoogleMap from '@/components/UI/Map/Map';
+// import GoogleMap from '@/components/UI/Map/Map';
 import QuestionAnswer from '@/components/tourDescription/FAQ/QuestionAnswer';
 import CustomerReviews from '@/components/tourDescription/CustomerReviews/CustomerReviews';
+import TourComments from '@/components/tourDescription/TourOverview/TourComments';
 
 type TourDescriptionType = {
   params: {
@@ -71,9 +72,11 @@ export default function TourDescriptionSection({ params }: TourDescriptionType) 
           <TourHighlights tour_highlights={currTour.tour_highlights} />
           <TourIncluded what_included={currTour.what_included} />
           <TourItinerary itinerary={currTour.itinerary} />
-          <GoogleMap locations={currTour.tour_map} />
+          <h2 className={`subheading`}>Here comes GoogleMap! Enable It when testing or deploying.</h2>
+          {/*<GoogleMap locations={currTour.tour_map} />*/}
           <QuestionAnswer />
           <CustomerReviews rating={currTour.rating} />
+          <TourComments tourId={currTour.id} />
         </DescriptionOverview>
       </section>
 
