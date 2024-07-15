@@ -1,11 +1,13 @@
 // 'use client';
 import './TourItinerary.scss';
-/*type TourItineraryType = {
-  // children: ReactNode;
-}*/
 import IconIon from '@/components/UI/IonIcon/IconIon';
 
-export default function TourItinerary(/*{  }: TourItineraryType*/) {
+type TourItineraryType = {
+  itinerary: {}
+  // children: ReactNode;
+}
+
+export default function TourItinerary({}: TourItineraryType) {
   return (
     <section className="description__tour-overview-itinerary">
       <h2 className="secondary-heading margin-bottom-small">Itinerary</h2>

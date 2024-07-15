@@ -57,7 +57,7 @@ export interface TourInterface {
     green: string[];
     orange: string[];
   };
-  itinerary: {};
+  itinerary: {}[];
   tour_map: { lat: number; long: number }[];
   comments: { id: string }[];
 }
@@ -185,14 +185,40 @@ export const DUMMY_TOURS: TourInterface[] = [
       ]
     },
     //////////////////////////////////////
-    itinerary: {
-      day_1: 'Here is the first day itinerary',
-      day_2: 'Here is the second day itinerary',
-      day_3: 'Here is the third day itinerary',
-      day_4: 'Here is the fourth day itinerary',
-      day_5: 'Here is the fifth day itinerary',
-      day_6: 'Here is the sixth day itinerary'
-    },
+    itinerary: [
+      {
+        title: 'Day 1: Airport Pickup',
+        description: `Our team will be waiting for you at the airport to
+         take you to your hotel. You can rest after your flight and start exploring the city at your own pace.`
+      },
+      {
+        title: `Day 2: Temples & River Cruise`,
+        description: `We will visit the most iconic temples in the city in the morning. In the
+                afternoon, we will take a relaxing river cruise and enjoy the city's skyline.`
+      },
+      {
+        title: `Day 3: Massage & Overnight Train`,
+        description: `Like on all of our trips, we can
+         collect you from the airport when you land and take you directly
+          to your hotel. The first Day is just a check-in Day so you have this freedom to explore the city and get settled in.`
+      },
+      {
+        title: `Day 4: Khao Sok National Park`,
+        description: `We will spend the day exploring Khao Sok National Park, one of the country's most beautiful nature reserves. You will see a variety of wildlife and enjoy the stunning scenery.`
+      },
+      {
+        title: `Day 5: Travel to Koh Phangan`,
+        description: `We will travel to the beautiful island of Koh Phangan. You can spend the day at the beach, try water sports, or just relax and enjoy the island's laid-back atmosphere.`
+      },
+      {
+        title: `Day 6: Morning Chill & Muay Thai Lesson`,
+        description: `Start the day with a relaxing morning at your leisure. In the afternoon, we will take you to a local gym for a Muay Thai lesson with a professional instructor.`
+      },
+      {
+        title: `Day 7: Island Boat Trip`,
+        description: `We will take a boat trip to the nearby islands, where you can snorkel, swim, and relax on the beach. You will have the opportunity to see colorful fish, coral reefs, and other marine life.`
+      }
+    ],
     //////////////////////////////////////
     tour_map: [
       { lat: 48.8566, long: 2.3522 }, // Central Paris
@@ -279,11 +305,20 @@ export const DUMMY_TOURS: TourInterface[] = [
         'Gratuities'
       ]
     },
-    itinerary: {
-      day_1: 'Meet at the designated point and start the tour',
-      day_2: 'Continue exploring the museum with your guide',
-      day_3: 'Free time to explore the museum on your own'
-    },
+    itinerary: [
+      {
+        title: 'Day 1: Louvre Museum Tour',
+        description: `Meet your guide at the museum entrance and skip the long lines to enter the Louvre. Explore the museum's highlights, including the Mona Lisa, the Venus de Milo, and the Winged Victory of Samothrace.`
+      },
+      {
+        title: 'Day 2 Free Time',
+        description: `Enjoy a free day to explore Paris at your own pace. You can visit other museums, go shopping, or relax in a café.`
+      },
+      {
+        title: 'Day 3: Breakfast',
+        description: `Start the day with a delicious breakfast at a local café. You can try croissants, pain au chocolat, and other French pastries.`
+      }
+    ],
     tour_map: [
       { lat: 48.8606, long: 2.3376 }, // Louvre Museum
       { lat: 48.8566, long: 2.3522 }, // Central Paris
@@ -366,11 +401,20 @@ export const DUMMY_TOURS: TourInterface[] = [
         'Gratuities'
       ]
     },
-    itinerary: {
-      day_1: 'Board the cruise at the designated point',
-      day_2: 'Enjoy the scenic views of Paris from the water',
-      day_3: 'Learn about the city’s landmarks from the guide'
-    },
+    itinerary: [
+      {
+        title: 'Day 1: Seine River Cruise',
+        description: `Board the boat at the designated pier and set sail on the Seine River. Enjoy panoramic views of Paris from the water and pass by famous landmarks like the Eiffel Tower, Notre Dame, and the Louvre Museum.`
+      },
+      {
+        title: 'Day 2: Free Time',
+        description: `Spend the day exploring Paris at your own pace. You can visit other attractions, go shopping, or relax in a café.`
+      },
+      {
+        title: 'Day 3: Breakfast',
+        description: `Start the day with a delicious breakfast at a local café. You can try croissants, pain au chocolat, and other French pastries.`
+      }
+    ],
     tour_map: [
       { lat: 48.8566, long: 2.3522 }, // Central Paris
       { lat: 48.8606, long: 2.3376 } // Seine River
@@ -451,11 +495,20 @@ export const DUMMY_TOURS: TourInterface[] = [
         'Gratuities'
       ]
     },
-    itinerary: {
-      day_1: 'Meet at the Lavra\'s main entrance and start the guided tour',
-      day_2: 'Continue exploring the Lavra\'s museums and churches',
-      day_3: 'Free time to explore the monastery and surrounding area on your own'
-    },
+    itinerary: [
+      {
+        title: 'Day 1: Kyiv Pechersk Lavra Tour',
+        description: `Meet at the Lavra's main entrance and start the guided tour. Visit the monastery's caves, churches, and museums to learn about its history and significance.`
+      },
+      {
+        title: 'Day 2: Free Time',
+        description: `Spend the day exploring Kyiv at your own pace. You can visit other attractions, go shopping, or relax in a café.`
+      },
+      {
+        title: 'Day 3: Breakfast',
+        description: `Start the day with a delicious breakfast at a local café. You can try traditional Ukrainian dishes like borscht, varenyky, and salo.`
+      }
+    ],
     tour_map: [
       { lat: 50.4345, long: 30.5592 }, // Kyiv Pechersk Lavra
       { lat: 50.4501, long: 30.5234 } // Central Kyiv
@@ -534,11 +587,20 @@ export const DUMMY_TOURS: TourInterface[] = [
         'Gratuities'
       ]
     },
-    itinerary: {
-      day_1: 'Meet at Blanche Metro Station and start the walking tour',
-      day_2: 'Continue exploring Montmartre’s hidden gems',
-      day_3: 'Conclude the tour at the Sacré-Cœur Basilica with free time to explore'
-    },
+    itinerary: [
+      {
+        title: 'Day 1: Montmartre Walking Tour',
+        description: `Meet at Blanche Metro Station and start the walking tour. Explore the winding streets of Montmartre, visit the Place du Tertre, and learn about the area's artistic history.`
+      },
+      {
+        title: 'Day 2: Sacré-Cœur Basilica',
+        description: `Visit the stunning Sacré-Cœur Basilica and enjoy panoramic views of Paris from the hilltop. Learn about the basilica's history and significance.`
+      },
+      {
+        title: 'Day 3: Free Time',
+        description: `Spend the day exploring Paris at your own pace. You can visit other attractions, go shopping, or relax in a café.`
+      }
+    ],
     tour_map: [
       { lat: 48.8867, long: 2.3431 }, // Montmartre
       { lat: 48.8869, long: 2.3372 } // Sacré-Cœur Basilica
@@ -619,13 +681,20 @@ export const DUMMY_TOURS: TourInterface[] = [
         'Breakfast'
       ]
     },
-    itinerary: {
-      day_1: 'Early morning pickup from your hotel and transfer to the launch site',
-      day_2: 'Safety briefing and balloon inflation',
-      day_3: 'Hot air balloon flight at sunrise',
-      day_4: 'Champagne toast and certificate presentation',
-      day_5: 'Transfer back to hotel'
-    },
+    itinerary: [
+      {
+        title: 'Day 1: Hotel Pickup',
+        description: `Early morning pickup from your hotel and transfer to the launch site`
+      },
+      {
+        title: 'Day 2: Hot Air Balloon Ride',
+        description: `Enjoy a thrilling hot air balloon ride over Cappadocia at sunrise`
+      },
+      {
+        title: 'Day 3: Return to Hotel',
+        description: `Transfer back to your hotel after the flight`
+      }
+    ],
     tour_map: [
       { lat: 38.6436, long: 34.8286 } // Cappadocia
     ],
@@ -704,12 +773,20 @@ export const DUMMY_TOURS: TourInterface[] = [
         'Personal expenses'
       ]
     },
-    itinerary: {
-      day_1: 'Departure from Göreme and visit to Derinkuyu Underground City',
-      day_2: 'Visit to the fairy chimneys in Pasabag and Monks Valley',
-      day_3: 'Lunch in Avanos and visit to pottery workshops',
-      day_4: 'Return to Göreme and end of the tour'
-    },
+    itinerary: [
+      {
+        title: 'Day 1: Departure from Göreme',
+        description: `Meet your guide in Göreme and depart for the Derinkuyu Underground City`
+      },
+      {
+        title: 'Day 2: Pasabag Monks Valley',
+        description: `Visit the Pasabag Monks Valley and see the unique fairy chimneys`
+      },
+      {
+        title: 'Day 3: Avanos',
+        description: `Explore the town of Avanos and learn about its pottery traditions`
+      }
+    ],
     tour_map: [
       { lat: 38.6270, long: 34.7129 }, // Derinkuyu Underground City
       { lat: 38.6419, long: 34.8444 }, // Pasabag Monks Valley
@@ -792,11 +869,20 @@ export const DUMMY_TOURS: TourInterface[] = [
         'Gratuities'
       ]
     },
-    itinerary: {
-      day_1: 'Meet at the Louvre Museum for a guided tour',
-      day_2: 'Board the cruise at Pont Neuf and enjoy a scenic ride on the Seine River',
-      day_3: 'Tour concludes at the Eiffel Tower, with free time to explore'
-    },
+    itinerary: [
+      {
+        title: 'Day 1: Louvre Museum Tour',
+        description: `Meet at the Louvre Museum for a guided tour of its key masterpieces, including the Mona Lisa and the Venus de Milo`
+      },
+      {
+        title: 'Day 2: Seine River Cruise',
+        description: `Board the boat at the Seine River and enjoy a scenic cruise with live commentary, passing by iconic landmarks like the Eiffel Tower and Notre Dame`
+      },
+      {
+        title: 'Day 3: Departure',
+        description: `Check out of your hotel and depart for the airport for your return flight`
+      }
+    ],
     tour_map: [
       { lat: 48.8606, long: 2.3376 }, // Louvre Museum
       { lat: 48.8575, long: 2.3408 }, // Pont Neuf
@@ -876,11 +962,20 @@ export const DUMMY_TOURS: TourInterface[] = [
         'Gratuities'
       ]
     },
-    itinerary: {
-      day_1: 'Start with the London Eye experience, including the 4D cinema',
-      day_2: 'Board the Thames River cruise at the London Eye Pier',
-      day_3: 'Enjoy the cruise with live commentary, ending at Tower Bridge'
-    },
+    itinerary: [
+      {
+        title: 'Day 1: London Eye Experience',
+        description: `Start your London adventure with a visit to the London Eye, including the 4D cinema experience`
+      },
+      {
+        title: 'Day 2: Thames River Cruise',
+        description: `Board the Thames River cruise at the London Eye Pier and enjoy a scenic journey with live commentary`
+      },
+      {
+        title: 'Day 3: Tower Bridge',
+        description: `End your cruise at Tower Bridge, where you can explore the area and take in the sights`
+      }
+    ],
     tour_map: [
       { lat: 51.5033, long: -0.1195 }, // London Eye
       { lat: 51.5044, long: -0.0769 }  // Tower Bridge
