@@ -61,7 +61,7 @@ export interface TourInterface {
     title: string;
     description: string;
   }[];
-  tour_map: { key: string, location: { lat: number; long: number } }[];
+  tour_map: { key: string, location: google.maps.LatLngLiteral }[];
   comments: { id: string }[];
 }
 
@@ -225,23 +225,23 @@ export const DUMMY_TOURS: TourInterface[] = [
     //////////////////////////////////////
     tour_map: [
       {
-        location: { lat: 48.8566, long: 2.3522 },
+        location: { lat: 48.8566, lng: 2.3522 },
         key: 'operaHouse'
       }, // Central Paris
       {
-        location: { lat: 48.8602, long: 2.3508 },
+        location: { lat: 48.8602, lng: 2.3508 },
         key: 'louvreMuseum'
       },
       {
-        location: { lat: 48.8738, long: 2.2950 },
+        location: { lat: 48.8738, lng: 2.2950 },
         key: 'arcDeTriomphe'
       },
       {
-        location: { lat: 48.8606, long: 2.3376 },
+        location: { lat: 48.8606, lng: 2.3376 },
         key: 'museeDOrsay'
       },
       {
-        location: { lat: 48.8566, long: 2.3522 },
+        location: { lat: 48.8566, lng: 2.3522 },
         key: 'eiffelTower'
       }
     ],
@@ -339,19 +339,19 @@ export const DUMMY_TOURS: TourInterface[] = [
     ],
     tour_map: [
       {
-        location: { lat: 48.8606, long: 2.3376 },
+        location: { lat: 48.8606, lng: 2.3376 },
         key: 'louvreMuseum'
       },
       {
-        location: { lat: 48.8566, long: 2.3522 },
+        location: { lat: 48.8566, lng: 2.3522 },
         key: 'centralParis'
       },
       {
-        location: { lat: 48.8602, long: 2.3508 },
+        location: { lat: 48.8602, lng: 2.3508 },
         key: 'eiffelTower'
       },
       {
-        location: { lat: 48.8738, long: 2.2950 },
+        location: { lat: 48.8738, lng: 2.2950 },
         key: 'arcDeTriomphe'
       }
     ],
@@ -447,11 +447,11 @@ export const DUMMY_TOURS: TourInterface[] = [
     ],
     tour_map: [
       {
-        location: { lat: 48.8566, long: 2.3522 },
+        location: { lat: 48.8566, lng: 2.3522 },
         key: 'centralParis'
       },
       {
-        location: { lat: 48.8606, long: 2.3376 },
+        location: { lat: 48.8606, lng: 2.3376 },
         key: 'seineRiver'
       }
     ],
@@ -547,11 +547,11 @@ export const DUMMY_TOURS: TourInterface[] = [
     ],
     tour_map: [
       {
-        location: { lat: 50.4345, long: 30.5592 },
+        location: { lat: 50.4345, lng: 30.5592 },
         key: 'pecherskLavra'
       },
       {
-        location: { lat: 50.4547, long: 30.5238 },
+        location: { lat: 50.4547, lng: 30.5238 },
         key: 'dnieperRiver'
       }
     ],
@@ -645,11 +645,11 @@ export const DUMMY_TOURS: TourInterface[] = [
     ],
     tour_map: [
       {
-        location: { lat: 48.8867, long: 2.3431 },
+        location: { lat: 48.8867, lng: 2.3431 },
         key: 'montmartre'
       },
       {
-        location: { lat: 48.8869, long: 2.3372 },
+        location: { lat: 48.8869, lng: 2.3372 },
         key: 'sacreCoeur'
       }
     ],
@@ -745,15 +745,15 @@ export const DUMMY_TOURS: TourInterface[] = [
     ],
     tour_map: [
       {
-        location: { lat: 38.6434, long: 34.8303 }, // Launch site
+        location: { lat: 38.6434, lng: 34.8303 }, // Launch site
         key: 'launchSite'
       },
       {
-        location: { lat: 38.6434, long: 34.8303 }, // Flight path
+        location: { lat: 38.6434, lng: 34.8303 }, // Flight path
         key: 'flightPath'
       },
       {
-        location: { lat: 38.6434, long: 34.8303 },  // Landing site
+        location: { lat: 38.6434, lng: 34.8303 },  // Landing site
         key: 'landingSite'
       }
     ],
@@ -848,19 +848,19 @@ export const DUMMY_TOURS: TourInterface[] = [
     ],
     tour_map: [
       {
-        location: { lat: 38.6434, long: 34.8303 }, // Göreme
+        location: { lat: 38.6434, lng: 34.8303 }, // Göreme
         key: 'goreme'
       },
       {
-        location: { lat: 38.6270, long: 34.7129 }, // Derinkuyu Underground City
+        location: { lat: 38.6270, lng: 34.7129 }, // Derinkuyu Underground City
         key: 'derinkuyuUndergroundCity'
       },
       {
-        location: { lat: 38.6419, long: 34.8444 }, // Pasabag Monks Valley
+        location: { lat: 38.6419, lng: 34.8444 }, // Pasabag Monks Valley
         key: 'pasabagMonksValley'
       },
       {
-        location: { lat: 38.7191, long: 34.8486 }, // Avanos
+        location: { lat: 38.7191, lng: 34.8486 }, // Avanos
         key: 'avanos'
       }
     ],
@@ -957,19 +957,19 @@ export const DUMMY_TOURS: TourInterface[] = [
     ],
     tour_map: [
       {
-        location: { lat: 48.8602, long: 2.3508 }, // Central Paris
+        location: { lat: 48.8602, lng: 2.3508 }, // Central Paris
         key: 'centralParis'
       },
       {
-        location: { lat: 48.8606, long: 2.3376 }, // Louvre Museum
+        location: { lat: 48.8606, lng: 2.3376 }, // Louvre Museum
         key: 'louvreMuseum'
       },
       {
-        location: { lat: 48.8575, long: 2.3408 }, // Pont Neuf
+        location: { lat: 48.8575, lng: 2.3408 }, // Pont Neuf
         key: 'pontNeuf'
       },
       {
-        location: { lat: 48.8584, long: 2.2945 },  // Eiffel Tower
+        location: { lat: 48.8584, lng: 2.2945 },  // Eiffel Tower
         key: 'eiffelTower'
       }
     ],
@@ -1063,11 +1063,11 @@ export const DUMMY_TOURS: TourInterface[] = [
     ],
     tour_map: [
       {
-        location: { lat: 51.5033, long: -0.1195 }, // London Eye
+        location: { lat: 51.5033, lng: -0.1195 }, // London Eye
         key: 'londonEye'
       },
       {
-        location: { lat: 51.5044, long: -0.0769 }, // Tower Bridge
+        location: { lat: 51.5044, lng: -0.0769 }, // Tower Bridge
         key: 'towerBridge'
       }
     ],

@@ -69,7 +69,7 @@ export default function TourDescriptionSection({ params }: TourDescriptionType) 
           <TourHighlights tour_highlights={currTour.tour_highlights} />
           <TourIncluded what_included={currTour.what_included} />
           <TourItinerary itinerary={currTour.itinerary} />
-          <GoogleMap />
+          <GoogleMap locations={currTour.tour_map} />
         </DescriptionOverview>
       </section>
 
