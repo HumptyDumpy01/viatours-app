@@ -8,6 +8,8 @@
   --clr-dark-yellow: #E2AD64;
   --clr-light-yellow: #FDF0EA;
   --clr-dark-blue: #05073C;
+  --clr-light-green: #EFF7F1;
+  --clr-light-orange: #FFE5E5;
 
   --clr-white: #fff;
   --clr-light-white: #FEF7F4;
@@ -438,6 +440,17 @@ span {
     margin-bottom: 1.4rem;
   }
 
+  &--checkmark {
+    width: 1.3rem;
+    height: 1.3rem;
+    color: var(--clr-dark-blue);
+    position: absolute;
+    top: -.2rem;
+    left: -3.7rem;
+    padding: .6rem;
+    border-radius: 50%;
+  }
+
 
   &--dot {
     font-size: .5rem;
@@ -488,6 +501,14 @@ span {
       border-radius: 50%;
     }
   }
+}
+
+.icon--green-bg.icon {
+  background-color: var(--clr-light-green);
+}
+
+.icon--orange-bg.icon {
+  background-color: var(--clr-light-orange);
 }
 
 .highlighted {

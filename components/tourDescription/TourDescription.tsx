@@ -11,6 +11,7 @@ import DescriptionOverview from '@/components/tourDescription/TourOverview/Descr
 import TourOverviewInfo from '@/components/tourDescription/TourOverview/TourOverviewInfo';
 import TourOverviewHeading from '@/components/tourDescription/TourOverview/TourOverviewHeading';
 import TourHighlights from '@/components/tourDescription/TourOverview/TourHighlights';
+import TourIncluded from '@/components/tourDescription/TourOverview/TourIncluded';
 
 type TourDescriptionType = {
   params: {
@@ -64,6 +65,7 @@ export default function TourDescriptionSection({ params }: TourDescriptionType) 
           } />
           <TourOverviewHeading overview={currTour.overview} />
           <TourHighlights tour_highlights={currTour.tour_highlights} />
+          <TourIncluded what_included={currTour.what_included} />
         </DescriptionOverview>
       </section>
 

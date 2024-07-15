@@ -19,7 +19,9 @@ import {
   logoTwitter,
   logoWhatsapp,
   people,
-  ellipse
+  ellipse,
+  checkmark,
+  flagOutline
 } from 'ionicons/icons';
 
 
@@ -40,7 +42,9 @@ const iconMap = {
   people,
   body,
   language,
-  ellipse
+  ellipse,
+  checkmark,
+  flagOutline
 };
 
 interface IconIonProps {

@@ -55,7 +55,7 @@ export interface TourInterface {
   tour_highlights: string[];
   what_included: {
     green: string[];
-    red: string[];
+    orange: string[];
   };
   itinerary: {};
   tour_map: { lat: number; long: number }[];
@@ -175,7 +175,7 @@ export const DUMMY_TOURS: TourInterface[] = [
         'Life insurance'
         // INFO: AND SO ON....
       ],
-      'red': [
+      'orange': [
         'Tips',
         'Towel',
         'Personal expenses',
@@ -273,7 +273,7 @@ export const DUMMY_TOURS: TourInterface[] = [
         'Headsets to hear the guide clearly',
         'Small group tour'
       ],
-      'red': [
+      'orange': [
         'Hotel pickup and drop-off',
         'Food and drinks',
         'Gratuities'
@@ -360,7 +360,7 @@ export const DUMMY_TOURS: TourInterface[] = [
         'Professional guide',
         'Life insurance'
       ],
-      'red': [
+      'orange': [
         'Hotel pickup and drop-off',
         'Food and drinks',
         'Gratuities'
@@ -445,7 +445,7 @@ export const DUMMY_TOURS: TourInterface[] = [
         'Headsets to hear the guide clearly',
         'Small group tour for a more personalized experience'
       ],
-      'red': [
+      'orange': [
         'Hotel pickup and drop-off',
         'Food and drinks',
         'Gratuities'
@@ -528,7 +528,7 @@ export const DUMMY_TOURS: TourInterface[] = [
         'Headsets to hear the guide clearly',
         'Small group tour for a more personalized experience'
       ],
-      'red': [
+      'orange': [
         'Hotel pickup and drop-off',
         'Food and drinks',
         'Gratuities'
@@ -613,7 +613,7 @@ export const DUMMY_TOURS: TourInterface[] = [
         'Transfer from and to hotel',
         'Flight certificate'
       ],
-      'red': [
+      'orange': [
         'Gratuities',
         'Personal expenses',
         'Breakfast'
@@ -698,7 +698,7 @@ export const DUMMY_TOURS: TourInterface[] = [
         'Lunch',
         'Entrance fees to all sites'
       ],
-      'red': [
+      'orange': [
         'Hotel pickup and drop-off',
         'Gratuities',
         'Personal expenses'
@@ -786,7 +786,7 @@ export const DUMMY_TOURS: TourInterface[] = [
         'Professional guide',
         'Headsets to hear the guide clearly'
       ],
-      'red': [
+      'orange': [
         'Hotel pickup and drop-off',
         'Meals and drinks',
         'Gratuities'
@@ -870,7 +870,7 @@ export const DUMMY_TOURS: TourInterface[] = [
         'Live commentary on the cruise',
         'Access to the London Eye 4D cinema experience'
       ],
-      'red': [
+      'orange': [
         'Hotel pickup and drop-off',
         'Meals and drinks',
         'Gratuities'
