@@ -1,0 +1,160 @@
+.leave-a-reply {
+  margin-top: 5rem;
+
+  &__form {
+    cursor: pointer;
+
+    &-inputs-file-upload {
+      display: flex;
+      align-items: center;
+      gap: 1.6rem;
+      margin-bottom: 3.2rem;
+      font-size: 1.4rem;
+      color: var(--clr-dark-blue);
+      cursor: pointer;
+      transition: all .4s;
+
+      &:hover {
+        color: var(--clr-primary);
+      }
+
+      &-icon {
+        width: 2.4rem;
+        height: 2.4rem;
+      }
+    }
+  }
+
+
+  &-paragraph {
+    margin-bottom: 2.4rem;
+  }
+}
+
+.leave-a-reply__form-inputs-container {
+
+  input {
+    transition: all .3s;
+
+    &:not(:last-child) {
+      margin-bottom: 3.2rem;
+    }
+
+    &:focus {
+      border: 1px solid transparent;
+      box-shadow: 0 0 0 2px var(--clr-primary-light);
+      transform: translateY(-2px);
+    }
+  }
+}
+
+.leave-a-reply__form {
+  &-rate {
+    grid-template-columns: repeat(3, 21rem);
+    row-gap: 3.2rem;
+    column-gap: 4.4rem;
+    margin-bottom: 3.2rem;
+    @media only screen and (max-width: 36.6875em) {
+      grid-template-columns: repeat(2, 21rem);
+      justify-content: center;
+    }
+    @media only screen and (max-width: 26.25em) {
+      grid-template-columns: 1fr;
+    }
+
+    &-label {
+      margin-right: .6rem;
+      color: var(--clr-dark-blue);
+      font-size: 1.465rem;
+      @media only screen and (max-width: 26.25em) {
+        width: 15rem;
+      }
+    }
+
+    &-wrapper {
+      align-items: center;
+      gap: 1rem;
+      justify-content: space-between;
+      @media only screen and (max-width: 26.25em) {
+        justify-content: center;
+      }
+
+      &--inputs-stars {
+        @media only screen and (max-width: 26.25em) {
+          width: 100%;
+        }
+      }
+
+
+      label {
+        // it should have no space between the input and the label
+        display: none;
+      }
+
+      input[type="radio"] {
+        appearance: none;
+        width: 1.5rem;
+        height: 1.5rem;
+        background: url('/tourDescription/icon-stars/empty-star.svg') no-repeat center center;
+        background-size: contain;
+        background-color: #fff !important;
+        cursor: pointer;
+        @media only screen and (max-width: 26.25em) {
+          width: 1.8rem;
+          height: 1.8rem;
+        }
+      }
+    }
+
+  }
+
+  &-inputs {
+    gap: 1.6rem;
+
+    &-wrapper {
+      width: 100%;
+    }
+
+    &-title, &-comment {
+      padding: 1.1rem 1.4rem;
+      border-radius: 12px;
+      border: 1px solid var(--clr-silver);
+      font-size: 1.563rem;
+    }
+
+    &-title {
+      height: 5.2rem;
+      color: inherit;
+
+      &::placeholder {
+        color: inherit;
+        font-size: 1.4rem;
+        font-family: inherit;
+      }
+    }
+
+    input {
+      border: 1px solid var(--clr-silver);
+      height: 5.2rem;
+      width: 100%;
+      margin-bottom: 3.2rem;
+      border-radius: 12px;
+      padding: 1.1rem 1.4rem;
+      font-size: 1.563rem;
+      color: var(--clr-dark-blue);
+      transition: all .3s;
+
+      &::placeholder {
+        color: var(--clr-dark-blue);
+        font-size: 1.4rem;
+        font-family: inherit;
+      }
+
+
+    }
+
+    label {
+      display: none;
+    }
+  }
+}

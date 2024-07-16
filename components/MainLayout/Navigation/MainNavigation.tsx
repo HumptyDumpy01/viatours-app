@@ -41,7 +41,7 @@ export default function MainNavigation(/*{  }: MainNavigationInterface*/) {
                    placeholder="Search destinations or activities" />
           </label>
           <div className={`navigation--search-wrapper`}>
-            <svg className={`icon--search ${isSticky ? `icon--search-sticky` : undefined}`}
+            <svg className={`icon--search icon ${isSticky ? `icon--search-sticky` : undefined}`}
                  xmlns="http://www.w3.org/2000/svg" width="20"
                  height="19"
                  viewBox="0 0 20 19"

@@ -1,23 +1,41 @@
-// 'use client';
+'use client';
+
 import './TourComments.scss';
 import Comment from '@/components/UI/Comment/Comment';
 import { DUMMY_TOUR_COMMENTS } from '@/data/DUMMY_COMMENTS';
+import IconIon from '@/components/UI/IonIcon/IconIon';
+import { useState } from 'react';
 
 type TourCommentsType = {
   tourId: string;
-  // children: ReactNode;
-}
+};
 
 export default function TourComments({ tourId }: TourCommentsType) {
 
+  /* IMPORTANT: THIS PAGINATION INSTRUCTION  */
+
+  // the amount of comments to show per page
+  const commentsPerPage = 3;
+  const [currentPage, setCurrentPage] = useState<number>(1);
+
   const currTourComments = DUMMY_TOUR_COMMENTS.filter((item) => item.tourId === tourId);
+
   if (currTourComments.length === 0) {
     return <h2 className="tertiary-heading">No comments yet!</h2>;
   }
-  console.log(`Executing tourId: `, tourId);
+
+  // Calculate the total number of comments to show based on the current page
+  const totalCommentsToShow = currentPage * commentsPerPage;
+  // Adjust the slice method to use totalCommentsToShow
+  const currentComments = currTourComments.slice(0, totalCommentsToShow);
+
+  const handleMoreReviews = () => {
+    setCurrentPage((prev) => prev + 1);
+  };
+
   return (
     <section className="comments">
-      {currTourComments.map((comment) => (
+      {currentComments.map((comment) => (
         <Comment
           key={comment.id}
           id={comment.id}
@@ -32,6 +50,12 @@ export default function TourComments({ tourId }: TourCommentsType) {
           abuse_reports={comment.abuse_reports}
         />
       ))}
+      {/* Only show the button if there are more comments to display */}
+      {totalCommentsToShow < currTourComments.length && (
+        <button onClick={handleMoreReviews} className="btn btn--show-more margin-top-md">See more reviews
+          <IconIon type={`arrowForwardOutline`} className="icon icon--right-arrow"></IconIon>
+        </button>
+      )}
     </section>
   );
 }

@@ -16,6 +16,7 @@ import TourItinerary from '@/components/tourDescription/TourOverview/Itinerary/T
 import QuestionAnswer from '@/components/tourDescription/FAQ/QuestionAnswer';
 import CustomerReviews from '@/components/tourDescription/CustomerReviews/CustomerReviews';
 import TourComments from '@/components/tourDescription/TourOverview/TourComments';
+import LeaveReply from '@/components/UI/Layout/LeaveReply';
 
 type TourDescriptionType = {
   params: {
@@ -70,6 +71,7 @@ export default function TourDescriptionSection({ params }: TourDescriptionType) 
           <QuestionAnswer />
           <CustomerReviews rating={currTour.rating} />
           <TourComments tourId={currTour.id} />
+          <LeaveReply />
         </DescriptionOverview>
       </section>
 

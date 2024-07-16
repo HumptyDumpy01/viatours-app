@@ -42,7 +42,6 @@ export default function
   }
 
   const [sliderVisibility, setSliderVisibility] = useState<boolean>(false);
-  const currComment = DUMMY_TOUR_COMMENTS.find((item) => item.id === id) as DummyTourCommentType;
 
   // test double states that would be replaced as soon as I tackle the data base.
   const [commentLikes, setCommentLikes] = useState(likes);
@@ -108,8 +107,6 @@ export default function
       });
     }
   }
-
-  console.log(`Executing DUMMY_TOUR_COMMENTS: `, DUMMY_TOUR_COMMENTS);
 
   function handleDislikeComment() {
     if (userLikedComment) {
