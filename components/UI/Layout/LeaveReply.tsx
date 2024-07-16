@@ -40,7 +40,7 @@ export default function LeaveReply() {
           <LeaveReplyInputs />
           <div className="leave-a-reply__form-inputs-file-upload">
             <input ref={fileInputRef} type="file" name="file" id="file"
-                   className="leave-a-reply__form-inputs-file-upload-input"
+                   className="leave-a-reply__form-inputs-file-upload-input" max={3}
                    multiple onChange={handleFileChange} accept="image/jpg, image/jpeg, image/png" />
           </div>
           <div className={`choose-files-btn-wrapper`}>

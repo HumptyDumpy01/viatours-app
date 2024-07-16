@@ -12,7 +12,9 @@ type TourCommentsType = {
 
 export default function TourComments({ tourId }: TourCommentsType) {
 
-  /* IMPORTANT: THIS PAGINATION INSTRUCTION  */
+  /* IMPORTANT: THIS PAGINATION INSTRUCTION IF VALID WHEN YOU HAVE JUST ONE BUTTON
+  *   FOR EACH PAGE, AFTER CLICKING IT, SHOWS "N" AMOUNT OF ITEMS, WHERE PREVIOUS ITEMS
+  *   ARE SHOWN TOO */
 
   // the amount of comments to show per page
   const commentsPerPage = 3;
@@ -27,8 +29,11 @@ export default function TourComments({ tourId }: TourCommentsType) {
   // Calculate the total number of comments to show based on the current page
   const totalCommentsToShow = currentPage * commentsPerPage;
   // Adjust the slice method to use totalCommentsToShow
+
+  // use this array of object to loop over.
   const currentComments = currTourComments.slice(0, totalCommentsToShow);
 
+  // change the page to show more comments
   const handleMoreReviews = () => {
     setCurrentPage((prev) => prev + 1);
   };
