@@ -6,9 +6,11 @@ import Image, { StaticImageData } from 'next/image';
 import IconIon from '@/components/UI/IonIcon/IconIon';
 import GallerySlider from '@/components/UI/Gallery/GallerySlider';
 import { useState } from 'react';
+import { DUMMY_TOUR_COMMENTS } from '@/data/DUMMY_COMMENTS';
 
 type CommentType = {
   user: string;
+  id: string;
   date_added: string;
   rated: number;
   title: string;
@@ -22,6 +24,7 @@ type CommentType = {
 
 
 export default function Comment({
+                                  id,
                                   user,
                                   date_added,
                                   rated,
@@ -36,6 +39,8 @@ export default function Comment({
   if (!images) {
     throw new Error(`Invalid gallery images: ${images}. There should be at least one image!`);
   }
+  const currComment = DUMMY_TOUR_COMMENTS.find((item) => item.id === id);
+
   const [sliderVisibility, setSliderVisibility] = useState<boolean>(false);
 
   // Split the user name into an array of words
@@ -60,6 +65,13 @@ export default function Comment({
 
   function handleOpenSlider() {
     setSliderVisibility(true);
+  }
+
+  function handleLikeComment() {
+    console.log(`Executing currComment: `, currComment);
+  }
+
+  function handleDislikeComment() {
   }
 
   return (
@@ -97,23 +109,29 @@ export default function Comment({
             ))
             }
           </div>
-          <GallerySlider
-            info={{
-              images: images,
-              title: `Comment images`
-            }}
-            sliderVisibility={sliderVisibility}
-            handleCloseSlider={handleCloseSlider}
-          />
+          {images.length > 0 &&
+            <GallerySlider
+              info={{
+                images: images,
+                title: `Comment images`
+              }}
+              sliderVisibility={sliderVisibility}
+              handleCloseSlider={handleCloseSlider}
+            />
+          }
           <div className="comments__content-reaction">
             <button className="comments__content-reaction-btn">
               <span className="comments__content-reaction-btn--helpful">{likes}</span>
-              <IconIon type={`thumbsUpOutline`} className="icon icon--thumbs-up" />
+              <div onClick={handleLikeComment}>
+                <IconIon type={`thumbsUpOutline`} className="icon icon--thumbs-up" />
+              </div>
               Helpful
             </button>
             <button className="comments__content-reaction-btn">
               <span className="comments__content-reaction-btn--not-helpful">{dislikes}</span>
-              <IconIon type={`thumbsDownOutline`} className="icon icon--thumbs-down" />
+              <div onClick={handleDislikeComment}>
+                <IconIon type={`thumbsDownOutline`} className="icon icon--thumbs-down" />
+              </div>
               Not Helpful
             </button>
           </div>

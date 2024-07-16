@@ -20,6 +20,7 @@ export default function TourComments({ tourId }: TourCommentsType) {
       {currTourComments.map((comment) => (
         <Comment
           key={comment.id}
+          id={comment.id}
           user={comment.user}
           date_added={comment.date_added}
           rated={comment.rated}

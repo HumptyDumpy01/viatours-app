@@ -78,6 +78,20 @@ export const DUMMY_TOUR_COMMENTS: DummyTourCommentType[] = [
     likes: 0,
     dislikes: 0,
     abuse_reports: 0
+  },
+  {
+    id: `c4`,
+    tourId: `e1`,
+    userId: `u4`,
+    user: `lucy Hood`,
+    rated: 4.5,
+    title: `Wow! That was amazing!`,
+    text: `We had a fantastic time on this tour. The guide was very knowledgeable and friendly, and the itinerary was well-planned. The boat was comfortable, and the lunch was delicious. We especially enjoyed snorkeling at Bamboo Island and swimming in the crystal-clear waters of Pileh Lagoon. Highly recommended!`,
+    images: [],
+    date_added: `2024-07-01T13:45:04.000Z`,
+    likes: 0,
+    dislikes: 0,
+    abuse_reports: 0
   }
 ];
 
