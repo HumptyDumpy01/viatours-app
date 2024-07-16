@@ -12,7 +12,7 @@ export default function TourComments({ tourId }: TourCommentsType) {
 
   const currTourComments = DUMMY_TOUR_COMMENTS.filter((item) => item.tourId === tourId);
   if (currTourComments.length === 0) {
-    return <p className="comments__no-comments">No comments yet</p>;
+    return <h2 className="tertiary-heading">No comments yet!</h2>;
   }
   console.log(`Executing tourId: `, tourId);
   return (

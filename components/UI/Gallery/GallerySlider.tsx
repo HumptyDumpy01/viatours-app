@@ -1,68 +1,57 @@
 'use client';
 
 import './GallerySlider.scss';
-/*type GallerySliderType = {
-  // children: ReactNode;
-}*/
 import IconIon from '@/components/UI/IonIcon/IconIon';
-import { GalleryType } from '@/components/UI/Gallery/Gallery';
-import { useCartDispatch, useCartSelector } from '@/store/hooks';
-import { tourSliceActions } from '@/store/tourSlice';
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { useRef } from 'react';
+import { StaticImageData } from 'next/image';
+import ArrowButton from '@/components/UI/Button/ArrowButton';
 
-export default function GallerySlider({ info }: GalleryType) {
-  const galleryVisibility = useCartSelector((state) => state.tour.gallerySliderVisibility);
-  const [buttons, setButtons] = useState<ReactNode>();
+type GallerySliderType = {
+  handleCloseSlider: () => void;
+  sliderVisibility: boolean;
+  info: {
+    images: string[] | StaticImageData[];
+    title: string;
+  }
 
-  const dispatch = useCartDispatch();
+  // children: ReactNode;
+};
+
+export default function GallerySlider({ info, sliderVisibility, handleCloseSlider }: GallerySliderType) {
+  const slider = useRef<HTMLDivElement>(null);
 
   if (!info.images) {
     throw new Error(`Invalid gallery images: ${info.images}`);
   }
 
+  function closeSlider() {
+    handleCloseSlider();
+  }
+
   const mainImage = info.images[0];
   const restOfImages = info.images.slice(1);
 
-  useEffect(() => {
-    const slider = document.querySelector(`.description__gallery-images-slider`);
-
-    function handleScrollToRight() {
-      if (slider) {
-        // smooth scrolling should be added
-        slider.scrollLeft += 800;
-      }
+  function handleScrollToRight() {
+    if (slider.current) {
+      slider.current.scrollLeft += 800;
     }
+  }
 
-    function handleScrollToLeft() {
-      if (slider) {
-        slider.scrollLeft -= 800;
-      }
+  function handleScrollToLeft() {
+    if (slider.current) {
+      slider.current.scrollLeft -= 800;
     }
-
-    setButtons(
-      <>
-        <div onClick={handleScrollToLeft} className={`icon-container icon-left ${galleryVisibility ? `open` : ``}`}>
-          <IconIon type={`arrowBackOutline`}
-                   className={`icon`} />
-        </div>
-        <div onClick={handleScrollToRight} className={`icon-container icon-right ${galleryVisibility ? `open` : ``}`}>
-          <IconIon type={`arrowForwardOutline`}
-                   className={`icon`} />
-        </div>
-      </>
-    );
-
-  }, [galleryVisibility]);
-
+  }
 
   return (
     <>
-      <div onClick={() => dispatch(tourSliceActions.setGallerySliderVisibility(false))}>
-        <IconIon type={`closeOutline`} className={`icon icon--close-gallery ${galleryVisibility ? `open` : ``}`} />
+      <div onClick={closeSlider}>
+        <IconIon type={`closeOutline`} className={`icon icon--close-gallery ${sliderVisibility ? `open` : ``}`} />
       </div>
-      {buttons}
-      <div className={`description__gallery-images-slider ${galleryVisibility ? `open` : ``}`}>
-        <div className={`description__gallery-images-slider-wrapper  ${galleryVisibility ? `open` : ``}`}>
+      <ArrowButton type={`left`} sliderVisibility={sliderVisibility} handleScrollToLeft={handleScrollToLeft} />
+      <ArrowButton type={`right`} sliderVisibility={sliderVisibility} handleScrollToRight={handleScrollToRight} />
+      <div ref={slider} className={`description__gallery-images-slider ${sliderVisibility ? `open` : ``}`}>
+        <div className={`description__gallery-images-slider-wrapper  ${sliderVisibility ? `open` : ``}`}>
           <div className="description__gallery-images-slider-img-container">
             {/*// @ts-ignore*/}
             <img src={mainImage.src}

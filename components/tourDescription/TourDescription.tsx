@@ -6,7 +6,6 @@ import { DUMMY_TOURS } from '@/data/DUMMY_TOURS';
 import { notFound } from 'next/navigation';
 import TourStats from '@/components/tourDescription/TourStats';
 import Gallery from '@/components/UI/Gallery/Gallery';
-import GallerySlider from '@/components/UI/Gallery/GallerySlider';
 import DescriptionOverview from '@/components/tourDescription/TourOverview/DescriptionOverview';
 import TourOverviewInfo from '@/components/tourDescription/TourOverview/TourOverviewInfo';
 import TourOverviewHeading from '@/components/tourDescription/TourOverview/TourOverviewHeading';
@@ -53,12 +52,6 @@ export default function TourDescriptionSection({ params }: TourDescriptionType) 
           images: currTour.images,
           title: currTour.title
         }} />
-        <GallerySlider info={
-          {
-            images: currTour.images,
-            title: currTour.title
-          }
-        } />
         <DescriptionOverview>
           <TourOverviewInfo info={
             {

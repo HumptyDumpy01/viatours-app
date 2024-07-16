@@ -1,10 +1,11 @@
-// 'use client';
+'use client';
 
 import starFilled from '../../../assets/images/homepage/findPopularTours/one-star.svg';
 import starEmpty from '../../../assets/images/homepage/findPopularTours/empty-star.svg';
 import Image, { StaticImageData } from 'next/image';
 import IconIon from '@/components/UI/IonIcon/IconIon';
 import GallerySlider from '@/components/UI/Gallery/GallerySlider';
+import { useState } from 'react';
 
 type CommentType = {
   user: string;
@@ -31,6 +32,12 @@ export default function Comment({
                                   dislikes,
                                   abuse_reports
                                 }: CommentType) {
+
+  if (!images) {
+    throw new Error(`Invalid gallery images: ${images}. There should be at least one image!`);
+  }
+  const [sliderVisibility, setSliderVisibility] = useState<boolean>(false);
+
   // Split the user name into an array of words
   const nameParts = user.split(' ');
   // Take the first character of the first and last name part, capitalize them, and join with a period
@@ -46,6 +53,14 @@ export default function Comment({
   } as Intl.DateTimeFormatOptions;
   const formattedDate = date.toLocaleDateString('en-US', options);
   const dateParts = formattedDate.split(',');
+
+  function handleCloseSlider() {
+    setSliderVisibility(false);
+  }
+
+  function handleOpenSlider() {
+    setSliderVisibility(true);
+  }
 
   return (
     <>
@@ -76,22 +91,20 @@ export default function Comment({
           <div className="comments__content-images">
             {images?.map((image, index) => (
               <div key={index} className="comments__content-images-wrapper">
-                <Image src={image} alt="comment image" />
+                <Image onClick={handleOpenSlider}
+                       alt="comment image" src={image} />
               </div>
             ))
             }
           </div>
-          {/*<!--            <div class="comments__images__slider">
-                        <div class="comments__images__slider-wrapper flex">
-                          <img data-src="img/commentImages/img-1-original.jpg" src="img/commentImages/img-1-lazy.jpg"
-                               alt="comment image" class="comments__images__slider-img lazy-img">
-                          <img data-src="img/commentImages/img-2-original.jpg" src="img/commentImages/img-2-lazy.jpg"
-                               alt="comment image" class="comments__images__slider-img lazy-img">
-                          <img data-src="img/commentImages/img-3-original.jpg" src="img/commentImages/img-3-lazy.jpg"
-                               alt="comment image" class="comments__images__slider-img lazy-img">
-                          <span class="description__gallery-images-slider-span">*Scroll to the right to see more</span>
-                        </div>
-                      </div>--> */}
+          <GallerySlider
+            info={{
+              images: images,
+              title: `Comment images`
+            }}
+            sliderVisibility={sliderVisibility}
+            handleCloseSlider={handleCloseSlider}
+          />
           <div className="comments__content-reaction">
             <button className="comments__content-reaction-btn">
               <span className="comments__content-reaction-btn--helpful">{likes}</span>
