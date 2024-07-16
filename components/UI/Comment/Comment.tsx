@@ -6,7 +6,7 @@ import Image, { StaticImageData } from 'next/image';
 import IconIon from '@/components/UI/IonIcon/IconIon';
 import GallerySlider from '@/components/UI/Gallery/GallerySlider';
 import { useState } from 'react';
-import { DUMMY_TOUR_COMMENTS } from '@/data/DUMMY_COMMENTS';
+import { DUMMY_TOUR_COMMENTS, DummyTourCommentType } from '@/data/DUMMY_COMMENTS';
 
 type CommentType = {
   user: string;
@@ -23,25 +23,34 @@ type CommentType = {
 }
 
 
-export default function Comment({
-                                  id,
-                                  user,
-                                  date_added,
-                                  rated,
-                                  title,
-                                  text,
-                                  images,
-                                  likes,
-                                  dislikes,
-                                  abuse_reports
-                                }: CommentType) {
+export default function
+  Comment({
+            id,
+            user,
+            date_added,
+            rated,
+            title,
+            text,
+            images,
+            likes,
+            dislikes,
+            abuse_reports
+          }: CommentType) {
 
   if (!images) {
     throw new Error(`Invalid gallery images: ${images}. There should be at least one image!`);
   }
-  const currComment = DUMMY_TOUR_COMMENTS.find((item) => item.id === id);
 
   const [sliderVisibility, setSliderVisibility] = useState<boolean>(false);
+  const currComment = DUMMY_TOUR_COMMENTS.find((item) => item.id === id) as DummyTourCommentType;
+
+  // test double states that would be replaced as soon as I tackle the data base.
+  const [commentLikes, setCommentLikes] = useState(likes);
+  const [commentDislikes, setCommentDislikes] = useState(dislikes);
+
+  const [userLikedComment, setUserLikedComment] = useState<boolean>(false);
+  const [userDislikedComment, setUserDislikedComment] = useState<boolean>(false);
+
 
   // Split the user name into an array of words
   const nameParts = user.split(' ');
@@ -68,10 +77,65 @@ export default function Comment({
   }
 
   function handleLikeComment() {
-    console.log(`Executing currComment: `, currComment);
+    if (userDislikedComment) {
+      setUserDislikedComment(false);
+      setCommentDislikes(prevState => prevState - 1);
+      DUMMY_TOUR_COMMENTS.map((item) => {
+        if (item.id === id) {
+          item.dislikes = item.dislikes - 1;
+        }
+      });
+
+    }
+
+    if (userLikedComment) {
+      setUserLikedComment(false);
+      setCommentLikes(prevState => prevState - 1);
+
+      DUMMY_TOUR_COMMENTS.map((item) => {
+        if (item.id === id) {
+          item.likes = item.likes - 1;
+        }
+      });
+    } else {
+      setUserLikedComment(true);
+      setCommentLikes(prevState => prevState + 1);
+
+      DUMMY_TOUR_COMMENTS.map((item) => {
+        if (item.id === id) {
+          item.likes = item.likes + 1;
+        }
+      });
+    }
   }
 
+  console.log(`Executing DUMMY_TOUR_COMMENTS: `, DUMMY_TOUR_COMMENTS);
+
   function handleDislikeComment() {
+    if (userLikedComment) {
+      setUserLikedComment(false);
+      setCommentLikes(prevState => prevState - 1);
+    }
+    if (userDislikedComment) {
+      setUserDislikedComment(false);
+      setCommentDislikes(prevState => prevState - 1);
+
+      DUMMY_TOUR_COMMENTS.map((item) => {
+        if (item.id === id) {
+          item.dislikes = item.dislikes - 1;
+        }
+      });
+
+    } else {
+      setUserDislikedComment(true);
+      setCommentDislikes(prevState => prevState + 1);
+
+      DUMMY_TOUR_COMMENTS.map((item) => {
+        if (item.id === id) {
+          item.dislikes = item.dislikes + 1;
+        }
+      });
+    }
   }
 
   return (
@@ -120,18 +184,20 @@ export default function Comment({
             />
           }
           <div className="comments__content-reaction">
-            <button className="comments__content-reaction-btn">
-              <span className="comments__content-reaction-btn--helpful">{likes}</span>
-              <div onClick={handleLikeComment}>
-                <IconIon type={`thumbsUpOutline`} className="icon icon--thumbs-up" />
-              </div>
+            <button className={`comments__content-reaction-btn ${userLikedComment ? `highlighted` : ``}`}
+                    onClick={handleLikeComment}>
+              <span
+                className={`comments__content-reaction-btn--helpful ${userLikedComment ? `highlighted` : ``}`}>{commentLikes}</span>
+              <IconIon type={`thumbsUpOutline`}
+                       className={`icon icon--thumbs-up ${userLikedComment ? `highlighted` : ``}`} />
               Helpful
             </button>
-            <button className="comments__content-reaction-btn">
-              <span className="comments__content-reaction-btn--not-helpful">{dislikes}</span>
-              <div onClick={handleDislikeComment}>
-                <IconIon type={`thumbsDownOutline`} className="icon icon--thumbs-down" />
-              </div>
+            <button className={`comments__content-reaction-btn  ${userDislikedComment ? `highlighted` : ``}`}
+                    onClick={handleDislikeComment}>
+              <span
+                className={`comments__content-reaction-btn--not-helpful  ${userDislikedComment ? `highlighted` : ``}`}>{commentDislikes}</span>
+              <IconIon type={`thumbsDownOutline`}
+                       className={`icon icon--thumbs-down  ${userDislikedComment ? `highlighted` : ``}`} />
               Not Helpful
             </button>
           </div>

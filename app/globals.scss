@@ -541,8 +541,9 @@ span {
 }
 
 .highlighted {
-  color: var(--clr-primary);
-  font-weight: 600;
+  color: var(--clr-primary) !important;
+  font-weight: 600 !important;
+  font-family: 'Inter', serif;
 }
 
 .cursor-not-allowed {
