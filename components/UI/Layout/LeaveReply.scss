@@ -5,7 +5,8 @@
     cursor: pointer;
 
     &-inputs-file-upload {
-      display: flex;
+      margin-top: 3.2rem;
+      display: none;
       align-items: center;
       gap: 1.6rem;
       margin-bottom: 3.2rem;
@@ -157,4 +158,58 @@
       display: none;
     }
   }
+}
+
+.choose-files-btn {
+
+  &-wrapper {
+    margin-top: 3.2rem;
+    margin-bottom: 3.2rem;
+    display: flex;
+    gap: 1.6rem;
+  }
+
+  display: flex;
+  align-items: center;
+  margin-top: 1.6rem;
+  padding: 1.1rem 1.4rem;
+  background-color: #fff;
+  border: 1px solid var(--clr-primary);
+  border-radius: 12px;
+  font-weight: 600;
+
+  margin-bottom: 3.2rem;
+  font-size: 1.5rem;
+  color: var(--clr-primary);
+  font-family: 'Inter', serif;
+  cursor: pointer;
+  transition: all .4s;
+
+  &:hover {
+    color: var(--clr-purple);
+    border-color: var(--clr-purple);
+  }
+
+  &-icon {
+    width: 2.4rem;
+    height: 2.4rem;
+  }
+
+}
+
+.user-img {
+  background-color: #f1f1f1;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 7rem;
+  height: 7rem;
+  border-radius: 12px;
+}
+
+.user-img.none {
+  background-image: url('/watermark/viatours-watermark-logo.svg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }

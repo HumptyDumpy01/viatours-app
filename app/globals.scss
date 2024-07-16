@@ -215,6 +215,30 @@ li {
     }
   }
 
+  &--submit {
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+    padding: 1.6rem 2.4rem;
+    background-color: var(--clr-primary);
+    color: var(--clr-white);
+    font-size: 1.465rem;
+    font-weight: 500;
+    transition: all .4s;
+    border: 1px solid var(--clr-primary);
+
+    &:hover, &:active {
+      background-color: var(--clr-white);
+      color: var(--clr-primary);
+      transform: scale(1.04);
+
+      .icon--right-arrow {
+        transition: all .4s;
+        transform: translateX(15%);
+      }
+    }
+  }
+
 
   &--book-now {
     margin-top: 2.4rem;
