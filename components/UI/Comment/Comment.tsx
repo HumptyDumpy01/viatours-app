@@ -6,7 +6,7 @@ import Image, { StaticImageData } from 'next/image';
 import IconIon from '@/components/UI/IonIcon/IconIon';
 import GallerySlider from '@/components/UI/Gallery/GallerySlider';
 import { useState } from 'react';
-import { DUMMY_TOUR_COMMENTS, DummyTourCommentType } from '@/data/DUMMY_COMMENTS';
+import { DUMMY_TOUR_COMMENTS } from '@/data/DUMMY_COMMENTS';
 
 type CommentType = {
   user: string;
