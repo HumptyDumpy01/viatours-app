@@ -7,7 +7,7 @@ import SidebarPickTime from '@/components/UI/Form/SidebarComponents/SidebarPickT
 import SidebarCountButton from '@/components/UI/Form/SidebarComponents/SidebarCountButton';
 import SidebarCheckbox from '@/components/UI/Form/SidebarComponents/SidebarCheckbox';
 import SidebarTotal from '@/components/UI/Form/SidebarComponents/SidebarTotal';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 type SidebarFormType = {
   price: {
@@ -31,6 +31,30 @@ export default function SidebarForm({ price, price_for_extra, time }: SidebarFor
   const [youthTickets, setYouthTickets] = useState<number>(0);
   const [childrenTickets, setChildrenTickets] = useState<number>(0);
 
+  const [servicePerBookingActive, setServicePerBookingActive] = useState<boolean>(false);
+  const [servicePerPersonActive, setServicePerPersonActive] = useState<boolean>(false);
+
+  useEffect(() => {
+
+    if (youthTickets === 0 && adultTickets === 0 && childrenTickets === 0) {
+      // uncheck checkboxes on this page
+      const checkboxes = document.querySelectorAll(`input[type="checkbox"]`);
+      checkboxes.forEach((checkbox) => {
+        (checkbox as HTMLInputElement).checked = false;
+      });
+
+      setTotalPrice(0);
+      setServicePerBookingActive(false);
+      setServicePerPersonActive(false);
+    }
+
+    if (youthTickets === 0 && adultTickets === 0 && childrenTickets > 0) {
+      const addServicePerPerson = document.querySelector(`input[name="add-service-per-person"]`) as HTMLInputElement;
+      addServicePerPerson.checked = false;
+    }
+  }, [adultTickets, youthTickets, childrenTickets]);
+
+
   /* IMPORTANT: Outsource your entire form(!) with the useFormState as a standalone component.
       add a prop, e.g. action, and pass this prop to your useFormState as the first arg.
       Then add this form to your PostForm file, where you handle server action. Pass your server action
@@ -38,8 +62,31 @@ export default function SidebarForm({ price, price_for_extra, time }: SidebarFor
 
   // Thus you would be able to use the error messages to inject them onto your form.
   // const [state, formAction] = useFormState(YOUR_SERVER_ACTION, { errors: null });
-  function handleAddTicket(price: number, name: string) {
 
+  function toggleServicePerBooking() {
+    if (totalPrice === 0) {
+      return;
+    }
+    if (servicePerBookingActive) {
+      setServicePerBookingActive(false);
+      setTotalPrice((prev) => prev - price_for_extra.service_per_booking);
+    } else {
+      setServicePerBookingActive(true);
+      setTotalPrice((prev) => prev + price_for_extra.service_per_booking);
+    }
+  }
+
+  function toggleServicePerPerson() {
+    if (totalPrice === 0 || (youthTickets === 0 && adultTickets === 0 && childrenTickets > 0)) {
+      return;
+    }
+    console.log(`Executing adultTickets: `, adultTickets);
+    console.log(`Executing youthTickets: `, youthTickets);
+
+    setServicePerPersonActive((prev) => !prev);
+  }
+
+  function handleAddTicket(price: number, name: string) {
     if (name === `ticket-adult-amount`) {
       setAdultTickets((prev) => prev + 1);
     }
@@ -54,6 +101,7 @@ export default function SidebarForm({ price, price_for_extra, time }: SidebarFor
   }
 
   function handleRemoveTicket(price: number, name: string) {
+
     if (totalPrice === 0) {
       return;
     }
@@ -108,13 +156,21 @@ export default function SidebarForm({ price, price_for_extra, time }: SidebarFor
             Extra</h3>
           <div className="flex flex-column border-bottom">
             {/*<!--          // insert a checkbox input here, with the Add Service per booking text--> */}
-            <SidebarCheckbox name={`service-per-booking`} label={`Add Service per booking `}
-                             servicePrice={price_for_extra.service_per_booking} />
-            <SidebarCheckbox name={`add-service-per-person`} label={`Add Service per person `}
-                             servicePrice={price_for_extra.service_per_person} />
+            <SidebarCheckbox disabled={totalPrice === 0} onClick={toggleServicePerBooking} name={`service-per-booking`}
+                             label={`Add Service per booking `}
+                             servicePrice={price_for_extra.service_per_booking}
+            />
+            <SidebarCheckbox disabled={youthTickets === 0 && adultTickets === 0 && childrenTickets === 0 ||
+              youthTickets === 0 && adultTickets === 0 && childrenTickets > 0}
+                             onClick={toggleServicePerPerson}
+                             name={`add-service-per-person`}
+                             label={`Add Service per person `}
+                             servicePrice={price_for_extra.service_per_person}
+            />
 
             <p className="paragraph paragraph--descr flex">Adult: <span>${price_for_extra.adult}</span> -
-              Youth: <span>${price_for_extra.youth}</span></p>
+              Youth: <span>${price_for_extra.youth}</span>
+            </p>
           </div>
           <div>
             <SidebarTotal total={Number(totalPrice.toFixed(2))} />
