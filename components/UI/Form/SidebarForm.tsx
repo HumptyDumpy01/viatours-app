@@ -27,6 +27,9 @@ type SidebarFormType = {
 
 export default function SidebarForm({ price, price_for_extra, time }: SidebarFormType) {
   const [totalPrice, setTotalPrice] = useState<number>(0);
+  const [adultTickets, setAdultTickets] = useState<number>(0);
+  const [youthTickets, setYouthTickets] = useState<number>(0);
+  const [childrenTickets, setChildrenTickets] = useState<number>(0);
 
   /* IMPORTANT: Outsource your entire form(!) with the useFormState as a standalone component.
       add a prop, e.g. action, and pass this prop to your useFormState as the first arg.
@@ -35,6 +38,47 @@ export default function SidebarForm({ price, price_for_extra, time }: SidebarFor
 
   // Thus you would be able to use the error messages to inject them onto your form.
   // const [state, formAction] = useFormState(YOUR_SERVER_ACTION, { errors: null });
+  function handleAddTicket(price: number, name: string) {
+
+    if (name === `ticket-adult-amount`) {
+      setAdultTickets((prev) => prev + 1);
+    }
+    if (name === `ticket-youth-amount`) {
+      setYouthTickets((prev) => prev + 1);
+    }
+    if (name === `ticket-children-amount`) {
+      setChildrenTickets((prev) => prev + 1);
+    }
+
+    setTotalPrice((prev) => prev + price);
+  }
+
+  function handleRemoveTicket(price: number, name: string) {
+    if (totalPrice === 0) {
+      return;
+    }
+
+    if (name === `ticket-adult-amount`) {
+      if (adultTickets === 0) {
+        return;
+      }
+      setAdultTickets((prev) => prev - 1);
+    }
+    if (name === `ticket-youth-amount`) {
+      if (youthTickets === 0) {
+        return;
+      }
+      setYouthTickets((prev) => prev - 1);
+    }
+    if (name === `ticket-children-amount`) {
+      if (childrenTickets === 0) {
+        return;
+      }
+      setChildrenTickets((prev) => prev - 1);
+    }
+
+    setTotalPrice((prev) => prev - price);
+  }
 
   return (
     <form className="description__tour-overview-sidebar__form">
@@ -49,9 +93,15 @@ export default function SidebarForm({ price, price_for_extra, time }: SidebarFor
         <div className="description__tour-overview-sidebar__tickets grid">
           <h3
             className="tertiary-heading margin-top-sm description__tour-overview-sidebar__tickets-heading">Tickets</h3>
-          <SidebarCountButton name={`ticket-adult-amount`} label={`Adult (18+ years)`} price={price.adult} />
-          <SidebarCountButton name={`ticket-youth-amount`} label={`Youth (13-17+ years)`} price={price.youth} />
-          <SidebarCountButton name={`ticket-children-amount`} label={`Children (1-12+ years)`} price={price.children} />
+          <SidebarCountButton totalTickets={adultTickets} addTicket={handleAddTicket} removeTicket={handleRemoveTicket}
+                              name={`ticket-adult-amount`}
+                              label={`Adult (18+ years)`} price={price.adult} />
+          <SidebarCountButton totalTickets={youthTickets} addTicket={handleAddTicket} removeTicket={handleRemoveTicket}
+                              name={`ticket-youth-amount`}
+                              label={`Youth (13-17+ years)`} price={price.youth} />
+          <SidebarCountButton totalTickets={childrenTickets} addTicket={handleAddTicket}
+                              removeTicket={handleRemoveTicket}
+                              name={`ticket-children-amount`} label={`Children (1-12+ years)`} price={price.children} />
         </div>
         <div className="description__tour-overview-sidebar__tickets grid">
           <h3 className="tertiary-heading margin-top-sm description__tour-overview-sidebar__tickets-heading">Add
