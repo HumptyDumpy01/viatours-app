@@ -1,5 +1,5 @@
 // 'use client';
-
+import '@/components/homepage/top-trending/TopTrending.scss';
 import TourDescriptionNavigation from '@/components/tourDescription/TourDescriptionNav/TourDescriptionNavigation';
 import DescriptionTag from '@/components/tourDescription/DescriptionTag';
 import { DUMMY_TOURS } from '@/data/DUMMY_TOURS';
@@ -18,6 +18,9 @@ import CustomerReviews from '@/components/tourDescription/CustomerReviews/Custom
 import TourComments from '@/components/tourDescription/TourOverview/TourComments';
 import LeaveReply from '@/components/UI/Layout/LeaveReply';
 import SidebarForm from '@/components/UI/Form/SidebarForm';
+import TopTrendingHeading from '@/components/homepage/top-trending/TopTrendingHeading';
+import TopTrendingSlider from '@/components/homepage/top-trending/TopTrendingSlider';
+import TopTrendingWrapper from '@/components/homepage/top-trending/TopTrendingWrapper';
 
 type TourDescriptionType = {
   params: {
@@ -81,7 +84,16 @@ export default function TourDescriptionSection({ params }: TourDescriptionType) 
           <CustomerReviews rating={currTour.rating} />
           <TourComments tourId={currTour.id} />
           <LeaveReply />
+
         </DescriptionOverview>
+      </section>
+      <div>
+        <TopTrendingHeading heading={`You might also like...`} href={`/tours?query=top`} />
+      </div>
+      <section className="top-trending container-cta">
+        <TopTrendingWrapper>
+          <TopTrendingSlider />
+        </TopTrendingWrapper>
       </section>
 
     </>

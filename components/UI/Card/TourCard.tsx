@@ -5,6 +5,7 @@ import starFilled from '../../../assets/images/homepage/findPopularTours/one-sta
 import starEmpty from '../../../assets/images/homepage/findPopularTours/empty-star.svg';
 import Link from 'next/link';
 import '@/components/homepage/trending-destinations/TrendingDestinations.scss';
+import '@/components/homepage/find-popular-tours/FindPopularTours.scss';
 import Image, { StaticImageData } from 'next/image';
 
 export interface TourCardInterface {
