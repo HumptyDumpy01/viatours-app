@@ -190,6 +190,9 @@ export default function SidebarForm({ price, price_for_extra, time }: SidebarFor
     closeBtn.addEventListener(`click`, () => {
       const sidebar = document.querySelector(`.description__tour-overview-sidebar`)! as HTMLDivElement;
       sidebar.classList.remove(`open`);
+
+      const sidebarBackground = document.querySelector(`.sidebar-background`)! as HTMLDivElement;
+      sidebarBackground.classList.remove(`open`);
     });
   }
 

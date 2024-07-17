@@ -61,7 +61,7 @@ export default function NavigationResponsive(/*{  }: NavigationBurgerInterface*/
         </Link>
         <div className="nav-icon-wrapper flex flex-align-center">
           {/* @ts-ignore*/}
-          <ion-icon name="search-outline" className="nav-icon nav-icon--search"></ion-icon>
+          {/*<ion-icon name="search-outline" className="nav-icon nav-icon--search"></ion-icon>*/}
           <button className={`btn`} onClick={openSideNav}>
             <Image priority src={userIcon} alt="user icon" className={`nav-icon nav-icon--user-icon`} />
           </button>
