@@ -56,8 +56,8 @@ export default function MainNavigation(/*{  }: MainNavigationInterface*/) {
           <NavButton pathName={`/tours`}>All Tours</NavButton>
           <NavButton pathName={`/articles`}>Tour Articles</NavButton>
           <NavButton pathName={`/account-settings/wishlist`}>Wishlist</NavButton>
-          <NavButton pathName={`/sign-up`}>Sign up</NavButton>
-          <NavButton marked pathName={`/log-in`}>Log in</NavButton>
+          <NavButton pathName={`/register`}>Sign up</NavButton>
+          <NavButton marked pathName={`/login`}>Log in</NavButton>
         </div>
       </div>
       <NavigationResponsive />
