@@ -90,6 +90,7 @@ body {
   font-size: 1.6rem;
   padding-left: 3.2rem;
   padding-right: 3.2rem;
+  transition: padding-right .3s;
   @media only screen and (max-width: 37.5em) {
     padding: 1.6rem;
     padding-top: 0;

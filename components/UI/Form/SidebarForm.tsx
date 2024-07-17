@@ -80,24 +80,61 @@ export default function SidebarForm({ price, price_for_extra, time }: SidebarFor
     if (totalPrice === 0 || (youthTickets === 0 && adultTickets === 0 && childrenTickets > 0)) {
       return;
     }
+    if (servicePerPersonActive) {
+
+      if (youthTickets > 0) {
+        setTotalPrice(prevState =>
+          (prevState - (youthTickets * price.youth) - (youthTickets * price_for_extra.youth)) + (youthTickets * price.youth));
+      }
+      if (adultTickets > 0) {
+        setTotalPrice(prevState =>
+          (prevState - (adultTickets * price.adult) - (adultTickets * price_for_extra.adult) + (adultTickets * price.adult)));
+      }
+      setServicePerPersonActive(false);
+      return;
+    }
+
     console.log(`Executing adultTickets: `, adultTickets);
     console.log(`Executing youthTickets: `, youthTickets);
+    if (youthTickets > 0) {
+      setTotalPrice(prevState => (prevState - (youthTickets * price.youth))
+        + (youthTickets * price.youth) + (youthTickets * price_for_extra.youth));
+    }
+    if (adultTickets > 0) {
+      setTotalPrice(prevState => (prevState - (adultTickets * price.adult))
+        + (adultTickets * price.adult) + (adultTickets * price_for_extra.adult));
+    }
 
     setServicePerPersonActive((prev) => !prev);
+
+
   }
 
   function handleAddTicket(price: number, name: string) {
-    if (name === `ticket-adult-amount`) {
+
+    if (name === `ticket-adult-amount` && !servicePerPersonActive) {
       setAdultTickets((prev) => prev + 1);
+      setTotalPrice((prev) => prev + price);
     }
-    if (name === `ticket-youth-amount`) {
+
+    if (name === `ticket-youth-amount` && !servicePerPersonActive) {
       setYouthTickets((prev) => prev + 1);
+      setTotalPrice((prev) => prev + price);
     }
     if (name === `ticket-children-amount`) {
       setChildrenTickets((prev) => prev + 1);
+      setTotalPrice((prev) => prev + price);
     }
 
-    setTotalPrice((prev) => prev + price);
+    if (name === `ticket-adult-amount` && servicePerPersonActive) {
+      setAdultTickets((prev) => prev + 1);
+
+      setTotalPrice((prev) => prev + price + price_for_extra.adult);
+    }
+    if (name === `ticket-youth-amount` && servicePerPersonActive) {
+      setYouthTickets((prev) => prev + 1);
+      setTotalPrice((prev) => prev + price + price_for_extra.youth);
+    }
   }
 
   function handleRemoveTicket(price: number, name: string) {
@@ -106,26 +143,46 @@ export default function SidebarForm({ price, price_for_extra, time }: SidebarFor
       return;
     }
 
-    if (name === `ticket-adult-amount`) {
+    if (name === `ticket-adult-amount` && !servicePerPersonActive) {
       if (adultTickets === 0) {
         return;
       }
       setAdultTickets((prev) => prev - 1);
+      setTotalPrice((prev) => prev - price);
     }
-    if (name === `ticket-youth-amount`) {
+
+    if (name === `ticket-youth-amount` && !servicePerPersonActive) {
       if (youthTickets === 0) {
         return;
       }
       setYouthTickets((prev) => prev - 1);
+      setTotalPrice((prev) => prev - price);
     }
+
+    if (name === `ticket-adult-amount` && servicePerPersonActive) {
+      if (adultTickets === 0) {
+        return;
+      }
+      setAdultTickets((prev) => prev - 1);
+      setTotalPrice((prev) => prev - price - price_for_extra.adult);
+    }
+    if (name === `ticket-youth-amount` && servicePerPersonActive) {
+      if (youthTickets === 0) {
+        return;
+      }
+      setYouthTickets((prev) => prev - 1);
+      setTotalPrice((prev) => prev - price - price_for_extra.youth);
+    }
+
+
     if (name === `ticket-children-amount`) {
       if (childrenTickets === 0) {
         return;
       }
       setChildrenTickets((prev) => prev - 1);
+      setTotalPrice((prev) => prev - price);
     }
 
-    setTotalPrice((prev) => prev - price);
   }
 
   return (
