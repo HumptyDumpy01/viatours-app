@@ -1,0 +1,53 @@
+.email-input-wrapper {
+  position: relative;
+}
+
+.tooltip-alpha-container {
+  position: absolute;
+  top: -9rem;
+  left: 0;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  box-shadow: 0 0 1.5rem rgba(0, 0, 0, .1);
+  transition: all .4s;
+}
+
+.tooltip {
+  width: 38.6rem;
+  padding: 1.5rem 1.6rem;
+  background-color: var(--clr-white);
+  border-radius: 2px;
+  // it should have some box shadow on the bottom
+  position: relative;
+
+  &__logo {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    //display: none;
+    // fixed the issue with the logo not being sized as needed
+    width: 12.7rem !important;
+    height: 2.3rem !important;
+  }
+
+  &__title-wrapper {
+    margin-bottom: 1.45rem;
+  }
+
+  &-badge {
+    width: 3rem;
+    height: 3rem;
+    margin-right: .2rem;
+  }
+
+  &__title {
+    color: var(--clr-dark-blue);
+  }
+
+
+}
+
+.tool-tip--email-feature {
+  width: 41rem;
+}

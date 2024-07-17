@@ -465,6 +465,10 @@ img {
   justify-content: space-between;
 }
 
+.flex-direction-column {
+  flex-direction: column;
+}
+
 .flex.justify-center {
   justify-content: center;
 }
@@ -535,7 +539,7 @@ span {
   &--close-sidebar {
     background-color: var(--clr-primary);
     color: #fff;
-    cursor:pointer;
+    cursor: pointer;
     top: -2.7rem;
     right: -7rem;
     width: 6rem;

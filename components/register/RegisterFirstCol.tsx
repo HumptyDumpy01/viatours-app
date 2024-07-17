@@ -17,9 +17,9 @@ export default function RegisterFirstCol(/*{  }: RegisterFirstColType*/) {
       <div className="register__first-col__img-1-wrapper overflow-hidden">
         <Image
           src={img1}
-          // priority
+          priority
           placeholder={`blur`}
-          blurDataURL={img3Placeholder}
+          blurDataURL={img3Placeholder.src}
           className="register__first-col__img-1"
           alt="Beautiful sea and the looks of an island with ships"
         />

@@ -1,6 +1,7 @@
 // 'use client';
 import './page.scss';
 import RegisterFirstCol from '@/components/register/RegisterFirstCol';
+import RegisterSecondCol from '@/components/register/RegisterSecondCol';
 /*interface SignUpPageInterface {
   // children: ReactNode;
 }*/
@@ -15,6 +16,7 @@ export default function SignUpPage(/*{  }: SignUpPageInterface*/) {
     <section className="register-wrapper">
       <div className="register grid container">
         <RegisterFirstCol />
+        <RegisterSecondCol />
       </div>
     </section>
   );
