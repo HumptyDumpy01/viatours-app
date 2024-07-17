@@ -90,9 +90,16 @@ body {
   font-size: 1.6rem;
   padding-left: 3.2rem;
   padding-right: 3.2rem;
-  @media only screen and (max-width: 37.5px) {
+  @media only screen and (max-width: 37.5em) {
     padding: 1.6rem;
     padding-top: 0;
+  }
+
+}
+
+.calendar-open {
+  body {
+    padding-right: 3.2rem !important;
   }
 }
 
@@ -162,6 +169,18 @@ li {
   font-size: 1.465rem;
   line-height: 2.1rem;
   color: var(--clr-dark-blue);
+
+  &--descr {
+    gap: .5rem;
+    margin-left: 2.4rem;
+    margin-bottom: 2rem;
+    margin-top: .4rem;
+
+    span {
+      font-weight: 500;
+      color: inherit;
+    }
+  }
 
   &-hero {
     color: var(--clr-white);
@@ -502,6 +521,15 @@ span {
     }
   }
 
+  &--close-sidebar {
+    background-color: var(--clr-white);
+    top: -2.7rem;
+    left: 36rem;
+    width: 5rem;
+    height: 5rem;
+    display: none;
+  }
+
   &--overall-rate {
     font-size: 2.4rem;
     padding: .6rem;
@@ -655,7 +683,7 @@ span {
   align-items: center;
   justify-content: center;
   transition: all .7s;
-  z-index: 9999;
+  z-index: 99;
   box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.1);
 
   @media only screen and (max-width: 50.3125em) {

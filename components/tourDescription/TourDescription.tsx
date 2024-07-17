@@ -17,6 +17,7 @@ import QuestionAnswer from '@/components/tourDescription/FAQ/QuestionAnswer';
 import CustomerReviews from '@/components/tourDescription/CustomerReviews/CustomerReviews';
 import TourComments from '@/components/tourDescription/TourOverview/TourComments';
 import LeaveReply from '@/components/UI/Layout/LeaveReply';
+import SidebarForm from '@/components/UI/Form/SidebarForm';
 
 type TourDescriptionType = {
   params: {
@@ -53,7 +54,15 @@ export default function TourDescriptionSection({ params }: TourDescriptionType) 
           images: currTour.images,
           title: currTour.title
         }} />
-        <DescriptionOverview>
+        <DescriptionOverview sideBar={(
+          <>
+            <SidebarForm
+              time={currTour.time}
+              price={currTour.price}
+              price_for_extra={currTour.price_for_extra}
+            />
+          </>
+        )}>
           <TourOverviewInfo info={
             {
               duration: currTour.duration,

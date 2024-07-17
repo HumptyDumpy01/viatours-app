@@ -26,6 +26,7 @@ export interface TourInterface {
   city: string;
   reviewed: number;
   views: number;
+  time: string[];
   rating: {
     overall: number;
     location: number;
@@ -44,6 +45,8 @@ export interface TourInterface {
   price_for_extra: {
     service_per_booking: number;
     service_per_person: number;
+    adult: number;
+    youth: number;
   };
   tag: string[];
   booked: number;
@@ -74,6 +77,12 @@ export const DUMMY_TOURS: TourInterface[] = [
     city: 'Paris',
     reviewed: 179,
     views: 999,
+    time: [
+      '6:30',
+      '10:30',
+      '14:30',
+      '18:30'
+    ],
     //////////////////////////////////////
     rating: {
       // depending on the total number of reviews, assuming 5 is 100% we need to calculate the total rating
@@ -107,7 +116,9 @@ export const DUMMY_TOURS: TourInterface[] = [
     //////////////////////////////////////
     price_for_extra: {
       service_per_booking: 40,
-      service_per_person: 20
+      service_per_person: 20,
+      adult: 30,
+      youth: 20
     },
     //////////////////////////////////////
     tag: [
@@ -261,6 +272,10 @@ export const DUMMY_TOURS: TourInterface[] = [
     city: 'Barcelona',
     reviewed: 215,
     views: 1500,
+    time: [
+      '9:30',
+      '13:30',
+      '17:30'],
     rating: {
       overall: 4.5,
       location: 5,
@@ -281,7 +296,9 @@ export const DUMMY_TOURS: TourInterface[] = [
     },
     price_for_extra: {
       service_per_booking: 30,
-      service_per_person: 15
+      service_per_person: 15,
+      adult: 20,
+      youth: 10
     },
     tag: [
       'new',
@@ -369,6 +386,11 @@ export const DUMMY_TOURS: TourInterface[] = [
     city: 'Roma',
     reviewed: 300,
     views: 2000,
+    time: [
+      '10:30',
+      '14:30',
+      '18:30'
+    ],
     rating: {
       overall: 4.8,
       location: 5,
@@ -390,7 +412,9 @@ export const DUMMY_TOURS: TourInterface[] = [
     },
     price_for_extra: {
       service_per_booking: 30,
-      service_per_person: 50
+      service_per_person: 50,
+      adult: 20,
+      youth: 30
     },
     tag: [
       'new',
@@ -468,6 +492,11 @@ export const DUMMY_TOURS: TourInterface[] = [
     country: 'Ukraine',
     city: 'Kyiv',
     reviewed: 89,
+    time: [
+      '10:30',
+      '14:30',
+      '17:00'
+    ],
     views: 670,
     rating: {
       overall: 4.7,
@@ -489,7 +518,9 @@ export const DUMMY_TOURS: TourInterface[] = [
     },
     price_for_extra: {
       service_per_booking: 10,
-      service_per_person: 5
+      service_per_person: 5,
+      adult: 10,
+      youth: 5
     },
     tag: [
       'new',
@@ -569,6 +600,11 @@ export const DUMMY_TOURS: TourInterface[] = [
     city: 'Paris',
     reviewed: 142,
     views: 850,
+    time: [
+      '10:30',
+      '14:30',
+      '17:00'
+    ],
     rating: {
       overall: 4.6,
       location: 5,
@@ -589,7 +625,9 @@ export const DUMMY_TOURS: TourInterface[] = [
     },
     price_for_extra: {
       service_per_booking: 45,
-      service_per_person: 40
+      service_per_person: 40,
+      adult: 30,
+      youth: 20
     },
     tag: [
       'featured',
@@ -667,6 +705,12 @@ export const DUMMY_TOURS: TourInterface[] = [
     city: 'Cappadocia',
     reviewed: 256,
     views: 1200,
+    time: [
+      '6:30',
+      '10:30',
+      '14:30',
+      '18:30'
+    ],
     rating: {
       overall: 4.9,
       location: 5,
@@ -687,7 +731,9 @@ export const DUMMY_TOURS: TourInterface[] = [
     },
     price_for_extra: {
       service_per_booking: 30,
-      service_per_person: 15
+      service_per_person: 15,
+      adult: 20,
+      youth: 10
     },
     tag: [
       'featured',
@@ -771,6 +817,12 @@ export const DUMMY_TOURS: TourInterface[] = [
     city: 'Cappadocia',
     reviewed: 312,
     views: 1345,
+    time: [
+      '6:30',
+      '10:30',
+      '14:30',
+      '18:30'
+    ],
     rating: {
       overall: 4.8,
       location: 5,
@@ -791,7 +843,9 @@ export const DUMMY_TOURS: TourInterface[] = [
     },
     price_for_extra: {
       service_per_booking: 25,
-      service_per_person: 10
+      service_per_person: 10,
+      adult: 20,
+      youth: 10
     },
     tag: [
       'popular',
@@ -878,6 +932,11 @@ export const DUMMY_TOURS: TourInterface[] = [
     city: 'Paris',
     reviewed: 198,
     views: 1025,
+    time: [
+      '9:30',
+      '13:30',
+      '17:30'
+    ],
     rating: {
       overall: 4.7,
       location: 5,
@@ -899,7 +958,9 @@ export const DUMMY_TOURS: TourInterface[] = [
     },
     price_for_extra: {
       service_per_booking: 20,
-      service_per_person: 10
+      service_per_person: 10,
+      adult: 15,
+      youth: 10
     },
     tag: [
       'exclusive',
@@ -987,6 +1048,11 @@ export const DUMMY_TOURS: TourInterface[] = [
     city: 'London',
     reviewed: 289,
     views: 1150,
+    time: [
+      '9:30',
+      '13:30',
+      '17:30'
+    ],
     rating: {
       overall: 4.8,
       location: 5,
@@ -1007,7 +1073,9 @@ export const DUMMY_TOURS: TourInterface[] = [
     },
     price_for_extra: {
       service_per_booking: 10,
-      service_per_person: 5
+      service_per_person: 5,
+      adult: 10,
+      youth: 5
     },
     tag: [
       'featured',

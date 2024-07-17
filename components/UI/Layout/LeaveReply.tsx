@@ -44,7 +44,7 @@ export default function LeaveReply() {
                    multiple onChange={handleFileChange} accept="image/jpg, image/jpeg, image/png" />
           </div>
           <div className={`choose-files-btn-wrapper`}>
-            <button type="button" onClick={openFilePicker} className={`choose-files-btn`}>Pick Files</button>
+            <button type="button" onClick={openFilePicker} className={`choose-files-btn`}>Select Images</button>
             {Array.from({ length: 3 }).map((_, index) => (
               <div key={index} className={`user-img ${selectedFiles[index] ? '' : 'none'}`}
                    style={selectedFiles[index] ? { backgroundImage: `url(${URL.createObjectURL(selectedFiles[index])})` } : {}}>
