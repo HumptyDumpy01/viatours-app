@@ -185,10 +185,20 @@ export default function SidebarForm({ price, price_for_extra, time }: SidebarFor
 
   }
 
+  function closeSidebar() {
+    const closeBtn = document.querySelector(`.icon--close-sidebar`)! as HTMLButtonElement;
+    closeBtn.addEventListener(`click`, () => {
+      const sidebar = document.querySelector(`.description__tour-overview-sidebar`)! as HTMLDivElement;
+      sidebar.classList.remove(`open`);
+    });
+  }
+
   return (
     <form className="description__tour-overview-sidebar__form">
       <div className="description__tour-overview-sidebar">
-        <IconIon type={`closeOutline`} className="icon icon--close-sidebar"></IconIon>
+        <div onClick={closeSidebar}>
+          <IconIon type={`closeOutline`} className="icon icon--close-sidebar"></IconIon>
+        </div>
 
         <p className="description__tour-overview-sidebar__p flex">From <span>${price.children}</span></p>
         <div className="description__tour-overview-sidebar-wrapper">

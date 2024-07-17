@@ -259,11 +259,10 @@ li {
     }
   }
 
-
-  &--book-now {
+  &--book-now,
+  &--book-now-responisve {
     margin-top: 2.4rem;
     width: 100%;
-    display: flex;
     align-items: center;
     justify-content: center;
     gap: .4rem;
@@ -293,6 +292,17 @@ li {
         transform: translateX(15%);
       }
     }
+  }
+
+  &--book-now-responisve {
+    display: none;
+    @media only screen and (max-width: 62.625em) {
+      display: flex;
+    }
+  }
+
+  &--book-now {
+    display: flex;
   }
 
   &--search {
@@ -523,12 +533,19 @@ span {
   }
 
   &--close-sidebar {
-    background-color: var(--clr-white);
+    background-color: var(--clr-primary);
+    color: #fff;
+    cursor:pointer;
     top: -2.7rem;
-    left: 36rem;
-    width: 5rem;
-    height: 5rem;
+    right: -7rem;
+    width: 6rem;
+    height: 6rem;
     display: none;
+    position: absolute;
+    border-radius: 50%;
+    @media only screen and (max-width: 62.25em) {
+      display: flex;
+    }
   }
 
   &--overall-rate {

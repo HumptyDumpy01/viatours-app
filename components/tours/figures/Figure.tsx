@@ -5,6 +5,7 @@ import { TourCardInterface } from '@/components/UI/Card/TourCard';
 import starFilled from '../../../assets/images/homepage/findPopularTours/one-star.svg';
 import starEmpty from '../../../assets/images/homepage/findPopularTours/empty-star.svg';
 import Image from 'next/image';
+import Link from 'next/link';
 /*interface FigureInterface {
   // children: ReactNode;
 }*/
@@ -68,8 +69,8 @@ export default function Figure({ href, imgSrc, imgAlt, info }: TourCardInterface
             <span className="all-tours__content__figures__figure-details-price--crossed">$1200</span>
             <span
               className="all-tours__content__figures__figure-details-price">From <span>${info[0].price}</span></span>
-            <a href={`/tours/${href}`} className="link all-tours__content__figures__figure-details-link">View
-              Details</a>
+            <Link href={`/tours/${href}`} className="link all-tours__content__figures__figure-details-link">View
+              Details</Link>
           </div>
         </div>
       </div>

@@ -84,7 +84,6 @@ export default function TourDescriptionSection({ params }: TourDescriptionType) 
           <CustomerReviews rating={currTour.rating} />
           <TourComments tourId={currTour.id} />
           <LeaveReply />
-
         </DescriptionOverview>
       </section>
       <div>
