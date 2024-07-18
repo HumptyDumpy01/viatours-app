@@ -1,6 +1,8 @@
 // 'use client';
 import '@/app/checkout/page.scss';
 import LabelInput from '@/components/UI/Input/LabelInput';
+import CheckBoxSignOnNewsletter from '@/components/UI/Checkbox/CheckBoxSignOnNewsletter';
+import CheckoutBtn from '@/components/checkout/CheckoutBtn';
 /*type CheckoutFormContactDetailsType = {
   // children: ReactNode;
 }*/
@@ -52,19 +54,8 @@ export default function CheckoutFormContactDetails(/*{  }: CheckoutFormContactDe
               type={`tel`}
               mode={`tel`}
             />
-            <div className="book-now__details-1__sub-on-newsletter-check">
-              <div className="book-now__details-1__sub-on-newsletter-check-container">
-                <input type="checkbox" id="newsletter-check"
-                       className="book-now__details-1__sub-on-newsletter-check__checkbox" />
-                <label htmlFor="newsletter-check"
-                       className="book-now__details-1__sub-on-newsletter-check__label">Get emails with special
-                  offers,
-                  inspiration, tips, and other updates from Viatours. You can unsubscribe at any time.</label>
-              </div>
-            </div>
-            <div className="flex">
-              <button className="btn btn--next contact-details-next" type="submit">Next</button>
-            </div>
+            <CheckBoxSignOnNewsletter />
+            <CheckoutBtn label={`Next`} />
           </div>
         </div>
 
