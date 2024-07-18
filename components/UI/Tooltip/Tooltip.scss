@@ -2,7 +2,24 @@
   position: relative;
 }
 
+.fix-email-tooltip {
+  position: relative;
+
+  .tooltip-alpha-container.open {
+    top: -12rem;
+  }
+}
+
+.fix-phone-tooltip {
+  position: relative;
+
+  .tooltip-alpha-container.open {
+    top: -12rem;
+  }
+}
+
 .tooltip-alpha-container {
+  pointer-events: none;
   position: absolute;
   top: -9rem;
   left: 0;

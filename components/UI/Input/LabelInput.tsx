@@ -1,5 +1,10 @@
-// 'use client';
+'use client';
+
 import '@/app/checkout/page.scss';
+import ViatoursLogoImg from '@/assets/tooltip/logo.svg';
+import Image from 'next/image';
+import '@/components/UI/Tooltip/Tooltip.scss';
+import { useState } from 'react';
 
 type LabelTelType = {
   mode: `tel`;
@@ -21,6 +26,17 @@ type LabelInputType = {
 } | LabelTelType;
 
 export default function LabelInput(props: LabelInputType) {
+  const [emailQuestionMarkHovered, setEmailQuestionMarkHovered] = useState<boolean>(false);
+  const [phoneQuestionMarkHovered, setPhoneQuestionMarkHovered] = useState<boolean>(false);
+
+  function toggleTooltip(type: `email` | `phone`, val: boolean) {
+    if (type === `email`) {
+      setEmailQuestionMarkHovered(val);
+    }
+    if (type === `phone`) {
+      setPhoneQuestionMarkHovered(val);
+    }
+  }
 
   return (
     <>
@@ -37,7 +53,10 @@ export default function LabelInput(props: LabelInputType) {
           <div className="fix-email-tooltip flex flex-align-center gap-sm">
             <label htmlFor={props.name}
                    className="book-now__details-label">{props.label}</label>
-            <svg className="email-tooltip cursor-pointer" xmlns="http://www.w3.org/2000/svg" width="12"
+            <svg onMouseLeave={() => toggleTooltip(`email`, false)} onMouseEnter={() => toggleTooltip(`email`, true)}
+                 className="email-tooltip cursor-pointer"
+                 xmlns="http://www.w3.org/2000/svg"
+                 width="12"
                  height="12"
                  viewBox="0 0 12 12" fill="none">
               <path
@@ -49,23 +68,23 @@ export default function LabelInput(props: LabelInputType) {
             </svg>
             {/*<!-- /////////////////////////////////////////// --> */}
             {/*<!-- A TOOLTIP FOR REGISTRATION PAGE ON EMAIL FIELD --> */}
-            {/*<div className="tooltip-alpha-container tool-tip--registration-email-feature">
-                      <div className="tooltip tool-tip--email-feature">
-                        <div className="tooltip__title-wrapper flex flex-align-center gap-sm">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="15" viewBox="0 0 18 15"
-                               fill="none">
-                            <path
-                              d="M3.62668e-05 12.4637V2.53722C3.62668e-05 1.62178 0.695129 0.882812 1.55621 0.882812H16.0909C16.952 0.882812 17.6471 1.62178 17.6471 2.53722V12.4637C17.6471 13.3791 16.952 14.1181 16.0909 14.1181H1.55621C0.695129 14.1181 3.62668e-05 13.3791 3.62668e-05 12.4637ZM1.3591 2.4159C1.01674 2.77987 1.20348 3.15487 1.39022 3.34237L5.60228 7.44531L1.55621 11.9233C1.43172 12.0777 1.34872 12.3203 1.49397 12.4858C1.62884 12.6622 1.94007 12.6512 2.07494 12.5409L6.60861 8.42693L8.82875 10.5777L11.0385 8.42693L15.5722 12.5409C15.7071 12.6512 16.0183 12.6622 16.1532 12.4858C16.2984 12.3203 16.2154 12.0777 16.0909 11.9233L12.0449 7.44531L16.2569 3.34237C16.4437 3.15487 16.6304 2.77987 16.288 2.4159C15.9457 2.05193 15.5929 2.2284 15.3025 2.49311L8.82875 8.05193L2.34468 2.49311C2.05419 2.2284 1.70146 2.05193 1.3591 2.4159Z"
-                              fill="#EB662B" />
-                          </svg>
-                          <h3 className="tooltip__title">We need a valid email!</h3>
-                        </div>
-                        <p className="tooltip__text">We'll send purchase details with all important information to this
-                          email.
-                          Please, provide a valid one.</p>
-                        <img src="img/tooltip/logo.svg" alt="logo" className="tooltip__logo" />
-                      </div>
-                    </div>*/}
+            <div className={`tooltip-alpha-container ${emailQuestionMarkHovered ? `open` : ``}`}>
+              <div className="tooltip tool-tip--email-feature">
+                <div className="tooltip__title-wrapper flex flex-align-center gap-sm">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="15" viewBox="0 0 18 15"
+                       fill="none">
+                    <path
+                      d="M3.62668e-05 12.4637V2.53722C3.62668e-05 1.62178 0.695129 0.882812 1.55621 0.882812H16.0909C16.952 0.882812 17.6471 1.62178 17.6471 2.53722V12.4637C17.6471 13.3791 16.952 14.1181 16.0909 14.1181H1.55621C0.695129 14.1181 3.62668e-05 13.3791 3.62668e-05 12.4637ZM1.3591 2.4159C1.01674 2.77987 1.20348 3.15487 1.39022 3.34237L5.60228 7.44531L1.55621 11.9233C1.43172 12.0777 1.34872 12.3203 1.49397 12.4858C1.62884 12.6622 1.94007 12.6512 2.07494 12.5409L6.60861 8.42693L8.82875 10.5777L11.0385 8.42693L15.5722 12.5409C15.7071 12.6512 16.0183 12.6622 16.1532 12.4858C16.2984 12.3203 16.2154 12.0777 16.0909 11.9233L12.0449 7.44531L16.2569 3.34237C16.4437 3.15487 16.6304 2.77987 16.288 2.4159C15.9457 2.05193 15.5929 2.2284 15.3025 2.49311L8.82875 8.05193L2.34468 2.49311C2.05419 2.2284 1.70146 2.05193 1.3591 2.4159Z"
+                      fill="#EB662B" />
+                  </svg>
+                  <h3 className="tooltip__title">We need a valid email!</h3>
+                </div>
+                <p className="tooltip__text">We&apos;ll send purchase details with all important information to this
+                  email.
+                  Please, provide a valid one.</p>
+                <Image src={ViatoursLogoImg} alt="logo" className="tooltip__logo" />
+              </div>
+            </div>
           </div>
           <input id={props.name} type={props.type} placeholder={props.placeholder}
                  className="book-now__details__input" required />
@@ -76,7 +95,9 @@ export default function LabelInput(props: LabelInputType) {
           <div className="fix-phone-tooltip flex flex-align-center gap-sm">
             <label htmlFor={props.name}
                    className="book-now__details-label">{props.label}</label>
-            <svg className="phone-tooltip cursor-pointer" xmlns="http://www.w3.org/2000/svg" width="12"
+            <svg onMouseLeave={() => toggleTooltip(`phone`, false)} onMouseEnter={() => toggleTooltip(`phone`, true)}
+                 className="phone-tooltip cursor-pointer"
+                 xmlns="http://www.w3.org/2000/svg" width="12"
                  height="12"
                  viewBox="0 0 12 12" fill="none">
               <path
@@ -89,33 +110,33 @@ export default function LabelInput(props: LabelInputType) {
 
 
             {/*<!-- A TOOLTIP FOR REGISTRATION PAGE ON EMAIL FIELD --> */}
-            {/*<div
-                      className="tooltip-alpha-container phone-tooltip-container tool-tip--registration-email-feature">
-                      <div className="tooltip tool-tip--email-feature">
-                        <div className="tooltip__title-wrapper flex flex-align-center gap-sm">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19"
-                               fill="none">
-                            <g clipPath="url(#clip0_730_5733)">
-                              <path opacity="0.2"
-                                    d="M17.9944 14.3196C17.8487 15.4081 17.3127 16.4066 16.486 17.1295C15.6593 17.8524 14.5982 18.2505 13.5 18.2496C10.1185 18.2496 6.87548 16.9063 4.48439 14.5152C2.0933 12.1241 0.750001 8.88112 0.750001 5.49961C0.749161 4.40143 1.1472 3.34032 1.87009 2.51361C2.59298 1.68691 3.59152 1.15089 4.68 1.00524C4.84091 0.986123 5.00368 1.01963 5.14395 1.10075C5.28422 1.18187 5.39444 1.30624 5.45813 1.45524L7.43906 5.88024C7.48773 5.99389 7.50755 6.11781 7.49676 6.24098C7.48596 6.36414 7.44489 6.48272 7.37719 6.58618L5.37375 8.96836C5.30269 9.0756 5.26066 9.19944 5.25179 9.32778C5.24291 9.45611 5.26749 9.58456 5.32313 9.70055C6.09844 11.2877 7.73906 12.9087 9.33094 13.6765C9.44755 13.7319 9.57658 13.7559 9.70531 13.7462C9.83404 13.7365 9.95801 13.6934 10.065 13.6212L12.4088 11.6243C12.5126 11.5552 12.6321 11.5131 12.7563 11.5018C12.8806 11.4905 13.0057 11.5104 13.1203 11.5596L17.5416 13.5406C17.6913 13.6038 17.8163 13.714 17.898 13.8545C17.9797 13.995 18.0135 14.1582 17.9944 14.3196Z"
-                                    fill="#EB662B" />
-                              <path
-                                d="M17.8472 12.8554L13.4306 10.8764L13.4184 10.8707C13.1892 10.7727 12.939 10.7333 12.6907 10.7562C12.4424 10.7792 12.2037 10.8636 11.9963 11.002C11.9718 11.0181 11.9484 11.0357 11.9259 11.0545L9.64407 12.9998C8.19845 12.2976 6.70595 10.8164 6.00376 9.3895L7.95188 7.07294C7.97063 7.0495 7.98845 7.02606 8.00532 7.00075C8.14072 6.79384 8.22287 6.55667 8.24446 6.31035C8.26605 6.06402 8.22641 5.81618 8.12907 5.58887V5.57762L6.14438 1.15356C6.0157 0.856621 5.79444 0.609262 5.51362 0.448409C5.2328 0.287556 4.9075 0.221836 4.58626 0.26106C3.31592 0.428223 2.14986 1.05209 1.30588 2.01615C0.461903 2.98021 -0.00228837 4.21852 8.4831e-06 5.49981C8.4831e-06 12.9436 6.05626 18.9998 13.5 18.9998C14.7813 19.0021 16.0196 18.5379 16.9837 17.6939C17.9477 16.85 18.5716 15.6839 18.7388 14.4136C18.7781 14.0924 18.7125 13.7672 18.5518 13.4864C18.3911 13.2056 18.144 12.9843 17.8472 12.8554ZM13.5 17.4998C10.3185 17.4963 7.26825 16.2309 5.01856 13.9813C2.76888 11.7316 1.50348 8.68134 1.50001 5.49981C1.49648 4.58433 1.82631 3.69887 2.42789 3.00879C3.02947 2.3187 3.86167 1.87118 4.76907 1.74981C4.7687 1.75355 4.7687 1.75732 4.76907 1.76106L6.73782 6.16731L4.80001 8.48669C4.78034 8.50932 4.76247 8.53345 4.74657 8.55887C4.60549 8.77536 4.52273 9.02462 4.5063 9.28249C4.48988 9.54037 4.54035 9.79811 4.65282 10.0307C5.5022 11.7679 7.25251 13.5051 9.00845 14.3536C9.24279 14.465 9.50203 14.5137 9.76083 14.495C10.0196 14.4762 10.2692 14.3907 10.485 14.2467C10.5091 14.2305 10.5322 14.2129 10.5544 14.1942L12.8334 12.2498L17.2397 14.2232H17.25C17.1301 15.1319 16.6833 15.9658 15.9931 16.5689C15.3028 17.172 14.4166 17.5029 13.5 17.4998Z"
-                                fill="#EB662B" />
-                            </g>
-                            <defs>
-                              <clipPath id="clip0_730_5733">
-                                <rect width="19" height="19" fill="white" />
-                              </clipPath>
-                            </defs>
-                          </svg>
-                          <h3 className="tooltip__title">We need a valid number!</h3>
-                        </div>
-                        <p className="tooltip__text">If needed, our manager would call to you in order to confirm your
-                          purchase!</p>
-                        <img src="img/tooltip/logo.svg" alt="logo" className="tooltip__logo" />
-                      </div>
-                    </div>*/}
+            <div
+              className={`tooltip-alpha-container phone-tooltip-container ${phoneQuestionMarkHovered ? `open` : ``}`}>
+              <div className="tooltip tool-tip--email-feature">
+                <div className="tooltip__title-wrapper flex flex-align-center gap-sm">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19"
+                       fill="none">
+                    <g clipPath="url(#clip0_730_5733)">
+                      <path opacity="0.2"
+                            d="M17.9944 14.3196C17.8487 15.4081 17.3127 16.4066 16.486 17.1295C15.6593 17.8524 14.5982 18.2505 13.5 18.2496C10.1185 18.2496 6.87548 16.9063 4.48439 14.5152C2.0933 12.1241 0.750001 8.88112 0.750001 5.49961C0.749161 4.40143 1.1472 3.34032 1.87009 2.51361C2.59298 1.68691 3.59152 1.15089 4.68 1.00524C4.84091 0.986123 5.00368 1.01963 5.14395 1.10075C5.28422 1.18187 5.39444 1.30624 5.45813 1.45524L7.43906 5.88024C7.48773 5.99389 7.50755 6.11781 7.49676 6.24098C7.48596 6.36414 7.44489 6.48272 7.37719 6.58618L5.37375 8.96836C5.30269 9.0756 5.26066 9.19944 5.25179 9.32778C5.24291 9.45611 5.26749 9.58456 5.32313 9.70055C6.09844 11.2877 7.73906 12.9087 9.33094 13.6765C9.44755 13.7319 9.57658 13.7559 9.70531 13.7462C9.83404 13.7365 9.95801 13.6934 10.065 13.6212L12.4088 11.6243C12.5126 11.5552 12.6321 11.5131 12.7563 11.5018C12.8806 11.4905 13.0057 11.5104 13.1203 11.5596L17.5416 13.5406C17.6913 13.6038 17.8163 13.714 17.898 13.8545C17.9797 13.995 18.0135 14.1582 17.9944 14.3196Z"
+                            fill="#EB662B" />
+                      <path
+                        d="M17.8472 12.8554L13.4306 10.8764L13.4184 10.8707C13.1892 10.7727 12.939 10.7333 12.6907 10.7562C12.4424 10.7792 12.2037 10.8636 11.9963 11.002C11.9718 11.0181 11.9484 11.0357 11.9259 11.0545L9.64407 12.9998C8.19845 12.2976 6.70595 10.8164 6.00376 9.3895L7.95188 7.07294C7.97063 7.0495 7.98845 7.02606 8.00532 7.00075C8.14072 6.79384 8.22287 6.55667 8.24446 6.31035C8.26605 6.06402 8.22641 5.81618 8.12907 5.58887V5.57762L6.14438 1.15356C6.0157 0.856621 5.79444 0.609262 5.51362 0.448409C5.2328 0.287556 4.9075 0.221836 4.58626 0.26106C3.31592 0.428223 2.14986 1.05209 1.30588 2.01615C0.461903 2.98021 -0.00228837 4.21852 8.4831e-06 5.49981C8.4831e-06 12.9436 6.05626 18.9998 13.5 18.9998C14.7813 19.0021 16.0196 18.5379 16.9837 17.6939C17.9477 16.85 18.5716 15.6839 18.7388 14.4136C18.7781 14.0924 18.7125 13.7672 18.5518 13.4864C18.3911 13.2056 18.144 12.9843 17.8472 12.8554ZM13.5 17.4998C10.3185 17.4963 7.26825 16.2309 5.01856 13.9813C2.76888 11.7316 1.50348 8.68134 1.50001 5.49981C1.49648 4.58433 1.82631 3.69887 2.42789 3.00879C3.02947 2.3187 3.86167 1.87118 4.76907 1.74981C4.7687 1.75355 4.7687 1.75732 4.76907 1.76106L6.73782 6.16731L4.80001 8.48669C4.78034 8.50932 4.76247 8.53345 4.74657 8.55887C4.60549 8.77536 4.52273 9.02462 4.5063 9.28249C4.48988 9.54037 4.54035 9.79811 4.65282 10.0307C5.5022 11.7679 7.25251 13.5051 9.00845 14.3536C9.24279 14.465 9.50203 14.5137 9.76083 14.495C10.0196 14.4762 10.2692 14.3907 10.485 14.2467C10.5091 14.2305 10.5322 14.2129 10.5544 14.1942L12.8334 12.2498L17.2397 14.2232H17.25C17.1301 15.1319 16.6833 15.9658 15.9931 16.5689C15.3028 17.172 14.4166 17.5029 13.5 17.4998Z"
+                        fill="#EB662B" />
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_730_5733">
+                        <rect width="19" height="19" fill="white" />
+                      </clipPath>
+                    </defs>
+                  </svg>
+                  <h3 className="tooltip__title">We need a valid number!</h3>
+                </div>
+                <p className="tooltip__text">If needed, our manager would call to you in order to confirm your
+                  purchase!</p>
+                <Image src={ViatoursLogoImg} alt="logo" className="tooltip__logo" />
+              </div>
+            </div>
           </div>
           <div className="book-now__details-1__phone-number-start grid">
             <div className="book-now__details-1__phone-number-start-container">
