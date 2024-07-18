@@ -1,15 +1,19 @@
 // 'use client';
 import viatoursLogo from '@/assets/images/register/logo.png';
 import './Tooltip.scss';
-/*type ToolTipType = {
-  // children: ReactNode;
-}*/
+import Image from 'next/image';
 
-export default function ToolTip(/*{  }: ToolTipType*/) {
+type ToolTipType = {
+  isOpen: boolean;
+  // children: ReactNode;
+}
+
+export default function ToolTip({ isOpen }: ToolTipType) {
+
   return (
     <>
       {/*<!-- A TOOLTIP FOR REGISTRATION PAGE ON EMAIL FIELD --> */}
-      <div className="tooltip-alpha-container tool-tip--registration-email-feature">
+      <div className={`tooltip-alpha-container ${isOpen ? `open` : ``}`}>
         <div className="tooltip tool-tip--email-feature">
           <div className="tooltip__title-wrapper flex flex-align-center gap-sm">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="15" viewBox="0 0 18 15" fill="none">
@@ -22,7 +26,7 @@ export default function ToolTip(/*{  }: ToolTipType*/) {
           <p className="tooltip__text">We’ll send the verification code to this email you provided here. It should
             be
             valid!</p>
-          <img src={viatoursLogo.src} alt="logo" className="tooltip__logo" />
+          <Image src={viatoursLogo} alt="logo" className="tooltip__logo" />
         </div>
       </div>
     </>

@@ -1,0 +1,105 @@
+.initials-input-wrapper {
+
+  position: relative;
+
+  &-icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 2.4rem;
+    @media only screen and (max-width: 37.5em) {
+      width: 2.4rem;
+      height: 2.4rem;
+    }
+    @media only screen and (max-width: 26.4375em) {
+
+      width: 2.2rem;
+      height: 2.2rem;
+    }
+  }
+}
+
+.email-input-wrapper {
+  position: relative;
+
+  &-icon {
+
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 2.4rem;
+    @media only screen and (max-width: 37.5em) {
+      width: 2.4rem;
+      height: 2.4rem;
+    }
+    @media only screen and (max-width: 26.4375em) {
+      width: 2.2rem;
+      height: 2.2rem;
+    }
+  }
+
+  &-question-mark {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 14rem;
+    @media only screen and (max-width: 37.5em) {
+      width: 1.8rem;
+      height: 1.8rem;
+      left: 14.8rem;
+    }
+  }
+}
+
+.password-input-wrapper {
+  position: relative;
+
+
+  .sign-in__second-col-show-password-icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 2.4rem;
+    @media only screen and (max-width: 37.5em) {
+      width: 2.4rem;
+      height: 2.4rem;
+    }
+    @media only screen and (max-width: 26.4375em) {
+      width: 2.2rem;
+      height: 2.2rem;
+    }
+  }
+}
+
+.password-confirmation-input-wrapper {
+  position: relative;
+
+  &-icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 2.4rem;
+    @media only screen and (max-width: 37.5em) {
+      width: 2.4rem;
+      height: 2.4rem;
+    }
+    @media only screen and (max-width: 26.4375em) {
+      width: 2.2rem;
+      height: 2.2rem;
+    }
+  }
+}
+
+// does not work
+/*.register__input-email {
+  &:focus {
+    + .email-input-wrapper-question-mark {
+      opacity: 0;
+      visibility: hidden;
+      background-color: #000;
+    }
+  }
+}*/
+.margin-bottom-24px {
+  margin-bottom: 2.4rem;
+}

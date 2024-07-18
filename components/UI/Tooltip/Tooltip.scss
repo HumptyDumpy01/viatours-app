@@ -13,6 +13,11 @@
   transition: all .4s;
 }
 
+.tooltip-alpha-container.open {
+  opacity: 1;
+  visibility: visible;
+}
+
 .tooltip {
   width: 38.6rem;
   padding: 1.5rem 1.6rem;

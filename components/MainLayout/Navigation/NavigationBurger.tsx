@@ -30,10 +30,10 @@ export default function NavigationBurger(/*{  }: NavigationBurgerInterface*/) {
           <NavBurgerLink pathName={`/account-settings/wishlist`}>Wishlist</NavBurgerLink>
         </li>
         <li>
-          <NavBurgerLink pathName={`/sign-up`}>Sign up</NavBurgerLink>
+          <NavBurgerLink pathName={`/register`}>Sign up</NavBurgerLink>
         </li>
         <li>
-          <NavBurgerLink marked pathName={`/log-in`}>Log in</NavBurgerLink>
+          <NavBurgerLink marked pathName={`/login`}>Log in</NavBurgerLink>
         </li>
       </ul>
       <Image priority src={closeMenuIcon} alt="close menu icon" className="navigation-background-close-icon" />
