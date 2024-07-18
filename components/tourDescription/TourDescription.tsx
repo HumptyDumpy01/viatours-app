@@ -60,6 +60,7 @@ export default function TourDescriptionSection({ params }: TourDescriptionType) 
         <DescriptionOverview sideBar={(
           <>
             <SidebarForm
+              tourId={currTour.id}
               time={currTour.time}
               price={currTour.price}
               price_for_extra={currTour.price_for_extra}

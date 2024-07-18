@@ -7,7 +7,8 @@ import SidebarPickTime from '@/components/UI/Form/SidebarComponents/SidebarPickT
 import SidebarCountButton from '@/components/UI/Form/SidebarComponents/SidebarCountButton';
 import SidebarCheckbox from '@/components/UI/Form/SidebarComponents/SidebarCheckbox';
 import SidebarTotal from '@/components/UI/Form/SidebarComponents/SidebarTotal';
-import { useEffect, useState } from 'react';
+import React, { FormEvent, useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 type SidebarFormType = {
   price: {
@@ -22,10 +23,14 @@ type SidebarFormType = {
     youth: number;
   };
   time: string[];
+  tourId: string;
   // children: ReactNode;
 }
 
-export default function SidebarForm({ price, price_for_extra, time }: SidebarFormType) {
+export default function SidebarForm({ price, price_for_extra, time, tourId }: SidebarFormType) {
+  const navigate = useRouter();
+  // extract the current tour id
+
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const [adultTickets, setAdultTickets] = useState<number>(0);
   const [youthTickets, setYouthTickets] = useState<number>(0);
@@ -197,8 +202,48 @@ export default function SidebarForm({ price, price_for_extra, time }: SidebarFor
     });
   }
 
+  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const currObject = e.currentTarget;
+    const formData = new FormData(currObject);
+    const results = Object.fromEntries(formData.entries());
+
+    if (results[`ticket-adult-amount`] === `0`
+      && results[`ticket-youth-amount`] === `0`
+      && results[`ticket-children-amount`] === `0`) {
+      alert(`Please select at least one ticket!`);
+      return;
+    }
+    if (results[`date`] === ``) {
+      alert(`Please select a date!`);
+      return;
+    }
+    if (results[`time`] === ``) {
+      alert(`Please select a time!`);
+      return;
+    }
+
+    const data = {
+      ...results,
+      totalPrice,
+      tourId
+    };
+
+
+    // resetting the form
+    currObject.reset();
+    // output
+    console.log(data);
+
+    // let's store the data in the local storage
+    localStorage.setItem(`order`, JSON.stringify(data));
+
+    navigate.push(`/checkout`);
+  }
+
+
   return (
-    <form className="description__tour-overview-sidebar__form">
+    <form onSubmit={handleSubmit} className="description__tour-overview-sidebar__form">
       <div className="description__tour-overview-sidebar">
         <div onClick={closeSidebar}>
           <IconIon type={`closeOutline`} className="icon icon--close-sidebar"></IconIon>
