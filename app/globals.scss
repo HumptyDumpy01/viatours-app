@@ -213,6 +213,22 @@ li {
   cursor: pointer;
   text-decoration: none;
 
+
+  &--next,
+  &--next-activity-details {
+    padding: 1.8rem 5rem;
+    background: var(--clr-primary);
+    color: var(--clr-white);
+    font-size: 1.6rem;
+    transition: all 0.3s;
+    font-weight: 600;
+    margin-bottom: 3.1rem;
+
+    &:hover, &:active {
+      background: var(--clr-primary-lighter);
+    }
+  }
+
   &--forgot-btn-1 {
     color: var(--clr-primary);
     background: var(--clr-white);
@@ -470,6 +486,10 @@ img {
 
 .gap-md {
   gap: 2.6rem;
+}
+
+.gap-13px {
+  gap: 1.3rem;
 }
 
 .gap-1rem {
