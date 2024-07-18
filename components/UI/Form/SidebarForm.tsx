@@ -111,6 +111,7 @@ export default function SidebarForm({ price, price_for_extra, time }: SidebarFor
   }
 
   function handleAddTicket(price: number, name: string) {
+    console.log(`Executing adultTickets: `, adultTickets);
 
     if (name === `ticket-adult-amount` && !servicePerPersonActive) {
       setAdultTickets((prev) => prev + 1);

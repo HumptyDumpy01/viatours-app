@@ -22,7 +22,7 @@
   padding: 1.6rem 0 0 1.6rem;
   top: 0;
   z-index: 999;
-  background-color: var(--clr-white);
+  background-color: rgba(255, 255, 255, 0.8);
   opacity: 0.97;
 
 }
@@ -37,7 +37,7 @@
     height: 100%;
     padding-bottom: 4rem;
     z-index: 9999;
-    background-color: var(--clr-white);
+    background-color: rgba(255, 255, 255, 0.9);
     opacity: 0;
     visibility: hidden;
 
@@ -48,6 +48,7 @@
       justify-content: center;
       height: 100%;
       gap: 3rem;
+      color: var(--clr-dark-blue);
       transition: all .7s cubic-bezier(0.83, 0, 0.17, 1);
 
       // making the navigation links appear from the left(toggle to 0 via javascript function)

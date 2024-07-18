@@ -29,7 +29,8 @@ export default function
       <div className="description__tour-overview-sidebar__tickets__btn-wrapper flex flex-align-center">
         <a onClick={() => removeTicket(price, name)}
            className="description__tour-overview-sidebar__tickets__btn btn-minus">-</a>
-        <input readOnly type="number" className="description__tour-overview-sidebar__tickets__input" defaultValue={totalTickets}
+        <input readOnly type="number" className="description__tour-overview-sidebar__tickets__input"
+               value={totalTickets}
                name={name} />
         {/*<!--              <p class="description__tour-overview-sidebar__tickets__p" id="ticket-adult-amount">0</p>-->*/}
         <a onClick={() => addTicket(price, name)}
