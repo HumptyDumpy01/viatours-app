@@ -1,7 +1,7 @@
 'use client';
 
 import './Input.scss';
-import { ReactNode, useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 import Icon from '@/components/UI/Icons/Icon';
 
 type EmailInputType = {
@@ -35,6 +35,7 @@ export default function Input(props: InputType) {
   let icon: ReactNode;
 
   const [questionMarkIsHovered, setQuestionMarkIsHovered] = useState<boolean>(false);
+  const [questionMarkIsVisible, setQuestionMarkIsVisible] = useState<boolean>(true);
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
   function handleShowTooltip() {
@@ -48,6 +49,15 @@ export default function Input(props: InputType) {
   function toggleShowPassword() {
     setShowPassword(prevState => !prevState);
   }
+
+  function handleHideQuestionMark(event: React.ChangeEvent<HTMLInputElement>) {
+    if (event.target.value.trim() !== ``) {
+      setQuestionMarkIsVisible(false);
+    } else {
+      setQuestionMarkIsVisible(true);
+    }
+  }
+
 
   if (!props.type) {
     throw new Error(`Please provide a type for the input field!`);
@@ -66,8 +76,12 @@ export default function Input(props: InputType) {
         <Icon type={`email`} />
         {props.questionMarkVisible && (
           <>
-            <Icon isOpen={questionMarkIsHovered} type={`question-mark`} onMouseEnter={handleShowTooltip}
-                  onMouseLeave={handleHideTooltip} />
+            {questionMarkIsVisible && (
+              <>
+                <Icon isOpen={questionMarkIsHovered} type={`question-mark`} onMouseEnter={handleShowTooltip}
+                      onMouseLeave={handleHideTooltip} />
+              </>
+            )}
           </>
 
         )}
@@ -93,10 +107,19 @@ export default function Input(props: InputType) {
       className={`${props.type !== `password` ?
         `initials-input-wrapper` : `password-input-wrapper`} margin-bottom-24px`}>
       <label htmlFor={props.name}></label>
-      <input type={props.type === `confirm-password` ? `password` :
-        showPassword ? `text` : props.type} name={props.name} id={props.name}
-             placeholder={props.placeholder}
-             className="register__input" required />
+      {props.type !== `email` &&
+        <input type={props.type === `confirm-password` ? `password` :
+          showPassword ? `text` : props.type} name={props.name} id={props.name}
+               placeholder={props.placeholder}
+               className="register__input" required />
+      }
+      {props.type === `email` && (
+        <>
+          <input onChange={handleHideQuestionMark} type={`email`} id={props.name}
+                 placeholder={props.placeholder}
+                 className="register__input" required />
+        </>
+      )}
       {props.iconVisible && (
         <>
           {icon}
