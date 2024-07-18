@@ -48,6 +48,10 @@
   box-sizing: inherit;
 }
 
+.color-blue-lighter {
+  color: var(--clr-blue-lighter);
+}
+
 *:focus {
   outline: none;
   /*    outline: dotted 2px var(--clr-primary);
@@ -492,6 +496,11 @@ img {
   gap: 1.3rem;
 }
 
+.gap-7px {
+  gap: .7rem;
+
+}
+
 .gap-1rem {
   gap: 1rem;
 }
@@ -599,6 +608,14 @@ span {
 
 .margin-bottom-very-small {
   margin-bottom: 1rem;
+}
+
+.margin-bottom-15px {
+  margin-bottom: 1.5rem;
+}
+
+.margin-bottom-18x {
+  margin-bottom: 1.8rem;
 }
 
 .margin-right-very-small {
@@ -912,3 +929,6 @@ b {
 }
 
 ///////////////////////
+.font-weight-med {
+  font-weight: 500;
+}

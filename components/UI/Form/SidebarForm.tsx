@@ -279,7 +279,7 @@ export default function SidebarForm({ price, price_for_extra, time, tourId }: Si
             <SidebarCheckbox disabled={youthTickets === 0 && adultTickets === 0 && childrenTickets === 0 ||
               youthTickets === 0 && adultTickets === 0 && childrenTickets > 0}
                              onClick={toggleServicePerPerson}
-                             name={`add-service-per-person`}
+                             name={`service-per-person`}
                              label={`Add Service per person `}
                              servicePrice={price_for_extra.service_per_person}
             />

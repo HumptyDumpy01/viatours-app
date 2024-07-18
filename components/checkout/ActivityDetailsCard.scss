@@ -1,0 +1,139 @@
+.book-now__details-2 {
+  padding: 1.7rem;
+
+  &__content {
+    //display: none;
+  }
+
+  &__activity-details {
+    gap: 2.5rem;
+    margin-bottom: 3.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    @media only screen and (max-width: 34.0625em) {
+      grid-template-columns: 1fr;
+    }
+
+    &__card {
+      padding-bottom: 1rem;
+
+      &-date {
+
+        margin-bottom: 1.8rem;
+
+        &__text {
+          color: var(--clr-primary);
+          font-size: 1.6rem;
+          font-weight: 500;
+          line-height: 2.3rem; /* 143.75% */
+          letter-spacing: -.016rem;
+        }
+
+        &-tickets {
+          color: var(--clr-blue-lighter);
+          font-size: 1.8rem;
+          font-weight: 500;
+          letter-spacing: -.018rem;
+          margin-bottom: .7rem;
+        }
+
+        &-heading {
+          color: var(--clr-dark-blue);
+          font-size: 1.8rem;
+          font-weight: 500;
+          line-height: 2.3rem; /* 127.778% */
+          letter-spacing: -.018rem;
+          @media only screen and (max-width: 57.8125em) {
+            margin-bottom: .6rem;
+          }
+        }
+      }
+
+      &-rating-container {
+        display: flex;
+        align-items: center;
+        gap: .7rem;
+        border-bottom: 1px solid var(--clr-grey-3);
+        padding-bottom: 1.5rem;
+        margin-bottom: 1.2rem;
+      }
+
+      &__rating {
+        color: var(--clr-blue-lighter);
+
+        &-count {
+          font-weight: 500;
+        }
+      }
+
+
+      &-img {
+        margin-bottom: 1rem;
+        width: 100%;
+        border-radius: 9px;
+      }
+
+      &-extra-info {
+        p {
+          font-size: 1.5rem;
+        }
+
+        span {
+          font-weight: 600;
+        }
+      }
+
+      &-country {
+        margin-bottom: 1.1rem;
+
+        &__text {
+          color: var(--clr-grey);
+          font-size: 1.3rem;
+          font-style: normal;
+          font-weight: 400;
+          line-height: normal;
+        }
+      }
+
+      &__figcaption {
+        color: var(--clr-dark-blue);
+        font-size: 1.588rem;
+        font-weight: 600;
+        line-height: 2.2rem;
+        letter-spacing: -.0119rem;
+        margin-bottom: 1.2rem;
+      }
+    }
+
+  }
+}
+
+.non-refundable {
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.meeting-point {
+  &-container {
+    margin-bottom: 2.6rem;
+  }
+
+  &__heading {
+    color: var(--clr-blue-lighter);
+    font-size: 1.9rem;
+    font-weight: 600;
+    letter-spacing: .019rem;
+    margin-bottom: 2.1rem;
+  }
+
+  &__location {
+    &__text {
+      color: var(--clr-blue-lighter);
+      font-weight: 600;
+      line-height: 2.6rem; /* 136.842% */
+      letter-spacing: .019rem;
+      font-size: 1.8rem;
+    }
+  }
+
+}

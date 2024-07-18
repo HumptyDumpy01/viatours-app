@@ -2,7 +2,7 @@
 import '@/app/checkout/page.scss';
 import CheckoutHeading from '@/components/checkout/CheckoutHeading';
 import ButtonLoginOrSignup from '@/components/UI/Button/ButtonLoginOrSignup';
-import CheckoutFormContactDetails from '@/components/checkout/CheckoutFormContactDetails';
+import CheckoutFormContactDetails from '@/components/checkout/form/CheckoutFormContactDetails';
 /*type CheckoutDetailsFirstStepType = {
   // children: ReactNode;
 }*/
