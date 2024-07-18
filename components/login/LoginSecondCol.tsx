@@ -2,6 +2,7 @@
 import LoginHeading from '@/components/login/LoginHeading';
 import Link from 'next/link';
 import LoginInput from '@/components/login/LoginInput';
+import LoginRememberMe from '@/components/login/LoginRememberMe';
 /*type LoginSecondColType = {
   // children: ReactNode;
 }*/
@@ -23,13 +24,8 @@ export default function LoginSecondCol(/*{  }: LoginSecondColType*/) {
           <LoginInput name={`email`} placeholder={`Email`} type={`email`} />
           <LoginInput name={`password`} placeholder={`Password`} type={`password`} />
           {/*inserting radio-button Remember me*/}
-          <div className="sign-in__second-col-form-remember-me-wrapper flex flex-space-between">
-            <label className="sign-in__second-col-form-remember-me flex">
-              <input type="checkbox" className="sign-in__second-col-form-remember-me-checkbox" />
-              <span className="sign-in__second-col-form-remember-me-text">Remember me</span>
-            </label>
-            <Link href={`/login/forgot-password`} className="link link--forgot-password">Forgot password?</Link>
-          </div>
+          <LoginRememberMe label={`Remember me`} name={`remember-me`} linkVisibility
+                           href={`/login/forgot-password`} />
           <button className="btn btn--book-now">Sign in</button>
         </form>
         <p className="sign-in__second-col-text-login-with text-align-center">Or login with</p>
