@@ -211,6 +211,31 @@ li {
   border-radius: 12px;
   font-family: inherit;
   cursor: pointer;
+  text-decoration: none;
+
+  &--forgot-btn-1 {
+    color: var(--clr-primary);
+    background: var(--clr-white);
+    border: 1px solid var(--clr-primary);
+
+
+    &:hover, &:active {
+      background: var(--clr-primary-lighter);
+      color: var(--clr-white);
+    }
+  }
+
+  &--forgot-btn-1,
+  &--forgot-btn-2 {
+    padding: 1.6rem 3.2rem;
+    font-size: 1.6rem;
+    transition: all 0.3s;
+    font-weight: 600;
+    height: 5.5rem;
+    @media only screen and (max-width: 37.5em) {
+      height: 6rem;
+    }
+  }
 
   &--sign-in-with-google {
     width: 100%;
@@ -447,6 +472,10 @@ img {
   gap: 2.6rem;
 }
 
+.gap-1rem {
+  gap: 1rem;
+}
+
 .on-alpha {
   color: var(--clr-silver-dark) !important;
 }
@@ -516,6 +545,10 @@ span {
 
 .text-align-center {
   text-align: center;
+}
+
+.align-items-start {
+  align-items: start !important;
 }
 
 .text-decoration-none {

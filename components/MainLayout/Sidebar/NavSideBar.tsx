@@ -36,7 +36,7 @@ export default function NavSideBar(/*{  }: NavSideBarInterface*/) {
           onClick={handleCloseSidebar}
           type="button"
           className="user-actions-sidebar__log-in-sign-up side-bar-link"
-          href={`/log-in`}>Log in
+          href={`/login`}>Log in
         </Link>
         <div className="user-actions-sidebar__actions-container">
           <SidebarLink disabled label={`Viatours Rewards`} type={`reward`} pathName={``} />

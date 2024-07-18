@@ -1,0 +1,160 @@
+.forgot-password-container {
+  margin-top: 3.2rem;
+  margin-bottom: 10.1rem;
+  @media only screen and (max-width: 60.5em) {
+    margin-bottom: 3.2rem;
+  }
+
+  img {
+    width: 100%;
+    border-radius: 12px;
+    object-fit: cover;
+    height: 100%;
+  }
+
+  .forgot-password {
+    grid-template-columns: 48rem auto;
+    gap: 6.1rem;
+    @media only screen and (max-width: 61.5625em) {
+      grid-template-columns: 45.6rem;
+      justify-content: center;
+    }
+
+    @media only screen and (max-width: 25.5625em) {
+      grid-template-columns: 100%;
+      justify-content: center;
+      padding: 0 2.4rem;
+    }
+    @media only screen and (max-width: 37.5em) {
+      input {
+        height: 6rem;
+      }
+    }
+
+    &__form {
+      align-items: center;
+    }
+
+    &__subheading {
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+    }
+
+    // for the third step(Set a new password) and fourth
+    /*    &__form {
+          display: grid;
+          grid-template-columns: 1fr;
+        }*/
+
+    &__input {
+
+      height: 5.8rem;
+      background-color: var(--clr-grey-3);
+      border: none;
+      border-radius: 12px;
+      transition: all .3s;
+      font-size: 1.47rem;
+      padding: 2rem 3.2rem 2rem 2rem;
+
+      &:focus {
+        background-color: var(--clr-white);
+        box-shadow: 0 0 0 2px var(--clr-primary);
+      }
+    }
+
+    &__input-email {
+      width: 33.3rem;
+    }
+
+    &__input-code {
+      width: 16.6rem;
+    }
+
+    &__input-password {
+      width: 100%;
+      margin-bottom: 2.4rem;
+      // disabled the ability to copy and paste the password
+      //-webkit-text-security: disc;
+
+    }
+
+    &__heading {
+      font-weight: 700;
+      margin-bottom: 3.6rem;
+    }
+
+    &__text {
+      margin-bottom: 2.4rem;
+      color: var(--clr-blue-lighter);
+      line-height: 1.4;
+    }
+
+    &__first-col {
+      justify-self: center;
+      align-self: center;
+      @media only screen and (max-width: 25.5625em) {
+        width: 100%;
+      }
+    }
+  }
+}
+
+body {
+  position: relative;
+}
+
+
+.responsive-shape-1 {
+  position: fixed;
+  bottom: -8rem;
+  left: 0;
+  z-index: -3;
+  display: none;
+  @media only screen and (max-width: 61.5625em) {
+    display: block;
+  }
+}
+
+.responsive-shape-2 {
+  position: fixed;
+  bottom: -2rem;
+  right: 0;
+  z-index: -2;
+  width: 30rem;
+  display: none;
+  @media only screen and (max-width: 61.5625em) {
+    display: block;
+  }
+}
+
+.img-tourist {
+  display: none;
+  @media only screen and (max-width: 61.5625em) {
+    display: block;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    pointer-events: none;
+    width: 50rem;
+    z-index: -1;
+  }
+  @media only screen and (max-width: 48.0625em) {
+    width: 40rem;
+  }
+}
+
+/*
+
+.viatours-badge {
+  display: none;
+  @include respond(bp-600px) {
+    display: block;
+    position: fixed;
+    top: 10%;
+    right: 1.2rem;
+    width: 11rem;
+    z-index: 1000;
+    pointer-events: none;
+  }
+}*/

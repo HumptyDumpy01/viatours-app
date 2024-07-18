@@ -1,13 +1,14 @@
 // 'use client';
-
+import './page.scss';
+import ForgotPasswordStepOne from '@/components/forgot-password/ForgotPasswordForm/ForgotPasswordStepOne';
 /*type ForgotPasswordPageType = {
   // children: ReactNode;
 }*/
 
-export default function ForgotPasswordPagePage(/*{  }: ForgotPasswordPageType*/) {
+export default function ForgotPasswordPage(/*{  }: ForgotPasswordPageType*/) {
   return (
     <>
-      <h1>Forgot Password Page</h1>
+      <ForgotPasswordStepOne />
     </>
   );
 }
