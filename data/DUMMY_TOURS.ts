@@ -126,6 +126,7 @@ export const DUMMY_TOURS: TourInterface[] = [
     tag: [
       // INFO: MANY OF THESE
       'new',
+      `popular`,
       // '5-off',
       // '20-off',
       // '60-off',
@@ -1089,6 +1090,7 @@ export const DUMMY_TOURS: TourInterface[] = [
       youth: 5
     },
     tag: [
+      `popular`,
       'featured',
       'price:100-300',
       'duration:3-7'

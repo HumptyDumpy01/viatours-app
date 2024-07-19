@@ -1,0 +1,39 @@
+.skeleton {
+  border: none !important;
+}
+
+.skeleton-card-container {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.skeleton-card-full {
+  margin-top: 1rem;
+  display: flex;
+}
+
+.skeleton-card-title {
+  margin-top: 1rem;
+}
+
+.skeleton-card-stars {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.skeleton-card-rating-container {
+  margin-top: 1.3rem;
+  align-items: center;
+  display: flex;
+  gap: 2rem;
+}
+
+.skeleton-card-rating {
+  display: flex;
+}
+
+.skeleton-card-bottom {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 5rem;
+}

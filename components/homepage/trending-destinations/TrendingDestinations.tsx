@@ -5,7 +5,7 @@ import './TrendingDestinations.scss';
 import TrendingDestinationsHeading from '@/components/homepage/trending-destinations/TrendingDestinationsHeading';
 import TrendingDestination from '@/components/homepage/trending-destinations/TrendingDestination';
 import { TourInterface } from '@/data/DUMMY_TOURS';
-import SkeletonCardMini from '@/components/skeletons/SkeletonCardMini';
+import SkeletonCardMini from '@/components/skeletons/Card/SkeletonCardMini';
 import { fetchTours } from '@/lib/api/fetchTours';
 
 export default function TrendingDestinations() {
@@ -14,7 +14,7 @@ export default function TrendingDestinations() {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    fetchTours(10)
+    fetchTours('new', 10)
       .then((tours) => {
         setTours(tours);
         setLoading(false);

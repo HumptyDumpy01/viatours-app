@@ -1,27 +1,46 @@
-// 'use client';
+'use client';
+
 /*interface FindPopularToursInterface {
   // children: ReactNode;
 }*/
 import FindPopularHeading from '@/components/homepage/find-popular-tours/FindPopularHeading';
 import TourCard from '@/components/UI/Card/TourCard';
-import { DUMMY_TOURS, TourInterface } from '@/data/DUMMY_TOURS';
+import { TourInterface } from '@/data/DUMMY_TOURS';
 import './FindPopularTours.scss';
+import SkeletonCardFull from '@/components/skeletons/Card/SkeletonCardFull';
+import { fetchTours } from '@/lib/api/fetchTours';
+import { useEffect, useState } from 'react';
 
 export default function FindPopularTours(/*{  }: FindPopularToursInterface*/) {
-  let tours: TourInterface[] = [];
-  // const DUMMY_TOURS = [];
-  if (DUMMY_TOURS.length > 8) {
-    tours = DUMMY_TOURS.slice(0, 8);
-  } else {
-    tours = DUMMY_TOURS;
-  }
+  const [tours, setTours] = useState<TourInterface[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    fetchTours('popular', 8)
+      .then((tours) => {
+        setTours(tours);
+        setLoading(false);
+      });
+
+  }, []);
+
   return (
     <>
       <FindPopularHeading />
       <div className="find-popular-tours__tours-wrapper flex">
         <div className="find-popular-tours__figure-wrapper--1">
-          {tours.length === 0 && <h2 className={`subheading`}>No tours found</h2>}
-          {tours.map(function(item) {
+          {(tours.length === 0 && !loading) && <h2 className={`subheading`}>No tours found</h2>}
+          {loading && (
+            <>
+              <div className={`find-popular-tours__skeletons`}>
+                <SkeletonCardFull />
+                <SkeletonCardFull />
+                <SkeletonCardFull />
+                <SkeletonCardFull />
+              </div>
+            </>
+          )}
+          {!loading && tours.map(function(item) {
             return (
               <TourCard
                 key={item.id}

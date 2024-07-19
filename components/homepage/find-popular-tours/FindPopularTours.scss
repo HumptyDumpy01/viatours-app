@@ -4,6 +4,14 @@
 }
 
 .find-popular-tours {
+  &__skeletons {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    justify-content: center;
+    margin-top: 2.4rem;
+  }
+
   // turn this on when working with the responsive design
   /*  overflow-x: auto;
     scrollbar-width: thin; !* Firefox *!
