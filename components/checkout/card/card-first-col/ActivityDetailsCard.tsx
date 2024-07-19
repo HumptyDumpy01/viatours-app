@@ -5,8 +5,8 @@ import ActivityDetailsHeading from '@/components/checkout/card/card-first-col/Ac
 import ActivityDetailsRating from '@/components/checkout/card/card-first-col/ActivityDetailsRating';
 import ActivityDetailsCardFooter from '@/components/checkout/card/card-first-col/ActivityDetailsCardFooter';
 import ActivityDetailsDate from '@/components/checkout/card/card-second-col/ActivityDetailsDate';
-import { OrderInterface } from '@/components/checkout/checkout-details/CheckoutDetails';
 import { TourInterface } from '@/data/DUMMY_TOURS';
+import { OrderInterface } from '@/components/checkout/checkout-details/CheckoutDetails';
 
 type ActivityDetailsCardType = {
   order: OrderInterface;

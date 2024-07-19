@@ -1,6 +1,6 @@
 // 'use client';
 
-import { OrderInterface } from '@/components/checkout/card/card-first-col/ActivityDetailsCard';
+import { OrderInterface } from '@/components/checkout/checkout-details/CheckoutDetails';
 import ActivityDetailsDateHeading from '@/components/checkout/card/card-second-col/ActivityDetailsDateHeading';
 import ActivityDetailsAmountOfTickets from '@/components/checkout/card/card-second-col/ActivityDetailsAmountOfTickets';
 import NonRefundableCancellation from '@/components/UI/Other/NonRefundableCancellation';

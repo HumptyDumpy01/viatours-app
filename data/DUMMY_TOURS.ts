@@ -1101,7 +1101,7 @@ export const DUMMY_TOURS: TourInterface[] = [
     ],
     group_size: 30,
     ages: [
-      'All ages'
+      '12-99'
     ],
     languages: [
       'English'

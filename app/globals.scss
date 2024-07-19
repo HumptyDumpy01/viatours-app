@@ -505,6 +505,10 @@ img {
   gap: 1.6rem;
 }
 
+.gap-22px {
+  gap: 2.2rem;
+}
+
 .gap-1rem {
   gap: 1rem;
 }
@@ -951,4 +955,12 @@ b {
 ///////////////////////
 .font-weight-med {
   font-weight: 500;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.font-weight-bold {
+  font-weight: 600;
 }

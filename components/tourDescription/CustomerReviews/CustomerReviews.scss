@@ -1,7 +1,10 @@
 .customer-reviews {
   margin-bottom: 2.4rem;
+  text-align: left;
 
   &-heading {
+    display: grid;
+    justify-self: start;
     margin-bottom: 3.2rem;
   }
 

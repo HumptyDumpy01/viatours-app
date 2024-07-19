@@ -1,0 +1,140 @@
+@import '@/animations/keyframes';
+
+.four-o-four {
+
+  grid-template-columns: repeat(2, 1fr);
+  justify-content: center;
+  align-items: center;
+  gap: 8rem;
+  margin-bottom: 3.2rem;
+  @media (max-width: 61.9375em) {
+    grid-template-columns: 1fr;
+  }
+
+
+  &-container {
+    margin-top: 3.2rem;
+  }
+
+  &__content {
+
+    animation: moveInLeft 1s ease-in-out;
+    margin-bottom: 6.2rem;
+    @media (max-width: 61.9375em) {
+      width: 90%;
+      margin: 0 auto;
+    }
+    @media (max-width: 37.25em) {
+      margin-left: 1.2rem;
+    }
+
+    &-subtitle {
+      color: #D9D9D9;
+      font-size: 1.8rem;
+      font-weight: 500;
+      margin-bottom: 2.5rem;
+    }
+
+    &-title {
+      color: var(--clr-dark-blue);
+      font-size: 7rem;
+      font-weight: 700;
+      line-height: 7.5rem; /* 107.143% */
+      letter-spacing: -.07rem;
+      margin-bottom: 4.3rem;
+      @media (max-width: 27.1875em) {
+        font-size: 6rem;
+      }
+    }
+
+
+    &-text {
+      color: var(--clr-blue-lighter);
+      font-size: 1.6rem;
+      font-weight: 400;
+      line-height: 2.3rem; /* 143.75% */
+      letter-spacing: -.016rem;
+
+      &:not(:last-child) {
+        margin-bottom: 2rem;
+      }
+    }
+
+    &__btn {
+      padding: 2.5rem 3.2rem;
+      font-weight: 600;
+      font-size: 1.6rem;
+      transition: background-color .3s;
+
+      &-container {
+        margin-top: 5.5rem;
+      }
+
+      &--1 {
+        background-color: var(--clr-error);
+        color: var(--clr-primary);
+        box-shadow: 0 0 0 1px var(--clr-primary);
+
+        &:hover, &:active {
+          // give a bit darker error color based on E83F3FFF original color
+          background-color: var(--clr-primary);
+          color: var(--clr-white);
+        }
+      }
+
+      &--2 {
+        background-color: var(--clr-blue-lighter);
+        color: var(--clr-white);
+
+        &:hover, &:active {
+          box-shadow: 0 0 2px #1b1c48;
+          background-color: var(--clr-white);
+          color: var(--clr-blue-lighter);
+        }
+      }
+    }
+  }
+
+  ///////////////////////
+  &__vid {
+    width: 52.2rem;
+    height: 75.2rem;
+    //width: 100%;
+    //object-fit: cover;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
+
+    &-container {
+      border-radius: 2.8rem;
+      position: relative;
+      overflow: hidden;
+      //height: 100vh; // or any other specific value
+      height: 75.2rem;
+    }
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.animation-404 {
+  animation: fadeIn 1s ease-in-out;
+  margin-bottom: 6.2rem;
+  @media (max-width: 61.9375em) {
+    margin: 0 auto;
+    width: 60%;
+    grid-column: 1;
+    grid-row: 1;
+  }
+}
