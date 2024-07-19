@@ -4,26 +4,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import './TrendingDestinations.scss';
 import TrendingDestinationsHeading from '@/components/homepage/trending-destinations/TrendingDestinationsHeading';
 import TrendingDestination from '@/components/homepage/trending-destinations/TrendingDestination';
-import { DUMMY_TOURS, TourInterface } from '@/data/DUMMY_TOURS';
+import { TourInterface } from '@/data/DUMMY_TOURS';
 import SkeletonCardMini from '@/components/skeletons/SkeletonCardMini';
-
-async function fetchNewestDestinations(max?: number): Promise<TourInterface[]> {
-  if (!max) {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    const tours: TourInterface[] = DUMMY_TOURS;
-    return tours;
-  }
-  // const res = await fetch('https://api.example.com/trending-destinations');
-  // return res.json();
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-
-  // filter out tours that are new
-  const newestTours = DUMMY_TOURS.filter((tour) => tour.tag.includes('new'));
-
-  const tours: TourInterface[] = newestTours.length > max ? newestTours.slice(0, max) : newestTours;
-  console.log(tours);
-  return tours;
-}
+import { fetchTours } from '@/lib/api/fetchTours';
 
 export default function TrendingDestinations() {
 
@@ -31,7 +14,7 @@ export default function TrendingDestinations() {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    fetchNewestDestinations(10)
+    fetchTours(10)
       .then((tours) => {
         setTours(tours);
         setLoading(false);
