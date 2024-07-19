@@ -1,0 +1,78 @@
+.skeleton-card-clipped-container {
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  overflow: hidden;
+  @media only screen and (max-width: 42.75em) {
+    width: 70%;
+    margin: 0 auto;
+  }
+}
+
+.image-container {
+  clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+  margin-bottom: 1rem;
+  height: 29rem;
+  @media only screen and (max-width: 77em) {
+    height: 40rem;
+  }
+  @media only screen and (max-width: 75em) {
+    height: 30rem;
+  }
+  @media only screen and (max-width: 61.875em) {
+    height: 39rem;
+  }
+  @media only screen and (max-width: 53.625em) {
+    height: 35rem;
+  }
+  @media only screen and (max-width: 49em) {
+    height: 32rem;
+  }
+  @media only screen and (max-width: 45.375em) {
+    height: 30rem;
+  }
+  @media only screen and (max-width: 42.8125em) {
+    height: 35rem;
+  }
+  @media only screen and (max-width: 32.4375em) {
+    max-height: 30rem;
+  }
+  @media only screen and (max-width: 26.5625em) {
+    max-height: 27rem;
+  }
+}
+
+
+.title-1,
+.title-2 {
+  height: 2.8rem;
+  @media only screen and (max-width: 61.875em) {
+    height: 2.5rem;
+  }
+
+  @media only screen and (max-width: 53.625em) {
+    height: 2rem;
+
+  }
+}
+
+.subtitle {
+  width: 30%;
+  height: 2.4rem;
+
+  @media only screen and (max-width: 61.875em) {
+    height: 2rem;
+  }
+
+  @media only screen and (max-width: 53.625em) {
+    height: 2rem;
+
+  }
+}
+
+.title-1 {
+  width: 100%;
+}
+
+.title-2 {
+  width: 60%;
+}

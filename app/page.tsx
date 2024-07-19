@@ -39,7 +39,8 @@ export default function Home() {
       </section>
 
       <div>
-        <TopTrendingHeading heading={`Top Trending`} href={`/tours?query=top`} />
+        <TopTrendingHeading heading={`Featured Tours`} subheading={`viatours recommends!`}
+                            href={`/tours?tag=featured`} />
       </div>
       <section className="top-trending container-cta">
         <TopTrendingWrapper>
