@@ -2,7 +2,7 @@
 
 import './page.scss';
 import { notFound } from 'next/navigation';
-import CheckoutDetails from '@/components/checkout/CheckoutDetails';
+import CheckoutDetails from '@/components/checkout/checkout-details/CheckoutDetails';
 /*type CheckoutPageType = {
   // children: ReactNode;
 }*/

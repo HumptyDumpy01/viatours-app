@@ -3,7 +3,7 @@
 import React from 'react';
 
 type SidebarCountButtonType = {
-  name: `ticket-adult-amount` | `ticket-youth-amount` | `ticket-children-amount`;
+  name: `adultTickets` | `youthTickets` | `childrenTickets`;
   label: string;
   price: number;
   addTicket: (price: number, name: string) => void;

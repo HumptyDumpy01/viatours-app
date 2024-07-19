@@ -1,0 +1,51 @@
+.extra-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-bottom: 2.6rem;
+  @media only screen and (max-width: 34.0625em) {
+    grid-template-columns: 1fr;
+    gap: 3.5rem;
+    margin-bottom: 4rem;
+  }
+
+  &__tour-language {
+    select {
+      margin-top: 4rem;
+      background-color: #fff;
+      border-radius: 12px;
+      padding: 1rem 1.4rem;
+      font-weight: 600;
+      font-size: 1.7rem;
+      font-family: 'Inter', serif;
+      width: 80%;
+      height: 5.7rem;
+      transition: all .3s;
+      border: 1px solid #E5E5E5;
+    }
+
+    &__heading {
+      color: var(--clr-blue-lighter);
+      font-size: 1.9rem;
+      font-weight: 600;
+      margin-bottom: -3rem;
+      @media only screen and (max-width: 34.0625em) {
+        margin-bottom: 1.2rem;
+      }
+    }
+
+    &__text {
+      color: var(--clr-blue-lighter);
+      font-size: 1.7rem;
+      letter-spacing: .017rem;
+      background-color: #fff;
+
+    }
+  }
+}
+
+.extra-info__special-requirements__heading {
+  color: var(--clr-blue-lighter);
+  font-size: 1.9rem;
+  font-weight: 600;
+  letter-spacing: .019rem;
+}

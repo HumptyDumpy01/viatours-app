@@ -54,7 +54,7 @@ export default function SidebarForm({ price, price_for_extra, time, tourId }: Si
     }
 
     if (youthTickets === 0 && adultTickets === 0 && childrenTickets > 0) {
-      const addServicePerPerson = document.querySelector(`input[name="add-service-per-person"]`) as HTMLInputElement;
+      const addServicePerPerson = document.querySelector(`input[name="service_per_person"]`) as HTMLInputElement;
       addServicePerPerson.checked = false;
     }
   }, [adultTickets, youthTickets, childrenTickets]);
@@ -118,26 +118,26 @@ export default function SidebarForm({ price, price_for_extra, time, tourId }: Si
   function handleAddTicket(price: number, name: string) {
     console.log(`Executing adultTickets: `, adultTickets);
 
-    if (name === `ticket-adult-amount` && !servicePerPersonActive) {
+    if (name === `adultTickets` && !servicePerPersonActive) {
       setAdultTickets((prev) => prev + 1);
       setTotalPrice((prev) => prev + price);
     }
 
-    if (name === `ticket-youth-amount` && !servicePerPersonActive) {
+    if (name === `youthTickets` && !servicePerPersonActive) {
       setYouthTickets((prev) => prev + 1);
       setTotalPrice((prev) => prev + price);
     }
-    if (name === `ticket-children-amount`) {
+    if (name === `childrenTickets`) {
       setChildrenTickets((prev) => prev + 1);
       setTotalPrice((prev) => prev + price);
     }
 
-    if (name === `ticket-adult-amount` && servicePerPersonActive) {
+    if (name === `adultTickets` && servicePerPersonActive) {
       setAdultTickets((prev) => prev + 1);
 
       setTotalPrice((prev) => prev + price + price_for_extra.adult);
     }
-    if (name === `ticket-youth-amount` && servicePerPersonActive) {
+    if (name === `youthTickets` && servicePerPersonActive) {
       setYouthTickets((prev) => prev + 1);
       setTotalPrice((prev) => prev + price + price_for_extra.youth);
     }
@@ -149,7 +149,7 @@ export default function SidebarForm({ price, price_for_extra, time, tourId }: Si
       return;
     }
 
-    if (name === `ticket-adult-amount` && !servicePerPersonActive) {
+    if (name === `adultTickets` && !servicePerPersonActive) {
       if (adultTickets === 0) {
         return;
       }
@@ -157,7 +157,7 @@ export default function SidebarForm({ price, price_for_extra, time, tourId }: Si
       setTotalPrice((prev) => prev - price);
     }
 
-    if (name === `ticket-youth-amount` && !servicePerPersonActive) {
+    if (name === `youthTickets` && !servicePerPersonActive) {
       if (youthTickets === 0) {
         return;
       }
@@ -165,14 +165,14 @@ export default function SidebarForm({ price, price_for_extra, time, tourId }: Si
       setTotalPrice((prev) => prev - price);
     }
 
-    if (name === `ticket-adult-amount` && servicePerPersonActive) {
+    if (name === `adultTickets` && servicePerPersonActive) {
       if (adultTickets === 0) {
         return;
       }
       setAdultTickets((prev) => prev - 1);
       setTotalPrice((prev) => prev - price - price_for_extra.adult);
     }
-    if (name === `ticket-youth-amount` && servicePerPersonActive) {
+    if (name === `youthTickets` && servicePerPersonActive) {
       if (youthTickets === 0) {
         return;
       }
@@ -181,7 +181,7 @@ export default function SidebarForm({ price, price_for_extra, time, tourId }: Si
     }
 
 
-    if (name === `ticket-children-amount`) {
+    if (name === `childrenTickets`) {
       if (childrenTickets === 0) {
         return;
       }
@@ -208,9 +208,9 @@ export default function SidebarForm({ price, price_for_extra, time, tourId }: Si
     const formData = new FormData(currObject);
     const results = Object.fromEntries(formData.entries());
 
-    if (results[`ticket-adult-amount`] === `0`
-      && results[`ticket-youth-amount`] === `0`
-      && results[`ticket-children-amount`] === `0`) {
+    if (results[`adultTickets`] === `0`
+      && results[`youthTickets`] === `0`
+      && results[`childrenTickets`] === `0`) {
       alert(`Please select at least one ticket!`);
       return;
     }
@@ -258,28 +258,28 @@ export default function SidebarForm({ price, price_for_extra, time, tourId }: Si
           <h3
             className="tertiary-heading margin-top-sm description__tour-overview-sidebar__tickets-heading">Tickets</h3>
           <SidebarCountButton totalTickets={adultTickets} addTicket={handleAddTicket} removeTicket={handleRemoveTicket}
-                              name={`ticket-adult-amount`}
+                              name={`adultTickets`}
                               label={`Adult (18+ years)`} price={price.adult} />
           <SidebarCountButton totalTickets={youthTickets} addTicket={handleAddTicket} removeTicket={handleRemoveTicket}
-                              name={`ticket-youth-amount`}
+                              name={`youthTickets`}
                               label={`Youth (13-17+ years)`} price={price.youth} />
           <SidebarCountButton totalTickets={childrenTickets} addTicket={handleAddTicket}
                               removeTicket={handleRemoveTicket}
-                              name={`ticket-children-amount`} label={`Children (1-12+ years)`} price={price.children} />
+                              name={`childrenTickets`} label={`Children (1-12+ years)`} price={price.children} />
         </div>
         <div className="description__tour-overview-sidebar__tickets grid">
           <h3 className="tertiary-heading margin-top-sm description__tour-overview-sidebar__tickets-heading">Add
             Extra</h3>
           <div className="flex flex-column border-bottom">
             {/*<!--          // insert a checkbox input here, with the Add Service per booking text--> */}
-            <SidebarCheckbox disabled={totalPrice === 0} onClick={toggleServicePerBooking} name={`service-per-booking`}
+            <SidebarCheckbox disabled={totalPrice === 0} onClick={toggleServicePerBooking} name={`service_per_booking`}
                              label={`Add Service per booking `}
                              servicePrice={price_for_extra.service_per_booking}
             />
             <SidebarCheckbox disabled={youthTickets === 0 && adultTickets === 0 && childrenTickets === 0 ||
               youthTickets === 0 && adultTickets === 0 && childrenTickets > 0}
                              onClick={toggleServicePerPerson}
-                             name={`service-per-person`}
+                             name={`service_per_person`}
                              label={`Add Service per person `}
                              servicePrice={price_for_extra.service_per_person}
             />

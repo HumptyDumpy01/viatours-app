@@ -14,6 +14,7 @@ import eiffelImage4 from '@/assets/images/homepage/topTrending/Eiffel/Eiffel-4.p
 import eiffelImage5 from '@/assets/images/homepage/topTrending/Eiffel/Eiffel-5.png';
 import eiffelImage6 from '@/assets/images/homepage/topTrending/Eiffel/Eiffel-6.png';
 import { StaticImageData } from 'next/image';
+import { MeetingPointType, USA_MEETING_POINTS } from '@/data/DUMMY_MEETING_POINTS';
 
 
 // import tourCard9 from '@/assets/images/topTrending/tourCard_image_9.svg';
@@ -65,6 +66,7 @@ export interface TourInterface {
     description: string;
   }[];
   tour_map: { key: string, location: google.maps.LatLngLiteral }[];
+  meeting_point: MeetingPointType;
   // comments: { id: string }[];
 }
 
@@ -255,7 +257,8 @@ export const DUMMY_TOURS: TourInterface[] = [
         location: { lat: 48.8566, lng: 2.3522 },
         key: 'eiffelTower'
       }
-    ]
+    ],
+    meeting_point: USA_MEETING_POINTS[0]
     //////////////////////////////////////
     // comments: [
     //   // INFO: INJECT COMMENT SCHEMA
@@ -371,7 +374,8 @@ export const DUMMY_TOURS: TourInterface[] = [
         location: { lat: 48.8738, lng: 2.2950 },
         key: 'arcDeTriomphe'
       }
-    ]
+    ],
+    meeting_point: USA_MEETING_POINTS[5]
     // comments: [
     //   {
     //     id: `c2`
@@ -478,7 +482,8 @@ export const DUMMY_TOURS: TourInterface[] = [
         location: { lat: 48.8606, lng: 2.3376 },
         key: 'seineRiver'
       }
-    ]
+    ],
+    meeting_point: USA_MEETING_POINTS[1]
     // comments: [
     //   {
     //     id: `c3`
@@ -585,7 +590,8 @@ export const DUMMY_TOURS: TourInterface[] = [
         location: { lat: 50.4547, lng: 30.5238 },
         key: 'dnieperRiver'
       }
-    ]
+    ],
+    meeting_point: USA_MEETING_POINTS[3]
     // comments: [
     //   {
     //     id: `c4`
@@ -690,7 +696,8 @@ export const DUMMY_TOURS: TourInterface[] = [
         location: { lat: 48.8869, lng: 2.3372 },
         key: 'sacreCoeur'
       }
-    ]
+    ],
+    meeting_point: USA_MEETING_POINTS[2]
     // comments: [
     //   {
     //     id: `c5`
@@ -802,7 +809,8 @@ export const DUMMY_TOURS: TourInterface[] = [
         location: { lat: 38.6434, lng: 34.8303 },  // Landing site
         key: 'landingSite'
       }
-    ]
+    ],
+    meeting_point: USA_MEETING_POINTS[3]
     // comments: [
     //   {
     //     id: `c6`
@@ -917,7 +925,8 @@ export const DUMMY_TOURS: TourInterface[] = [
         location: { lat: 38.7191, lng: 34.8486 }, // Avanos
         key: 'avanos'
       }
-    ]
+    ],
+    meeting_point: USA_MEETING_POINTS[6]
     // comments: [
     //   {
     //     id: `c7`
@@ -1033,7 +1042,8 @@ export const DUMMY_TOURS: TourInterface[] = [
         location: { lat: 48.8584, lng: 2.2945 },  // Eiffel Tower
         key: 'eiffelTower'
       }
-    ]
+    ],
+    meeting_point: USA_MEETING_POINTS[7]
     // comments: [
     //   {
     //     id: `c8`
@@ -1138,7 +1148,8 @@ export const DUMMY_TOURS: TourInterface[] = [
         location: { lat: 51.5044, lng: -0.0769 }, // Tower Bridge
         key: 'towerBridge'
       }
-    ]
+    ],
+    meeting_point: USA_MEETING_POINTS[4]
     // comments: [
     //   {
     //     id: `c9`
