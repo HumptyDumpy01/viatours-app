@@ -1,0 +1,68 @@
+#skeleton-card-horizontal {
+  display: grid;
+  grid-template-columns: 25fr 35fr 20fr;
+  gap: 2rem;
+}
+
+.skeleton-card-horizontal-img {
+  width: 28rem;
+  height: 28rem;
+  border-radius: 20px;
+}
+
+.subheading {
+  width: 10rem;
+  margin-bottom: .5rem;
+}
+
+.title {
+  width: 30rem;
+  height: 3rem;
+}
+
+.stars-container {
+  display: flex;
+  gap: .5rem;
+  margin-top: 1rem;
+}
+
+.description-container {
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.description-text-1,
+.description-text-2,
+.description-text-3, {
+  height: 2.3rem;
+}
+
+.description-text-1 {
+  width: 29rem;
+}
+
+.description-text-2 {
+  width: 24rem;
+}
+
+.description-text-3 {
+  width: 15rem;
+}
+
+.badges-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.center-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.day-badge {
+  width: 13rem;
+  height: 3rem;
+  margin-top: 1.4rem;
+  margin-bottom: auto;
+}

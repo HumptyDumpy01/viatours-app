@@ -7,6 +7,7 @@ import Figure from './Figure';
 import Pagination from '@/components/UI/Pagnation/Pagination';
 import FiguresHeader from '@/components/tours/figures/FiguresHeader';
 import NoItemsFound from '@/components/UI/Layout/NoItems/NoItemsFound';
+import SkeletonCardHorizontal from '@/components/skeletons/Card/SkeletonCardHorizontal';
 
 export default function Figures() {
   /* IMPORTANT: BEFORE DOING ANYTHING, DEFINE THE ACTUAL TYPE OF YOUR DATA FOR TS
@@ -40,6 +41,7 @@ export default function Figures() {
         <>
           <FiguresHeader summarizedResults={DUMMY_TOURS.length} />
           <div className="all-tours__content__figures__figure-container">
+            <SkeletonCardHorizontal />
             {currentTours.map((tour) => (
               <Figure
                 key={tour.id}
