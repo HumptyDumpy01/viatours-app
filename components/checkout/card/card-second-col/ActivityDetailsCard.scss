@@ -2,7 +2,7 @@
   padding: 1.7rem;
 
   &__content {
-    //display: none;
+    display: none;
   }
 
   &__activity-details {
@@ -140,4 +140,8 @@
     }
   }
 
+}
+
+.book-now__details-2__content.open {
+  display: block;
 }

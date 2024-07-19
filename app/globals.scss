@@ -501,6 +501,10 @@ img {
 
 }
 
+.gap-16px {
+  gap: 1.6rem;
+}
+
 .gap-1rem {
   gap: 1rem;
 }
@@ -616,6 +620,18 @@ span {
 
 .margin-bottom-18x {
   margin-bottom: 1.8rem;
+}
+
+.margin-left-73px {
+  margin-left: 7.3rem;
+}
+
+.margin-bottom-36px {
+  margin-bottom: 3.6rem;
+}
+
+.margin-bottom-7px {
+  margin-bottom: .7rem;
 }
 
 .margin-right-very-small {
@@ -797,6 +813,10 @@ span {
   -moz-user-select: none;
   -ms-user-select: none;
   cursor: grab;
+}
+
+button {
+  font-family: 'Inter', serif;
 }
 
 // created a button to go to the top of the page. It is an absolute positioned button

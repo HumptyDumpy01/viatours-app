@@ -1,6 +1,6 @@
 // 'use client';
 
-import { OrderInterface } from '@/components/checkout/card/ActivityDetailsCard';
+import { OrderInterface } from '@/components/checkout/card/card-first-col/ActivityDetailsCard';
 
 type ActivityDetailsAmountOfTicketsType = {
   order: OrderInterface;

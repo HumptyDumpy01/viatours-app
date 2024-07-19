@@ -1,20 +1,23 @@
 'use client';
 
+import React, { useEffect } from 'react';
 import './page.scss';
 import { notFound } from 'next/navigation';
 import CheckoutDetails from '@/components/checkout/checkout-details/CheckoutDetails';
-/*type CheckoutPageType = {
-  // children: ReactNode;
-}*/
 
-export default function CheckoutPage(/*{  }: CheckoutPageType*/) {
+export default function CheckoutPage() {
+  useEffect(() => {
+    // This code runs only on the client side
+    const order = localStorage.getItem('order');
+    if (!order) {
+      notFound();
+    }
+  }, []);
 
-  // if the local storage does not contain the tourOrder, redirect to the homepage
-  if (!localStorage.getItem(`order`)) {
-    notFound();
-  }
-  const order = JSON.parse(localStorage.getItem(`order`)!);
-  console.log(`Executing order: `, order);
+  // Assuming you still want to use the order object below this point,
+  // you should consider setting it in the state and using it from there.
+  // This is just a placeholder example to parse the order after ensuring it exists.
+  const order = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('order') || '{}') : null;
 
   return (
     <section className="book-now-container">
