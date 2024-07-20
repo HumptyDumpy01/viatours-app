@@ -9,7 +9,6 @@ import classes from './page.module.scss';
 /*type TestType = {
   // children: ReactNode;
 }*/
-import { Skeleton } from '@mui/material';
 import React from 'react';
 import SkeletonPageNav from '@/components/skeletons/Navigation/SkeletonPageNav';
 import SkeletonBadge from '@/components/skeletons/Badge/SkeletonBadge';
@@ -20,7 +19,7 @@ import SkeletonTourDetail from '@/components/skeletons/Badge/SkeletonTourDetail'
 import SkeletonSecondaryHeading from '@/components/skeletons/Heading/SkeletonSecondaryHeading';
 import SkeletonText from '@/components/skeletons/Text/SkeletonText';
 import SkeletonListItem from '@/components/skeletons/ListItem/SkeletonListItem';
-import SkeletonPicker from '@/components/skeletons/Picker/SkeletonPicker';
+import SkeletonSidebarForm from '@/components/skeletons/other/Sidebar/SkeletonSidebarForm';
 
 export default function Test(/*{  }: TestType*/) {
   return (
@@ -74,126 +73,7 @@ export default function Test(/*{  }: TestType*/) {
 
           </div>
           <div>
-            <form className={`description__tour-overview-sidebar__form`}>
-              <div className="description__tour-overview-sidebar">
-                <div style={{
-                  display: 'flex',
-                  gap: '.5rem',
-                  marginBottom: `2.4rem`
-                }}>
-                  <SkeletonText widths={[50]} height={12} />
-                  <SkeletonText widths={[50]} height={12} />
-                </div>
-                <div className="description__tour-overview-sidebar-wrapper">
-                  <div>
-                    <SkeletonPicker borderBottom={`1px solid #e0e0e0`} />
-                    <SkeletonPicker />
-                  </div>
-                </div>
-
-                <div className="description__tour-overview-sidebar__tickets grid">
-                  <h3
-                    className="tertiary-heading margin-top-sm description__tour-overview-sidebar__tickets-heading">
-                    <Skeleton variant="rounded" width={100} height={17} />
-                  </h3>
-                  <div style={{
-                    display: 'flex',
-                    flexDirection: `column`,
-                    gap: `1.4rem`
-                  }}>
-
-                    <div className="flex flex-space-between flex-align-center">
-                      <div>
-                        <Skeleton variant="rounded" width={120} height={13} />
-                      </div>
-                      <div style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '1rem'
-                      }}>
-                        <Skeleton variant="circular" width={14} height={14} />
-                        <Skeleton variant="rounded" width={10} height={13} />
-                        <Skeleton variant="circular" width={14} height={14} />
-                      </div>
-                    </div>
-                    <div className="flex flex-space-between flex-align-center">
-                      <div>
-                        <Skeleton variant="rounded" width={110} height={13} />
-                      </div>
-                      <div style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '1rem'
-                      }}>
-                        <Skeleton variant="circular" width={14} height={14} />
-                        <Skeleton variant="rounded" width={10} height={13} />
-                        <Skeleton variant="circular" width={14} height={14} />
-                      </div>
-                    </div>
-                    <div className="flex flex-space-between flex-align-center">
-                      <div>
-                        <Skeleton variant="rounded" width={90} height={13} />
-                      </div>
-                      <div style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '1rem'
-                      }}>
-                        <Skeleton variant="circular" width={14} height={14} />
-                        <Skeleton variant="rounded" width={10} height={13} />
-                        <Skeleton variant="circular" width={14} height={14} />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div style={{ marginBottom: `2rem` }} className="description__tour-overview-sidebar__tickets grid">
-                  <h3
-                    className="tertiary-heading margin-top-sm description__tour-overview-sidebar__tickets-heading">
-                    <div>
-                      <Skeleton variant="rounded" width={100} height={17} />
-                    </div>
-                  </h3>
-                  <div style={{ marginBottom: `1rem` }}>
-                    <div style={{ display: `flex`, justifyContent: `space-between`, gap: `1rem` }}>
-                      <div style={{ display: `flex`, gap: `1rem` }}>
-                        <Skeleton variant="rounded" width={14} height={14} />
-                        <Skeleton variant="rounded" width={100} height={14} />
-                      </div>
-                      <Skeleton variant="rounded" width={25} height={14} />
-                    </div>
-                  </div>
-
-                  <div>
-                    <div style={{ display: `flex`, justifyContent: `space-between`, gap: `1rem` }}>
-                      <div style={{ display: `flex`, gap: `1rem` }}>
-                        <Skeleton variant="rounded" width={14} height={14} />
-                        <Skeleton variant="rounded" width={100} height={14} />
-                      </div>
-                      <Skeleton variant="rounded" width={25} height={14} />
-                    </div>
-                  </div>
-
-                </div>
-                <div style={{ marginBottom: `5rem` }}>
-                  <p className="paragraph paragraph--descr flex">
-                    <Skeleton variant="rounded" width={25} height={14} />
-                    <span><Skeleton variant="rounded" width={14} height={14} /></span>
-                    <Skeleton variant="rounded" width={25} height={14} />
-                    <span><Skeleton variant="rounded" width={14} height={14} /></span>
-                  </p>
-                </div>
-                <div style={{ display: `flex`, justifyContent: `space-between`, marginBottom: `2.2rem` }}>
-                  <Skeleton variant="rounded" width={55} height={17} />
-                  <Skeleton variant="rounded" width={25} height={17} />
-                </div>
-                <div style={{ display: `flex`, justifyContent: `center` }}>
-                  <Skeleton animation={`wave`} variant="rounded" width={`90%`} height={40} sx={{
-                    borderRadius: `12px`
-                  }} />
-                </div>
-
-              </div>
-            </form>
+            <SkeletonSidebarForm />
           </div>
         </div>
       </section>
