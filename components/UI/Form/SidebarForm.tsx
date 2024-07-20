@@ -259,13 +259,13 @@ export default function SidebarForm({ price, price_for_extra, time, tourId }: Si
             className="tertiary-heading margin-top-sm description__tour-overview-sidebar__tickets-heading">Tickets</h3>
           <SidebarCountButton totalTickets={adultTickets} addTicket={handleAddTicket} removeTicket={handleRemoveTicket}
                               name={`adultTickets`}
-                              label={`Adult (18+ years)`} price={price.adult} />
+                              label={`Adult (18+)`} price={price.adult} />
           <SidebarCountButton totalTickets={youthTickets} addTicket={handleAddTicket} removeTicket={handleRemoveTicket}
                               name={`youthTickets`}
-                              label={`Youth (13-17+ years)`} price={price.youth} />
+                              label={`Youth (13-17+)`} price={price.youth} />
           <SidebarCountButton totalTickets={childrenTickets} addTicket={handleAddTicket}
                               removeTicket={handleRemoveTicket}
-                              name={`childrenTickets`} label={`Children (1-12+ years)`} price={price.children} />
+                              name={`childrenTickets`} label={`Children (1-12+)`} price={price.children} />
         </div>
         <div className="description__tour-overview-sidebar__tickets grid">
           <h3 className="tertiary-heading margin-top-sm description__tour-overview-sidebar__tickets-heading">Add

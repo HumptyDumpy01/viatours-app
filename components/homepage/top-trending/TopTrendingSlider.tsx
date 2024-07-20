@@ -7,12 +7,18 @@ import { TourInterface } from '@/data/DUMMY_TOURS';
 import { fetchTours } from '@/lib/api/fetchTours';
 import SkeletonCardFull from '@/components/skeletons/Card/SkeletonCardFull';
 
-export default function TopTrendingSlider() {
+type TopTrendingSliderType = {
+  tag: string;
+  max?: number;
+  // children: ReactNode;
+}
+
+export default function TopTrendingSlider({ tag, max }: TopTrendingSliderType) {
   const [tours, setTours] = useState<TourInterface[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    fetchTours(`popular`, 4)
+    fetchTours(tag, max)
       .then((data) => {
         setTours(data);
         setLoading(false);

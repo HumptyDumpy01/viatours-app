@@ -21,7 +21,7 @@ import TopTrendingHeading from '@/components/homepage/top-trending/TopTrendingHe
 import TopTrendingSlider from '@/components/homepage/top-trending/TopTrendingSlider';
 import TopTrendingWrapper from '@/components/homepage/top-trending/TopTrendingWrapper';
 import '@/components/UI/Form/SidebarForm.scss';
-import React, { useEffect } from 'react';
+import React from 'react';
 import SidebarForm from '@/components/UI/Form/SidebarForm';
 import { fetchTour } from '@/lib/api/fetchTour';
 import { notFound } from 'next/navigation';
@@ -100,7 +100,7 @@ export default async function TourDescriptionSection({ params }: TourDescription
       </div>
       <section className="top-trending container-cta">
         <TopTrendingWrapper>
-          <TopTrendingSlider />
+          <TopTrendingSlider tag={currTour.tag[0]} />
         </TopTrendingWrapper>
       </section>
 
