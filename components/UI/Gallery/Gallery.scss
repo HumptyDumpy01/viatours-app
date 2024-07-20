@@ -37,6 +37,24 @@
     transition: all .5s;
     opacity: .85;
 
+    &-skeleton {
+      background-color: #b6b6b6;
+
+      position: absolute;
+      bottom: 1.6rem;
+      right: 1.6rem;
+      z-index: 9;
+      //padding: 1rem 1.2rem;
+      border-radius: 100px;
+      color: var(--clr-white);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, .2);
+      font-size: 1.465rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all .5s;
+      opacity: .85;
+    }
+
     &:hover, &:active {
       transform: translateX(-2%);
       font-weight: 400;
