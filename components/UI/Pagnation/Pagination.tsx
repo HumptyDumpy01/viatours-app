@@ -7,9 +7,10 @@ interface PaginationInterface {
   setCurrentPage: (page: number) => void;
   totalItems: number;
   itemsPerPage: number;
+  handleSetLoading: () => void;
 }
 
-const Pagination = ({ currentPage, setCurrentPage, totalItems, itemsPerPage }: PaginationInterface) => {
+const Pagination = ({ currentPage, setCurrentPage, totalItems, itemsPerPage, handleSetLoading }: PaginationInterface) => {
   const pageNumbers = [];
   for (let i = 1; i <= Math.ceil(totalItems / itemsPerPage); i++) {
     pageNumbers.push(i);
@@ -18,11 +19,10 @@ const Pagination = ({ currentPage, setCurrentPage, totalItems, itemsPerPage }: P
   const handleClick = (number: number, event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     event.preventDefault(); // Prevent the default anchor action
     setCurrentPage(number);
+    handleSetLoading();
 
-    // Calculate 10% from the top of the page
-    const scrollToPosition = window.innerHeight / 10;
     window.scrollTo({
-      top: scrollToPosition,
+      top: 0,
       behavior: 'smooth' // Smooth scroll
     });
   };

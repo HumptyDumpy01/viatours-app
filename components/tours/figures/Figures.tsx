@@ -8,24 +8,28 @@ import Pagination from '@/components/UI/Pagnation/Pagination';
 import FiguresHeader from '@/components/tours/figures/FiguresHeader';
 import NoItemsFound from '@/components/UI/Layout/NoItems/NoItemsFound';
 import SkeletonCardHorizontal from '@/components/skeletons/Card/SkeletonCardHorizontal';
+import { fetchTours } from '@/lib/api/fetchTours';
+
 
 export default function Figures() {
-  /* IMPORTANT: BEFORE DOING ANYTHING, DEFINE THE ACTUAL TYPE OF YOUR DATA FOR TS
-  *   TO INFER IT. */
-
-  /* INFO: CREATE A PAGINATION COMPONENT: use ReactCommonPagination snippet */
 
   // define how many tours to show per page
   const toursPerPage = 6;
   // define the current page
   const [currentPage, setCurrentPage] = useState(1);
   const [currentTours, setCurrentTours] = useState<TourInterface[]>([]);
+  const [loading, setLoading] = useState(true);
 
   // get the current tours and paginate them
   useEffect(() => {
     const indexOfLastTour = currentPage * toursPerPage;
     const indexOfFirstTour = indexOfLastTour - toursPerPage;
-    setCurrentTours(DUMMY_TOURS.slice(indexOfFirstTour, indexOfLastTour));
+    // fetch the tours
+    fetchTours().then((tours) => {
+      setCurrentTours(tours.slice(indexOfFirstTour, indexOfLastTour));
+      setLoading(false);
+    });
+
   }, [currentPage]);
 
   // TODO: Implement the clear filters function
@@ -34,17 +38,21 @@ export default function Figures() {
   function handleClearFilters() {
   }
 
-  const slicedTours = DUMMY_TOURS.slice(0, 1);
-
   return (
     <>
-      {DUMMY_TOURS.length === 0 && <NoItemsFound clearFilters={handleClearFilters} />}
-      {DUMMY_TOURS.length > 0 && (
+      {loading && (
+        <div className="all-tours__content__figures__figure-container">
+          <SkeletonCardHorizontal />
+          <SkeletonCardHorizontal />
+          <SkeletonCardHorizontal />
+        </div>
+      )}
+      {(!loading && currentTours.length === 0) && <NoItemsFound clearFilters={handleClearFilters} />}
+      {(!loading && currentTours.length > 0) && (
         <>
           <FiguresHeader summarizedResults={DUMMY_TOURS.length} />
           <div className="all-tours__content__figures__figure-container">
-            <SkeletonCardHorizontal />
-            {slicedTours.map((tour) => (
+            {currentTours.map((tour) => (
               <Figure
                 key={tour.id}
                 href={tour.id}
@@ -63,6 +71,7 @@ export default function Figures() {
             ))}
           </div>
           <Pagination
+            handleSetLoading={() => setLoading(true)}
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
             totalItems={DUMMY_TOURS.length}

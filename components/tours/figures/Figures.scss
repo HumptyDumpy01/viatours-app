@@ -5,6 +5,12 @@
   border: 1px solid var(--clr-silver);
   padding: 2rem;
   z-index: -1;
+  animation-name: moveInBottom;
+  animation-duration: 1s;
+  //animation-delay: 0.2s;
+  /*animation-iteration-count: 2;*/
+  animation-timing-function: ease-out;
+
   @media only screen and (max-width: 58.375em) {
     padding: 0;
   }
