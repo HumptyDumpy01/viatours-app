@@ -47,5 +47,14 @@
 
   &__content {
     margin-top: 3rem;
+
+    &-header {
+      animation-name: moveInTop;
+      animation-duration: 1s;
+      //animation-delay: 0.2s;
+      /*animation-iteration-count: 2;*/
+      animation-timing-function: ease-out;
+
+    }
   }
 }

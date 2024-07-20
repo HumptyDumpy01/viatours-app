@@ -12,8 +12,10 @@ import Figures from '@/components/tours/figures/Figures';
 export default function AllTours(/*{  }: AllToursInterface*/) {
   return (
     <>
-      <ToursHeader />
-      <SearchTour />
+      <div className={`all-tours__content-header`}>
+        <ToursHeader />
+        <SearchTour />
+      </div>
       <div className="all-tours__content grid">
         <Filter />
         <div className="all-tours__content__figures">

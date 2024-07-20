@@ -31,6 +31,12 @@
   }
 
   &__content__filter {
+    animation-name: moveInLeft;
+    animation-duration: .6s;
+    //animation-delay: 0.2s;
+    /*animation-iteration-count: 2;*/
+    animation-timing-function: ease-out;
+
     position: relative;
     transition: all .7s;
     @media only screen and (max-width: 58.375em) {

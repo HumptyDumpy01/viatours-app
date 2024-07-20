@@ -189,6 +189,12 @@ li {
   }
 
   &-hero {
+    animation-name: moveInLeft;
+    animation-duration: 1s;
+    //animation-delay: 0.2s;
+    /*animation-iteration-count: 2;*/
+    animation-timing-function: ease-out;
+
     color: var(--clr-white);
     margin-bottom: 7rem;
     @media only screen and (max-width: 30.25px) {
@@ -787,6 +793,12 @@ span {
   font-size: 7rem;
   font-weight: 600;
   color: var(--clr-white);
+  animation-name: moveInBottom;
+  animation-duration: 2s;
+  //animation-delay: 0.2s;
+  /*animation-iteration-count: 2;*/
+  animation-timing-function: ease-out;
+
   @media only screen and (max-width: 30.25em) {
     font-size: 5rem;
   }
