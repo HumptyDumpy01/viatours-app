@@ -10,21 +10,31 @@ interface PaginationInterface {
   handleSetLoading: () => void;
 }
 
-const Pagination = ({ currentPage, setCurrentPage, totalItems, itemsPerPage, handleSetLoading }: PaginationInterface) => {
+const Pagination = ({
+                      currentPage,
+                      setCurrentPage,
+                      totalItems,
+                      itemsPerPage,
+                      handleSetLoading
+                    }: PaginationInterface) => {
   const pageNumbers = [];
   for (let i = 1; i <= Math.ceil(totalItems / itemsPerPage); i++) {
     pageNumbers.push(i);
   }
 
-  const handleClick = (number: number, event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+  const handleClick = (number: number, event: React.MouseEvent<HTMLAnchorElement, MouseEvent>, activeLink: boolean) => {
     event.preventDefault(); // Prevent the default anchor action
+    if (activeLink) return;
     setCurrentPage(number);
+
     handleSetLoading();
 
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth' // Smooth scroll
-    });
+    setTimeout(() => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth' // Smooth scroll
+      });
+    }, 0);
   };
 
   return (
@@ -34,7 +44,7 @@ const Pagination = ({ currentPage, setCurrentPage, totalItems, itemsPerPage, han
           <Link
             key={number}
             href="#"
-            onClick={(event) => handleClick(number, event)}
+            onClick={(event) => handleClick(number, event, currentPage === number)}
             className={`pagination__link ${currentPage === number ? 'pagination__link--active' : ''}`}
           >
             {number}

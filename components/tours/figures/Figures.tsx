@@ -27,6 +27,7 @@ export default function Figures() {
     // fetch the tours
     fetchTours().then((tours) => {
       setCurrentTours(tours.slice(indexOfFirstTour, indexOfLastTour));
+      // setCurrentTours(prev => [...prev, ...tours.slice(indexOfFirstTour, indexOfLastTour)]);
       setLoading(false);
     });
 

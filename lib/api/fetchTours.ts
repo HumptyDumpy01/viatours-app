@@ -3,7 +3,7 @@
 import { DUMMY_TOURS, TourInterface } from '@/data/DUMMY_TOURS';
 
 export async function fetchTours(tag?: `new` | `popular`, max?: number): Promise<TourInterface[]> {
-  await new Promise((resolve) => setTimeout(resolve, 4000));
+  await new Promise((resolve) => setTimeout(resolve, 1000));
   let tours: TourInterface[] = [];
   if (!max && !tag) {
     tours = DUMMY_TOURS;

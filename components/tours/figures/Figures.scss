@@ -6,7 +6,7 @@
   padding: 2rem;
   z-index: -1;
   animation-name: moveInBottom;
-  animation-duration: 1s;
+  animation-duration: .5s;
   //animation-delay: 0.2s;
   /*animation-iteration-count: 2;*/
   animation-timing-function: ease-out;
@@ -71,7 +71,7 @@
 
   &-img {
     //position: relative;
-    height: 40rem;
+    //height: 40rem;
     border-radius: 12px;
     transition: all .4s;
     border-bottom-left-radius: 0;

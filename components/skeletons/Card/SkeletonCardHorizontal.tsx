@@ -11,8 +11,26 @@ export default function SkeletonCardHorizontal(/*{  }: SkeletonCardHorizontalTyp
   return (
     <>
       <div className="all-tours__content__figures__figure-wrapper" id={classes[`skeleton-card-horizontal`]}>
-        <div>
-          <Skeleton variant="rectangular" animation={`wave`} className={classes[`skeleton-card-horizontal-img`]} />
+        <div className={classes[`skeleton-card-horizontal-img`]}>
+          <Skeleton sx={{
+            width: '28rem',
+            height: '28rem',
+            // add media query for smaller screens
+            '@media (max-width: 66.4375em)': {
+              width: '33rem',
+              height: '35rem',
+              clipPath: 'polygon(0 0, 100% 0, 100% 70%, 0 100%)',
+              borderBottomLeftRadius: 0,
+              borderBottomRightRadius: 0
+            },
+            '@media (max-width: 58.375em)': {
+              width: '50rem',
+              height: '40rem'
+            },
+            '@media (max-width: 40.6875em)': {
+              width: '100%'
+            }
+          }} variant="rectangular" animation={`wave`} className={classes[`skeleton-card-horizontal-img`]} />
         </div>
         {/*<div className={classes[`skeleton-details-container`]}>*/}
 
