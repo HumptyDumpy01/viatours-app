@@ -1,9 +1,9 @@
 // 'use client';
+
 import '@/components/homepage/top-trending/TopTrending.scss';
 import TourDescriptionNavigation from '@/components/tourDescription/TourDescriptionNav/TourDescriptionNavigation';
 import DescriptionTag from '@/components/tourDescription/DescriptionTag';
-import { DUMMY_TOURS } from '@/data/DUMMY_TOURS';
-import { notFound } from 'next/navigation';
+import { TourInterface } from '@/data/DUMMY_TOURS';
 import TourStats from '@/components/tourDescription/TourStats';
 import Gallery from '@/components/UI/Gallery/Gallery';
 import DescriptionOverview from '@/components/tourDescription/TourOverview/DescriptionOverview';
@@ -21,9 +21,10 @@ import TopTrendingHeading from '@/components/homepage/top-trending/TopTrendingHe
 import TopTrendingSlider from '@/components/homepage/top-trending/TopTrendingSlider';
 import TopTrendingWrapper from '@/components/homepage/top-trending/TopTrendingWrapper';
 import '@/components/UI/Form/SidebarForm.scss';
-import React from 'react';
+import React, { useEffect } from 'react';
 import SidebarForm from '@/components/UI/Form/SidebarForm';
-import { Skeleton } from '@mui/material';
+import { fetchTour } from '@/lib/api/fetchTour';
+import { notFound } from 'next/navigation';
 
 type TourDescriptionType = {
   params: {
@@ -32,8 +33,9 @@ type TourDescriptionType = {
   // children: ReactNode;
 }
 
-export default function TourDescriptionSection({ params }: TourDescriptionType) {
-  const currTour = DUMMY_TOURS.find((item) => item.id === params.id);
+
+export default async function TourDescriptionSection({ params }: TourDescriptionType) {
+  const currTour = await fetchTour(params.id) as TourInterface;
 
   if (!currTour) {
     notFound();
@@ -41,7 +43,7 @@ export default function TourDescriptionSection({ params }: TourDescriptionType) 
 
   return (
     <>
-      <TourDescriptionNavigation params={params} />
+      <TourDescriptionNavigation title={currTour.title} params={params} />
       <section className="description container">
         <DescriptionTag />
         <h1 className="description__heading margin-bottom-small">{currTour.title}</h1>

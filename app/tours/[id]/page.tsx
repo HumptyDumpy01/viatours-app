@@ -4,6 +4,7 @@ import TourDescriptionSection from '@/components/tourDescription/TourDescription
 import { DUMMY_TOURS } from '@/data/DUMMY_TOURS';
 import { notFound } from 'next/navigation';
 
+
 interface TourDescriptionInterface {
   params: {
     id: string;

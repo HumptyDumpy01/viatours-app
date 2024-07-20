@@ -6,11 +6,10 @@ type TourDescriptionNavigationType = {
   params: {
     id: string;
   };
+  title: string;
 };
 
-export default function TourDescriptionNavigation({ params }: TourDescriptionNavigationType) {
-  const currentTour = DUMMY_TOURS.find((item) => item.id === params.id);
-  const title = currentTour?.title || 'Tour Details';
+export default function TourDescriptionNavigation({ params, title }: TourDescriptionNavigationType) {
 
   return (
     <>
