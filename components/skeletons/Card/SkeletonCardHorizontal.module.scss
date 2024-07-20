@@ -2,12 +2,54 @@
   display: grid;
   grid-template-columns: 25fr 35fr 20fr;
   gap: 2rem;
+  pointer-events: none;
+  @media only screen and (max-width: 66.4375em) {
+    grid-template-columns: 33rem;
+    justify-content: center;
+    width: 37rem;
+  }
+
+  @media only screen and (max-width: 58.375em) {
+    width: 100%;
+    justify-content: start;
+  }
+  @media only screen and (max-width: 40.6875em) {
+    grid-template-columns: 1fr;
+    width: 85%;
+  }
+  @media only screen and (max-width: 37.5em) {
+    width: 100%;
+  }
+  @media only screen and (max-width: 35.25em) {
+    width: 80%;
+  }
+  @media only screen and (max-width: 33.9375em) {
+    width: 110%;
+  }
+
 }
 
 .skeleton-card-horizontal-img {
   width: 28rem;
   height: 28rem;
   border-radius: 20px;
+
+  @media only screen and (max-width: 66.4375em) {
+    width: 33rem;
+    clip-path: polygon(0 0, 100% 0, 100% 70%, 0 100%);
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    height: 35rem;
+  }
+
+  @media only screen and (max-width: 58.375em) {
+    width: 50rem;
+    height: 40rem;
+  }
+
+  @media only screen and (max-width: 40.6875em) {
+    width: 100%;
+  }
 }
 
 .subheading {
@@ -18,6 +60,13 @@
 .title {
   width: 30rem;
   height: 3rem;
+}
+
+.skeleton-details-container {
+  @media only screen and (max-width: 58.375em) {
+    padding-left: 2rem;
+    margin-top: -2rem;
+  }
 }
 
 .stars-container {
@@ -35,29 +84,48 @@
 .description-text-2,
 .description-text-3, {
   height: 2.3rem;
+
 }
 
 .description-text-1 {
   width: 29rem;
+
+  @media only screen and (max-width: 58.375em) {
+    width: 90%;
+  }
 }
 
 .description-text-2 {
   width: 24rem;
+
+  @media only screen and (max-width: 58.375em) {
+    width: 70%;
+  }
 }
 
 .description-text-3 {
   width: 15rem;
+  @media only screen and (max-width: 58.375em) {
+    width: 50%;
+  }
 }
 
 .badges-container {
   display: flex;
   justify-content: space-between;
+
+  @media only screen and (max-width: 58.375em) {
+    display: none;
+  }
 }
 
 .center-container {
   display: flex;
   flex-direction: column;
   align-items: center;
+  @media only screen and (max-width: 66.4375em) {
+    width: 100%;
+  }
 }
 
 .day-badge {
@@ -65,4 +133,19 @@
   height: 3rem;
   margin-top: 1.4rem;
   margin-bottom: auto;
+}
+
+.btn {
+  width: 12rem;
+  height: 8rem;
+  border-radius: 20px;
+
+  @media only screen and (max-width: 66.4375em) {
+    width: 100%;
+  }
+
+  @media only screen and (max-width: 58.375em) {
+    width: 90%;
+  }
+
 }

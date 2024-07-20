@@ -34,6 +34,8 @@ export default function Figures() {
   function handleClearFilters() {
   }
 
+  const slicedTours = DUMMY_TOURS.slice(0, 1);
+
   return (
     <>
       {DUMMY_TOURS.length === 0 && <NoItemsFound clearFilters={handleClearFilters} />}
@@ -42,7 +44,7 @@ export default function Figures() {
           <FiguresHeader summarizedResults={DUMMY_TOURS.length} />
           <div className="all-tours__content__figures__figure-container">
             <SkeletonCardHorizontal />
-            {currentTours.map((tour) => (
+            {slicedTours.map((tour) => (
               <Figure
                 key={tour.id}
                 href={tour.id}

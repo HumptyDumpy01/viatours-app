@@ -89,4 +89,10 @@
   text-decoration: none;
   color: var(--clr-dark-blue);
   border-radius: 12px;
+  animation-name: moveInBottom;
+  animation-duration: 2s;
+  //animation-delay: 0.2s;
+  /*animation-iteration-count: 2;*/
+  animation-timing-function: ease-out;
+
 }

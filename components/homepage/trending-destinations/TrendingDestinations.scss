@@ -41,6 +41,11 @@
       color: var(--clr-dark-blue);
       border-radius: 1px;
       -webkit-user-drag: none;
+      animation-name: moveInBottom;
+      animation-duration: 2s;
+      /*animation-iteration-count: 2;*/
+      animation-timing-function: ease-out;
+
     }
 
     img {

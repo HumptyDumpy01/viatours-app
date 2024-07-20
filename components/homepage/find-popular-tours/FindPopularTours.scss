@@ -35,6 +35,11 @@
     transition: all 0.2s;
     width: 25rem;
     height: 41.2rem;
+    animation-name: moveInLeft;
+    animation-duration: 1s;
+    /*animation-iteration-count: 2;*/
+    animation-timing-function: ease-in-out;
+
 
     &-link {
       text-decoration: none;

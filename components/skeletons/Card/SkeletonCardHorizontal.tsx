@@ -14,7 +14,10 @@ export default function SkeletonCardHorizontal(/*{  }: SkeletonCardHorizontalTyp
         <div>
           <Skeleton variant="rectangular" animation={`wave`} className={classes[`skeleton-card-horizontal-img`]} />
         </div>
-        <div>
+        {/*<div className={classes[`skeleton-details-container`]}>*/}
+
+        {/*</div>*/}
+        <div className={classes[`skeleton-details-container`]}>
           <Skeleton className={classes[`subheading`]} />
           <Skeleton className={classes[`title`]} />
           <div className={classes[`stars-container`]}>
@@ -58,11 +61,7 @@ export default function SkeletonCardHorizontal(/*{  }: SkeletonCardHorizontalTyp
               height: '3rem'
             }} />
 
-            <Skeleton sx={{
-              width: '12rem',
-              height: '8rem',
-              borderRadius: '20px'
-            }} />
+            <Skeleton className={classes[`btn`]} />
           </div>
         </div>
       </div>
