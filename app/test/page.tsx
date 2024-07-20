@@ -20,6 +20,7 @@ import SkeletonTourDetail from '@/components/skeletons/Badge/SkeletonTourDetail'
 import SkeletonSecondaryHeading from '@/components/skeletons/Heading/SkeletonSecondaryHeading';
 import SkeletonText from '@/components/skeletons/Text/SkeletonText';
 import SkeletonListItem from '@/components/skeletons/ListItem/SkeletonListItem';
+import SkeletonPicker from '@/components/skeletons/Picker/SkeletonPicker';
 
 export default function Test(/*{  }: TestType*/) {
   return (
@@ -80,47 +81,13 @@ export default function Test(/*{  }: TestType*/) {
                   gap: '.5rem',
                   marginBottom: `2.4rem`
                 }}>
-                  <Skeleton variant="rounded" width={50} height={12} />
-                  <Skeleton variant="rounded" width={50} height={12} />
+                  <SkeletonText widths={[50]} height={12} />
+                  <SkeletonText widths={[50]} height={12} />
                 </div>
                 <div className="description__tour-overview-sidebar-wrapper">
                   <div>
-                    <div style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '1rem', paddingBottom: `1rem`,
-                      paddingTop: `1rem`,
-                      paddingLeft: `1rem`,
-                      borderBottom: `1px solid #e0e0e0`
-                    }}>
-                      <Skeleton variant="circular" width={14} height={14} />
-                      <div style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: '.5rem'
-                      }}>
-                        <Skeleton variant="rounded" width={50} height={10} />
-                        <Skeleton variant="rounded" width={70} height={10} />
-                      </div>
-                    </div>
-
-                    <div style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '1rem', paddingBottom: `1rem`,
-                      paddingTop: `1rem`,
-                      paddingLeft: `1rem`
-                    }}>
-                      <Skeleton variant="circular" width={14} height={14} />
-                      <div style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: '.5rem'
-                      }}>
-                        <Skeleton variant="rounded" width={50} height={10} />
-                        <Skeleton variant="rounded" width={70} height={10} />
-                      </div>
-                    </div>
+                    <SkeletonPicker borderBottom={`1px solid #e0e0e0`} />
+                    <SkeletonPicker />
                   </div>
                 </div>
 
