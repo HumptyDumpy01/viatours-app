@@ -5,6 +5,7 @@ import '@/app/tours/[id]/page.scss';
 }*/
 
 export default function DescriptionTag(/*{  }: DescriptionTagType*/) {
+
   return (
     <>
       <div className="description__tag flex">

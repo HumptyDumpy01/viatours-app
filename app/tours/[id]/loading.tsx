@@ -1,4 +1,5 @@
-// 'use client';
+'use client';
+
 import '@/components/homepage/top-trending/TopTrending.scss';
 import '@/components/UI/Gallery/Gallery.scss';
 import '@/components/tourDescription/TourOverview/TourOverview.scss';
@@ -21,8 +22,14 @@ import SkeletonListItem from '@/components/skeletons/ListItem/SkeletonListItem';
 import SkeletonSidebarForm from '@/components/skeletons/other/Sidebar/SkeletonSidebarForm';
 
 export default function TourDescriptionLoadingPage(/*{  }: TestType*/) {
+  // scroll to the top of the page,
+  // so that the user sees the loading state
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
-    <div className={`container`} style={{ paddingTop: `1rem` }}>
+    <div className={`container ${classes[`skeleton-container`]}`} style={{ paddingTop: `1rem` }}>
       <SkeletonPageNav amount={3} height={20} width={30} />
       <section className="description" style={{ marginTop: `3rem` }}>
         <SkeletonBadge width={90} height={35} amount={2} />

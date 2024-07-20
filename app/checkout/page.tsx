@@ -1,28 +1,51 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './page.scss';
-import { notFound } from 'next/navigation';
-import CheckoutDetails from '@/components/checkout/checkout-details/CheckoutDetails';
+import CheckoutDetails, { OrderInterface } from '@/components/checkout/checkout-details/CheckoutDetails';
+import CheckoutLoadingPage from '@/app/checkout/loading';
+import { DUMMY_TOURS } from '@/data/DUMMY_TOURS';
 
 export default function CheckoutPage() {
+
+  const [order, setOrder] = useState<OrderInterface | null>(null);
+  const [loading, setLoading] = useState(true); // Step 1: Introduce a loading state
+
+
   useEffect(() => {
-    // This code runs only on the client side
-    const order = localStorage.getItem('order');
-    if (!order) {
-      notFound();
+    setLoading(true); // Step 2: Set loading to true initially
+    async function fetchData() {
+      await new Promise((resolve) => setTimeout(resolve, 3000));
+
+      const orderData = localStorage.getItem('order');
+      if (orderData) {
+        setOrder(JSON.parse(orderData));
+      }
+      setLoading(false); // Step 4: Set loading to false after fetching data
     }
+
+    fetchData();
   }, []);
 
-  // Assuming you still want to use the order object below this point,
-  // you should consider setting it in the state and using it from there.
-  // This is just a placeholder example to parse the order after ensuring it exists.
-  const order = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('order') || '{}') : null;
+  if (loading) {
+    return <CheckoutLoadingPage />; // Step 3: Show loading page while fetching data
+  }
+
+  if (!order) {
+    console.log('Order not found');
+    return null;
+  }
+
+  const tour = DUMMY_TOURS.find((item) => item.id === order.tourId);
+
+  if (!tour) {
+    throw new Error('Tour not found');
+  }
 
   return (
     <section className="book-now-container">
       <div className="book-now grid container">
-        <CheckoutDetails />
+        <CheckoutDetails tour={tour} order={order} />
       </div>
     </section>
   );

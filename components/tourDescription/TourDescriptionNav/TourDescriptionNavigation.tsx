@@ -1,6 +1,5 @@
 import './TourDescrNavigation.scss';
 import PageNavigation from '@/components/UI/Layout/PageNavigation/PageNavigation';
-import { DUMMY_TOURS } from '@/data/DUMMY_TOURS';
 
 type TourDescriptionNavigationType = {
   params: {

@@ -33,7 +33,6 @@ type TourDescriptionType = {
   // children: ReactNode;
 }
 
-
 export default async function TourDescriptionSection({ params }: TourDescriptionType) {
   const currTour = await fetchTour(params.id) as TourInterface;
 

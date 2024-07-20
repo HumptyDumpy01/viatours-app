@@ -69,7 +69,8 @@ export default function Figure({ href, imgSrc, imgAlt, info }: TourCardInterface
             <span className="all-tours__content__figures__figure-details-price--crossed">{/*$1200*/}&nbsp;</span>
             <span
               className="all-tours__content__figures__figure-details-price">From <span>${info[0].price}</span></span>
-            <Link href={`/tours/${href}`} className="link all-tours__content__figures__figure-details-link">View
+            <Link href={`/tours/${href}`}
+                  className="link all-tours__content__figures__figure-details-link">View
               Details</Link>
           </div>
         </div>
