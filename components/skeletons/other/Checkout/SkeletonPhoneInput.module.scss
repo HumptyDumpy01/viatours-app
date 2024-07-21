@@ -1,0 +1,9 @@
+.skeleton-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  @media only screen and (max-width: 60.25em) {
+    display: grid;
+    gap: 2rem;
+  }
+}

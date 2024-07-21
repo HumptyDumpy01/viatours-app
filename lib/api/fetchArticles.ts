@@ -4,7 +4,7 @@ import { DUMMY_ARTICLES, DummyArticleType } from '@/data/DUMMY_ARTICLES';
 
 export async function fetchArticles(max?: number, tag?: `Trips` | `Culture` | `Nature` | `Historic`): Promise<DummyArticleType[]> {
 
-  // await new Promise((resolve) => setTimeout(resolve, 2000));
+  await new Promise((resolve) => setTimeout(resolve, 2000));
   let articles: DummyArticleType[] = [];
 
   if (!max && !tag) {

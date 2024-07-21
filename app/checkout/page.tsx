@@ -15,7 +15,7 @@ export default function CheckoutPage() {
   useEffect(() => {
     setLoading(true); // Step 2: Set loading to true initially
     async function fetchData() {
-      await new Promise((resolve) => setTimeout(resolve, 3000));
+      await new Promise((resolve) => setTimeout(resolve, 1504000));
 
       const orderData = localStorage.getItem('order');
       if (orderData) {
