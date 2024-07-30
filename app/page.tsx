@@ -45,7 +45,17 @@ async function GetPopularTours() {
 }
 
 async function GetFeaturedTours() {
-  const tours = await getTours(22, { tags: `featured` }) as TourInterface[];
+  const tours = await getTours(22, { tags: `featured` }, 0, {
+    _id: 1,
+    images: 1,
+    title: 1,
+    country: 1,
+    city: 1,
+    rating: 1,
+    reviews: 1,
+    duration: 1,
+    price: 1
+  }) as TourInterface[];
   return <TopTrendingSlider tours={tours} />;
 }
 
