@@ -13,13 +13,19 @@ interface TourDescriptionInterface {
   // children: ReactNode;
 }
 
-async function getTour(id: string) {
+async function getTour(id: string): Promise<{ currTour: TourInterface, similarTours: TourInterface[] }> {
   const currTour = await getTourById(id) as TourInterface;
-  return currTour;
+  const similarTours = await getTours(22, { tags: { $in: currTour.tags } }) as TourInterface[];
+  return {
+    currTour,
+    similarTours
+  };
 }
 
 export async function generateMetadata({ params }: TourDescriptionInterface) {
-  const currTour = await getTour(params.id) as TourInterface;
+  const fetchedTours = await getTour(params.id);
+  const { currTour } = fetchedTours;
+  // const { similarTours } = currTour;
 
   if (!currTour) {
     notFound();
@@ -35,8 +41,8 @@ export async function generateMetadata({ params }: TourDescriptionInterface) {
 
 
 export default async function TourDescription({ params }: TourDescriptionInterface) {
-  const currTour = await getTour(params.id) as TourInterface;
-  const similarTours = await getTours(22, { tags: { $in: currTour.tags } }) as TourInterface[];
+  const fetchedTours = await getTour(params.id);
+  const { similarTours, currTour } = fetchedTours;
   return (
     <>
       <TourDescriptionSection similarTours={similarTours} tour={currTour} params={params} />
