@@ -14,13 +14,20 @@ import { getTours } from '@/lib/mongodb';
 import React, { Suspense } from 'react';
 import SkeletonCardMini from '@/components/skeletons/Card/SkeletonCardMini';
 import { TourInterface } from '@/data/DUMMY_TOURS';
+import SkeletonCardFull from '@/components/skeletons/Card/SkeletonCardFull';
 
 
-const GetTrendingDestinations = async function() {
+async function GetTrendingDestinations() {
   const tours = await getTours(22, { tags: `new` }) as TourInterface[];
   return <TrendingDestinations tours={tours} />;
 
-};
+}
+
+async function GetPopularTours() {
+  const tours = await getTours(4, { tags: `popular` }) as TourInterface[];
+  console.log(`Executing tours: `, tours);
+  return <FindPopularTours tours={tours} />;
+}
 
 export default async function Home() {
   return (
@@ -54,7 +61,21 @@ export default async function Home() {
       </section>
 
       <section className="find-popular-tours container">
-        <FindPopularTours />
+        <Suspense fallback={
+          <>
+            <div className="find-popular-tours__tours-wrapper flex">
+              <div className="find-popular-tours__figure-wrapper--1">
+                <SkeletonCardFull />
+                <SkeletonCardFull />
+                <SkeletonCardFull />
+                <SkeletonCardFull />
+              </div>
+            </div>
+          </>
+        }>
+          <GetPopularTours />
+        </Suspense>
+
       </section>
 
       <section className="cta container-cta grid">

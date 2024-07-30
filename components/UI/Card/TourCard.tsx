@@ -6,11 +6,11 @@ import starEmpty from '../../../assets/images/homepage/findPopularTours/empty-st
 import Link from 'next/link';
 import '@/components/homepage/trending-destinations/TrendingDestinations.scss';
 import '@/components/homepage/find-popular-tours/FindPopularTours.scss';
-import Image, { StaticImageData } from 'next/image';
+import Image from 'next/image';
 
 export interface TourCardInterface {
   href: string;
-  imgSrc: StaticImageData | string;
+  imgSrc: string;
   imgAlt: string;
   info: {
     country: string;
@@ -30,9 +30,9 @@ export default function TourCard({ href, imgSrc, imgAlt, info }: TourCardInterfa
     <figure className="find-popular-tours__figure">
       <Link href={href} className="find-popular-tours__figure-link">
         <div className="find-popular-tours__figure__img-wrapper">
-          <Image className="find-popular-tours__figure__img"
-                 src={imgSrc}
-                 alt={imgAlt} />
+          <img className="find-popular-tours__figure__img"
+               src={`http://localhost:3000${imgSrc}`}
+               alt={imgAlt} />
           <div className="find-popular-tours__figure-shape"></div>
         </div>
         <div className="find-popular-tours__figure-wrapper">
