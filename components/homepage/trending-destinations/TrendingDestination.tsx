@@ -1,6 +1,6 @@
 // 'use client';
 
-import Image, { StaticImageData } from 'next/image';
+import { StaticImageData } from 'next/image';
 import Link from 'next/link';
 import './TrendingDestinations.scss';
 
@@ -18,9 +18,9 @@ export default function TrendingDestination({ href, imgSrc, alt, country, text }
     <Link className="trending-destinations-figure-link" href={href}>
       <figure className="trending-destinations-figure">
         <div className="trending-destinations-figure-wrapper-img">
-          {/*<img className="trending-destinations__img" src="img/topTrending/tourCard_image_5.svg"*/}
-          <Image fill className="trending-destinations__img" src={imgSrc}
-                 alt={alt} />
+          <img className={`trending-destinations__img`} src={`http://localhost:3000${imgSrc}`} alt={alt} />
+          {/*<Image fill className="trending-destinations__img" src={`http://localhost:3000${imgSrc}`}*/}
+          {/*       alt={alt} />*/}
         </div>
         <h3 className="tertiary-heading">{country}</h3>
         <p>{text}</p>

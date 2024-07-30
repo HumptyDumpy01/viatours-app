@@ -1,29 +1,24 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import './TrendingDestinations.scss';
 import TrendingDestinationsHeading from '@/components/homepage/trending-destinations/TrendingDestinationsHeading';
 import TrendingDestination from '@/components/homepage/trending-destinations/TrendingDestination';
-import { TourInterface } from '@/data/DUMMY_TOURS';
-import SkeletonCardMini from '@/components/skeletons/Card/SkeletonCardMini';
-import { fetchTours } from '@/lib/api/fetchTours';
 
-export default function TrendingDestinations() {
+interface TourInterface {
+  _id: string;
+  country: string;
+  title: string;
+  city: string;
+  images: string[];
+}
 
-  const [tours, setTours] = useState<TourInterface[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+interface TrendingDestinationsProps {
+  tours: TourInterface[];
+}
 
-  useEffect(() => {
-    fetchTours('new', 10)
-      .then((tours) => {
-        setTours(tours);
-        setLoading(false);
-      });
+export default function TrendingDestinations({ tours }: TrendingDestinationsProps) {
 
-  }, []);
-
-
-  // Specify the type of elements the ref will hold, in this case, HTMLDivElement
   const containerRef = useRef<HTMLDivElement>(null);
   let isDown = false;
   let startX: number = 0;
@@ -35,7 +30,6 @@ export default function TrendingDestinations() {
       return;
     }
 
-    // TypeScript now understands that containerRef.current is either null or an HTMLDivElement
     if (containerRef.current) {
       isDown = true;
       startX = e.pageX - containerRef.current.offsetLeft;
@@ -55,11 +49,9 @@ export default function TrendingDestinations() {
     if (!isDown || !containerRef.current) return;
     e.preventDefault();
     const x = e.pageX - containerRef.current.offsetLeft;
-    const walk = (x - startX) * 3; // Adjust scroll speed if necessary
+    const walk = (x - startX) * 3;
     containerRef.current.scrollLeft = scrollLeft - walk;
   };
-
-  // let tours: TourInterface[] = DUMMY_TOURS.length > 1 ? DUMMY_TOURS.slice(0, 1) : DUMMY_TOURS;
 
   return (
     <>
@@ -72,34 +64,16 @@ export default function TrendingDestinations() {
         onMouseUp={handleMouseUp}
         onMouseMove={handleMouseMove}
       >
-        {loading && (
-          <>
-            <SkeletonCardMini />
-            <SkeletonCardMini />
-            <SkeletonCardMini />
-            <SkeletonCardMini />
-            <SkeletonCardMini />
-            <SkeletonCardMini />
-            <SkeletonCardMini />
-            <SkeletonCardMini />
-          </>
-        )}
-        {!loading && (
-          <>
-            {tours.map((item) => (
-              <TrendingDestination
-                key={item.id}
-                country={item.country}
-                alt={item.title}
-                // href={`/tours/${item.id}`}
-                href={`/tours/?country=${item.country}`}
-                text={item.city}
-                imgSrc={item.images[0]}
-              />
-            ))}
-          </>
-        )}
-        {(!loading && tours.length === 0) && (<h1 className={`subheading`}>No destinations found!</h1>)}
+          {tours.map((item) => (
+            <TrendingDestination
+              key={item._id}
+              country={item.country}
+              alt={item.title}
+              href={`/tours/?country=${item.country}`}
+              text={item.city}
+              imgSrc={item.images[0]} // Use the first image path
+            />
+          ))}
       </div>
     </>
   );

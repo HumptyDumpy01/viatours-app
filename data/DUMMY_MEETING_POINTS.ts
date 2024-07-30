@@ -1,5 +1,4 @@
 export type MeetingPointType = {
-  id: string;
   title: string;
   location: { lat: number; lng: number };
   city: string;

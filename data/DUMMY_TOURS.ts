@@ -13,51 +13,40 @@ import eiffelImage3 from '@/assets/images/homepage/topTrending/Eiffel/Eiffel-3.p
 import eiffelImage4 from '@/assets/images/homepage/topTrending/Eiffel/Eiffel-4.png';
 import eiffelImage5 from '@/assets/images/homepage/topTrending/Eiffel/Eiffel-5.png';
 import eiffelImage6 from '@/assets/images/homepage/topTrending/Eiffel/Eiffel-6.png';
-import { StaticImageData } from 'next/image';
 import { MeetingPointType, USA_MEETING_POINTS } from '@/data/DUMMY_MEETING_POINTS';
 
 
 // import tourCard9 from '@/assets/images/topTrending/tourCard_image_9.svg';
 
 export interface TourInterface {
-  id: string;
+  _id: string;
   title: string;
   overview: string;
   country: string;
   city: string;
-  reviewed: number;
+  reviews: number;
   views: number;
   time: string[];
-  rating: {
-    overall: number;
-    location: number;
-    amenities: number;
-    food: number;
-    price: number;
-    rooms: number;
-    tour_operator: number;
-  };
   type: string[];
   price: {
     adult: number;
     youth: number;
     children: number;
+    extra: {
+      servicePerBooking: number,
+      servicePerPerson: number;
+      adult: number;
+      youth: number;
+    }
   };
-  price_for_extra: {
-    service_per_booking: number;
-    service_per_person: number;
-    adult: number;
-    youth: number;
-  };
-  tag: string[];
+  tags: string[];
   booked: number;
-  images: StaticImageData[] | string;
-  duration: string[];
-  group_size: number;
-  ages: string[];
-  languages: string[];
-  tour_highlights: string[];
-  what_included: {
+  images: string[];
+  duration: string;
+  groupSize: number;
+  ages: string;
+  tourHighlights: string[];
+  whatsIncluded: {
     green: string[];
     orange: string[];
   };
@@ -65,9 +54,33 @@ export interface TourInterface {
     title: string;
     description: string;
   }[];
-  tour_map: { key: string, location: google.maps.LatLngLiteral }[];
-  meeting_point: MeetingPointType;
-  // comments: { id: string }[];
+  tourMap: {
+    label: string,
+    location: { type: `Point` | `Polygon`, coordinates: [number, number] },
+    googleMap: { key: string, location: google.maps.LatLngLiteral }
+  }[];
+  meetingPoint: MeetingPointType;
+  searchIndex: string;
+  available: boolean;
+  onSale: false | {
+    newPrice: {
+      adult: number,
+      youth: number,
+      children: number,
+      extra: { servicePerBooking: number, servicePerPerson: number, adult: number, youth: number }
+    }
+  };
+  languages: string[];
+  rating: {
+    overall: number;
+    location: number;
+    amenities: number;
+    food: number;
+    price: number;
+    rooms: number;
+    tourOperator: number;
+  };
+  comments: { id: string }[] | [];
 }
 
 export const DUMMY_TOURS: TourInterface[] = [

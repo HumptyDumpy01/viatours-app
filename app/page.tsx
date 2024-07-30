@@ -10,8 +10,19 @@ import TopTrendingSlider from '@/components/homepage/top-trending/TopTrendingSli
 import CustomerReviews from '@/components/homepage/customer-reviews/CustomerReviews';
 import CTASecondary from '@/components/homepage/cta-2/CTASecondary';
 import TravelArticles from '@/components/homepage/travel-articles/TravelArticles';
+import { getTours } from '@/lib/mongodb';
+import React, { Suspense } from 'react';
+import SkeletonCardMini from '@/components/skeletons/Card/SkeletonCardMini';
+import { TourInterface } from '@/data/DUMMY_TOURS';
 
-export default function Home() {
+
+const GetTrendingDestinations = async function() {
+  const tours = await getTours() as TourInterface[];
+  return <TrendingDestinations tours={tours} />;
+
+};
+
+export default async function Home() {
   return (
     <main>
       <section className="hero flex flex-column">
@@ -23,7 +34,23 @@ export default function Home() {
       </section>
 
       <section className="trending-destinations container grid" id="section-destinations">
-        <TrendingDestinations />
+        <Suspense fallback={
+          <>
+            <div className="trending-destinations-figure-wrapper container-trending-destinations flex">
+              <SkeletonCardMini />
+              <SkeletonCardMini />
+              <SkeletonCardMini />
+              <SkeletonCardMini />
+              <SkeletonCardMini />
+              <SkeletonCardMini />
+              <SkeletonCardMini />
+              <SkeletonCardMini />
+              <SkeletonCardMini />
+            </div>
+          </>
+        }>
+          <GetTrendingDestinations />
+        </Suspense>
       </section>
 
       <section className="find-popular-tours container">
