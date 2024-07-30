@@ -9,7 +9,7 @@ export default function CTASecondPart(/*{  }: CTASecondPartInterface*/) {
   return (
     <>
       <div className="cta__left-side">
-        <h2 className="secondary-heading cta__heading heading-scale-effect">Grab up to <span>35% off</span>
+        <h2 className="secondary-heading cta__heading heading-scale-effect">Grab up to <span>90% off</span>
           on your favorite
           Destination</h2>
         <p className="paragraph paragraph-cta">Limited time offer, don&apos;t miss the opportunity</p>

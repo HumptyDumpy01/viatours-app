@@ -32,7 +32,7 @@ export default function PopularThingsGallery(/*{  }: PopularThingsGalleryInterfa
             <Image data-src="img/popularThingsToDo/museumTour.svg" className=""
                    src={museumTour}
                    alt="museum tour image" />
-            <p className="popular-things-to-do__tour-title">Museum Tour</p>
+            <p className="popular-things-to-do__tour-title">Cultural</p>
           </Link>
         </div>
         <div className="popular-things-to-do__tour popular-things-to-do__tours-3">
@@ -40,7 +40,7 @@ export default function PopularThingsGallery(/*{  }: PopularThingsGalleryInterfa
             <Image data-src="img/popularThingsToDo/beachTours.svg" className=""
                    src={beachTourImg}
                    alt="two people on the beach image" />
-            <p className="popular-things-to-do__tour-title">Beach Tours</p>
+            <p className="popular-things-to-do__tour-title">Relaxing</p>
           </Link>
         </div>
         <div className="popular-things-to-do__tour popular-things-to-do__tours-4">
@@ -64,7 +64,7 @@ export default function PopularThingsGallery(/*{  }: PopularThingsGalleryInterfa
             <Image data-src="img/popularThingsToDo/hiking.svg" className=""
                    src={hikingImg}
                    alt="two people on a hike image" />
-            <p className="popular-things-to-do__tour-title">Hiking</p>
+            <p className="popular-things-to-do__tour-title">Nature Tours</p>
           </Link>
         </div>
       </div>

@@ -84,7 +84,7 @@ export default function Filter(/*{  }: FilterInterface*/) {
           </>
         } />
         <Accordion label={`Filter Price`}>
-          <CheckBox tag={`filter-price`} id={`100-300`} label={`100$-300$`} />
+          <CheckBox tag={`filter-price`} id={`0-300`} label={`0$-300$`} />
           <CheckBox tag={`filter-price`} id={`300-700`} label={`300$-700$`} />
           <CheckBox tag={`filter-price`} id={`700-1299`} label={`700$-1299$`} />
         </Accordion>
@@ -109,10 +109,9 @@ export default function Filter(/*{  }: FilterInterface*/) {
           <CheckBox tag={`tour-rating`} id={`5-stars`} label={`5 stars`} stars={5} rated={4911} />
         </Accordion>
         <Accordion label={`Specials`}>
-          <CheckBox tag={`specials`} id={`5-off`} label={`5% off`} />
-          <CheckBox tag={`specials`} id={`20-off-sale`} label={`20% off`} />
-          <CheckBox tag={`specials`} id={`60-off-sale`} label={`60% off`} />
-          <CheckBox tag={`specials`} id={`90-off-sale`} label={`90% off`} />
+          <CheckBox tag={`specials`} id={`5-20-off-sale`} label={`5-20% off`} />
+          <CheckBox tag={`specials`} id={`20-40-off-sale`} label={`20-40% off`} />
+          <CheckBox tag={`specials`} id={`40-90-off-sale`} label={`40-90% off`} />
         </Accordion>
 
         {calendarIsOpen && (
