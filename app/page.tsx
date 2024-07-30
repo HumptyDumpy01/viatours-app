@@ -12,15 +12,14 @@ import CTASecondary from '@/components/homepage/cta-2/CTASecondary';
 import TravelArticles from '@/components/homepage/travel-articles/TravelArticles';
 import { getTours } from '@/lib/mongodb';
 import React, { Suspense } from 'react';
-import SkeletonCardMini from '@/components/skeletons/Card/SkeletonCardMini';
 import { TourInterface } from '@/data/DUMMY_TOURS';
-import SkeletonCardFull from '@/components/skeletons/Card/SkeletonCardFull';
+import NewestDestinationsSkeleton from '@/components/homepage/skeletons/NewestDestinationsSkeleton';
+import FindPopularToursSkeleton from '@/components/homepage/skeletons/FindPopularToursSkeleton';
 
 
 async function GetTrendingDestinations() {
   const tours = await getTours(22, { tags: `new` }) as TourInterface[];
   return <TrendingDestinations tours={tours} />;
-
 }
 
 async function GetPopularTours() {
@@ -42,19 +41,7 @@ export default async function Home() {
 
       <section className="trending-destinations container grid" id="section-destinations">
         <Suspense fallback={
-          <>
-            <div className="trending-destinations-figure-wrapper container-trending-destinations flex">
-              <SkeletonCardMini />
-              <SkeletonCardMini />
-              <SkeletonCardMini />
-              <SkeletonCardMini />
-              <SkeletonCardMini />
-              <SkeletonCardMini />
-              <SkeletonCardMini />
-              <SkeletonCardMini />
-              <SkeletonCardMini />
-            </div>
-          </>
+          <NewestDestinationsSkeleton />
         }>
           <GetTrendingDestinations />
         </Suspense>
@@ -62,16 +49,7 @@ export default async function Home() {
 
       <section className="find-popular-tours container">
         <Suspense fallback={
-          <>
-            <div className="find-popular-tours__tours-wrapper flex">
-              <div className="find-popular-tours__figure-wrapper--1">
-                <SkeletonCardFull />
-                <SkeletonCardFull />
-                <SkeletonCardFull />
-                <SkeletonCardFull />
-              </div>
-            </div>
-          </>
+          <FindPopularToursSkeleton />
         }>
           <GetPopularTours />
         </Suspense>
