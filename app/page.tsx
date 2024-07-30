@@ -17,7 +17,7 @@ import { TourInterface } from '@/data/DUMMY_TOURS';
 
 
 const GetTrendingDestinations = async function() {
-  const tours = await getTours() as TourInterface[];
+  const tours = await getTours(22, { tags: `new` }) as TourInterface[];
   return <TrendingDestinations tours={tours} />;
 
 };
