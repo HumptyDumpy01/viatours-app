@@ -30,7 +30,17 @@ async function GetTrendingDestinations() {
 }
 
 async function GetPopularTours() {
-  const tours = await getTours(4, { tags: `popular` }) as TourInterface[];
+  const tours = await getTours(4, { tags: `popular` }, 0, {
+    _id: 1,
+    images: 1,
+    title: 1,
+    country: 1,
+    city: 1,
+    rating: 1,
+    reviews: 1,
+    duration: 1,
+    price: 1
+  }) as TourInterface[];
   return <FindPopularTours tours={tours} />;
 }
 
