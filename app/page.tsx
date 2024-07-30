@@ -15,6 +15,7 @@ import React, { Suspense } from 'react';
 import { TourInterface } from '@/data/DUMMY_TOURS';
 import NewestDestinationsSkeleton from '@/components/homepage/skeletons/NewestDestinationsSkeleton';
 import FindPopularToursSkeleton from '@/components/homepage/skeletons/FindPopularToursSkeleton';
+import SkeletonCardFull from '@/components/skeletons/Card/SkeletonCardFull';
 
 
 async function GetTrendingDestinations() {
@@ -24,8 +25,12 @@ async function GetTrendingDestinations() {
 
 async function GetPopularTours() {
   const tours = await getTours(4, { tags: `popular` }) as TourInterface[];
-  console.log(`Executing tours: `, tours);
   return <FindPopularTours tours={tours} />;
+}
+
+async function GetFeaturedTours() {
+  const tours = await getTours(22, { tags: `featured` }) as TourInterface[];
+  return <TopTrendingSlider tours={tours} />;
 }
 
 export default async function Home() {
@@ -70,7 +75,20 @@ export default async function Home() {
       </div>
       <section className="top-trending container-cta">
         <TopTrendingWrapper>
-          <TopTrendingSlider max={8} tag={`featured`} />
+          <Suspense fallback={
+            <>
+              <SkeletonCardFull />
+              <SkeletonCardFull />
+              <SkeletonCardFull />
+              <SkeletonCardFull />
+              <SkeletonCardFull />
+              <SkeletonCardFull />
+              <SkeletonCardFull />
+              <SkeletonCardFull />
+            </>
+          }>
+            <GetFeaturedTours />
+          </Suspense>
         </TopTrendingWrapper>
       </section>
 

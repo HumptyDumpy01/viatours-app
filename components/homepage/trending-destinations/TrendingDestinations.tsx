@@ -64,16 +64,16 @@ export default function TrendingDestinations({ tours }: TrendingDestinationsProp
         onMouseUp={handleMouseUp}
         onMouseMove={handleMouseMove}
       >
-          {tours.map((item) => (
-            <TrendingDestination
-              key={item._id}
-              country={item.country}
-              alt={item.title}
-              href={`/tours/?country=${item.country}`}
-              text={item.city}
-              imgSrc={item.images[0]} // Use the first image path
-            />
-          ))}
+        {tours.map((item) => (
+          <TrendingDestination
+            key={item._id}
+            country={item.country}
+            alt={item.title}
+            href={`/tours/${item._id}`}
+            text={item.city}
+            imgSrc={item.images[0]} // Use the first image path
+          />
+        ))}
       </div>
     </>
   );
