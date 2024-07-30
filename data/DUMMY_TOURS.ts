@@ -81,6 +81,17 @@ export interface TourInterface {
     tourOperator: number;
   };
   comments: { id: string }[] | [];
+  tourComments: {
+    _id: string;
+    user: string;
+    rating: number;
+    title: string;
+    text: string;
+    images: string[];
+    addedAt: string;
+    likes: number;
+    dislikes: number;
+  }[];
 }
 
 export const DUMMY_TOURS: TourInterface[] = [

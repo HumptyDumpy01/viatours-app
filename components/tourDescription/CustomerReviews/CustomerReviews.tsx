@@ -10,7 +10,7 @@ type CustomerReviewsType = {
     food: number;
     price: number;
     rooms: number;
-    tour_operator: number;
+    tourOperator: number;
   };
   // children: ReactNode;
 }
@@ -33,7 +33,7 @@ export default function CustomerReviews({ rating }: CustomerReviewsType) {
                                      heading={`Price`} />
         <CustomerReviewOverallRating tableHead={`end`} icon={`apartment`} rate={rating.rooms}
                                      heading={`Rooms`} />
-        <CustomerReviewOverallRating tableHead={`end`} icon={`phone`} rate={rating.tour_operator}
+        <CustomerReviewOverallRating tableHead={`end`} icon={`phone`} rate={rating.tourOperator}
                                      heading={`Tour Operator`} />
       </div>
     </section>

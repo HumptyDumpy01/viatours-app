@@ -23,83 +23,80 @@ import TopTrendingWrapper from '@/components/homepage/top-trending/TopTrendingWr
 import '@/components/UI/Form/SidebarForm.scss';
 import React from 'react';
 import SidebarForm from '@/components/UI/Form/SidebarForm';
-import { fetchTour } from '@/lib/api/fetchTour';
-import { notFound } from 'next/navigation';
 
 type TourDescriptionType = {
   params: {
     id: string;
   }
+  tour: TourInterface;
+  similarTours: TourInterface[];
   // children: ReactNode;
 }
 
-export default async function TourDescriptionSection({ params }: TourDescriptionType) {
-  const currTour = await fetchTour(params.id) as TourInterface;
+export default async function TourDescriptionSection({ params, tour, similarTours }: TourDescriptionType) {
 
-  if (!currTour) {
-    notFound();
-  }
+  console.log(`tour.tags`, tour.tags);
 
   return (
     <>
-      <TourDescriptionNavigation title={currTour.title} params={params} />
+      <TourDescriptionNavigation title={tour.title} params={params} />
       <section className="description container">
         <DescriptionTag />
-        <h1 className="description__heading margin-bottom-small">{currTour.title}</h1>
+        <h1 className="description__heading margin-bottom-small">{tour.title}</h1>
         <div className="description__stats-wrapper flex flex-space-between">
           <TourStats
             info={{
-              rating: currTour.rating.overall,
-              totalReviews: currTour.reviewed,
-              city: currTour.city,
-              country: currTour.country,
-              booked: currTour.booked
+              rating: tour.rating.overall,
+              totalReviews: tour.reviews,
+              city: tour.city,
+              country: tour.country,
+              booked: tour.booked
             }}
           />
         </div>
         <Gallery info={{
-          images: currTour.images,
-          title: currTour.title
+          images: tour.images,
+          title: tour.title
         }} />
         <DescriptionOverview sideBar={(
           <>
             <SidebarForm
-              tourId={currTour.id}
-              time={currTour.time}
-              price={currTour.price}
-              price_for_extra={currTour.price_for_extra}
+              tourId={tour._id}
+              time={tour.time}
+              price={tour.price}
+              priceForExtra={tour.price.extra}
             />
           </>
         )}>
           <TourOverviewInfo info={
             {
-              duration: currTour.duration,
-              groupSize: currTour.group_size,
-              ages: currTour.ages,
-              languages: currTour.languages
+              duration: tour.duration,
+              groupSize: tour.groupSize,
+              ages: tour.ages,
+              languages: tour.languages
             }
           } />
 
-          <TourOverviewHeading overview={currTour.overview} />
-          <TourHighlights tour_highlights={currTour.tour_highlights} />
+          <TourOverviewHeading overview={tour.overview} />
+          <TourHighlights tour_highlights={tour.tourHighlights} />
 
-          <TourIncluded what_included={currTour.what_included} />
+          <TourIncluded what_included={tour.whatsIncluded} />
 
-          <TourItinerary itinerary={currTour.itinerary} />
+          <TourItinerary itinerary={tour.itinerary} />
           <h2 className={`subheading`}>Here comes GoogleMap! Enable It when testing or deploying.</h2>
-          {/*<GoogleMap locations={currTour.tour_map} />*/}
+          {/*<GoogleMap locations={tour.tour_map} />*/}
           <QuestionAnswer />
-          <CustomerReviews rating={currTour.rating} />
-          <TourComments tourId={currTour.id} />
+          <CustomerReviews rating={tour.rating} />
+          <TourComments currTourComments={tour.tourComments} />
           <LeaveReply />
         </DescriptionOverview>
       </section>
       <div>
-        <TopTrendingHeading heading={`You might also like...`} href={`/tours?query=top`} />
+        <TopTrendingHeading heading={`You might also like...`} href={`/tours?query=${tour.tags[0]}`} />
       </div>
       <section className="top-trending container-cta">
         <TopTrendingWrapper>
-          <TopTrendingSlider tag={currTour.tag[0]} />
+          <TopTrendingSlider tours={similarTours} />
         </TopTrendingWrapper>
       </section>
 

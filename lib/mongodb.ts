@@ -1,5 +1,5 @@
 'use server';
-import { MongoClient } from 'mongodb';
+import { MongoClient, ObjectId } from 'mongodb';
 import { TourInterface } from '@/data/DUMMY_TOURS';
 
 // Extend the global interface
@@ -44,7 +44,7 @@ export async function getTours(limit: number, matchProps: unknown, skip: number 
   const tours = await db.collection('tours')
     .aggregate([{ $match: matchProps }, { $skip: skip }, { $limit: limit }]).toArray();
 
-  await new Promise((resolve) => setTimeout(resolve, 3000));
+  // await new Promise((resolve) => setTimeout(resolve, 3000));
 
   // (JSON.parse(JSON.stringify(tours)) is used to create a new copy of the array
   // also creating a new copy of the array resolves the issue with the buffer type.
@@ -53,4 +53,76 @@ export async function getTours(limit: number, matchProps: unknown, skip: number 
     // this is necessary because Next.js does not allow sending ObjectId to the client
     _id: tour._id.toString() // Convert ObjectId to string
   }));
+}
+
+export async function getTourById(id: string) {
+  const client = await clientPromise;
+
+  const db = client.db(`viatoursdb`);
+  const tour = await db.collection(`tours`).aggregate([
+    {
+      $match: {
+        _id: new ObjectId(id)
+      }
+    },
+    {
+      $lookup: {
+        from: 'tourComments',
+        localField: 'comments',
+        foreignField: '_id',
+        as: 'tourComments'
+      }
+    },
+    {
+      $project: {
+        title: 1,
+        overview: 1,
+        country: 1,
+        city: 1,
+        reviews: 1,
+        views: 1,
+        time: 1,
+        type: 1,
+        price: 1,
+        tags: 1,
+        booked: 1,
+        images: 1,
+        duration: 1,
+        groupSize: 1,
+        ages: 1,
+        tourHighlights: 1,
+        whatsIncluded: 1,
+        itinerary: 1,
+        tourMap: 1,
+        meetingPoint: 1,
+        available: 1,
+        onSale: 1,
+        languages: 1,
+        rating: 1,
+        // looking up for the comments added to the tour. I do exclude
+        // userId, tourId, timestamp and rating.overall but all other nested props.
+        tourComments: {
+          $map: {
+            input: '$tourComments',
+            as: 'comment',
+            in: {
+              _id: '$$comment._id',
+              user: '$$comment.user',
+              rating: '$$comment.rating.overall',
+              title: '$$comment.title',
+              text: '$$comment.text',
+              images: '$$comment.images',
+              addedAt: '$$comment.addedAt',
+              likes: '$$comment.likes',
+              dislikes: '$$comment.dislikes',
+              abuseReports:
+                '$$comment.abuse_reports'
+            }
+          }
+        }
+      }
+    }
+  ]).toArray();
+  console.log(`Executing tour: `, tour);
+  return JSON.parse(JSON.stringify(tour))[0] as TourInterface;
 }

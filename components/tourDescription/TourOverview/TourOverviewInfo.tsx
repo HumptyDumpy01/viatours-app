@@ -2,9 +2,9 @@
 
 type TourOverviewInfoType = {
   info: {
-    duration: string[];
+    duration: string;
     groupSize: number;
-    ages: string[];
+    ages: string;
     languages: string[];
   }
   // children: ReactNode;

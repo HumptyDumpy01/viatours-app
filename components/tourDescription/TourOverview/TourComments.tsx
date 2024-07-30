@@ -2,15 +2,24 @@
 
 import './TourComments.scss';
 import Comment from '@/components/UI/Comment/Comment';
-import { DUMMY_TOUR_COMMENTS } from '@/data/DUMMY_COMMENTS';
 import IconIon from '@/components/UI/IonIcon/IconIon';
 import { useState } from 'react';
 
 type TourCommentsType = {
-  tourId: string;
+  currTourComments: [] | {
+    _id: string;
+    user: string;
+    rating: number;
+    title: string;
+    text: string;
+    images: string[];
+    addedAt: string;
+    likes: number;
+    dislikes: number;
+  }[];
 };
 
-export default function TourComments({ tourId }: TourCommentsType) {
+export default function TourComments({ currTourComments }: TourCommentsType) {
 
   /* IMPORTANT: THIS PAGINATION INSTRUCTION IF VALID WHEN YOU HAVE JUST ONE BUTTON
   *   FOR EACH PAGE, AFTER CLICKING IT, SHOWS "N" AMOUNT OF ITEMS, WHERE PREVIOUS ITEMS
@@ -20,7 +29,6 @@ export default function TourComments({ tourId }: TourCommentsType) {
   const commentsPerPage = 3;
   const [currentPage, setCurrentPage] = useState<number>(1);
 
-  const currTourComments = DUMMY_TOUR_COMMENTS.filter((item) => item.tourId === tourId);
 
   if (currTourComments.length === 0) {
     return <h2 className="tertiary-heading">No comments yet!</h2>;
@@ -42,17 +50,17 @@ export default function TourComments({ tourId }: TourCommentsType) {
     <section className="comments">
       {currentComments.map((comment) => (
         <Comment
-          key={comment.id}
-          id={comment.id}
+          key={comment._id}
+          id={comment._id}
           user={comment.user}
-          date_added={comment.date_added}
-          rated={comment.rated}
+          date_added={comment.addedAt}
+          rated={comment.rating}
           title={comment.title}
           text={comment.text}
           images={comment.images}
           likes={comment.likes}
           dislikes={comment.dislikes}
-          abuse_reports={comment.abuse_reports}
+          // abuse_reports={comment.abuseReports}
         />
       ))}
       {/* Only show the button if there are more comments to display */}

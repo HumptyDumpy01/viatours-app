@@ -18,7 +18,7 @@ type CommentType = {
   images: string[] | StaticImageData[];
   likes: number;
   dislikes: number;
-  abuse_reports: number;
+  // abuseReports: number;
   // children: ReactNode;
 }
 
@@ -33,8 +33,8 @@ export default function
             text,
             images,
             likes,
-            dislikes,
-            abuse_reports
+            dislikes
+            // abuseReports
           }: CommentType) {
 
   if (!images) {
@@ -79,6 +79,8 @@ export default function
     if (userDislikedComment) {
       setUserDislikedComment(false);
       setCommentDislikes(prevState => prevState - 1);
+
+      // TODO: find the comment in the dummy data and decrease the dislikes
       DUMMY_TOUR_COMMENTS.map((item) => {
         if (item.id === id) {
           item.dislikes = item.dislikes - 1;
@@ -91,6 +93,7 @@ export default function
       setUserLikedComment(false);
       setCommentLikes(prevState => prevState - 1);
 
+      // TODO: find the comment in the dummy data and decrease the likes
       DUMMY_TOUR_COMMENTS.map((item) => {
         if (item.id === id) {
           item.likes = item.likes - 1;
@@ -100,6 +103,7 @@ export default function
       setUserLikedComment(true);
       setCommentLikes(prevState => prevState + 1);
 
+      // TODO: find the comment in the dummy data and increase the likes
       DUMMY_TOUR_COMMENTS.map((item) => {
         if (item.id === id) {
           item.likes = item.likes + 1;
@@ -127,6 +131,7 @@ export default function
       setUserDislikedComment(true);
       setCommentDislikes(prevState => prevState + 1);
 
+      // TODO: find the comment in the dummy data and increase the dislikes
       DUMMY_TOUR_COMMENTS.map((item) => {
         if (item.id === id) {
           item.dislikes = item.dislikes + 1;
@@ -164,7 +169,7 @@ export default function
           <div className="comments__content-images">
             {images?.map((image, index) => (
               <div key={index} className="comments__content-images-wrapper">
-                <Image onClick={handleOpenSlider}
+                <Image width={130} height={130} onClick={handleOpenSlider}
                        alt="comment image" src={image} />
               </div>
             ))

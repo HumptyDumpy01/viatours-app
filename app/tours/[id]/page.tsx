@@ -1,8 +1,9 @@
 // 'use client';
 
 import TourDescriptionSection from '@/components/tourDescription/TourDescription';
-import { DUMMY_TOURS } from '@/data/DUMMY_TOURS';
 import { notFound } from 'next/navigation';
+import { getTourById, getTours } from '@/lib/mongodb';
+import { TourInterface } from '@/data/DUMMY_TOURS';
 
 
 interface TourDescriptionInterface {
@@ -12,9 +13,13 @@ interface TourDescriptionInterface {
   // children: ReactNode;
 }
 
+async function getTour(id: string) {
+  const currTour = await getTourById(id) as TourInterface;
+  return currTour;
+}
+
 export async function generateMetadata({ params }: TourDescriptionInterface) {
-  // const meal = FUNC_FETCHING_ITEM(params.YOUR_DYNAMIC_ID);
-  const currTour = DUMMY_TOURS.find((item) => item.id === params.id);
+  const currTour = await getTour(params.id) as TourInterface;
 
   if (!currTour) {
     notFound();
@@ -23,16 +28,18 @@ export async function generateMetadata({ params }: TourDescriptionInterface) {
     title: `${currTour.title}`,
     description: `${currTour.overview}. The Tour to ${currTour.city} is ${currTour.duration} long and costs ${currTour.price.adult} per person,
     ${currTour.price.youth} per youth, and ${currTour.price.children} per children. 
-    This particular tour is rated ${currTour.rating.overall} stars by our customers, and also includes: ${currTour.what_included.green.join(`, `)}. We did not 
-    for forget about the ${currTour.what_included.orange.join(`, `)} and more! Book now!`
+    This particular tour is rated ${currTour.rating.overall} stars by our customers, and also includes: ${currTour.whatsIncluded.green.join(`, `)}. We did not 
+    for forget about the ${currTour.whatsIncluded.orange.join(`, `)} and more! Book now!`
   };
 }
 
 
-export default function TourDescription({ params }: TourDescriptionInterface) {
+export default async function TourDescription({ params }: TourDescriptionInterface) {
+  const currTour = await getTour(params.id) as TourInterface;
+  const similarTours = await getTours(22, { tags: { $in: currTour.tags } }) as TourInterface[];
   return (
     <>
-      <TourDescriptionSection params={params} />
+      <TourDescriptionSection similarTours={similarTours} tour={currTour} params={params} />
     </>
   );
 }

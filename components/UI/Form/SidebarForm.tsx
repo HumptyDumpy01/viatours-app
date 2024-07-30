@@ -16,9 +16,9 @@ type SidebarFormType = {
     youth: number;
     children: number;
   };
-  price_for_extra: {
-    service_per_booking: number;
-    service_per_person: number;
+  priceForExtra: {
+    servicePerBooking: number;
+    servicePerPerson: number;
     adult: number;
     youth: number;
   };
@@ -27,7 +27,7 @@ type SidebarFormType = {
   // children: ReactNode;
 }
 
-export default function SidebarForm({ price, price_for_extra, time, tourId }: SidebarFormType) {
+export default function SidebarForm({ price, priceForExtra, time, tourId }: SidebarFormType) {
   const navigate = useRouter();
   // extract the current tour id
 
@@ -74,10 +74,10 @@ export default function SidebarForm({ price, price_for_extra, time, tourId }: Si
     }
     if (servicePerBookingActive) {
       setServicePerBookingActive(false);
-      setTotalPrice((prev) => prev - price_for_extra.service_per_booking);
+      setTotalPrice((prev) => prev - priceForExtra.servicePerBooking);
     } else {
       setServicePerBookingActive(true);
-      setTotalPrice((prev) => prev + price_for_extra.service_per_booking);
+      setTotalPrice((prev) => prev + priceForExtra.servicePerBooking);
     }
   }
 
@@ -89,11 +89,11 @@ export default function SidebarForm({ price, price_for_extra, time, tourId }: Si
 
       if (youthTickets > 0) {
         setTotalPrice(prevState =>
-          (prevState - (youthTickets * price.youth) - (youthTickets * price_for_extra.youth)) + (youthTickets * price.youth));
+          (prevState - (youthTickets * price.youth) - (youthTickets * priceForExtra.youth)) + (youthTickets * price.youth));
       }
       if (adultTickets > 0) {
         setTotalPrice(prevState =>
-          (prevState - (adultTickets * price.adult) - (adultTickets * price_for_extra.adult) + (adultTickets * price.adult)));
+          (prevState - (adultTickets * price.adult) - (adultTickets * priceForExtra.adult) + (adultTickets * price.adult)));
       }
       setServicePerPersonActive(false);
       return;
@@ -103,11 +103,11 @@ export default function SidebarForm({ price, price_for_extra, time, tourId }: Si
     console.log(`Executing youthTickets: `, youthTickets);
     if (youthTickets > 0) {
       setTotalPrice(prevState => (prevState - (youthTickets * price.youth))
-        + (youthTickets * price.youth) + (youthTickets * price_for_extra.youth));
+        + (youthTickets * price.youth) + (youthTickets * priceForExtra.youth));
     }
     if (adultTickets > 0) {
       setTotalPrice(prevState => (prevState - (adultTickets * price.adult))
-        + (adultTickets * price.adult) + (adultTickets * price_for_extra.adult));
+        + (adultTickets * price.adult) + (adultTickets * priceForExtra.adult));
     }
 
     setServicePerPersonActive((prev) => !prev);
@@ -135,11 +135,11 @@ export default function SidebarForm({ price, price_for_extra, time, tourId }: Si
     if (name === `adultTickets` && servicePerPersonActive) {
       setAdultTickets((prev) => prev + 1);
 
-      setTotalPrice((prev) => prev + price + price_for_extra.adult);
+      setTotalPrice((prev) => prev + price + priceForExtra.adult);
     }
     if (name === `youthTickets` && servicePerPersonActive) {
       setYouthTickets((prev) => prev + 1);
-      setTotalPrice((prev) => prev + price + price_for_extra.youth);
+      setTotalPrice((prev) => prev + price + priceForExtra.youth);
     }
   }
 
@@ -170,14 +170,14 @@ export default function SidebarForm({ price, price_for_extra, time, tourId }: Si
         return;
       }
       setAdultTickets((prev) => prev - 1);
-      setTotalPrice((prev) => prev - price - price_for_extra.adult);
+      setTotalPrice((prev) => prev - price - priceForExtra.adult);
     }
     if (name === `youthTickets` && servicePerPersonActive) {
       if (youthTickets === 0) {
         return;
       }
       setYouthTickets((prev) => prev - 1);
-      setTotalPrice((prev) => prev - price - price_for_extra.youth);
+      setTotalPrice((prev) => prev - price - priceForExtra.youth);
     }
 
 
@@ -274,18 +274,18 @@ export default function SidebarForm({ price, price_for_extra, time, tourId }: Si
             {/*<!--          // insert a checkbox input here, with the Add Service per booking text--> */}
             <SidebarCheckbox disabled={totalPrice === 0} onClick={toggleServicePerBooking} name={`service_per_booking`}
                              label={`Add Service per booking `}
-                             servicePrice={price_for_extra.service_per_booking}
+                             servicePrice={priceForExtra.servicePerBooking}
             />
             <SidebarCheckbox disabled={youthTickets === 0 && adultTickets === 0 && childrenTickets === 0 ||
               youthTickets === 0 && adultTickets === 0 && childrenTickets > 0}
                              onClick={toggleServicePerPerson}
                              name={`service_per_person`}
                              label={`Add Service per person `}
-                             servicePrice={price_for_extra.service_per_person}
+                             servicePrice={priceForExtra.servicePerPerson}
             />
 
-            <p className="paragraph paragraph--descr flex">Adult: <span>${price_for_extra.adult}</span> -
-              Youth: <span>${price_for_extra.youth}</span>
+            <p className="paragraph paragraph--descr flex">Adult: <span>${priceForExtra.adult}</span> -
+              Youth: <span>${priceForExtra.youth}</span>
             </p>
           </div>
           <div>

@@ -5,6 +5,7 @@ import { StaticImageData } from 'next/image';
 import watermarkImage from '@/assets/images/viatours-watermark-logo.svg';
 import { useState } from 'react';
 import GallerySlider from '@/components/UI/Gallery/GallerySlider';
+import { DOMAIN } from '@/lib/helpers/generics';
 
 export type GalleryType = {
   info: {
@@ -46,14 +47,14 @@ export default function Gallery({ info }: GalleryType) {
           <div className="description__gallery-img-1">
             <img onClick={openSlider}
               // @ts-ignore
-                 src={mainImage.src} alt={info.title} />
+                 src={`${DOMAIN}${mainImage}`} alt={info.title} />
           </div>
           <div className="description__gallery-images-container-1 grid grid-two-cols">
             {restOfImages.map((image, index) => (
               <div key={index} className={`description__gallery-img-${index + 2}`}>
                 <img onClick={openSlider}
                   // @ts-ignore
-                     src={image.src || image} alt={info.title} className="description__gallery-img-2" />
+                     src={`${DOMAIN}${image}`} alt={info.title} className="description__gallery-img-2" />
               </div>
             ))}
           </div>

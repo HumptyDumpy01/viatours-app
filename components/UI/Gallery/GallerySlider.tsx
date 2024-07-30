@@ -5,6 +5,7 @@ import IconIon from '@/components/UI/IonIcon/IconIon';
 import React, { useRef } from 'react';
 import { StaticImageData } from 'next/image';
 import ArrowButton from '@/components/UI/Button/ArrowButton';
+import { DOMAIN } from '@/lib/helpers/generics';
 
 type GallerySliderType = {
   handleCloseSlider: () => void;
@@ -54,7 +55,7 @@ export default function GallerySlider({ info, sliderVisibility, handleCloseSlide
         <div className={`description__gallery-images-slider-wrapper  ${sliderVisibility ? `open` : ``}`}>
           <div className="description__gallery-images-slider-img-container">
             {/*// @ts-ignore*/}
-            <img src={mainImage.src}
+            <img src={`${DOMAIN}${mainImage}`}
                  alt={info.title}
                  className="description__gallery-images-slider-img" />
             <span className="description__gallery-images-slider-span">*Scroll to the right to see more</span>
@@ -64,7 +65,7 @@ export default function GallerySlider({ info, sliderVisibility, handleCloseSlide
             return (
               <div key={index} className="description__gallery-images-slider-img-container">
                 {/*// @ts-ignore*/}
-                <img src={image.src}
+                <img src={`${DOMAIN}${image}`}
                      alt={info.title}
                      className="description__gallery-images-slider-img" />
               </div>
