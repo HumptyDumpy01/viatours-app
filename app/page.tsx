@@ -19,7 +19,13 @@ import SkeletonCardFull from '@/components/skeletons/Card/SkeletonCardFull';
 
 
 async function GetTrendingDestinations() {
-  const tours = await getTours(22, { tags: `new` }) as TourInterface[];
+  const tours = await getTours(22, { tags: `new` }, 0, {
+    _id: 1,
+    title: 1,
+    city: 1,
+    country: 1,
+    images: 1
+  }) as TourInterface[];
   return <TrendingDestinations tours={tours} />;
 }
 

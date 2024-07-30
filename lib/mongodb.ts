@@ -37,12 +37,23 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // this function is used to get the items from the database
-export async function getTours(limit: number, matchProps: unknown, skip: number = 0) {
+export async function getTours(limit: number, matchProps: unknown, skip: number = 0, project?: unknown) {
 
   const client = await clientPromise;
   const db = client.db('viatoursdb');
   const tours = await db.collection('tours')
     .aggregate([{ $match: matchProps }, { $skip: skip }, { $limit: limit }]).toArray();
+
+  if (project) {
+    const tours = await db.collection('tours')
+      .aggregate([{ $match: matchProps }, { $project: project }, { $skip: skip }, { $limit: limit }]).toArray();
+
+    return (JSON.parse(JSON.stringify(tours)) as TourInterface[]).map(tour => ({
+      ...tour,
+      // this is necessary because Next.js does not allow sending ObjectId to the client
+      _id: tour._id.toString() // Convert ObjectId to string
+    }));
+  }
 
   // await new Promise((resolve) => setTimeout(resolve, 3000));
 
