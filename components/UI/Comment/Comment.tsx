@@ -7,6 +7,7 @@ import IconIon from '@/components/UI/IonIcon/IconIon';
 import GallerySlider from '@/components/UI/Gallery/GallerySlider';
 import { useState } from 'react';
 import { DUMMY_TOUR_COMMENTS } from '@/data/DUMMY_COMMENTS';
+import { CldImage } from 'next-cloudinary';
 
 type CommentType = {
   user: string;
@@ -167,14 +168,24 @@ export default function
           </div>
           <p className="comments__content-paragraph">{text}</p>
           <div className="comments__content-images">
-            {images?.map((image, index) => (
+            {/*{images?.map((image, index) => (
               <div key={index} className="comments__content-images-wrapper">
                 <Image width={130} height={130} onClick={handleOpenSlider}
                        alt="comment image" src={image} />
               </div>
             ))
-            }
-          </div>
+            }*/}
+            <CldImage
+              src="cld-sample-5" // Use this sample image or upload your own via the Media Explorer
+              width="130" // Transform the image: auto-crop to square aspect_ratio
+              height="130"
+              crop={{
+                type: 'auto',
+                source: true
+              }}
+              className="comments__content-images-wrapper"
+              alt={`dummy image`}
+            /></div>
           {images.length > 0 &&
             <GallerySlider
               info={{
