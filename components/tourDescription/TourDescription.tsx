@@ -47,7 +47,8 @@ export default async function TourDescriptionSection({ params, tour, similarTour
               totalReviews: tour.reviews,
               city: tour.city,
               country: tour.country,
-              booked: tour.booked
+              booked: tour.booked,
+              views: tour.views
             }}
           />
         </div>

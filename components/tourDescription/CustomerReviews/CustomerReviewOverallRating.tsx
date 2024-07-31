@@ -22,11 +22,12 @@ export default function CustomerReviewOverallRating({ icon, rate, heading, table
   if (rate === 0) {
     label = `No reviews`;
   }
+  console.log(`Executing rate: `, rate);
 
   if (rate >= 1 && rate < 3) {
     label = `Poor`;
   }
-  if (rate > 3 && rate < 4) {
+  if (rate >= 3 && rate < 4) {
     label = `Fair`;
   }
   if (rate >= 4 && rate < 4.5) {

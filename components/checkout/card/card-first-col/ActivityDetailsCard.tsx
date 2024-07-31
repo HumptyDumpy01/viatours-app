@@ -25,8 +25,8 @@ export default function ActivityDetailsCard(props: ActivityDetailsCardType) {
         <img src={props.tour.images[0].src} alt={props.tour.title}
              className="book-now__details-2__activity-details__card-img" />
         <ActivityDetailsHeading title={props.tour.title} country={props.tour.country} city={props.tour.city} />
-        <ActivityDetailsRating rating={props.tour.rating.overall} reviewCount={props.tour.reviewed} />
-        <ActivityDetailsCardFooter priceFrom={props.tour.price.children} duration={props.tour.duration[0]} />
+        <ActivityDetailsRating rating={props.tour.rating.overall} reviewCount={props.tour.reviews} />
+        <ActivityDetailsCardFooter priceFrom={props.tour.price.children} duration={props.tour.duration} />
       </figure>
       <ActivityDetailsDate order={props.order} />
     </div>

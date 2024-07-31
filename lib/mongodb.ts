@@ -67,10 +67,16 @@ export async function getTours(limit: number, matchProps: unknown, skip: number 
   }));
 }
 
-export async function getTourById(id: string) {
+export async function getTourById(id: string, incViews?: boolean) {
   const client = await clientPromise;
 
   const db = client.db(`viatoursdb`);
+  if (incViews) {
+    // increment the views by 1
+    await db.collection(`tours`).updateOne({ _id: new ObjectId(id) }, { $inc: { views: 1 } });
+  }
+
+
   const tour = await db.collection(`tours`).aggregate([
     {
       $match: {
@@ -209,14 +215,6 @@ export async function submitTourComment({ rating, email, user, title, text, imag
     throw new Error(`Oops! We were unable to save this comment! Sorry for the inconvenience. We are working on it.`);
   }
 
-  // console.log(`rating:`, rating);
-  // console.log(`tourId:`, tourId);
-  // console.log(`email:`, email);
-  // console.log(`user:`, user);
-  // console.log(`title:`, title);
-  // console.log(`text:`, text);
-  // console.log(`images:`, images);
-
   // rating coefficients
   const location = 0.2;
   const amenities = 0.2;
@@ -249,7 +247,7 @@ export async function submitTourComment({ rating, email, user, title, text, imag
         amenities: Number(rating.amenities),
         food: Number(rating.food),
         price: Number(rating.price),
-        room: Number(rating.room),
+        rooms: Number(rating.room),
         tourOperator: Number(rating.tourOperator)
       },
       title: title,
@@ -333,13 +331,13 @@ export async function submitTourComment({ rating, email, user, title, text, imag
 
       /* IMPORTANT: 4/4 STAGE */
       const updatedRating = {
-        overall: recalculatedRatings[0].avgOverall,
-        location: recalculatedRatings[0].avgLocation,
-        amenities: recalculatedRatings[0].avgAmenities,
-        food: recalculatedRatings[0].avgFood,
-        price: recalculatedRatings[0].avgPrice,
-        rooms: recalculatedRatings[0].avgRooms,
-        tourOperator: recalculatedRatings[0].avgTourOperator
+        overall: Number(recalculatedRatings[0].avgOverall.toFixed(2)),
+        location: Number(recalculatedRatings[0].avgLocation.toFixed(2)),
+        amenities: Number(recalculatedRatings[0].avgAmenities.toFixed(2)),
+        food: Number(recalculatedRatings[0].avgFood.toFixed(2)),
+        price: Number(recalculatedRatings[0].avgPrice.toFixed(2)),
+        rooms: Number(recalculatedRatings[0].avgRooms.toFixed(2)),
+        tourOperator: Number(recalculatedRatings[0].avgTourOperator.toFixed(2))
       };
       const updatedTour = await db.collection(`tours`).updateOne({ _id: new ObjectId(tourId) }, { $set: { rating: updatedRating } });
 

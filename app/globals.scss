@@ -188,6 +188,32 @@ li {
     }
   }
 
+  &--share,
+  &--wishlist {
+    transition: all .4s;
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+    font-size: 1.4rem;
+    color: var(--clr-dark-blue);
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    //transition: all .4s;
+    background-color: var(--clr-white);
+
+    &:hover, &:active {
+      color: var(--clr-primary);
+      transform: scale(1.04);
+    }
+
+    &--active {
+      color: var(--clr-primary);
+      transform: scale(1.04);
+      font-weight: 600;
+    }
+  }
+
   &-hero {
     animation-name: moveInLeft;
     animation-duration: 1s;

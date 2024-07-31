@@ -21,7 +21,7 @@ export default function CheckoutDetailsSecondStep({ tour, order }: CheckoutDetai
         <ActivityDetailsCard tour={tour} order={order} />
         <CheckoutFormActivityDetails
           languages={tour.languages}
-          meetingPoint={tour.meeting_point}
+          meetingPoint={tour.meetingPoint}
           adultTickets={order.adultTickets}
           childrenTickets={order.childrenTickets}
           youthTickets={order.youthTickets}

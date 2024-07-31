@@ -32,7 +32,9 @@ import {
   thumbsUpOutline,
   walletOutline,
   calendarOutline,
-  timeOutline
+  timeOutline,
+  bookmarkOutline,
+  arrowRedo
 } from 'ionicons/icons';
 
 
@@ -66,7 +68,9 @@ const iconMap = {
   thumbsUpOutline,
   thumbsDownOutline,
   calendarOutline,
-  timeOutline
+  timeOutline,
+  bookmarkOutline,
+  arrowRedo
 };
 
 interface IconIonProps {

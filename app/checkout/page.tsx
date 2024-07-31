@@ -36,7 +36,7 @@ export default function CheckoutPage() {
     return null;
   }
 
-  const tour = DUMMY_TOURS.find((item) => item.id === order.tourId);
+  const tour = DUMMY_TOURS.find((item) => item._id === order.tourId);
 
   if (!tour) {
     throw new Error('Tour not found');
