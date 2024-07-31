@@ -16,6 +16,8 @@
     "@mui/x-date-pickers": "^7.9.0",
     "@reduxjs/toolkit": "^2.2.6",
     "@vis.gl/react-google-maps": "latest",
+    "axios": "^1.7.2",
+    "cloudinary": "^2.4.0",
     "dayjs": "^1.11.11",
     "gsap": "^3.12.5",
     "lottie-react": "^2.4.0",

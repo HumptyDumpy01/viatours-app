@@ -26,7 +26,7 @@ const Rate = ({ name, label }: RateType) => {
               name={name}
               value={star}
               className="leave-a-reply__form-rate-input"
-              // required
+              required
               onClick={() => handleRating(star)}
               style={{
                 backgroundImage: rating >= star ? 'url(\'/tourDescription/icon-stars/filled-star.svg\')' : 'url(\'/tourDescription/icon-stars/empty-star.svg\')'

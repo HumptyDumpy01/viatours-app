@@ -5,12 +5,22 @@ import './LeaveReply.scss';
 import Rate from '@/components/UI/Checkbox/Rate';
 import LeaveReplyInputs from '@/components/UI/Input/LeaveReplyInputs';
 import IconIon from '@/components/UI/IonIcon/IconIon';
-import { submitTourComment } from '@/lib/mongodb';
+import { getUser, submitTourComment } from '@/lib/mongodb';
+import { uploadImage } from '@/lib/cloudinary';
+import Lottie from 'lottie-react';
+import loadingSpinner from '@/animations/loading-spinner.json';
 
-export default function LeaveReply() {
+type LeaveReplyType = {
+  tourId: string;
+}
+
+export default function LeaveReply({ tourId }: LeaveReplyType) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [formError, setFormError] = useState<string[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState<boolean | null>(null);
+
+  console.log(`Executing tourId: `, tourId);
 
   const openFilePicker = () => {
     fileInputRef.current?.click();
@@ -25,6 +35,7 @@ export default function LeaveReply() {
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    setIsSubmitting(true);
     const currObject = e.currentTarget;
     const formData = new FormData(currObject);
     const results = Object.fromEntries(formData.entries());
@@ -33,15 +44,39 @@ export default function LeaveReply() {
     setFormError([]);
 
     // Validate form data
-    // const errors = validateFormData(results);
+    const errors = validateFormData(results);
 
-    /*  if (errors.length > 0) {
-        setFormError(errors);
-        return;
-      }*/
+    const userExists = await getUser({ email: results.email }, { email: 1, _id: 0 });
+
+    console.log(`Executing userExists: (Client)`, userExists);
+
+    if (userExists.length > 0) {
+      setFormError([`The user with the email ${results.email} already exists. Please sign in to proceed.`]);
+
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (errors.length > 0) {
+      setFormError(errors);
+      setIsSubmitting(false);
+      return;
+    }
+
+    // Upload images to Cloudinary
+    const imageUrls = await Promise.all(selectedFiles.map(uploadImage));
+    console.log(`Executing imageUrls: `, imageUrls);
+
+    if (imageUrls.length > 0 && imageUrls.length > 3) {
+      setFormError(['Failed to upload the images. You can only upload up to 3 or can omit image upload.']);
+      setIsSubmitting(false);
+      return;
+    }
 
     // Convert FormDataEntryValue to string
     const formResults = {
+      tourId: tourId,
+      user: results.user as string,
       rating: {
         location: Number(results.location),
         amenities: Number(results.amenities),
@@ -50,15 +85,14 @@ export default function LeaveReply() {
         price: Number(results.price),
         tourOperator: Number(results.tourOperator)
       },
-      email: results.email as string,
-      user: results.user as string,
       title: results.title as string,
-      text: results.text as string,
-      images: await Promise.all(selectedFiles.map(fileToBase64)) // Convert File objects to base64 strings
+      images: imageUrls, // Use Cloudinary URLs
+      email: results.email as string,
+      text: results.text as string
     };
 
     // Resetting the form
-    currObject.reset();
+    // currObject.reset();
 
     // Uncheck all checkboxes
     const checkboxes = document.querySelectorAll('input[type="checkbox"]');
@@ -69,11 +103,20 @@ export default function LeaveReply() {
     // @ts-ignore
     const submitForm = await submitTourComment(formResults);
 
-    if (submitForm?.error) {
-      setFormError([submitForm.error]);
-      return;
+    if (submitForm.success) {
+      console.log(submitForm.success);
+      setIsSubmitting(false);
+      // delete files from input field file
+      setSelectedFiles([]);
+      // reset form
+      currObject.reset();
     }
 
+    if (submitForm?.error) {
+      setFormError([submitForm.error]);
+      setIsSubmitting(false);
+      return;
+    }
     // Output
     console.log(results);
   }
@@ -100,17 +143,6 @@ export default function LeaveReply() {
 
     return errors;
   }
-
-// Helper function to convert File to base64 string
-  function fileToBase64(file: File): Promise<string> {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result as string);
-      reader.onerror = error => reject(error);
-    });
-  }
-
 
   return (
     <section className="leave-a-reply">
@@ -150,9 +182,20 @@ export default function LeaveReply() {
               </div>
             ))}
           </div>
-          <button className="btn btn--submit flex flex-align-center">Post comment
-            <IconIon type={`arrowForwardOutline`} className="icon icon--right-arrow"></IconIon>
-          </button>
+          <div className={`btn--submit-container`}>
+            {/*btn--submit-disabled*/}
+            <button
+              className={`btn btn--submit ${isSubmitting ? `btn--submit-disabled` : ``} flex flex-align-center`}>Post
+              comment
+              <IconIon type={`arrowForwardOutline`} className="icon icon--right-arrow"></IconIon>
+            </button>
+            {isSubmitting && (
+              <div className={`loading-spinner`}>
+                <Lottie animationData={loadingSpinner} />
+              </div>
+            )
+            }
+          </div>
         </form>
       </div>
     </section>

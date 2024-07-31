@@ -23,7 +23,6 @@ type CommentType = {
   // children: ReactNode;
 }
 
-
 export default function
   Comment({
             id,
@@ -52,7 +51,7 @@ export default function
   const [userDislikedComment, setUserDislikedComment] = useState<boolean>(false);
 
 
-  // Split the user name into an array of words
+  // Split the username into an array of words
   const nameParts = user.split(' ');
   // Take the first character of the first and last name part, capitalize them, and join with a period
   const userInitials = `${nameParts[0][0].toUpperCase()}${nameParts.length > 1 ? '.' + nameParts[nameParts.length - 1][0].toUpperCase() : ''}`;
@@ -160,7 +159,7 @@ export default function
                 if (i < Number(rated.toFixed(0))) {
                   return <Image key={i} width={15} height={15} src={starFilled} alt="star filled" />;
                 } else {
-                  return <Image key={i} width={15} height={15} src={starEmpty} alt="star empty" />;
+                  return <Image key={i + 1} width={15} height={15} src={starEmpty} alt="star empty" />;
                 }
               })}
             </div>
@@ -168,27 +167,18 @@ export default function
           </div>
           <p className="comments__content-paragraph">{text}</p>
           <div className="comments__content-images">
-            {/*{images?.map((image, index) => (
-              <div key={index} className="comments__content-images-wrapper">
-                <Image width={130} height={130} onClick={handleOpenSlider}
-                       alt="comment image" src={image} />
-              </div>
-            ))
-            }*/}
             {images.map(function(imgSrc) {
               return (
-                <>
-                  <div key={`${imgSrc}`} className="comments__content-images-wrapper">
-                    <CldImage
-                      width={130}
-                      height={130}
-                      // className={`comments__content-images-wrapper`}
-                      crop="fill"
-                      alt="Tour Comment Image"
-                      onClick={handleOpenSlider}
-                      src={`${imgSrc}`} />
-                  </div>
-                </>
+                <div key={`${imgSrc}`} className="comments__content-images-wrapper">
+                  <CldImage
+                    width={130}
+                    height={130}
+                    // className={`comments__content-images-wrapper`}
+                    crop="fill"
+                    alt="Tour Comment Image"
+                    onClick={handleOpenSlider}
+                    src={`${imgSrc}`} />
+                </div>
               );
             })}
 

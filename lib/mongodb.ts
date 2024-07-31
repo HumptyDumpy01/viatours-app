@@ -1,5 +1,5 @@
 'use server';
-import { MongoClient, ObjectId } from 'mongodb';
+import { MongoClient, ObjectId, Timestamp } from 'mongodb';
 import { TourInterface } from '@/data/DUMMY_TOURS';
 
 // Extend the global interface
@@ -138,7 +138,15 @@ export async function getTourById(id: string) {
   return JSON.parse(JSON.stringify(tour))[0] as TourInterface;
 }
 
+export async function getUser(filter: {}, options?: {}) {
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+  const user = await db.collection(`users`).aggregate([{ $match: filter }, { $project: options }]).toArray();
+  return JSON.parse(JSON.stringify(user));
+}
+
 type submitTourComment = {
+  tourId: string;
   rating: {
     location: number;
     amenities: number;
@@ -154,7 +162,18 @@ type submitTourComment = {
   images: File[];
 }
 
-export async function submitTourComment({ rating, email, user, title, text, images }: submitTourComment) {
+export async function submitTourComment({ rating, email, user, title, text, images, tourId }: submitTourComment) {
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+  const userExists = await getUser({ email: email }, { email: 1, _id: 0 });
+
+  console.log(`Executing userExists: (Server)`, userExists);
+  if (userExists.length > 0) {
+    return {
+      error: `The user with the email ${email} already exists. Please sign in to proceed.`
+    };
+  }
+
   if (!rating.location || !rating.amenities || !rating.food || !rating.room || !rating.price || !rating.tourOperator) {
     return {
       error: `A rating for each category should be provided.`
@@ -185,25 +204,86 @@ export async function submitTourComment({ rating, email, user, title, text, imag
       error: `Failed to upload the images. You can only upload up to 3 or can omit image upload.`
     };
   }
+  if (!tourId) {
+    throw new Error(`Oops! We were unable to save this comment! Sorry for the inconvenience. We are working on it.`);
+  }
 
-  const client = await clientPromise;
-  const db = client.db(`viatoursdb`);
-  console.log(`rating`, rating);
-  console.log(`email`, email);
-  console.log(`user`, user);
-  console.log(`title`, title);
-  console.log(`text`, text);
+  console.log(`rating:`, rating);
+  console.log(`tourId:`, tourId);
+  console.log(`email:`, email);
+  console.log(`user:`, user);
+  console.log(`title:`, title);
+  console.log(`text:`, text);
+  console.log(`images:`, images);
 
-  // const result = await db.collection(`tourComments`).insertOne({
-  //   rating,
-  //   email,
-  //   user,
-  //   title,
-  //   text,
-  //   addedAt: new Date(),
-  //   likes: 0,
-  //   dislikes: 0,
-  //   abuse_reports: 0
-  // });
-  // return result;
+  // rating coefficients
+  const location = 0.2;
+  const amenities = 0.2;
+  const food = 0.15;
+  const room = 0.15;
+  const price = 0.1;
+  const tourOperator = 0.2;
+
+  // console.log(Math.min(5, (rating.location * location) + (rating.amenities * amenities) + (rating.food * food) + (rating.room * room) + (rating.price * price) + (rating.tourOperator * tourOperator)));
+
+  try {
+    const result = await db.collection(`tourComments`).insertOne({
+      userId: null,
+      tourId: new ObjectId(tourId),
+      user: user,
+      email: email,
+      rating: {
+        // to calculate the overall rating based on the coefficients and the ratings, max rating is 5
+        overall: Number(Math.min(5,
+          (rating.location * location)
+          + (rating.amenities * amenities)
+          + (rating.food * food)
+          + (rating.room * room)
+          + (rating.price * price)
+          + (rating.tourOperator * tourOperator)).toFixed(2)),
+        location: Number(rating.location),
+        amenities: Number(rating.amenities),
+        food: Number(rating.food),
+        price: Number(rating.price),
+        room: Number(rating.room),
+        tourOperator: Number(rating.tourOperator)
+      },
+      title: title,
+      text: text,
+      images: images,
+      addedAt: new Date(),
+      // add a timestamp, like in mongodb shell
+      timestamp: Timestamp.fromNumber(Date.now()),
+      likes: 0,
+      dislikes: 0,
+      abuseReports: 0
+
+    });
+    if (!result.acknowledged) {
+      new Error(`Oops! We were unable to save this comment! Sorry for the inconvenience. We are working on it.`);
+    } else {
+      const commentId = result.insertedId.toString();
+      // update the tour by 1. finding it by id and 2. adding the comment id to the comments array
+      const updateTour = await db.collection(`tours`).updateOne(
+        { _id: new ObjectId(tourId) },
+        // @ts-ignore
+        { $push: { comments: new ObjectId(commentId) } }
+      );
+
+      if (!updateTour.acknowledged) {
+        new Error(`Oops!
+        `);
+      }
+
+    }
+
+
+  } catch (e) {
+    throw new Error(`Oops! We were unable to save this comment! Sorry for the inconvenience. We are working on it.`);
+  }
+
+  return {
+    success: `The comment has been successfully added.`
+  };
+
 }

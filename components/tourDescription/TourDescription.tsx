@@ -34,9 +34,6 @@ type TourDescriptionType = {
 }
 
 export default async function TourDescriptionSection({ params, tour, similarTours }: TourDescriptionType) {
-
-  console.log(`tour.tags`, tour.tags);
-
   return (
     <>
       <TourDescriptionNavigation title={tour.title} params={params} />
@@ -88,7 +85,7 @@ export default async function TourDescriptionSection({ params, tour, similarTour
           <QuestionAnswer />
           <CustomerReviews rating={tour.rating} />
           <TourComments currTourComments={tour.tourComments} />
-          <LeaveReply />
+          <LeaveReply tourId={tour._id} />
         </DescriptionOverview>
       </section>
       <div>

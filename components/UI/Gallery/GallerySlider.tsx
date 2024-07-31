@@ -25,7 +25,6 @@ export default function GallerySlider({ info, sliderVisibility, handleCloseSlide
   if (!info.images) {
     throw new Error(`Invalid gallery images: ${info.images}`);
   }
-  console.log(info.images);
 
   function closeSlider() {
     handleCloseSlider();
@@ -78,7 +77,7 @@ export default function GallerySlider({ info, sliderVisibility, handleCloseSlide
           {/*// @ts-ignore*/}
           {restOfImages.map((image, index) => {
             return (
-              <div key={index} className="description__gallery-images-slider-img-container">
+              <div key={`${image}`} className="description__gallery-images-slider-img-container">
                 <CldImage
                   width={500}
                   height={400}
@@ -93,7 +92,6 @@ export default function GallerySlider({ info, sliderVisibility, handleCloseSlide
                   placeholder="blur"
                   blurDataURL={watermarkImage.src}
                 />
-
               </div>
             );
           })}

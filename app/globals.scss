@@ -325,6 +325,20 @@ li {
     transition: all .4s;
     border: 1px solid var(--clr-primary);
 
+    &-disabled {
+      background-color: var(--clr-grey-3);
+      color: var(--clr-darker-grey);
+      cursor: not-allowed !important;
+      border: 1px transparent;
+      pointer-events: none;
+    }
+
+    &-container {
+      display: flex;
+      align-items: center;
+      height: 5.6rem;
+    }
+
     &:hover, &:active {
       background-color: var(--clr-white);
       color: var(--clr-primary);
@@ -987,4 +1001,10 @@ b {
 
 .pointer-events-none {
   pointer-events: none;
+}
+
+.loading-spinner {
+  width: 14rem;
+  margin-left: -2rem;
+  //height: 15rem;
 }
