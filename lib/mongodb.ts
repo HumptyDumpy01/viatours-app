@@ -1,6 +1,7 @@
 'use server';
 import { MongoClient, ObjectId, Timestamp } from 'mongodb';
 import { TourInterface } from '@/data/DUMMY_TOURS';
+import { revalidatePath } from 'next/cache';
 
 // Extend the global interface
 // it resolves issues with the global variable missing type
@@ -281,6 +282,8 @@ export async function submitTourComment({ rating, email, user, title, text, imag
   } catch (e) {
     throw new Error(`Oops! We were unable to save this comment! Sorry for the inconvenience. We are working on it.`);
   }
+  // revalidate the tour page
+  revalidatePath(`/`, `layout`);
 
   return {
     success: `The comment has been successfully added.`
