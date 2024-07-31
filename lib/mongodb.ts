@@ -135,7 +135,7 @@ export async function getTourById(id: string) {
       }
     }
   ]).toArray();
-  console.log(`Executing tour: `, tour);
+  // console.log(`Executing tour: `, tour);
   return JSON.parse(JSON.stringify(tour))[0] as TourInterface;
 }
 
@@ -168,7 +168,7 @@ export async function submitTourComment({ rating, email, user, title, text, imag
   const db = client.db(`viatoursdb`);
   const userExists = await getUser({ email: email }, { email: 1, _id: 0 });
 
-  console.log(`Executing userExists: (Server)`, userExists);
+  // console.log(`Executing userExists: (Server)`, userExists);
   if (userExists.length > 0) {
     return {
       error: `The user with the email ${email} already exists. Please sign in to proceed.`
@@ -209,13 +209,13 @@ export async function submitTourComment({ rating, email, user, title, text, imag
     throw new Error(`Oops! We were unable to save this comment! Sorry for the inconvenience. We are working on it.`);
   }
 
-  console.log(`rating:`, rating);
-  console.log(`tourId:`, tourId);
-  console.log(`email:`, email);
-  console.log(`user:`, user);
-  console.log(`title:`, title);
-  console.log(`text:`, text);
-  console.log(`images:`, images);
+  // console.log(`rating:`, rating);
+  // console.log(`tourId:`, tourId);
+  // console.log(`email:`, email);
+  // console.log(`user:`, user);
+  // console.log(`title:`, title);
+  // console.log(`text:`, text);
+  // console.log(`images:`, images);
 
   // rating coefficients
   const location = 0.2;
@@ -226,8 +226,11 @@ export async function submitTourComment({ rating, email, user, title, text, imag
   const tourOperator = 0.2;
 
   // console.log(Math.min(5, (rating.location * location) + (rating.amenities * amenities) + (rating.food * food) + (rating.room * room) + (rating.price * price) + (rating.tourOperator * tourOperator)));
+  // TODO: Create session for all 4 stage to be executed in one transaction
 
   try {
+    /* IMPORTANT: 1/4 STAGE: inserting a new comment to "tourComments" schema
+    *   Performing calculation of overall rating based on coefficients. */
     const result = await db.collection(`tourComments`).insertOne({
       userId: null,
       tourId: new ObjectId(tourId),
@@ -263,16 +266,85 @@ export async function submitTourComment({ rating, email, user, title, text, imag
     if (!result.acknowledged) {
       new Error(`Oops! We were unable to save this comment! Sorry for the inconvenience. We are working on it.`);
     } else {
+
+      /* IMPORTANT: 2/4 STAGE: adding newly created comment(objectId only) onto a tour
+      *   Pushing comment's object id onto comments tour array */
       const commentId = result.insertedId.toString();
       // update the tour by 1. finding it by id and 2. adding the comment id to the comments array
       const updateTour = await db.collection(`tours`).updateOne(
         { _id: new ObjectId(tourId) },
         // @ts-ignore
-        { $push: { comments: new ObjectId(commentId) } }
+        { $push: { comments: new ObjectId(commentId) }, $inc: { reviews: 1 } }
       );
 
       if (!updateTour.acknowledged) {
-        new Error(`Oops!
+        new Error(`Oops! We were unable to save this comment! Failed to add comment id to a tour array. We are working on it...`);
+      }
+
+      /* IMPORTANT: 3/4 STAGE: gathering all comments related to this specific tour and performing recalculation of
+      *   overall rating.*/
+      const recalculatedRatings = await db.collection(`tours`).aggregate([
+        {
+          $match: {
+            _id: new ObjectId(tourId)
+          }
+        },
+        {
+          $lookup: {
+            from: 'tourComments',
+            localField: 'comments',
+            foreignField: '_id',
+            as: 'tourComments'
+          }
+        },
+        {
+          $unwind: '$tourComments'
+        },
+        {
+          $group: {
+            _id: '_id',
+            avgOverall: {
+              $avg: '$tourComments.rating.overall'
+            },
+            avgLocation: {
+              $avg: '$tourComments.rating.location'
+            },
+            avgAmenities: {
+              $avg: '$tourComments.rating.amenities'
+            },
+            avgFood: {
+              $avg: '$tourComments.rating.food'
+            },
+            avgPrice: {
+              $avg: '$tourComments.rating.price'
+            },
+            avgRooms: {
+              $avg: '$tourComments.rating.rooms'
+            },
+            avgTourOperator: {
+              $avg: '$tourComments.rating.tourOperator'
+            }
+          }
+        }
+      ]).toArray();
+
+
+      console.log(`Executing recalculatedRatings: `, recalculatedRatings);
+
+      /* IMPORTANT: 4/4 STAGE */
+      const updatedRating = {
+        overall: recalculatedRatings[0].avgOverall,
+        location: recalculatedRatings[0].avgLocation,
+        amenities: recalculatedRatings[0].avgAmenities,
+        food: recalculatedRatings[0].avgFood,
+        price: recalculatedRatings[0].avgPrice,
+        rooms: recalculatedRatings[0].avgRooms,
+        tourOperator: recalculatedRatings[0].avgTourOperator
+      };
+      const updatedTour = await db.collection(`tours`).updateOne({ _id: new ObjectId(tourId) }, { $set: { rating: updatedRating } });
+
+      if (!updatedTour.acknowledged) {
+        new Error(`Oops! We were unable to save this comment! Failed to update the tour rating...  We are working on it
         `);
       }
 
