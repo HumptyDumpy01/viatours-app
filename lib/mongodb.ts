@@ -137,3 +137,73 @@ export async function getTourById(id: string) {
   console.log(`Executing tour: `, tour);
   return JSON.parse(JSON.stringify(tour))[0] as TourInterface;
 }
+
+type submitTourComment = {
+  rating: {
+    location: number;
+    amenities: number;
+    food: number;
+    room: number;
+    price: number;
+    tourOperator: number;
+  };
+  email: string;
+  user: string;
+  title: string;
+  text: string;
+  images: File[];
+}
+
+export async function submitTourComment({ rating, email, user, title, text, images }: submitTourComment) {
+  if (!rating.location || !rating.amenities || !rating.food || !rating.room || !rating.price || !rating.tourOperator) {
+    return {
+      error: `A rating for each category should be provided.`
+    };
+  }
+  if (!user) {
+    return {
+      error: `A user is invalid or empty.`
+    };
+  }
+  if (!email) {
+    return {
+      error: `An email is invalid or empty.`
+    };
+  }
+  if (!title) {
+    return {
+      error: `Please provide a title for the comment.`
+    };
+  }
+  if (!text) {
+    return {
+      error: `Please provide a text for the comment.`
+    };
+  }
+  if (images.length > 3 || (images.length === 1 && images[0].size === 0)) {
+    return {
+      error: `Failed to upload the images. You can only upload up to 3 or can omit image upload.`
+    };
+  }
+
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+  console.log(`rating`, rating);
+  console.log(`email`, email);
+  console.log(`user`, user);
+  console.log(`title`, title);
+  console.log(`text`, text);
+
+  // const result = await db.collection(`tourComments`).insertOne({
+  //   rating,
+  //   email,
+  //   user,
+  //   title,
+  //   text,
+  //   addedAt: new Date(),
+  //   likes: 0,
+  //   dislikes: 0,
+  //   abuse_reports: 0
+  // });
+  // return result;
+}
