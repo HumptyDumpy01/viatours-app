@@ -1,4 +1,4 @@
-// 'use client';
+'use client';
 
 import locationIcon from '@/assets/images/homepage/findPopularTours/location-icon.svg';
 import starFilled from '../../../assets/images/homepage/findPopularTours/one-star.svg';
@@ -7,6 +7,7 @@ import Link from 'next/link';
 import '@/components/homepage/trending-destinations/TrendingDestinations.scss';
 import '@/components/homepage/find-popular-tours/FindPopularTours.scss';
 import Image from 'next/image';
+import { CldImage } from 'next-cloudinary';
 
 export interface TourCardInterface {
   href: string;
@@ -30,9 +31,17 @@ export default function TourCard({ href, imgSrc, imgAlt, info }: TourCardInterfa
     <figure className="find-popular-tours__figure">
       <Link href={href} className="find-popular-tours__figure-link">
         <div className="find-popular-tours__figure__img-wrapper">
-          <img className="find-popular-tours__figure__img"
-               src={`http://localhost:3000${imgSrc}`}
-               alt={imgAlt} />
+          {/*<img className="find-popular-tours__figure__img"*/}
+          {/*     src={`http://localhost:3000${imgSrc}`}*/}
+          {/*     alt={imgAlt} />*/}
+          <CldImage
+            width={300}
+            height={200}
+            className={`find-popular-tours__figure__img`}
+            crop="fill"
+            alt={imgAlt}
+            src={`${imgSrc}`}
+          />
           <div className="find-popular-tours__figure-shape"></div>
         </div>
         <div className="find-popular-tours__figure-wrapper">

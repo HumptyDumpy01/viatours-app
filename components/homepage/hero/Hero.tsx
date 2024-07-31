@@ -78,30 +78,30 @@ export default function Hero(/*{  }: HeroInterface*/) {
             </label>
           </HeroInput>
 
-          <HeroInput icon={{
-            src: timeIcon,
-            alt: `Time Icon`,
-            width: 20,
-            height: 44,
-            className: `icon--clock`
-          }}>
-            <span className="hero__second-part-details-span">When</span>
-            {/*<label>*/}
-            {/*  <input readOnly type="text" name="date" placeholder="Choose the date" onFocus={handleOpenCalendar}*/}
-            {/*         className="hero-input hero-input-destinations hero-input-destinations-datepicker" required />*/}
-            {/*</label>*/}
-            <DatePicker sx={{
-              '.MuiInputBase-input': {
-                fontSize: `1.5rem`,
-                padding: `0`,
-                border: `none`,
-                color: `#f36f00`
-              },
-              '.MuiOutlinedInput-notchedOutline': {
-                border: `none`
-              }
-            }} />
-          </HeroInput>
+          {/*<HeroInput icon={{*/}
+          {/*  src: timeIcon,*/}
+          {/*  alt: `Time Icon`,*/}
+          {/*  width: 20,*/}
+          {/*  height: 44,*/}
+          {/*  className: `icon--clock`*/}
+          {/*}}>*/}
+          {/*  <span className="hero__second-part-details-span">When</span>*/}
+          {/*  /!*<label>*!/*/}
+          {/*  /!*  <input readOnly type="text" name="date" placeholder="Choose the date" onFocus={handleOpenCalendar}*!/*/}
+          {/*  /!*         className="hero-input hero-input-destinations hero-input-destinations-datepicker" required />*!/*/}
+          {/*  /!*</label>*!/*/}
+          {/*  <DatePicker sx={{*/}
+          {/*    '.MuiInputBase-input': {*/}
+          {/*      fontSize: `1.5rem`,*/}
+          {/*      padding: `0`,*/}
+          {/*      border: `none`,*/}
+          {/*      color: `#f36f00`*/}
+          {/*    },*/}
+          {/*    '.MuiOutlinedInput-notchedOutline': {*/}
+          {/*      border: `none`*/}
+          {/*    }*/}
+          {/*  }} />*/}
+          {/*</HeroInput>*/}
 
           <HeroInput icon={{
             src: typeIcon,

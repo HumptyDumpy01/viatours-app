@@ -66,7 +66,11 @@ export default function GallerySlider({ info, sliderVisibility, handleCloseSlide
               crop="fill"
               className="description__gallery-images-slider-img"
               alt="Tour Comment Image"
-              src={`${mainImage}`} />
+              src={`${mainImage}`}
+              // improve quality
+              quality="auto:best"
+              format={`auto`}
+            />
             <span className="description__gallery-images-slider-span">*Scroll to the right to see more</span>
           </div>
           {/*// @ts-ignore*/}
@@ -80,7 +84,12 @@ export default function GallerySlider({ info, sliderVisibility, handleCloseSlide
                   crop="fill"
                   className="description__gallery-images-slider-img"
                   alt="Tour Comment Image"
-                  src={`${image}`} />
+                  src={`${image}`}
+                  // improve quality
+                  quality="auto:best"
+                  format={`auto`}
+                />
+
               </div>
             );
           })}

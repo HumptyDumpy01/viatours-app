@@ -3,9 +3,9 @@
 import './Gallery.scss';
 import { StaticImageData } from 'next/image';
 import watermarkImage from '@/assets/images/viatours-watermark-logo.svg';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import GallerySlider from '@/components/UI/Gallery/GallerySlider';
-import { DOMAIN } from '@/lib/helpers/generics';
+import { CldImage } from 'next-cloudinary';
 
 export type GalleryType = {
   info: {
@@ -44,17 +44,46 @@ export default function Gallery({ info }: GalleryType) {
     <>
       <div className="description__gallery">
         <div className="description__gallery-images grid">
+
           <div className="description__gallery-img-1">
-            <img onClick={openSlider}
-              // @ts-ignore
-                 src={`${DOMAIN}${mainImage}`} alt={info.title} />
+
+            <CldImage
+              width={500}
+              height={400}
+              className="description__gallery-images-slider-img"
+              alt={info.title}
+              src={`${mainImage}`}
+              onClick={openSlider}
+              priority
+              // improve quality
+              quality="auto:best"
+              format={`auto`}
+            />
+            {/*<img onClick={openSlider}*/}
+            {/*  // @ts-ignore*/}
+            {/*     src={`${DOMAIN}${mainImage}`} alt={info.title} />*/}
           </div>
           <div className="description__gallery-images-container-1 grid grid-two-cols">
             {restOfImages.map((image, index) => (
               <div key={index} className={`description__gallery-img-${index + 2}`}>
-                <img onClick={openSlider}
-                  // @ts-ignore
-                     src={`${DOMAIN}${image}`} alt={info.title} className="description__gallery-img-2" />
+
+                <CldImage
+                  width={500}
+                  height={400}
+                  className="description__gallery-img-2"
+                  alt={info.title}
+                  src={`${image}`}
+                  onClick={openSlider}
+                  priority
+                  // improve quality
+                  quality="auto:best"
+                  format={`auto`}
+                  placeholder="blur"
+                  blurDataURL={watermarkImage.src}
+                />
+                {/*<img onClick={openSlider}*/}
+                {/*  // @ts-ignore*/}
+                {/*     src={`${DOMAIN}${image}`} alt={info.title} className="description__gallery-img-2" />*/}
               </div>
             ))}
           </div>
