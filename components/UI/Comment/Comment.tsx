@@ -175,17 +175,24 @@ export default function
               </div>
             ))
             }*/}
-            <CldImage
-              src="cld-sample-5" // Use this sample image or upload your own via the Media Explorer
-              width="130" // Transform the image: auto-crop to square aspect_ratio
-              height="130"
-              crop={{
-                type: 'auto',
-                source: true
-              }}
-              className="comments__content-images-wrapper"
-              alt={`dummy image`}
-            /></div>
+            {images.map(function(imgSrc) {
+              return (
+                <>
+                  <div key={`${imgSrc}`} className="comments__content-images-wrapper">
+                    <CldImage
+                      width={130}
+                      height={130}
+                      // className={`comments__content-images-wrapper`}
+                      crop="fill"
+                      alt="Tour Comment Image"
+                      onClick={handleOpenSlider}
+                      src={`${imgSrc}`} />
+                  </div>
+                </>
+              );
+            })}
+
+          </div>
           {images.length > 0 &&
             <GallerySlider
               info={{
