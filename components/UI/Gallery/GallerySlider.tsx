@@ -5,7 +5,7 @@ import IconIon from '@/components/UI/IonIcon/IconIon';
 import React, { useRef } from 'react';
 import { StaticImageData } from 'next/image';
 import ArrowButton from '@/components/UI/Button/ArrowButton';
-import { DOMAIN } from '@/lib/helpers/generics';
+import { CldImage } from 'next-cloudinary';
 
 type GallerySliderType = {
   handleCloseSlider: () => void;
@@ -24,6 +24,7 @@ export default function GallerySlider({ info, sliderVisibility, handleCloseSlide
   if (!info.images) {
     throw new Error(`Invalid gallery images: ${info.images}`);
   }
+  console.log(info.images);
 
   function closeSlider() {
     handleCloseSlider();
@@ -55,19 +56,31 @@ export default function GallerySlider({ info, sliderVisibility, handleCloseSlide
         <div className={`description__gallery-images-slider-wrapper  ${sliderVisibility ? `open` : ``}`}>
           <div className="description__gallery-images-slider-img-container">
             {/*// @ts-ignore*/}
-            <img src={`${DOMAIN}${mainImage}`}
-                 alt={info.title}
-                 className="description__gallery-images-slider-img" />
+            {/*<img src={`${mainImage}`}*/}
+            {/*     alt={info.title}*/}
+            {/*     className="description__gallery-images-slider-img" />*/}
+            <CldImage
+              width={500}
+              height={400}
+              // className={`comments__content-images-wrapper`}
+              crop="fill"
+              className="description__gallery-images-slider-img"
+              alt="Tour Comment Image"
+              src={`${mainImage}`} />
             <span className="description__gallery-images-slider-span">*Scroll to the right to see more</span>
           </div>
           {/*// @ts-ignore*/}
           {restOfImages.map((image, index) => {
             return (
               <div key={index} className="description__gallery-images-slider-img-container">
-                {/*// @ts-ignore*/}
-                <img src={`${DOMAIN}${image}`}
-                     alt={info.title}
-                     className="description__gallery-images-slider-img" />
+                <CldImage
+                  width={500}
+                  height={400}
+                  // className={`comments__content-images-wrapper`}
+                  crop="fill"
+                  className="description__gallery-images-slider-img"
+                  alt="Tour Comment Image"
+                  src={`${image}`} />
               </div>
             );
           })}
