@@ -12,11 +12,16 @@
     margin-top: 2.4rem;
   }
 
+  &__bottom {
+    font-size: 1.3rem;
+  }
+
   // turn this on when working with the responsive design
   /*  overflow-x: auto;
     scrollbar-width: thin; !* Firefox *!
     scrollbar-color: transparent transparent; !* Firefox *!*/
   &__bottom__span {
+    display: inline-block;
     font-weight: 600;
   }
 
@@ -34,7 +39,7 @@
     border-radius: 12px;
     transition: all 0.2s;
     width: 25rem;
-    height: 41.2rem;
+    //height: 41.2rem;
     animation-name: moveInLeft;
     animation-duration: 1s;
     /*animation-iteration-count: 2;*/
@@ -76,8 +81,8 @@
 
       &-wrapper {
         position: relative;
-        width: 23rem;
-        height: 16rem;
+        //width: 23rem;
+        //height: 16rem;
       }
     }
 
@@ -107,6 +112,15 @@
       border-bottom: 2px solid var(--clr-silver);
       padding-bottom: 1.8rem;
       margin-bottom: 2rem;
+
+      p {
+        margin-left: .5rem;
+        font-weight: 600;
+      }
+
+      &--span {
+        font-weight: 400;
+      }
 
       &--span, p {
         color: var(--clr-dark-blue);
@@ -155,5 +169,10 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-  margin-top: -2rem;
+  margin-top: -3rem;
+  margin-bottom: -1rem;
+
+  span {
+    font-size: 1.3rem;
+  }
 }
