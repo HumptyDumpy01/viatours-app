@@ -6,6 +6,7 @@ import React, { useRef } from 'react';
 import { StaticImageData } from 'next/image';
 import ArrowButton from '@/components/UI/Button/ArrowButton';
 import { CldImage } from 'next-cloudinary';
+import watermarkImage from '@/assets/images/viatours-watermark-logo.svg';
 
 type GallerySliderType = {
   handleCloseSlider: () => void;
@@ -70,6 +71,7 @@ export default function GallerySlider({ info, sliderVisibility, handleCloseSlide
               // improve quality
               quality="auto:best"
               format={`auto`}
+              blurDataURL={watermarkImage.src}
             />
             <span className="description__gallery-images-slider-span">*Scroll to the right to see more</span>
           </div>
@@ -88,6 +90,8 @@ export default function GallerySlider({ info, sliderVisibility, handleCloseSlide
                   // improve quality
                   quality="auto:best"
                   format={`auto`}
+                  placeholder="blur"
+                  blurDataURL={watermarkImage.src}
                 />
 
               </div>
