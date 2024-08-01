@@ -149,7 +149,7 @@ export async function getTourById(id: string, incViews?: boolean) {
       }
     }
   ]).toArray();
-  // console.log(`Executing tour: `, tour);
+  console.log(`Executing tour: `, tour);
   return JSON.parse(JSON.stringify(tour))[0] as TourInterface;
 }
 

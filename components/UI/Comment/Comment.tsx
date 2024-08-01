@@ -50,9 +50,13 @@ export default function
   const [userLikedComment, setUserLikedComment] = useState<boolean>(false);
   const [userDislikedComment, setUserDislikedComment] = useState<boolean>(false);
 
-
-  // Split the username into an array of words
-  const nameParts = user.split(' ');
+  let nameParts;
+  // if a user has a just one word in their name, we should take the first two letters of the name
+  if (user.split(' ').length === 1) {
+    nameParts = user.slice(0, 2);
+  } else {
+    nameParts = user.split(' ');
+  }
   // Take the first character of the first and last name part, capitalize them, and join with a period
   const userInitials = `${nameParts[0][0].toUpperCase()}${nameParts.length > 1 ? '.' + nameParts[nameParts.length - 1][0].toUpperCase() : ''}`;
   // date is received in the format: 2024-07-01T13:45:04.000Z, and it should be of the format: April 2023, at 13:45

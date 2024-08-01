@@ -110,6 +110,14 @@ export default function LeaveReply({ tourId }: LeaveReplyType) {
       setSelectedFiles([]);
       // reset form
       currObject.reset();
+
+      // scroll to .customer-reviews-heading
+      const customerReviewsHeading = document.querySelector('.customer-reviews-heading');
+      if (customerReviewsHeading) {
+        setTimeout(function() {
+          customerReviewsHeading.scrollIntoView({ behavior: 'smooth' });
+        }, 80);
+      }
     }
 
     if (submitForm?.error) {
