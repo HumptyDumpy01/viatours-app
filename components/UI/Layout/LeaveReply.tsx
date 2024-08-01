@@ -14,6 +14,16 @@ type LeaveReplyType = {
   tourId: string;
 }
 
+function scrollToLeaveReplyForm() {
+  // scroll to the .leave-a-reply form
+  const leaveAReplyForm = document.querySelector('.leave-a-reply');
+  if (leaveAReplyForm) {
+    setTimeout(function() {
+      leaveAReplyForm.scrollIntoView({ behavior: 'smooth' });
+    }, 80);
+  }
+}
+
 export default function LeaveReply({ tourId }: LeaveReplyType) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
@@ -52,15 +62,16 @@ export default function LeaveReply({ tourId }: LeaveReplyType) {
 
     if (userExists.length > 0) {
       setFormError([`The user with the email ${results.email} already exists. Please sign in to proceed.`]);
-
       setIsSubmitting(false);
-      return;
+      scrollToLeaveReplyForm();
+
     }
 
     if (errors.length > 0) {
       setFormError(errors);
+      scrollToLeaveReplyForm();
       setIsSubmitting(false);
-      return;
+
     }
 
     // Upload images to Cloudinary
@@ -69,6 +80,7 @@ export default function LeaveReply({ tourId }: LeaveReplyType) {
 
     if (imageUrls.length > 0 && imageUrls.length > 3) {
       setFormError(['Failed to upload the images. You can only upload up to 3 or can omit image upload.']);
+      scrollToLeaveReplyForm();
       setIsSubmitting(false);
       return;
     }
