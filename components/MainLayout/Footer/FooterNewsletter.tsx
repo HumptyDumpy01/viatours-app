@@ -21,7 +21,7 @@ export default function FooterNewsletter(/*{  }: FooterNewsletterInterface*/) {
 
     if (timer.current) {
       clearTimeout(timer.current);
-      console.log(`Newsletter sign up toast cleared!`);
+      // console.log(`Newsletter sign up toast cleared!`);
     }
 
     dispatch(ToastSliceActions.showNotification());
@@ -29,7 +29,7 @@ export default function FooterNewsletter(/*{  }: FooterNewsletterInterface*/) {
     // Hide the toast after 3 seconds
     timer.current = setTimeout(() => {
       dispatch(ToastSliceActions.hideNotification());
-      console.log(`Newsletter sign up toast hidden!`);
+      // console.log(`Newsletter sign up toast hidden!`);
     }, 6000);
   }
 

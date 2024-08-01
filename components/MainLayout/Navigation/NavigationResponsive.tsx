@@ -20,13 +20,13 @@ export default function NavigationResponsive(/*{  }: NavigationBurgerInterface*/
   const dispatch = useCartDispatch();
 
   function openNavBurger() {
-    console.log(`openNavBurger clicked`);
+    // console.log(`openNavBurger clicked`);
     dispatch(navigationSliceActions.toggleNavigation(`open`));
-    console.log(`Executing isOpen: `, isOpen);
+    // console.log(`Executing isOpen: `, isOpen);
   }
 
   function openSideNav() {
-    console.log(`openSideNav clicked`);
+    // console.log(`openSideNav clicked`);
     dispatch(navigationSliceActions.toggleSideNavigation(`open`));
   }
 

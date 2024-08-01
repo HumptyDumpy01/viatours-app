@@ -20,7 +20,7 @@ export default function LeaveReply({ tourId }: LeaveReplyType) {
   const [formError, setFormError] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState<boolean | null>(null);
 
-  console.log(`Executing tourId: `, tourId);
+  // console.log(`Executing tourId: `, tourId);
 
   const openFilePicker = () => {
     fileInputRef.current?.click();
@@ -48,7 +48,7 @@ export default function LeaveReply({ tourId }: LeaveReplyType) {
 
     const userExists = await getUser({ email: results.email }, { email: 1, _id: 0 });
 
-    console.log(`Executing userExists: (Client)`, userExists);
+    // console.log(`Executing userExists: (Client)`, userExists);
 
     if (userExists.length > 0) {
       setFormError([`The user with the email ${results.email} already exists. Please sign in to proceed.`]);
@@ -65,7 +65,7 @@ export default function LeaveReply({ tourId }: LeaveReplyType) {
 
     // Upload images to Cloudinary
     const imageUrls = await Promise.all(selectedFiles.map(uploadImage));
-    console.log(`Executing imageUrls: `, imageUrls);
+    // console.log(`Executing imageUrls: `, imageUrls);
 
     if (imageUrls.length > 0 && imageUrls.length > 3) {
       setFormError(['Failed to upload the images. You can only upload up to 3 or can omit image upload.']);

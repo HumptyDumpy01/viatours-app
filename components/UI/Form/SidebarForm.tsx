@@ -99,8 +99,8 @@ export default function SidebarForm({ price, priceForExtra, time, tourId }: Side
       return;
     }
 
-    console.log(`Executing adultTickets: `, adultTickets);
-    console.log(`Executing youthTickets: `, youthTickets);
+    // console.log(`Executing adultTickets: `, adultTickets);
+    // console.log(`Executing youthTickets: `, youthTickets);
     if (youthTickets > 0) {
       setTotalPrice(prevState => (prevState - (youthTickets * price.youth))
         + (youthTickets * price.youth) + (youthTickets * priceForExtra.youth));
@@ -116,7 +116,7 @@ export default function SidebarForm({ price, priceForExtra, time, tourId }: Side
   }
 
   function handleAddTicket(price: number, name: string) {
-    console.log(`Executing adultTickets: `, adultTickets);
+    // console.log(`Executing adultTickets: `, adultTickets);
 
     if (name === `adultTickets` && !servicePerPersonActive) {
       setAdultTickets((prev) => prev + 1);
@@ -233,7 +233,7 @@ export default function SidebarForm({ price, priceForExtra, time, tourId }: Side
     // resetting the form
     currObject.reset();
     // output
-    console.log(data);
+    // console.log(data);
 
     // let's store the data in the local storage
     localStorage.setItem(`order`, JSON.stringify(data));

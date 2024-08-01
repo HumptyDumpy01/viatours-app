@@ -72,10 +72,10 @@ export async function getTourById(id: string, incViews?: boolean) {
   const client = await clientPromise;
   const db = client.db(`viatoursdb`);
 
-  if (incViews) {
-    // increment the views by 1
-    await db.collection(`tours`).updateOne({ _id: new ObjectId(id) }, { $inc: { views: 1 } });
-  }
+  // if (incViews) {
+  //   // increment the views by 1
+  //   await db.collection(`tours`).updateOne({ _id: new ObjectId(id) }, { $inc: { views: 1 } });
+  // }
 
 
   const tour = await db.collection('tours').aggregate([
@@ -92,13 +92,13 @@ export async function getTourById(id: string, incViews?: boolean) {
         as: 'tourComments'
       }
     },
-    { $unwind: '$tourComments' },
-    { $sort: { 'tourComments.addedAt': -1 } }, // Sort by addedAt in descending order
+    { $unwind: { path: '$tourComments', preserveNullAndEmptyArrays: true } },
+    { $sort: { 'tourComments.addedAt': -1 } },
     {
       $group: {
         _id: '$_id',
-        tourData: { $first: '$$ROOT' }, // Preserve other tour data
-        tourComments: { $push: '$tourComments' } // Regroup the sorted comments
+        tourData: { $first: '$$ROOT' },
+        tourComments: { $push: '$tourComments' }
       }
     },
     {

@@ -34,7 +34,7 @@ export default function Hero(/*{  }: HeroInterface*/) {
     // resetting the form
     currObject.reset();
     // output
-    console.log(results);
+    // console.log(results);
   }
 
 

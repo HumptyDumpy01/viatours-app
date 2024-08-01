@@ -11,7 +11,7 @@ interface FindPopularToursInterface {
 }
 
 export default function FindPopularTours({ tours }: FindPopularToursInterface) {
-  console.log(`Executing tours in FindPopularTours: `, tours);
+  // console.log(`Executing tours in FindPopularTours: `, tours);
   // const [tours, setTours] = useState<TourInterface[]>([]);
   // const [loading, setLoading] = useState<boolean>(true);
 
