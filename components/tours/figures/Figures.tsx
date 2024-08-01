@@ -60,7 +60,7 @@ export default function Figures({ tours }: FiguresInterface) {
       {(currentTours.length === 0) && <NoItemsFound clearFilters={handleClearFilters} />}
       {(currentTours.length > 0) && (
         <>
-          <FiguresHeader summarizedResults={currentTours.length} />
+          <FiguresHeader summarizedResults={tours.length} />
           <div className="all-tours__content__figures__figure-container">
             {currentTours.map((tour) => (
               <Figure
