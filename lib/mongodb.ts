@@ -68,16 +68,17 @@ export async function getTours(limit: number, matchProps: unknown, skip: number 
 }
 
 export async function getTourById(id: string, incViews?: boolean) {
-  const client = await clientPromise;
 
+  const client = await clientPromise;
   const db = client.db(`viatoursdb`);
+
   if (incViews) {
     // increment the views by 1
     await db.collection(`tours`).updateOne({ _id: new ObjectId(id) }, { $inc: { views: 1 } });
   }
 
 
-  const tour = await db.collection(`tours`).aggregate([
+  const tour = await db.collection('tours').aggregate([
     {
       $match: {
         _id: new ObjectId(id)
@@ -91,34 +92,42 @@ export async function getTourById(id: string, incViews?: boolean) {
         as: 'tourComments'
       }
     },
+    { $unwind: '$tourComments' },
+    { $sort: { 'tourComments.addedAt': -1 } }, // Sort by addedAt in descending order
+    {
+      $group: {
+        _id: '$_id',
+        tourData: { $first: '$$ROOT' }, // Preserve other tour data
+        tourComments: { $push: '$tourComments' } // Regroup the sorted comments
+      }
+    },
     {
       $project: {
-        title: 1,
-        overview: 1,
-        country: 1,
-        city: 1,
-        reviews: 1,
-        views: 1,
-        time: 1,
-        type: 1,
-        price: 1,
-        tags: 1,
-        booked: 1,
-        images: 1,
-        duration: 1,
-        groupSize: 1,
-        ages: 1,
-        tourHighlights: 1,
-        whatsIncluded: 1,
-        itinerary: 1,
-        tourMap: 1,
-        meetingPoint: 1,
-        available: 1,
-        onSale: 1,
-        languages: 1,
-        rating: 1,
-        // looking up for the comments added to the tour. I do exclude
-        // userId, tourId, timestamp and rating.overall but all other nested props.
+        _id: '$tourData._id',
+        title: '$tourData.title',
+        overview: '$tourData.overview',
+        country: '$tourData.country',
+        city: '$tourData.city',
+        reviews: '$tourData.reviews',
+        views: '$tourData.views',
+        time: '$tourData.time',
+        type: '$tourData.type',
+        price: '$tourData.price',
+        tags: '$tourData.tags',
+        booked: '$tourData.booked',
+        images: '$tourData.images',
+        duration: '$tourData.duration',
+        groupSize: '$tourData.groupSize',
+        ages: '$tourData.ages',
+        tourHighlights: '$tourData.tourHighlights',
+        whatsIncluded: '$tourData.whatsIncluded',
+        itinerary: '$tourData.itinerary',
+        tourMap: '$tourData.tourMap',
+        meetingPoint: '$tourData.meetingPoint',
+        available: '$tourData.available',
+        onSale: '$tourData.onSale',
+        languages: '$tourData.languages',
+        rating: '$tourData.rating',
         tourComments: {
           $map: {
             input: '$tourComments',
@@ -133,8 +142,7 @@ export async function getTourById(id: string, incViews?: boolean) {
               addedAt: '$$comment.addedAt',
               likes: '$$comment.likes',
               dislikes: '$$comment.dislikes',
-              abuseReports:
-                '$$comment.abuse_reports'
+              abuseReports: '$$comment.abuse_reports'
             }
           }
         }
@@ -224,10 +232,11 @@ export async function submitTourComment({ rating, email, user, title, text, imag
   const tourOperator = 0.2;
 
   // console.log(Math.min(5, (rating.location * location) + (rating.amenities * amenities) + (rating.food * food) + (rating.room * room) + (rating.price * price) + (rating.tourOperator * tourOperator)));
-  // TODO: Create session for all 4 stage to be executed in one transaction
+  // TODO: Create session for all 4 stages to be executed in one transaction
+  // INFO: It is important to execute all 4 stages in one transaction to avoid any issues with the data consistency.
 
   try {
-    /* IMPORTANT: 1/4 STAGE: inserting a new comment to "tourComments" schema
+    /* IMPORTANT: 1/4 STAGE: inserting a new comment to "tourComments" collection
     *   Performing calculation of overall rating based on coefficients. */
     const result = await db.collection(`tourComments`).insertOne({
       userId: null,
@@ -327,9 +336,9 @@ export async function submitTourComment({ rating, email, user, title, text, imag
       ]).toArray();
 
 
-      console.log(`Executing recalculatedRatings: `, recalculatedRatings);
+      // console.log(`Executing recalculatedRatings: `, recalculatedRatings);
 
-      /* IMPORTANT: 4/4 STAGE */
+      /* IMPORTANT: 4/4 STAGE: recalculated rating, up-to-date stats are pushed to the corresponding tour */
       const updatedRating = {
         overall: Number(recalculatedRatings[0].avgOverall.toFixed(2)),
         location: Number(recalculatedRatings[0].avgLocation.toFixed(2)),
@@ -347,7 +356,6 @@ export async function submitTourComment({ rating, email, user, title, text, imag
       }
 
     }
-
 
   } catch (e) {
     throw new Error(`Oops! We were unable to save this comment! Sorry for the inconvenience. We are working on it.`);
