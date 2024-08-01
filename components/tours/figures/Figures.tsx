@@ -2,13 +2,13 @@
 
 import React, { useEffect, useState } from 'react';
 import './Figures.scss';
-import { DUMMY_TOURS, TourInterface } from '@/data/DUMMY_TOURS';
+import { TourInterface } from '@/data/DUMMY_TOURS';
 import Figure from './Figure';
 import Pagination from '@/components/UI/Pagnation/Pagination';
 import FiguresHeader from '@/components/tours/figures/FiguresHeader';
 import NoItemsFound from '@/components/UI/Layout/NoItems/NoItemsFound';
 import SkeletonCardHorizontal from '@/components/skeletons/Card/SkeletonCardHorizontal';
-import { fetchTours } from '@/lib/api/fetchTours';
+import { getTours } from '@/lib/mongodb';
 
 
 export default function Figures() {
@@ -19,17 +19,33 @@ export default function Figures() {
   const [currentPage, setCurrentPage] = useState(1);
   const [currentTours, setCurrentTours] = useState<TourInterface[]>([]);
   const [loading, setLoading] = useState(true);
+  let numberOfTours = 14;
 
   // get the current tours and paginate them
   useEffect(() => {
     const indexOfLastTour = currentPage * toursPerPage;
     const indexOfFirstTour = indexOfLastTour - toursPerPage;
     // fetch the tours
-    fetchTours().then((tours) => {
+    getTours(9999, {}, 0).then((tours) => {
+      // numberOfTours = tours.length;
       setCurrentTours(tours.slice(indexOfFirstTour, indexOfLastTour));
-      // setCurrentTours(prev => [...prev, ...tours.slice(indexOfFirstTour, indexOfLastTour)]);
+      setLoading(false);
+      console.log(numberOfTours);
+    }).catch((error) => {
+      console.error(`Failed to fetch tours: ${error}`);
       setLoading(false);
     });
+
+    /*getTours(toursPerPage, {}, currentPage === 1 ? 0 : (currentPage - 1) * toursPerPage).then((tours) => {
+      setCurrentTours(tours.slice(indexOfFirstTour, indexOfLastTour));
+      // setCurrentTours(tours);
+      setLoading(false);
+    }).catch((error) => {
+      console.error(`Failed to fetch tours: ${error}`);
+      setLoading(false);
+    });*/
+
+    // setCurrentTours(prev => [...prev, ...tours.slice(indexOfFirstTour, indexOfLastTour)]);
 
   }, [currentPage]);
 
@@ -51,12 +67,12 @@ export default function Figures() {
       {(!loading && currentTours.length === 0) && <NoItemsFound clearFilters={handleClearFilters} />}
       {(!loading && currentTours.length > 0) && (
         <>
-          <FiguresHeader summarizedResults={DUMMY_TOURS.length} />
+          <FiguresHeader summarizedResults={currentTours.length} />
           <div className="all-tours__content__figures__figure-container">
             {currentTours.map((tour) => (
               <Figure
-                key={tour.id}
-                href={tour.id}
+                key={tour._id}
+                href={tour._id}
                 imgSrc={tour.images[0]}
                 imgAlt={tour.title}
                 info={[{
@@ -64,18 +80,19 @@ export default function Figures() {
                   city: tour.city,
                   heading: tour.title,
                   rating: tour.rating.overall,
-                  ratingCount: tour.reviewed,
-                  duration: tour.duration[0],
+                  ratingCount: tour.reviews,
+                  duration: tour.duration,
                   price: tour.price.children,
                   overview: tour.overview
                 }]} />
             ))}
           </div>
+
           <Pagination
             handleSetLoading={() => setLoading(true)}
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
-            totalItems={DUMMY_TOURS.length}
+            totalItems={numberOfTours}
             itemsPerPage={toursPerPage}
           />
         </>

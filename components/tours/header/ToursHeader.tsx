@@ -10,7 +10,7 @@ export default function ToursHeader(/*{  }: ToursHeaderInterface*/) {
     <>
       <PageNavigation
         links={[{ href: '/', label: 'Home' }, { href: '/tours', label: 'Tours' }]}
-        subheading="THE 10 BEST Viatours Tours & Excursions"
+        subheading="Viatours Tours & Excursions"
       />
       <h1 className="secondary-heading all-tours__heading">Explore all things to do all over the world!</h1>
     </>

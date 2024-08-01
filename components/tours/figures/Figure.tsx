@@ -1,4 +1,4 @@
-// 'use client';
+'use client';
 
 import { TourCardInterface } from '@/components/UI/Card/TourCard';
 
@@ -6,6 +6,7 @@ import starFilled from '../../../assets/images/homepage/findPopularTours/one-sta
 import starEmpty from '../../../assets/images/homepage/findPopularTours/empty-star.svg';
 import Image from 'next/image';
 import Link from 'next/link';
+import { CldImage } from 'next-cloudinary';
 /*interface FigureInterface {
   // children: ReactNode;
 }*/
@@ -33,9 +34,17 @@ export default function Figure({ href, imgSrc, imgAlt, info }: TourCardInterface
       <div className="all-tours__content__figures__figure-wrapper">
         <div className="all-tours__content__figures__figure grid">
           <div className="all-tours__content__figures__figure-img-container">
-            <Image fill src={imgSrc}
-                   alt={imgAlt}
-                   className="all-tours__content__figures__figure-img" />
+            <CldImage
+              width={280}
+              height={280}
+              className={`all-tours__content__figures__figure-img`}
+              crop="fill"
+              alt={imgAlt}
+              src={`${imgSrc}`}
+            />
+            {/*<Image fill src={imgSrc}*/}
+            {/*       alt={imgAlt}*/}
+            {/*       className="all-tours__content__figures__figure-img" />*/}
             {/* <!--                <span
                             class="all-tours__content__figures__figure-img-tag all-tours__content__figures__figure-img-tag&#45;&#45;20-off">20% off</span>--> */}
           </div>
