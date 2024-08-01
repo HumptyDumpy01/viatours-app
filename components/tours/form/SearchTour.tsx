@@ -15,7 +15,7 @@ export default function SearchTour() {
 
   // @ts-ignore
   async function getResults(prevState, formData) {
-    'use server';
+    // 'use server';
 
     /*let errors = [];*/
 

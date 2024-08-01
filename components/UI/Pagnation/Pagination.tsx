@@ -7,7 +7,7 @@ interface PaginationInterface {
   setCurrentPage: (page: number) => void;
   totalItems: number;
   itemsPerPage: number;
-  handleSetLoading: () => void;
+  // handleSetLoading: () => void;
 }
 
 const Pagination = ({
@@ -15,7 +15,7 @@ const Pagination = ({
                       setCurrentPage,
                       totalItems,
                       itemsPerPage,
-                      handleSetLoading
+                      // handleSetLoading
                     }: PaginationInterface) => {
   const pageNumbers = [];
   for (let i = 1; i <= Math.ceil(totalItems / itemsPerPage); i++) {
@@ -27,7 +27,7 @@ const Pagination = ({
     if (activeLink) return;
     setCurrentPage(number);
 
-    handleSetLoading();
+    // handleSetLoading();
 
     setTimeout(() => {
       window.scrollTo({

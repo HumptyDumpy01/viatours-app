@@ -7,47 +7,40 @@ import Figure from './Figure';
 import Pagination from '@/components/UI/Pagnation/Pagination';
 import FiguresHeader from '@/components/tours/figures/FiguresHeader';
 import NoItemsFound from '@/components/UI/Layout/NoItems/NoItemsFound';
-import SkeletonCardHorizontal from '@/components/skeletons/Card/SkeletonCardHorizontal';
-import { getTours } from '@/lib/mongodb';
 
 
-export default function Figures() {
+interface FiguresInterface {
+  tours: TourInterface[];
+}
+
+export default function Figures({ tours }: FiguresInterface) {
 
   // define how many tours to show per page
   const toursPerPage = 6;
   // define the current page
   const [currentPage, setCurrentPage] = useState(1);
   const [currentTours, setCurrentTours] = useState<TourInterface[]>([]);
-  const [loading, setLoading] = useState(true);
-  let numberOfTours = 14;
+  // const [loading, setLoading] = useState(true);
 
-  // get the current tours and paginate them
+  const indexOfLastTour = currentPage * toursPerPage;
+  const indexOfFirstTour = indexOfLastTour - toursPerPage;
+  // fetch the tours
+  // numberOfTours = tours.length;
   useEffect(() => {
-    const indexOfLastTour = currentPage * toursPerPage;
-    const indexOfFirstTour = indexOfLastTour - toursPerPage;
-    // fetch the tours
-    getTours(9999, {}, 0).then((tours) => {
-      // numberOfTours = tours.length;
-      setCurrentTours(tours.slice(indexOfFirstTour, indexOfLastTour));
-      setLoading(false);
-      console.log(numberOfTours);
-    }).catch((error) => {
-      console.error(`Failed to fetch tours: ${error}`);
-      setLoading(false);
-    });
-
-    /*getTours(toursPerPage, {}, currentPage === 1 ? 0 : (currentPage - 1) * toursPerPage).then((tours) => {
-      setCurrentTours(tours.slice(indexOfFirstTour, indexOfLastTour));
-      // setCurrentTours(tours);
-      setLoading(false);
-    }).catch((error) => {
-      console.error(`Failed to fetch tours: ${error}`);
-      setLoading(false);
-    });*/
-
-    // setCurrentTours(prev => [...prev, ...tours.slice(indexOfFirstTour, indexOfLastTour)]);
-
+    setCurrentTours(tours.slice(indexOfFirstTour, indexOfLastTour));
   }, [currentPage]);
+
+  /*getTours(toursPerPage, {}, currentPage === 1 ? 0 : (currentPage - 1) * toursPerPage).then((tours) => {
+    setCurrentTours(tours.slice(indexOfFirstTour, indexOfLastTour));
+    // setCurrentTours(tours);
+    setLoading(false);
+  }).catch((error) => {
+    console.error(`Failed to fetch tours: ${error}`);
+    setLoading(false);
+  });*/
+
+  // setCurrentTours(prev => [...prev, ...tours.slice(indexOfFirstTour, indexOfLastTour)]);
+
 
   // TODO: Implement the clear filters function
   // it should basically load all the tours again
@@ -57,15 +50,15 @@ export default function Figures() {
 
   return (
     <>
-      {loading && (
+      {/*{loading && (
         <div className="all-tours__content__figures__figure-container">
           <SkeletonCardHorizontal />
           <SkeletonCardHorizontal />
           <SkeletonCardHorizontal />
         </div>
-      )}
-      {(!loading && currentTours.length === 0) && <NoItemsFound clearFilters={handleClearFilters} />}
-      {(!loading && currentTours.length > 0) && (
+      )}*/}
+      {(currentTours.length === 0) && <NoItemsFound clearFilters={handleClearFilters} />}
+      {(currentTours.length > 0) && (
         <>
           <FiguresHeader summarizedResults={currentTours.length} />
           <div className="all-tours__content__figures__figure-container">
@@ -89,10 +82,10 @@ export default function Figures() {
           </div>
 
           <Pagination
-            handleSetLoading={() => setLoading(true)}
+            // handleSetLoading={() => setLoading(true)}
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
-            totalItems={numberOfTours}
+            totalItems={tours.length}
             itemsPerPage={toursPerPage}
           />
         </>
