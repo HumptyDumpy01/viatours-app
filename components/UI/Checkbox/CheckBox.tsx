@@ -6,7 +6,7 @@ import Image from 'next/image';
 interface CheckBoxRatingInterface {
   id: string;
   label: string;
-  tag: `tour-rating`;
+  tag: `rating=`;
   stars: number;
   rated: number;
 }
@@ -21,7 +21,7 @@ interface CheckBoxInterface {
 export default function CheckBox(props: CheckBoxInterface | CheckBoxRatingInterface) {
   if (!props.tag) throw new Error(`Tag is required!`);
 
-  if (props.tag !== `tour-rating`) {
+  if (props.tag !== `rating=`) {
     return (
       <div className="all-tours__content__filter-filter-item">
         <input type="checkbox" id={props.id} name={`${props.tag}:${props.id}`}
@@ -31,10 +31,14 @@ export default function CheckBox(props: CheckBoxInterface | CheckBoxRatingInterf
       </div>
     );
   }
-  if (props.tag === `tour-rating`) {
+  if (props.tag === `rating=`) {
     return (
       <div className="all-tours__content__filter-filter-item">
-        <input type="checkbox" id={`${props.stars}-stars`} className="all-tours__content__filter-tour-type__checkbox" />
+        <input
+          type="checkbox"
+          id={`stars-${props.stars}`}
+          name={`stars-${props.stars}`}
+          className="all-tours__content__filter-tour-type__checkbox" />
         <label className="all-tours__content__filter-tour-type__checkbox__label flex" htmlFor={`${props.stars}-stars`}>
           {/* based on the star number, output the exact amount of star images*/}
           {Array.from({ length: props.stars }).map((_, index) => (

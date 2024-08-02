@@ -120,11 +120,11 @@ export default function Filter({ tours }: FilterInterface) {
           <CheckBox tag={`language=`} id={`Ukrainian`} label={`Ukrainian`} />
         </Accordion>
         <Accordion label={`Rating`}>
-          <CheckBox tag={`tour-rating`} id={`1-star`} label={`1 star`} stars={1} rated={oneStarTours} />
-          <CheckBox tag={`tour-rating`} id={`2-stars`} label={`2 stars`} stars={2} rated={twoStarTours} />
-          <CheckBox tag={`tour-rating`} id={`3-stars`} label={`3 stars`} stars={3} rated={threeStarTours} />
-          <CheckBox tag={`tour-rating`} id={`4-stars`} label={`4 stars`} stars={4} rated={fourStarTours} />
-          <CheckBox tag={`tour-rating`} id={`5-stars`} label={`5 stars`} stars={5} rated={fiveStarTours} />
+          <CheckBox tag={`rating=`} id={`1-star`} label={`1 star`} stars={1} rated={oneStarTours} />
+          <CheckBox tag={`rating=`} id={`2-stars`} label={`2 stars`} stars={2} rated={twoStarTours} />
+          <CheckBox tag={`rating=`} id={`3-stars`} label={`3 stars`} stars={3} rated={threeStarTours} />
+          <CheckBox tag={`rating=`} id={`4-stars`} label={`4 stars`} stars={4} rated={fourStarTours} />
+          <CheckBox tag={`rating=`} id={`5-stars`} label={`5 stars`} stars={5} rated={fiveStarTours} />
         </Accordion>
         <Accordion label={`Specials`}>
           <CheckBox tag={`onsale=`} id={`onsale:5-20`} label={`5-20% off`} />
