@@ -92,6 +92,20 @@ export default function AllTours(/*{  }: AllToursInterface*/) {
       });
   }, []);
 
+  function handleClearFilter() {
+    setLoading(true);
+    fetch('http://localhost:3000/api/fetch-tours')
+      .then(response => response.json())
+      .then(data => {
+        setTours(data.tours);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error(`Failed to fetch tours: ${error}`);
+        setLoading(false);
+      });
+  }
+
   return (
     <form onSubmit={handleSubmit}>
       <div className={`all-tours__content-header`}>
@@ -116,7 +130,7 @@ export default function AllTours(/*{  }: AllToursInterface*/) {
               <SkeletonCardHorizontal />
             </div>
           )}
-          {!loading && <Figures tours={tours} />}
+          {!loading && <Figures clearFilters={handleClearFilter} tours={tours} />}
         </div>
       </div>
     </form>

@@ -11,9 +11,10 @@ import NoItemsFound from '@/components/UI/Layout/NoItems/NoItemsFound';
 
 interface FiguresInterface {
   tours: TourInterface[];
+  clearFilters: () => void;
 }
 
-export default function Figures({ tours }: FiguresInterface) {
+export default function Figures({ tours, clearFilters }: FiguresInterface) {
 
   // define how many tours to show per page
   const toursPerPage = 6;
@@ -46,6 +47,7 @@ export default function Figures({ tours }: FiguresInterface) {
   // it should basically load all the tours again
   // and reset all the checkboxes
   function handleClearFilters() {
+    clearFilters();
   }
 
   return (
@@ -63,38 +65,38 @@ export default function Figures({ tours }: FiguresInterface) {
           <NoItemsFound clearFilters={handleClearFilters} />
         </>
       )}
-      {(currentTours.length > 0) && (
-        <>
-          <FiguresHeader summarizedResults={tours.length} />
-          <div className="all-tours__content__figures__figure-container">
-            {currentTours.map((tour) => (
-              <Figure
-                key={tour._id}
-                href={tour._id}
-                imgSrc={tour.images[0]}
-                imgAlt={tour.title}
-                info={[{
-                  country: tour.country,
-                  city: tour.city,
-                  heading: tour.title,
-                  rating: tour.rating.overall,
-                  ratingCount: tour.reviews,
-                  duration: tour.duration,
-                  price: tour.price.children,
-                  overview: tour.overview
-                }]} />
-            ))}
-          </div>
+        {(currentTours.length > 0) && (
+          <>
+            <FiguresHeader summarizedResults={tours.length} />
+            <div className="all-tours__content__figures__figure-container">
+              {currentTours.map((tour) => (
+                <Figure
+                  key={tour._id}
+                  href={tour._id}
+                  imgSrc={tour.images[0]}
+                  imgAlt={tour.title}
+                  info={[{
+                    country: tour.country,
+                    city: tour.city,
+                    heading: tour.title,
+                    rating: tour.rating.overall,
+                    ratingCount: tour.reviews,
+                    duration: tour.duration,
+                    price: tour.price.children,
+                    overview: tour.overview
+                  }]} />
+              ))}
+            </div>
 
-          <Pagination
-            // handleSetLoading={() => setLoading(true)}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-            totalItems={tours.length}
-            itemsPerPage={toursPerPage}
-          />
-        </>
-      )}
+            <Pagination
+              // handleSetLoading={() => setLoading(true)}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              totalItems={tours.length}
+              itemsPerPage={toursPerPage}
+            />
+          </>
+        )}
     </>
   );
 }

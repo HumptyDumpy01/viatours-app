@@ -29,6 +29,7 @@ export default function FiguresHeader({ summarizedResults }: FiguresHeaderInterf
           </div>
           <span>Sort by:</span>
           <select name="sort" id="sort" className="all-tours__content__figures__header-sort-select">
+            <option value="default">Choose</option>
             <option value="default">Rating</option>
             <option value="a-z">A-Z order</option>
             <option value="z-a">Z-A order</option>

@@ -937,14 +937,15 @@ button {
 
 .btn-clear-filters {
   margin-top: 2rem;
-  font-family: 'Inter';
+  //font-family: 'Inter';
   border: 1px solid var(--clr-primary);
   border-radius: 9px;
   background-color: var(--clr-white);
   color: var(--clr-primary);
   font-size: 1.6rem;
   font-weight: 600;
-  padding: 1.2rem 2.4rem;
+  padding: 1.8rem 2.6rem;
+  cursor: pointer;
 
 }
 
