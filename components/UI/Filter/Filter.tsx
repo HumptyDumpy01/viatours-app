@@ -90,9 +90,9 @@ export default function Filter(/*{  }: FilterInterface*/) {
         </Accordion>
 
         <Accordion label={`Duration`}>
-          <CheckBox tag={`tour-duration`} id={`1-3`} label={`1-3 days`} />
-          <CheckBox tag={`tour-duration`} id={`3-7`} label={`3-7 days`} />
-          <CheckBox tag={`tour-duration`} id={`7-14`} label={`7 to 14 days`} />
+          <CheckBox tag={`duration=`} id={`duration:1-3`} label={`1-3 days`} />
+          <CheckBox tag={`duration=`} id={`duration:3-7`} label={`3-7 days`} />
+          <CheckBox tag={`duration=`} id={`duration:7-14`} label={`7 to 14 days`} />
         </Accordion>
 
         <Accordion label={`Language`}>
