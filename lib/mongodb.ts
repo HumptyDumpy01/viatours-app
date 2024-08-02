@@ -368,3 +368,70 @@ export async function submitTourComment({ rating, email, user, title, text, imag
   };
 
 }
+
+export async function filterTours(searchTerm: string, sortBy: string) {
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+
+  let sort = {};
+
+  if (sortBy === `default`) {
+    sort = { 'rating.overall': -1 };
+  }
+
+  if (sortBy === `a-z`) {
+    sort = { title: 1 };
+  }
+
+  if (sortBy === `z-a`) {
+    sort = { title: -1 };
+  }
+
+  if (sortBy === `low-price`) {
+    sort = { 'price.children': 1 };
+  }
+
+  if (sortBy === `high-price`) {
+    sort = { 'price.children': -1 };
+  }
+
+  const tours = await db.collection(`tours`).aggregate([
+    // IS FOR conjunction of:
+
+    // INFO: 1. Search Term
+    { $match: { $text: { $search: searchTerm } } },
+    // sort by RATING (DEFAULT)
+    { $sort: sort },
+
+    // sort by tour type: inc. 1. Nature, 2. Adventure, 3. Cultural,
+    // 4. Food, 5. City, 6. Cruises, 7. Family, 8. Wildlife, 9. relaxing,
+    // {$match: {type: {$in: ["Nature Tours", "Adventure Tours"]}}},
+    // {$match: {type: {$in: ["Nature Tours", "Adventure Tours"]}}},
+
+    // FOR TYPE
+    { $match: {} },
+    // FOR TAG
+    { $match: {} },
+
+    // FOR LANGUAGE AND RATING
+    { $match: {} },
+    {
+      $project: {
+        country: 1,
+        city: 1,
+        title: 1,
+        rating: 1,
+        reviews: 1,
+        overview: 1,
+        images: 1,
+        duration: 1,
+        price: 1,
+        onSale: 1.
+      }
+    }
+  ]).toArray();
+  return JSON.parse(JSON.stringify(tours));
+
+
+}
+

@@ -7,6 +7,7 @@
 .customer-reviews__review {
   width: 100%; // This ensures each review takes up the full width of the container
   flex-shrink: 0; // Prevents the reviews from shrinking
+  text-align: center;
 }
 
 .customer-reviews.container-cta {

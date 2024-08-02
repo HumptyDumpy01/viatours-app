@@ -8,12 +8,14 @@ interface CheckBoxRatingInterface {
   label: string;
   tag: `tour-rating`;
   stars: number;
+  name: string;
   rated: number;
 }
 
 interface CheckBoxInterface {
   id: string;
   label: string;
+  name: string;
   tag: `tour-type` | `filter-price` | `tour-duration` | `tour-language` | `tour-group-size` | `specials`;
   // children: ReactNode;
 }
@@ -24,7 +26,7 @@ export default function CheckBox(props: CheckBoxInterface | CheckBoxRatingInterf
   if (props.tag !== `tour-rating`) {
     return (
       <div className="all-tours__content__filter-filter-item">
-        <input type="checkbox" id={props.id} name={`${props.tag}:${props.id}`}
+        <input type="checkbox" id={props.id} name={`${props.name}:${props.id}`}
                className="all-tours__content__filter-tour-type__checkbox" />
         <label className="all-tours__content__filter-tour-type__checkbox__label flex"
                htmlFor={props.id}>{props.label}</label>
@@ -34,7 +36,11 @@ export default function CheckBox(props: CheckBoxInterface | CheckBoxRatingInterf
   if (props.tag === `tour-rating`) {
     return (
       <div className="all-tours__content__filter-filter-item">
-        <input type="checkbox" id={`${props.stars}-stars`} className="all-tours__content__filter-tour-type__checkbox" />
+        <input
+          type="checkbox"
+          id={`${props.stars}-stars`}
+          name={`${props.stars}-stars`}
+          className="all-tours__content__filter-tour-type__checkbox" />
         <label className="all-tours__content__filter-tour-type__checkbox__label flex" htmlFor={`${props.stars}-stars`}>
           {/* based on the star number, output the exact amount of star images*/}
           {Array.from({ length: props.stars }).map((_, index) => (
