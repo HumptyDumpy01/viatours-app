@@ -104,6 +104,16 @@ export default function AllTours(/*{  }: AllToursInterface*/) {
         console.error(`Failed to fetch tours: ${error}`);
         setLoading(false);
       });
+
+    // Uncheck all checkboxes
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    const input = document.querySelector(`.all-tours__content__filter-datepicker`)! as HTMLInputElement;
+    checkboxes.forEach((checkbox) => {
+      (checkbox as HTMLInputElement).checked = false;
+    });
+
+    searchInput.current!.value = '';
+
   }
 
   return (
