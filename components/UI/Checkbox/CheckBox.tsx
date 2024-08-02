@@ -37,7 +37,7 @@ export default function CheckBox(props: CheckBoxInterface | CheckBoxRatingInterf
         <input
           type="checkbox"
           id={`stars-${props.stars}`}
-          name={`stars-${props.stars}`}
+          name={`rating-${props.stars}`}
           className="all-tours__content__filter-tour-type__checkbox" />
         <label className="all-tours__content__filter-tour-type__checkbox__label flex" htmlFor={`${props.stars}-stars`}>
           {/* based on the star number, output the exact amount of star images*/}

@@ -74,7 +74,7 @@ export default function Figure({ href, imgSrc, imgAlt, info }: TourCardInterface
             </div>
           </div>
           <div className="all-tours__content__figures__figure-details">
-            <span className="all-tours__content__figures__figure-details-descr">{info[0].duration} long</span>
+            <span className="all-tours__content__figures__figure-details-descr">{info[0].duration}</span>
             {info[0].onSale && (
               <>
                 <span

@@ -27,6 +27,7 @@ export default function AllTours(/*{  }: AllToursInterface*/) {
     let tourType: string[] = [];
     let tourTags: string[] = [];
     let tourLanguages: string[] = [];
+    let tourRatings: number[] = [];
 
     // Collect filter values
     const filterInputs = document.querySelectorAll('.all-tours__content__filter input[type="checkbox"]:checked');
@@ -46,6 +47,7 @@ export default function AllTours(/*{  }: AllToursInterface*/) {
       } else if ((input as HTMLInputElement).name.includes('price')
         || (input as HTMLInputElement).name.includes('duration') ||
         (input as HTMLInputElement).name.includes('onsale')) {
+
         // the names go like price:0-300, price:300-700, price:700-1299
         // I do want to store all of them in an array
         // so I can filter them later on
@@ -64,6 +66,15 @@ export default function AllTours(/*{  }: AllToursInterface*/) {
         tourLanguages.push(val);
         // @ts-ignore
         results.tourLanguages = tourLanguages;
+
+      } else if ((input as HTMLInputElement).name.includes('rating')) {
+
+        const val = (input as HTMLInputElement).name.split('-')[1].replace(`:`, ``);
+
+        // data passes in [1,2,3... to 5] format
+        tourRatings.push(+val);
+        // @ts-ignore
+        results.tourRatings = tourRatings;
       } else {
         results[(input as HTMLInputElement).name] = (input as HTMLInputElement).value;
       }

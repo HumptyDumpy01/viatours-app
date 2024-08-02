@@ -370,7 +370,14 @@ export async function submitTourComment({ rating, email, user, title, text, imag
 }
 
 export async function
-filterTours(searchTerm: string, sortBy: string, tourType?: string[], tourTags?: string[], tourLanguages?: string[]) {
+filterTours(
+  searchTerm: string,
+  sortBy: string,
+  tourType?: string[],
+  tourTags?: string[],
+  tourLanguages?: string[],
+  tourRatings?: number[]) {
+
   const client = await clientPromise;
   const db = client.db(`viatoursdb`);
 
@@ -410,6 +417,23 @@ filterTours(searchTerm: string, sortBy: string, tourType?: string[], tourTags?: 
     tourLanguagesObj = { languages: { $in: tourLanguages } };
   }
 
+
+  let tourRatingsObj = {};
+  if (tourRatings) {
+    tourRatingsObj = {
+      $or: tourRatings.map(rating => {
+        if (rating === 5) {
+          return { 'rating.overall': { $gte: 4.5 } };
+        } else if (rating === 1) {
+          return { 'rating.overall': { $gte: 0, $lt: 2 } };
+        } else {
+          return { 'rating.overall': { $gte: rating, $lt: rating + 1 } };
+        }
+      })
+    };
+  }
+
+
   console.log(`Executing tourTypeObj: `, tourTypeObj);
 
   const tours = await db.collection(`tours`).aggregate([
@@ -426,8 +450,12 @@ filterTours(searchTerm: string, sortBy: string, tourType?: string[], tourTags?: 
     // INFO:  FOR TAG
     { $match: tourTagsObj },
 
-    // INFO:  FOR LANGUAGE AND RATING
+    // INFO:  FOR LANGUAGE
     { $match: tourLanguagesObj },
+
+    // INFO:  FOR RATING
+    { $match: tourRatingsObj },
+
     {
       $project: {
         country: 1,
