@@ -83,7 +83,8 @@ export default function Figures({ tours, clearFilters }: FiguresInterface) {
                     ratingCount: tour.reviews,
                     duration: tour.duration,
                     price: tour.price.children,
-                    overview: tour.overview
+                    overview: tour.overview,
+                    onSale: tour.onSale
                   }]} />
               ))}
             </div>

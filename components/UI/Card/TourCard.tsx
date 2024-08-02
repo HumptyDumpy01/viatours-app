@@ -22,6 +22,7 @@ export interface TourCardInterface {
     duration: string;
     price: number;
     overview?: string;
+    onSale?: false | { newPrice: { adult: number, youth: number, children: number } };
   }[];
   // children: ReactNode;
 }

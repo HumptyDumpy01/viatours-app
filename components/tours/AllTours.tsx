@@ -42,13 +42,14 @@ export default function AllTours(/*{  }: AllToursInterface*/) {
         // @ts-ignore
         results.tourType = tourType;
 
-      } else if ((input as HTMLInputElement).name.includes('price') || (input as HTMLInputElement).name.includes('duration')) {
+      } else if ((input as HTMLInputElement).name.includes('price')
+        || (input as HTMLInputElement).name.includes('duration')) {
         // the names go like price:0-300, price:300-700, price:700-1299
         // I do want to store all of them in an array
         // so I can filter them later on
         // push it to the array
         const val = (input as HTMLInputElement).name.split('=')[1].replace(`:`, ``);
-        // replace the : with nothing
+        // replace the ":" with nothing
         tourTags.push(val);
         // @ts-ignore
         results.tourTags = tourTags;

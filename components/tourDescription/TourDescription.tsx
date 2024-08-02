@@ -58,12 +58,26 @@ export default async function TourDescriptionSection({ params, tour, similarTour
         }} />
         <DescriptionOverview sideBar={(
           <>
-            <SidebarForm
-              tourId={tour._id}
-              time={tour.time}
-              price={tour.price}
-              priceForExtra={tour.price.extra}
-            />
+            {tour.onSale && (
+              <>
+                <SidebarForm
+                  tourId={tour._id}
+                  time={tour.time}
+                  price={tour.onSale.newPrice}
+                  priceForExtra={tour.price.extra}
+                />
+              </>
+            )}
+            {!tour.onSale && (
+              <>
+                <SidebarForm
+                  tourId={tour._id}
+                  time={tour.time}
+                  price={tour.price}
+                  priceForExtra={tour.price.extra}
+                />
+              </>
+            )}
           </>
         )}>
           <TourOverviewInfo info={

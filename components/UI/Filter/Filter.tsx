@@ -109,9 +109,9 @@ export default function Filter(/*{  }: FilterInterface*/) {
           <CheckBox tag={`tour-rating`} id={`5-stars`} label={`5 stars`} stars={5} rated={4911} />
         </Accordion>
         <Accordion label={`Specials`}>
-          <CheckBox tag={`specials`} id={`5-20-off-sale`} label={`5-20% off`} />
-          <CheckBox tag={`specials`} id={`20-40-off-sale`} label={`20-40% off`} />
-          <CheckBox tag={`specials`} id={`40-90-off-sale`} label={`40-90% off`} />
+          <CheckBox tag={`onsale=`} id={`onsale:5-20`} label={`5-20% off`} />
+          <CheckBox tag={`onsale=`} id={`onsale:20-40`} label={`20-40% off`} />
+          <CheckBox tag={`onsale=`} id={`onsale:40-90`} label={`40-90% off`} />
         </Accordion>
 
         {calendarIsOpen && (
