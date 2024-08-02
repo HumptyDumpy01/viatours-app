@@ -23,11 +23,11 @@ export default function LeaveReplyInputs(/*{  }: LeaveReplyInputType*/) {
       <label htmlFor="title"></label>
       <input type="text" name="title" id="title"
              className="leave-a-reply__form-inputs-title" placeholder="Title"
-             required maxLength={60} minLength={4} />
+             required maxLength={90} minLength={4} />
       <label htmlFor="comment"></label>
       <textarea name="text" id="comment" cols={30} rows={6}
                 className="leave-a-reply__form-inputs-comment"
-                placeholder="Comment" minLength={4} maxLength={170} required></textarea>
+                placeholder="Comment" minLength={4} maxLength={400} required></textarea>
     </div>
   );
 }
