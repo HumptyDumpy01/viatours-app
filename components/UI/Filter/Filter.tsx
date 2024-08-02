@@ -96,10 +96,10 @@ export default function Filter(/*{  }: FilterInterface*/) {
         </Accordion>
 
         <Accordion label={`Language`}>
-          <CheckBox tag={`tour-language`} id={`english`} label={`English`} />
-          <CheckBox tag={`tour-language`} id={`french`} label={`French`} />
-          <CheckBox tag={`tour-language`} id={`spanish`} label={`Spanish`} />
-          <CheckBox tag={`tour-language`} id={`ukrainian`} label={`Ukrainian`} />
+          <CheckBox tag={`language=`} id={`English`} label={`English`} />
+          <CheckBox tag={`language=`} id={`French`} label={`French`} />
+          <CheckBox tag={`language=`} id={`Spanish`} label={`Spanish`} />
+          <CheckBox tag={`language=`} id={`Ukrainian`} label={`Ukrainian`} />
         </Accordion>
         <Accordion label={`Rating`}>
           <CheckBox tag={`tour-rating`} id={`1-star`} label={`1 star`} stars={1} rated={0} />

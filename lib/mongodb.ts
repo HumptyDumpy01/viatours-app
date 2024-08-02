@@ -369,7 +369,8 @@ export async function submitTourComment({ rating, email, user, title, text, imag
 
 }
 
-export async function filterTours(searchTerm: string, sortBy: string, tourType?: string[], tourTags?: string[]) {
+export async function
+filterTours(searchTerm: string, sortBy: string, tourType?: string[], tourTags?: string[], tourLanguages?: string[]) {
   const client = await clientPromise;
   const db = client.db(`viatoursdb`);
 
@@ -404,6 +405,10 @@ export async function filterTours(searchTerm: string, sortBy: string, tourType?:
   if (tourTags) {
     tourTagsObj = { tags: { $in: tourTags } };
   }
+  let tourLanguagesObj = {};
+  if (tourLanguages) {
+    tourLanguagesObj = { languages: { $in: tourLanguages } };
+  }
 
   console.log(`Executing tourTypeObj: `, tourTypeObj);
 
@@ -412,13 +417,9 @@ export async function filterTours(searchTerm: string, sortBy: string, tourType?:
 
     // INFO: 1. Search Term
     { $match: { $text: { $search: searchTerm } } },
-    // sort by RATING (DEFAULT)
-    { $sort: sort },
 
-    // sort by tour type: inc. 1. Nature, 2. Adventure, 3. Cultural,
-    // 4. Food, 5. City, 6. Cruises, 7. Family, 8. Wildlife, 9. relaxing,
-    // {$match: {type: {$in: ["Nature Tours", "Adventure Tours"]}}},
-    // {$match: {type: {$in: ["Nature Tours", "Adventure Tours"]}}},
+    // INFO sort by RATING (DEFAULT)
+    { $sort: sort },
 
     // INFO: FOR TYPE
     { $match: tourTypeObj },
@@ -426,7 +427,7 @@ export async function filterTours(searchTerm: string, sortBy: string, tourType?:
     { $match: tourTagsObj },
 
     // INFO:  FOR LANGUAGE AND RATING
-    { $match: {} },
+    { $match: tourLanguagesObj },
     {
       $project: {
         country: 1,

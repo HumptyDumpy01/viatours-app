@@ -26,6 +26,7 @@ export default function AllTours(/*{  }: AllToursInterface*/) {
 
     let tourType: string[] = [];
     let tourTags: string[] = [];
+    let tourLanguages: string[] = [];
 
     // Collect filter values
     const filterInputs = document.querySelectorAll('.all-tours__content__filter input[type="checkbox"]:checked');
@@ -56,6 +57,13 @@ export default function AllTours(/*{  }: AllToursInterface*/) {
         results.tourTags = tourTags;
 
 
+      } else if ((input as HTMLInputElement).name.includes('language')) {
+
+        const val = (input as HTMLInputElement).name.split('=')[1].replace(`:`, ``);
+        // replace the ":" with nothing
+        tourLanguages.push(val);
+        // @ts-ignore
+        results.tourLanguages = tourLanguages;
       } else {
         results[(input as HTMLInputElement).name] = (input as HTMLInputElement).value;
       }
