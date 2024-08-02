@@ -24,20 +24,26 @@ export default function AllTours(/*{  }: AllToursInterface*/) {
     const searchTerm = searchInput.current!.value;
     results.searchTerm = searchTerm;
 
-    const tourType = [];
+    let tourType: string[] = [];
 
     // Collect filter values
     const filterInputs = document.querySelectorAll('.all-tours__content__filter input[type="checkbox"]:checked');
     filterInputs.forEach(input => {
 
-      // @ts-ignore
-      if (input.name === `tour-type`) {
+      if ((input as HTMLInputElement).name.includes('tour-type')) {
+
         // push it to the array
+        const val = (input as HTMLInputElement)
+          .name.split(':')[1].replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+
+        console.log(val);
+        tourType.push(val);
         // @ts-ignore
-        tourType.push(input.value);
+        results.tourType = tourType;
+
+      } else {
+        results[(input as HTMLInputElement).name] = (input as HTMLInputElement).value;
       }
-      // @ts-ignore
-      results[input.name] = input.value;
     });
 
     // Collect sort value

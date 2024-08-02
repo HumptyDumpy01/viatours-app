@@ -69,18 +69,18 @@ export default function Filter(/*{  }: FilterInterface*/) {
         </div>
         <AccordionWithSeeMoreBtn visibleContent={
           <>
-            <CheckBox name={`Nature Tours`} tag={`tour-type`} id={`nature-tours`} label={`Nature Tours`} />
-            <CheckBox name={`Adventure Tours`} tag={`tour-type`} id={`adventure-tours`} label={`Adventure Tours`} />
-            <CheckBox name={`Cultural Tours`} tag={`tour-type`} id={`cultural-tours`} label={`Cultural Tours`} />
-            <CheckBox name={`Food Tours`} tag={`tour-type`} id={`food-tours`} label={`Food Tours`} />
-            <CheckBox name={`City Tours`} tag={`tour-type`} id={`city-tours`} label={`City Tours`} />
-            <CheckBox name={`Cruises Tours`} tag={`tour-type`} id={`cruises-tours`} label={`Cruises Tours`} />
+            <CheckBox tag={`tour-type`} id={`nature-tours`} label={`Nature Tours`} />
+            <CheckBox tag={`tour-type`} id={`adventure-tours`} label={`Adventure Tours`} />
+            <CheckBox tag={`tour-type`} id={`cultural-tours`} label={`Cultural Tours`} />
+            <CheckBox tag={`tour-type`} id={`food-tours`} label={`Food Tours`} />
+            <CheckBox tag={`tour-type`} id={`city-tours`} label={`City Tours`} />
+            <CheckBox tag={`tour-type`} id={`cruises-tours`} label={`Cruises Tours`} />
           </>
         } hiddenContent={
           <>
-            <CheckBox name={`Family Tours`} tag={`tour-type`} id={`family`} label={`Family`} />
-            <CheckBox name={`Wildlife`} tag={`tour-type`} id={`wildlife`} label={`Wildlife`} />
-            <CheckBox tag={`tour-type`} id={`relaxing`} label={`Relaxing`} />
+            <CheckBox tag={`tour-type`} id={`family-tours`} label={`Family`} />
+            <CheckBox tag={`tour-type`} id={`wildlife-tours`} label={`Wildlife`} />
+            <CheckBox tag={`tour-type`} id={`relaxing-tours`} label={`Relaxing`} />
           </>
         } />
         <Accordion label={`Filter Price`}>

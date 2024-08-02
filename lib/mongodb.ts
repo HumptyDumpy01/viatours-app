@@ -369,7 +369,7 @@ export async function submitTourComment({ rating, email, user, title, text, imag
 
 }
 
-export async function filterTours(searchTerm: string, sortBy: string) {
+export async function filterTours(searchTerm: string, sortBy: string, tourType?: string[]) {
   const client = await clientPromise;
   const db = client.db(`viatoursdb`);
 
@@ -395,6 +395,12 @@ export async function filterTours(searchTerm: string, sortBy: string) {
     sort = { 'price.children': -1 };
   }
 
+  let tourTypeObj = {};
+  if (tourType) {
+    tourTypeObj = { type: { $in: tourType } };
+  }
+  console.log(`Executing tourTypeObj: `, tourTypeObj);
+
   const tours = await db.collection(`tours`).aggregate([
     // IS FOR conjunction of:
 
@@ -409,7 +415,7 @@ export async function filterTours(searchTerm: string, sortBy: string) {
     // {$match: {type: {$in: ["Nature Tours", "Adventure Tours"]}}},
 
     // FOR TYPE
-    { $match: {} },
+    { $match: tourTypeObj },
     // FOR TAG
     { $match: {} },
 

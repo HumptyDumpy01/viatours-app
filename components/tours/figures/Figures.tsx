@@ -57,7 +57,12 @@ export default function Figures({ tours }: FiguresInterface) {
           <SkeletonCardHorizontal />
         </div>
       )}*/}
-      {(currentTours.length === 0) && <NoItemsFound clearFilters={handleClearFilters} />}
+      {(currentTours.length === 0) && (
+        <>
+          <FiguresHeader summarizedResults={tours.length} />
+          <NoItemsFound clearFilters={handleClearFilters} />
+        </>
+      )}
       {(currentTours.length > 0) && (
         <>
           <FiguresHeader summarizedResults={tours.length} />
