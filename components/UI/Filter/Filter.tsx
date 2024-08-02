@@ -1,9 +1,6 @@
 'use client';
 
 import './Filter.scss';
-/*interface FilterInterface {
-  // children: ReactNode;
-}*/
 import IconIon from '@/components/UI/IonIcon/IconIon';
 import CheckBox from '@/components/UI/Checkbox/CheckBox';
 import Accordion from '@/components/UI/Accordion/Accordion';
@@ -13,8 +10,29 @@ import StoreProvider from '@/components/UI/Provider/StoreProvider';
 import { useCartDispatch, useCartSelector } from '@/store/hooks';
 import { HeroSliceActions } from '@/store/heroSlice';
 import DatePicker from '@/components/UI/DatePicker/DatePicker';
+import { TourInterface } from '@/data/DUMMY_TOURS';
 
-export default function Filter(/*{  }: FilterInterface*/) {
+interface FilterInterface {
+  tours: TourInterface[];
+  // children: ReactNode;
+}
+
+export default function Filter({ tours }: FilterInterface) {
+
+  // let's count how many tours have the rating of 5
+  const fiveStarTours = tours.filter(tour => tour.rating.overall === 5).length;
+
+  // let's count how many tours have the rating of gte 4 but lt than 5
+  const fourStarTours = tours.filter(tour => tour.rating.overall >= 4 && tour.rating.overall < 5).length;
+
+  // let's count how many tours have the rating of gte 3 but lt than 4
+  const threeStarTours = tours.filter(tour => tour.rating.overall >= 3 && tour.rating.overall < 4).length;
+
+  // let's count how many tours have the rating of gte 2 but lt than 3
+  const twoStarTours = tours.filter(tour => tour.rating.overall >= 2 && tour.rating.overall < 3).length;
+  // let's count how many tours have the rating of gte 1 but lt than 2
+  const oneStarTours = tours.filter(tour => tour.rating.overall >= 1 && tour.rating.overall < 2).length;
+
 
   const calendarIsOpen = useCartSelector((state) => state.hero.calendarIsOpen);
 
@@ -102,11 +120,11 @@ export default function Filter(/*{  }: FilterInterface*/) {
           <CheckBox tag={`language=`} id={`Ukrainian`} label={`Ukrainian`} />
         </Accordion>
         <Accordion label={`Rating`}>
-          <CheckBox tag={`tour-rating`} id={`1-star`} label={`1 star`} stars={1} rated={0} />
-          <CheckBox tag={`tour-rating`} id={`2-stars`} label={`2 stars`} stars={2} rated={12} />
-          <CheckBox tag={`tour-rating`} id={`3-stars`} label={`3 stars`} stars={3} rated={36} />
-          <CheckBox tag={`tour-rating`} id={`4-stars`} label={`4 stars`} stars={4} rated={1599} />
-          <CheckBox tag={`tour-rating`} id={`5-stars`} label={`5 stars`} stars={5} rated={4911} />
+          <CheckBox tag={`tour-rating`} id={`1-star`} label={`1 star`} stars={1} rated={oneStarTours} />
+          <CheckBox tag={`tour-rating`} id={`2-stars`} label={`2 stars`} stars={2} rated={twoStarTours} />
+          <CheckBox tag={`tour-rating`} id={`3-stars`} label={`3 stars`} stars={3} rated={threeStarTours} />
+          <CheckBox tag={`tour-rating`} id={`4-stars`} label={`4 stars`} stars={4} rated={fourStarTours} />
+          <CheckBox tag={`tour-rating`} id={`5-stars`} label={`5 stars`} stars={5} rated={fiveStarTours} />
         </Accordion>
         <Accordion label={`Specials`}>
           <CheckBox tag={`onsale=`} id={`onsale:5-20`} label={`5-20% off`} />

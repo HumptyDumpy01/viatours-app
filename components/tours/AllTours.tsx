@@ -154,7 +154,7 @@ export default function AllTours(/*{  }: AllToursInterface*/) {
         </div>
       </div>
       <div className="all-tours__content grid">
-        <Filter />
+        <Filter tours={tours} />
         <div className="all-tours__content__figures">
           {loading && (
             <div className="all-tours__content__figures__figure-container">
