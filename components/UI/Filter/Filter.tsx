@@ -84,9 +84,9 @@ export default function Filter(/*{  }: FilterInterface*/) {
           </>
         } />
         <Accordion label={`Filter Price`}>
-          <CheckBox tag={`filter-price`} id={`0-300`} label={`0$-300$`} />
-          <CheckBox tag={`filter-price`} id={`300-700`} label={`300$-700$`} />
-          <CheckBox tag={`filter-price`} id={`700-1299`} label={`700$-1299$`} />
+          <CheckBox tag={`price=`} id={`price:0-300`} label={`0$-300$`} />
+          <CheckBox tag={`price=`} id={`price:300-700`} label={`300$-700$`} />
+          <CheckBox tag={`price=`} id={`price:700-1299`} label={`700$-1299$`} />
         </Accordion>
 
         <Accordion label={`Duration`}>

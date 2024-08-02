@@ -14,7 +14,7 @@ interface CheckBoxRatingInterface {
 interface CheckBoxInterface {
   id: string;
   label: string;
-  tag: `tour-type` | `filter-price` | `tour-duration` | `tour-language` | `tour-group-size` | `specials`;
+  tag: `tour-type` | `price=` | `tour-duration` | `tour-language` | `tour-group-size` | `specials`;
   // children: ReactNode;
 }
 
