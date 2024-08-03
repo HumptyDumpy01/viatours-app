@@ -30,8 +30,6 @@ export default function LeaveReply({ tourId }: LeaveReplyType) {
   const [formError, setFormError] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState<boolean | null>(null);
 
-  // console.log(`Executing tourId: `, tourId);
-
   const openFilePicker = () => {
     fileInputRef.current?.click();
   };
@@ -58,25 +56,22 @@ export default function LeaveReply({ tourId }: LeaveReplyType) {
 
     const userExists = await getUser({ email: results.email }, { email: 1, _id: 0 });
 
-    // console.log(`Executing userExists: (Client)`, userExists);
-
     if (userExists.length > 0) {
       setFormError([`The user with the email ${results.email} already exists. Please sign in to proceed.`]);
       setIsSubmitting(false);
       scrollToLeaveReplyForm();
-
+      return;
     }
 
     if (errors.length > 0) {
       setFormError(errors);
       scrollToLeaveReplyForm();
       setIsSubmitting(false);
-
+      return;
     }
 
     // Upload images to Cloudinary
     const imageUrls = await Promise.all(selectedFiles.map(uploadImage));
-    // console.log(`Executing imageUrls: `, imageUrls);
 
     if (imageUrls.length > 0 && imageUrls.length > 3) {
       setFormError(['Failed to upload the images. You can only upload up to 3 or can omit image upload.']);
@@ -103,27 +98,19 @@ export default function LeaveReply({ tourId }: LeaveReplyType) {
       text: results.text as string
     };
 
-    // Resetting the form
-    // currObject.reset();
-
     // Uncheck all checkboxes
     const checkboxes = document.querySelectorAll('input[type="checkbox"]');
     checkboxes.forEach((checkbox) => {
       (checkbox as HTMLInputElement).checked = false;
     });
 
-    // @ts-ignore
     const submitForm = await submitTourComment(formResults);
 
     if (submitForm.success) {
-      console.log(submitForm.success);
       setIsSubmitting(false);
-      // delete files from input field file
       setSelectedFiles([]);
-      // reset form
       currObject.reset();
 
-      // scroll to .customer-reviews-heading
       const customerReviewsHeading = document.querySelector('.customer-reviews-heading');
       if (customerReviewsHeading) {
         setTimeout(function() {
@@ -135,13 +122,9 @@ export default function LeaveReply({ tourId }: LeaveReplyType) {
     if (submitForm?.error) {
       setFormError([submitForm.error]);
       setIsSubmitting(false);
-      return;
     }
-    // Output
-    console.log(results);
   }
 
-// Helper function to validate form data
   function validateFormData(results: Record<string, FormDataEntryValue>): string[] {
     const errors: string[] = [];
 
@@ -203,7 +186,6 @@ export default function LeaveReply({ tourId }: LeaveReplyType) {
             ))}
           </div>
           <div className={`btn--submit-container`}>
-            {/*btn--submit-disabled*/}
             <button
               className={`btn btn--submit ${isSubmitting ? `btn--submit-disabled` : ``} flex flex-align-center`}>Post
               comment
@@ -213,8 +195,7 @@ export default function LeaveReply({ tourId }: LeaveReplyType) {
               <div className={`loading-spinner`}>
                 <Lottie animationData={loadingSpinner} />
               </div>
-            )
-            }
+            )}
           </div>
         </form>
       </div>
