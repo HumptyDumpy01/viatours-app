@@ -18,8 +18,11 @@ export default function AllTours(/*{ params }: AllToursInterface*/) {
   const searchInput = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const searchParams = useSearchParams();
+
   const filter = searchParams.get('filter') ? searchParams.get('filter') : null;
   const filterType = searchParams.get('filter-type') ? searchParams.get('filter-type') : null;
+  const filterSearch = searchParams.get('filter-search') ? searchParams.get('filter-search') : null;
+
   console.log(`filterType`, filterType);
 
   useEffect(() => {
@@ -88,6 +91,39 @@ export default function AllTours(/*{ params }: AllToursInterface*/) {
         newSearchParams.delete('filter-type');
         router.replace(`/tours?${newSearchParams.toString()}`);
       }
+
+      if (filterSearch) {
+        // console.log(`Executing filter: `, filter);
+        // Fetch tours based on the filter
+        // create an array of tags
+        // const search = filterSearch.split(',');
+
+
+        fetch('http://localhost:3000/api/fetch-tours', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ filterSearch: filterSearch })
+        })
+          .then(response => response.json())
+          .then(data => {
+            setTours(data.tours);
+            setLoading(false);
+          })
+          .catch(error => {
+            console.error(`Failed to fetch tours: ${error}`);
+            setLoading(false);
+          });
+
+
+        ///////////////////////////////////////
+        // Remove the filter parameter from the URL
+        const newSearchParams = new URLSearchParams(searchParams.toString());
+        newSearchParams.delete('filter-search');
+        router.replace(`/tours?${newSearchParams.toString()}`);
+      }
+
 
       ///////////////////////////////////////
 
@@ -200,7 +236,7 @@ export default function AllTours(/*{ params }: AllToursInterface*/) {
   // Fetch the tours
   useEffect(() => {
 
-    if (!filter && !filterType) {
+    if (!filter && !filterType && !filterSearch) {
 
       fetch('http://localhost:3000/api/fetch-tours', {
         method: 'POST',

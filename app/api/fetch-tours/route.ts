@@ -2,9 +2,9 @@ import { getTours } from '@/lib/mongodb';
 import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
-  const { filter, filterType } = await request.json();
+  const { filter, filterType, filterSearch } = await request.json();
   if (filter) {
-    console.log(`filter from route.ts`, filter);
+    // console.log(`filter from route.ts`, filter);
 
     const tours = await getTours(9999, { tags: { $in: filter } }, 0);
 
@@ -13,10 +13,19 @@ export async function POST(request: Request) {
   }
 
   if (filterType) {
-    console.log(`filterType from route.ts`, filterType);
+    // console.log(`filterType from route.ts`, filterType);
 
     const tours = await getTours(9999, { type: { $in: filterType } }, 0);
     console.log(tours);
+
+    return NextResponse.json({ tours });
+  }
+
+  if (filterSearch) {
+    console.log(`filterSearch from route.ts`, filterSearch);
+
+    const tours = await getTours(9999, { $text: { $search: filterSearch } }, 0);
+    // console.log(tours);
 
     return NextResponse.json({ tours });
   }

@@ -4,7 +4,8 @@ import './MainNavigation.scss';
 import NavButton from '@/components/UI/Link/NavButton';
 import NavigationResponsive from '@/components/MainLayout/Navigation/NavigationResponsive';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 // 'use client';
 
@@ -14,6 +15,7 @@ import { useEffect, useState } from 'react';
 export default function MainNavigation(/*{  }: MainNavigationInterface*/) {
 
   const [isSticky, setIsSticky] = useState(false);
+  const router = useRouter();
 
   const handleScroll = () => {
     const position = window.scrollY;
@@ -29,6 +31,20 @@ export default function MainNavigation(/*{  }: MainNavigationInterface*/) {
     };
   }, []);
 
+  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const currObject = e.currentTarget;
+    const formData = new FormData(currObject);
+    const results = Object.fromEntries(formData.entries());
+    // resetting the form
+    currObject.reset();
+    // output
+    console.log(results);
+    // redirect to the search page
+    router.push(`/tours?filter-search=${results.searchTerm}`);
+  }
+
+
   return (
     <nav className={`navigation container ${isSticky ? `sticky` : undefined}`}>
       <div className={`navigation__ul flex`}>
@@ -36,10 +52,12 @@ export default function MainNavigation(/*{  }: MainNavigationInterface*/) {
           <Link href={`/`}>
             <Image priority src={headerLogo} alt="viatours logo" className={`logo navigation__logo`} />
           </Link>
-          <label>
-            <input type="search" className={`navigation--search`}
-                   placeholder="Search destinations or activities" />
-          </label>
+          <form onSubmit={handleSubmit}>
+            <label>
+              <input type="search" name={`searchTerm`} className={`navigation--search`}
+                     placeholder="Search destinations or activities" />
+            </label>
+          </form>
           <div className={`navigation--search-wrapper`}>
             <svg className={`icon--search icon ${isSticky ? `icon--search-sticky` : undefined}`}
                  xmlns="http://www.w3.org/2000/svg" width="20"
