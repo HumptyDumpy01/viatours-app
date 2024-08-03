@@ -6,7 +6,7 @@ export async function POST(request: Request) {
     const { filter } = await request.json();
     console.log(`filter from route.ts`, filter);
 
-    const tours = await getTours(9999, { tags: { $in: [filter] } }, 0);
+    const tours = await getTours(9999, { tags: { $in: filter } }, 0);
 
     return NextResponse.json({ tours });
   }

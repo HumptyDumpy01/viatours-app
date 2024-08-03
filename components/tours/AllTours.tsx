@@ -24,15 +24,18 @@ export default function AllTours(/*{ params }: AllToursInterface*/) {
     try {
 
       if (filter) {
-        console.log(`Executing filter: `, filter);
+        // console.log(`Executing filter: `, filter);
         // Fetch tours based on the filter
+        // create an array of tags
+        const tags = filter.split(',');
+
 
         fetch('http://localhost:3000/api/fetch-tours', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ filter: filter })
+          body: JSON.stringify({ filter: tags })
         })
           .then(response => response.json())
           .then(data => {
