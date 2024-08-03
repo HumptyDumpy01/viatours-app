@@ -4,7 +4,7 @@ const HeroSlice = createSlice({
   name: `hero-slice`,
   initialState: {
     calendarIsOpen: false,
-    locationIsOpen: true
+    locationIsOpen: false
   },
   reducers: {
     toggleCalendar(state, action: PayloadAction<boolean>) {

@@ -1,13 +1,15 @@
 // 'use client';
 
 import { ReactNode } from 'react';
-import Image from 'next/image';
+import { CldImage } from 'next-cloudinary';
+import Link from 'next/link';
 
 
 type WhereToElementLocation = {
   type: `location`;
   title: string;
   country: string;
+  href: string;
 }
 type WhereToElementTour = {
   type: `tour`;
@@ -15,6 +17,7 @@ type WhereToElementTour = {
   title: string;
   country: string;
   price: string;
+  href: string;
 }
 type WhereToElementSearch = {
   type: `search-all`;
@@ -27,7 +30,8 @@ export default function WhereToElement(props: WhereToElementInterface) {
   let content: ReactNode;
   if (props.type === `location`) {
     content = (
-      <div className="where-to-popup__element where-to-popup__element--location flex flex-align-center">
+      <Link href={props.href}
+            className="where-to-popup__element where-to-popup__element--location flex flex-align-center">
         <div className="where-to-popup__location-icon-wrapper">
           <svg className="where-to-popup__location-icon" xmlns="http://www.w3.org/2000/svg" width="17" height="23"
                viewBox="0 0 17 23" fill="none">
@@ -40,23 +44,24 @@ export default function WhereToElement(props: WhereToElementInterface) {
           <span className="where-to-popup__element__data-span">{props.title}</span>
           <p className="where-to-popup__element__data-country">{props.country}</p>
         </div>
-      </div>
+      </Link>
     );
   }
 
   if (props.type === `tour`) {
     content = (
-      <div className="where-to-popup__element where-to-popup__element--tour flex flex-align-center">
+      <Link href={props.href} className="where-to-popup__element where-to-popup__element--tour flex flex-align-center">
         <div className="where-to-popup__element__image-wrapper">
-          <Image fill className="where-to-popup__element__image" src={props.image}
-                 alt="tour destination image" />
+          {/*<Image fill className="where-to-popup__element__image" src={props.image}*/}
+          {/*       alt="tour destination image" />*/}
+          <CldImage fill src={props.image} className={`where-to-popup__element-image`} alt="tour destination image" />
         </div>
         <div className="where-to-popup__element__data">
             <span
               className="where-to-popup__element__data-span">{props.title}</span>
           <p className="where-to-popup__element__data-country">{props.country} | From {props.price}</p>
         </div>
-      </div>
+      </Link>
     );
   }
   if (props.type === `search-all`) {

@@ -1,11 +1,5 @@
 // 'use client';
 
-import whereToImg1 from '@/assets/images/homepage/where-to-popup/where-to-image-1.svg';
-import whereToImg2 from '../../../assets/images/homepage/where-to-popup/where-to-image-2.svg';
-import whereToImg3 from '../../../assets/images/homepage/where-to-popup/where-to-image-3.svg';
-import whereToImg4 from '../../../assets/images/homepage/where-to-popup/where-to-image-4.svg';
-import whereToImg5 from '../../../assets/images/homepage/where-to-popup/where-to-image-5.svg';
-import whereToImg6 from '../../../assets/images/homepage/where-to-popup/where-to-image-6.svg';
 // import lottie component
 // import Lottie from 'lottie-react';
 // import animation data
@@ -22,63 +16,60 @@ interface WhereToPopupInterface {
 }
 
 export default function WhereToPopup({ tours, isLoading }: WhereToPopupInterface) {
+
+  const isEmpty = tours.length === 0;
+
+  const firstThreeTours = tours.slice(0, 3);
+  //each title should contain max 20 characters
+  firstThreeTours.forEach(function(tour) {
+    tour.title = tour.title.slice(0, 60);
+  });
+
   return (
     <>
       <div className="where-to-popup">
         <div className="where-to-popup-wrapper">
-          {isLoading && (
+          {(isLoading) && (
             <div className={`where-to-popup-loading-screen-container`}>
               <WhereToPopupSkeleton />
               <WhereToPopupSkeleton />
             </div>
           )}
-          {!isLoading && (
+
+          {(!isLoading && !isEmpty) && (
             <>
-              <WhereToElement type={`location`} country={`France`} title={`Eiffel Tower`} />
-              <WhereToElement type={`location`} country={`France`} title={`Louvre Museum`} />
-              <WhereToElement
-                type={`tour`}
-                title={`Eiffel Tower Guided Climb with Optional Summit Access`}
-                country={`France`}
-                price={`32.98$`}
-                image={whereToImg1.src}
-              />
-              <WhereToElement
-                type={`tour`}
-                title={`Skip-the-Line Eiffel Tower Tour and Seine River Cruise`}
-                country={`France`}
-                price={`32.98$`}
-                image={whereToImg2.src}
-              />
-              <WhereToElement
-                type={`tour`}
-                title={`Eiffel Tower Dinner Experience with Summit Option`}
-                country={`France`}
-                price={`32.98$`}
-                image={whereToImg3.src}
-              />
-              <WhereToElement
-                type={`tour`}
-                title={`Eiffel Tower Night Tour with Optional Champagne Toast`}
-                country={`France`}
-                price={`32.98$`}
-                image={whereToImg4.src}
-              />
-              <WhereToElement
-                type={`tour`}
-                title={`Exclusive Eiffel Tower History Walk with Summit Access`}
-                country={`France`}
-                price={`32.98$`}
-                image={whereToImg5}
-              />
-              <WhereToElement
-                type={`tour`}
-                title={`Eiffel Tower Access to 2nd Floor and Summit Option with Host`}
-                country={`France`}
-                price={`32.98$`}
-                image={whereToImg6}
-              />
-              <WhereToElement type={`search-all`} title={`Eiffel`} />
+              {firstThreeTours.map(function(tour) {
+                return (
+                  <>
+                    <WhereToElement
+                      href={`/tours/?filter-country=${tour.country}`}
+                      type={`location`}
+                      country={`Location`} title={tour.country} />
+                  </>
+                );
+              })}
+              {tours.slice(0, 5).map(function(tour) {
+                return (
+                  <>
+                    <WhereToElement
+                      href={`/tours/${tour._id}`}
+                      type={`tour`}
+                      title={tour.title}
+                      country={tour.country}
+                      price={`${tour.price.children}$`}
+                      image={tour.images[0]}
+                    />
+                  </>
+                );
+              })}
+              <WhereToElement type={`search-all`} title={`All Tours`} />
+            </>
+          )}
+          {(!isLoading && isEmpty) && (
+            <>
+              <div className="where-to-popup__element where-to-popup__element--location flex flex-align-center">
+                <h3 className="where-to-popup__element__data-span">No tours found!</h3>
+              </div>
             </>
           )}
         </div>

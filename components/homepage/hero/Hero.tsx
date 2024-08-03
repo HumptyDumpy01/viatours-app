@@ -9,7 +9,7 @@ import searchIcon from '../../../assets/images/homepage/hero/search-icon.svg';
 
 import HeroHeading from '@/components/homepage/hero/HeroHeading';
 import WhereToPopup from '@/components/homepage/choose-location-popup/WhereToPopup';
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, useRef, useState } from 'react';
 import HeroInput from '@/components/homepage/hero/HeroInput';
 import Image from 'next/image';
 import { useCartDispatch, useCartSelector } from '@/store/hooks';
@@ -47,10 +47,33 @@ export default function Hero(/*{  }: HeroInterface*/) {
     dispatch(HeroSliceActions.toggleLocation(true));
 
     // TODO: FETCH TOURS
+    fetch('http://localhost:3000/api/fetch-tours', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ filter: false })
+    })
+      .then(response => response.json())
+      .then(data => {
+        setTours(data.tours);
+        setIsLoading(false);
+      })
+      .catch(error => {
+        console.error(`Failed to fetch tours: ${error}`);
+        setIsLoading(false);
+      });
   }
 
+  // console.log(tours);
+
+  const timeout = useRef<NodeJS.Timeout>();
+
   function handleCloseChooseLocation() {
-    dispatch(HeroSliceActions.toggleLocation(false));
+    clearTimeout(timeout.current);
+    timeout.current = setTimeout(function() {
+      dispatch(HeroSliceActions.toggleLocation(false));
+    }, 400);
   }
 
 

@@ -31,6 +31,7 @@ export async function POST(request: Request) {
   }
 
   const tours = await getTours(9999, {}, 0);
+  // console.log(tours);
   // console.log(`fetching tours: `, tours);
   return NextResponse.json({ tours });
 }

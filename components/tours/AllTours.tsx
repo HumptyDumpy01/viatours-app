@@ -22,6 +22,7 @@ export default function AllTours(/*{ params }: AllToursInterface*/) {
   const filter = searchParams.get('filter') ? searchParams.get('filter') : null;
   const filterType = searchParams.get('filter-type') ? searchParams.get('filter-type') : null;
   const filterSearch = searchParams.get('filter-search') ? searchParams.get('filter-search') : null;
+  const filterCountry = searchParams.get('filter-country') ? searchParams.get('filter-country') : null;
 
   console.log(`filterType`, filterType);
 

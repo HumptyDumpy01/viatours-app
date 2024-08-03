@@ -36,6 +36,7 @@
   }
 
   &__element, {
+    text-decoration: none;
     &--search-all {
       gap: 1.1rem;
 
@@ -44,6 +45,10 @@
         background-color: var(--clr-light-white-2);
         border-radius: 12px;
       }
+    }
+
+    &-image {
+      border-radius: 12px;
     }
 
     // each of these els should have margin bottom of 1.6rem, except the last one
@@ -66,7 +71,7 @@
 
     &__image-wrapper {
       position: relative;
-      width: 5.3rem;
+      width: 5.8rem;
       height: 5.3rem;
       object-fit: cover;
       border-radius: 12px;
@@ -82,6 +87,7 @@
         font-weight: 600;
         font-size: 1.857rem;
         display: inline-block;
+        color: var(--clr-blue-lighter);
 
         &:not(:last-child) {
           margin-bottom: .2rem;

@@ -19,7 +19,7 @@ export default function WhereToPopupSkeleton(/*{  }: WhereToPopupSkeletonType*/)
         </div>
         <div className="where-to-popup__element__data">
           <Skeleton variant={`text`} width={`100%`} height={`2.9rem`} />
-          <Skeleton variant={`text`} width={`80%`} height={`2rem`} />
+          <Skeleton variant={`text`} width={`20%`} height={`2rem`} />
         </div>
       </div>
     </div>
