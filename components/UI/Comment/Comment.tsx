@@ -146,7 +146,7 @@ export default function
 
   return (
     <>
-      <div className="comments-wrapper">
+      <div className={`comments-wrapper`}>
         <div className="comments__username flex flex-space-between flex-align-center">
           <div className="comments__username-logo-and-name flex flex-align-center gap-sm">
             <div className="comments__username-logo">{userInitials}</div>

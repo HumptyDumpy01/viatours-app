@@ -19,6 +19,8 @@ export default function AllTours(/*{ params }: AllToursInterface*/) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const filter = searchParams.get('filter') ? searchParams.get('filter') : null;
+  const filterType = searchParams.get('filter-type') ? searchParams.get('filter-type') : null;
+  console.log(`filterType`, filterType);
 
   useEffect(() => {
     try {
