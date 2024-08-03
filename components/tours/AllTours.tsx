@@ -55,13 +55,46 @@ export default function AllTours(/*{ params }: AllToursInterface*/) {
         const newSearchParams = new URLSearchParams(searchParams.toString());
         newSearchParams.delete('filter');
         router.replace(`/tours?${newSearchParams.toString()}`);
-      } else {
-        console.log(`No filter parameter found`);
       }
+
+      if (filterType) {
+        // console.log(`Executing filter: `, filter);
+        // Fetch tours based on the filter
+        // create an array of tags
+        const type = filterType.split(',');
+
+
+        fetch('http://localhost:3000/api/fetch-tours', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ filterType: type })
+        })
+          .then(response => response.json())
+          .then(data => {
+            setTours(data.tours);
+            setLoading(false);
+          })
+          .catch(error => {
+            console.error(`Failed to fetch tours: ${error}`);
+            setLoading(false);
+          });
+
+
+        ///////////////////////////////////////
+        // Remove the filter parameter from the URL
+        const newSearchParams = new URLSearchParams(searchParams.toString());
+        newSearchParams.delete('filter-type');
+        router.replace(`/tours?${newSearchParams.toString()}`);
+      }
+
+      ///////////////////////////////////////
+
     } catch (e) {
       throw new Error(`Failed to filter by URl params: ${e}`);
     }
-  }, [filter]);
+  }, []);
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     try {
@@ -166,7 +199,9 @@ export default function AllTours(/*{ params }: AllToursInterface*/) {
 
   // Fetch the tours
   useEffect(() => {
-    if (!filter) {
+
+    if (!filter && !filterType) {
+
       fetch('http://localhost:3000/api/fetch-tours', {
         method: 'POST',
         headers: {

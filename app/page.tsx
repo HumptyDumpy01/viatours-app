@@ -97,7 +97,7 @@ export default async function Home() {
 
       <div>
         <TopTrendingHeading heading={`Featured Tours`} subheading={`viatours recommends!`}
-                            href={`/tours?tag=featured`} />
+                            href={`/tours?filter=featured`} />
       </div>
       <section className="top-trending container-cta">
         <TopTrendingWrapper>
