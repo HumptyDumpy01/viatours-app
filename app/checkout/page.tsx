@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react';
 import './page.scss';
 import CheckoutDetails, { OrderInterface } from '@/components/checkout/checkout-details/CheckoutDetails';
 import CheckoutLoadingPage from '@/app/checkout/loading';
-import { DUMMY_TOURS } from '@/data/DUMMY_TOURS';
 
 export default function CheckoutPage() {
 
@@ -36,16 +35,16 @@ export default function CheckoutPage() {
     return null;
   }
 
-  const tour = DUMMY_TOURS.find((item) => item._id === order.tourId);
+  // const tour = DUMMY_TOURS.find((item) => item._id === order.tourId);
 
-  if (!tour) {
-    throw new Error('Tour not found');
-  }
+  // if (!tour) {
+  //   throw new Error('Tour not found');
+  // }
 
   return (
     <section className="book-now-container">
       <div className="book-now grid container">
-        <CheckoutDetails tour={tour} order={order} />
+        <CheckoutDetails tour={[]} order={order} />
       </div>
     </section>
   );

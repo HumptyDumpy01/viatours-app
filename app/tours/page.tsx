@@ -1,6 +1,7 @@
 // 'use client';
 import './page.scss';
 import AllTours from '@/components/tours/AllTours';
+import { Suspense } from 'react';
 /*interface ToursPageInterface {
   // children: ReactNode;
 }*/
@@ -14,7 +15,9 @@ export default function ToursPage(/*{  }: ToursPageInterface*/) {
   return (
     <main className={`main`}>
       <section className="all-tours container-all-tours">
-        <AllTours />
+        <Suspense>
+          <AllTours />
+        </Suspense>
       </section>
     </main>
   );
