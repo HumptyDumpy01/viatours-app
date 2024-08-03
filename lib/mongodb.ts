@@ -43,7 +43,7 @@ export async function getTours(limit: number, matchProps: unknown, skip: number 
   const client = await clientPromise;
   const db = client.db('viatoursdb');
   const tours = await db.collection('tours')
-    .aggregate([{ $match: matchProps }, { $skip: skip }, { $limit: limit }]).toArray();
+    .aggregate([{ $match: matchProps }, { $sort: { 'rating.overall': -1 } }, { $skip: skip }, { $limit: limit }]).toArray();
 
   if (project) {
     const tours = await db.collection('tours')
