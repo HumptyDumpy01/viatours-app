@@ -44,7 +44,7 @@ export default function PopularThingsGallery(/*{  }: PopularThingsGalleryInterfa
           </Link>
         </div>
         <div className="popular-things-to-do__tour popular-things-to-do__tours-4">
-          <Link href={`/tours/?filter=city`} className="popular-things-to-do__tour-link">
+          <Link href={`/tours/?filter-type=City Tours`} className="popular-things-to-do__tour-link">
             <Image data-src="img/popularThingsToDo/cityTours.svg" className=""
                    src={cityToursImg}
                    alt="city tours image" />
@@ -52,7 +52,7 @@ export default function PopularThingsGallery(/*{  }: PopularThingsGalleryInterfa
           </Link>
         </div>
         <div className="popular-things-to-do__tour popular-things-to-do__tours-5">
-          <Link href={`/tours/?filter=food`} className="popular-things-to-do__tour-link">
+          <Link href={`/tours/?filter-type=Food Tours`} className="popular-things-to-do__tour-link">
             <Image data-src="img/popularThingsToDo/food.svg" className=""
                    src={foodImg}
                    alt="restaurant image" />
@@ -60,7 +60,7 @@ export default function PopularThingsGallery(/*{  }: PopularThingsGalleryInterfa
           </Link>
         </div>
         <div className="popular-things-to-do__tour popular-things-to-do__tours-6">
-          <Link href={`/tours/?filter=nature`} className="popular-things-to-do__tour-link">
+          <Link href={`/tours/?filter-type=Nature Tours`} className="popular-things-to-do__tour-link">
             <Image data-src="img/popularThingsToDo/hiking.svg" className=""
                    src={natureImg}
                    alt="two people on a hike image" />
