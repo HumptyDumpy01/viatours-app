@@ -20,7 +20,7 @@ function scrollToLeaveReplyForm() {
   if (leaveAReplyForm) {
     setTimeout(function() {
       leaveAReplyForm.scrollIntoView({ behavior: 'smooth' });
-    }, 80);
+    }, 10);
   }
 }
 
@@ -104,15 +104,18 @@ export default function LeaveReply({ tourId }: LeaveReplyType) {
       (checkbox as HTMLInputElement).checked = false;
     });
 
+    // @ts-ignore
     const submitForm = await submitTourComment(formResults);
 
     if (submitForm.success) {
+      e.preventDefault();
       setIsSubmitting(false);
       setSelectedFiles([]);
       currObject.reset();
 
       const customerReviewsHeading = document.querySelector('.customer-reviews-heading');
       if (customerReviewsHeading) {
+        e.preventDefault();
         setTimeout(function() {
           customerReviewsHeading.scrollIntoView({ behavior: 'smooth' });
         }, 80);
