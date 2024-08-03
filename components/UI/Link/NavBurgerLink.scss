@@ -9,3 +9,8 @@
     color: var(--clr-primary);
   }
 }
+
+.active {
+  font-weight: 600;
+  color: var(--clr-primary) !important;
+}

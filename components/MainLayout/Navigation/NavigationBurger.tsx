@@ -21,6 +21,9 @@ export default function NavigationBurger(/*{  }: NavigationBurgerInterface*/) {
     <div className="navigation-background" id={isOpen ? 'nav-open' : ''} onClick={handleCloseNavigation}>
       <ul className="navigation-background__list" id={isOpen ? `nav-list-open` : ''}>
         <li>
+          <NavBurgerLink pathName={`/`}>Home</NavBurgerLink>
+        </li>
+        <li>
           <NavBurgerLink pathName={`/tours`}>All Tours</NavBurgerLink>
         </li>
         <li>
@@ -28,9 +31,6 @@ export default function NavigationBurger(/*{  }: NavigationBurgerInterface*/) {
         </li>
         <li>
           <NavBurgerLink pathName={`/account-settings/wishlist`}>Wishlist</NavBurgerLink>
-        </li>
-        <li>
-          <NavBurgerLink pathName={`/register`}>Sign up</NavBurgerLink>
         </li>
         <li>
           <NavBurgerLink marked pathName={`/login`}>Log in</NavBurgerLink>

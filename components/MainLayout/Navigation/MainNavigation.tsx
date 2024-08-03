@@ -53,10 +53,10 @@ export default function MainNavigation(/*{  }: MainNavigationInterface*/) {
           </div>
         </div>
         <div className={`navigation-wrapper-2 flex flex-align-center`}>
+          <NavButton pathName={`/`}>Home</NavButton>
           <NavButton pathName={`/tours`}>All Tours</NavButton>
           <NavButton pathName={`/articles`}>Tour Articles</NavButton>
           <NavButton pathName={`/account-settings/wishlist`}>Wishlist</NavButton>
-          <NavButton pathName={`/register`}>Sign up</NavButton>
           <NavButton marked pathName={`/login`}>Log in</NavButton>
         </div>
       </div>
