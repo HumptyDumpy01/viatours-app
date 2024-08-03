@@ -60,8 +60,8 @@ export default function AllTours(/*{ params }: AllToursInterface*/) {
         router.replace(`/tours?${newSearchParams.toString()}`);
       }
 
-      if (filterType) {
-        // console.log(`Executing filter: `, filter);
+      if (filterType && !filterSearch) {
+        console.log(`Executing filter: `, filter);
         // Fetch tours based on the filter
         // create an array of tags
         const type = filterType.split(',');
@@ -92,8 +92,8 @@ export default function AllTours(/*{ params }: AllToursInterface*/) {
         router.replace(`/tours?${newSearchParams.toString()}`);
       }
 
-      if (filterSearch) {
-        // console.log(`Executing filter: `, filter);
+      if (filterSearch && !filterType) {
+        console.log(`Executing filter: `, filter);
         // Fetch tours based on the filter
         // create an array of tags
         // const search = filterSearch.split(',');
@@ -121,6 +121,47 @@ export default function AllTours(/*{ params }: AllToursInterface*/) {
         // Remove the filter parameter from the URL
         const newSearchParams = new URLSearchParams(searchParams.toString());
         newSearchParams.delete('filter-search');
+        router.replace(`/tours?${newSearchParams.toString()}`);
+      }
+
+      if (filterSearch && filterType) {
+        // console.log(`Executing filter: `, filter);
+        // Fetch tours based on the filter
+        // create an array of tags
+        // const search = filterSearch.split(',');
+
+        let type;
+
+        if (filterType === `default`) {
+          type = `default`;
+        } else {
+          type = filterType.split(',');
+        }
+
+
+        fetch('http://localhost:3000/api/fetch-tours', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ filterSearch: filterSearch, filterType: type })
+        })
+          .then(response => response.json())
+          .then(data => {
+            setTours(data.tours);
+            setLoading(false);
+          })
+          .catch(error => {
+            console.error(`Failed to fetch tours: ${error}`);
+            setLoading(false);
+          });
+
+
+        ///////////////////////////////////////
+        // Remove the filter parameter from the URL
+        const newSearchParams = new URLSearchParams(searchParams.toString());
+        newSearchParams.delete('filter-search');
+        newSearchParams.delete('filter-type');
         router.replace(`/tours?${newSearchParams.toString()}`);
       }
 

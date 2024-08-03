@@ -12,6 +12,7 @@ import { useCartDispatch, useCartSelector } from '@/store/hooks';
 import { HeroSliceActions } from '@/store/heroSlice';
 import { TourInterface } from '@/data/DUMMY_TOURS';
 import useDebounce from '@/hooks/useDebounce';
+import { useRouter } from 'next/navigation';
 
 export default function Hero() {
   const locationIsOpen = useCartSelector((state) => state.hero.locationIsOpen);
@@ -19,9 +20,13 @@ export default function Hero() {
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
-  const input = useRef<HTMLInputElement>(null);
+
+  // @ts-ignore
+  const input = useRef<HTMLInputElement>(``);
   const dispatch = useCartDispatch();
   const loadingTimeout = useRef<NodeJS.Timeout>();
+
+  const router = useRouter();
 
   useEffect(() => {
     if (debouncedSearchTerm) {
@@ -31,11 +36,15 @@ export default function Hero() {
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    dispatch(HeroSliceActions.toggleLocation(false));
     const currObject = e.currentTarget;
     const formData = new FormData(currObject);
     const results = Object.fromEntries(formData.entries());
     currObject.reset();
     console.log(results);
+
+    router.push(`/tours?filter-search=${results.searchTerm}&filter-type=${results['tour-type']}`);
+
   }
 
   function handleOpenChooseLocation(searchTerm: string) {
@@ -78,7 +87,10 @@ export default function Hero() {
       <form onSubmit={handleSubmit} className="hero-form">
         <HeroHeading />
         <div className="hero__second-part flex">
-          {locationIsOpen && (<WhereToPopup inputVal={input.current!.value} isLoading={isLoading} tours={tours} />)}
+          {locationIsOpen && (
+            // @ts-ignore
+            <WhereToPopup inputVal={input.current.value} isLoading={isLoading}
+                          tours={tours} />)}
 
           <HeroInput icon={{
             src: pinIcon,
@@ -94,8 +106,10 @@ export default function Hero() {
                 onBlur={handleCloseChooseLocation}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 type="text"
+                // @ts-ignore
                 ref={input}
-                defaultValue={input.current?.value}
+                // @ts-ignore
+                defaultValue={input.current?.value ? input.current.value : ``}
                 name="searchTerm"
                 placeholder="Country, City, or Tour Name"
                 className="hero-input hero-input-destinations"

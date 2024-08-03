@@ -12,7 +12,7 @@ export async function POST(request: Request) {
 
   }
 
-  if (filterType) {
+  if (filterType && !filterSearch) {
     // console.log(`filterType from route.ts`, filterType);
 
     const tours = await getTours(9999, { type: { $in: filterType } }, 0);
@@ -21,8 +21,25 @@ export async function POST(request: Request) {
     return NextResponse.json({ tours });
   }
 
-  if (filterSearch) {
+  if (filterSearch && !filterType) {
     console.log(`filterSearch from route.ts`, filterSearch);
+
+    const tours = await getTours(9999, { $text: { $search: filterSearch } }, 0);
+    // console.log(tours);
+
+    return NextResponse.json({ tours });
+  }
+
+  if (filterType !== `default` && filterSearch) {
+    // console.log(`filterType and filterSearch from route.ts`, filterType, filterSearch);
+
+    const tours = await getTours(9999, { type: { $in: filterType }, $text: { $search: filterSearch } }, 0);
+    // console.log(tours);
+
+    return NextResponse.json({ tours });
+  }
+
+  if (filterType === `default` && filterSearch) {
 
     const tours = await getTours(9999, { $text: { $search: filterSearch } }, 0);
     // console.log(tours);
