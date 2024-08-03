@@ -13,7 +13,7 @@ export async function POST(request: Request) {
   console.log(`tourRatings from route.ts`, tourRatings);
 
   const tours = await filterTours(
-    searchTerm,
+    searchTerm ? searchTerm : `find-all-tours`,
     sort,
     tourType ? tourType : false,
     tourTags ? tourTags : false,

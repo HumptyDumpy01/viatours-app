@@ -433,6 +433,10 @@ filterTours(
     };
   }
 
+  let searchTermObj = {};
+  if (searchTerm !== `find-all-tours`) {
+    searchTermObj = { $text: { $search: searchTerm } };
+  }
 
   console.log(`Executing tourTypeObj: `, tourTypeObj);
 
@@ -440,7 +444,7 @@ filterTours(
     // IS FOR conjunction of:
 
     // INFO: 1. Search Term
-    { $match: { $text: { $search: searchTerm } } },
+    { $match: searchTermObj },
 
     // INFO sort by RATING (DEFAULT)
     { $sort: sort },
