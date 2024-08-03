@@ -8,11 +8,55 @@ import React, { FormEvent, useEffect, useRef, useState } from 'react';
 import SkeletonCardHorizontal from '@/components/skeletons/Card/SkeletonCardHorizontal';
 import '@/components/UI/Input/Input.scss';
 import '@/components/UI/Input/SearchInput.scss';
+import { useRouter, useSearchParams } from 'next/navigation';
 
-export default function AllTours(/*{  }: AllToursInterface*/) {
+
+export default function AllTours(/*{ params }: AllToursInterface*/) {
   const [tours, setTours] = useState([]);
   const [loading, setLoading] = useState(true);
+
   const searchInput = useRef<HTMLInputElement>(null);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const filter = searchParams.get('filter');
+
+  useEffect(() => {
+    try {
+
+      if (filter) {
+        console.log(`Executing filter: `, filter);
+        // Fetch tours based on the filter
+
+        fetch('http://localhost:3000/api/fetch-tours', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ filter: filter })
+        })
+          .then(response => response.json())
+          .then(data => {
+            setTours(data.tours);
+            setLoading(false);
+          })
+          .catch(error => {
+            console.error(`Failed to fetch tours: ${error}`);
+            setLoading(false);
+          });
+
+
+        ///////////////////////////////////////
+        // Remove the filter parameter from the URL
+        const newSearchParams = new URLSearchParams(searchParams.toString());
+        newSearchParams.delete('filter');
+        router.replace(`/tours?${newSearchParams.toString()}`);
+      } else {
+        console.log(`No filter parameter found`);
+      }
+    } catch (e) {
+      throw new Error(`Failed to filter by URl params: ${e}`);
+    }
+  }, [filter]);
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     try {
@@ -117,16 +161,18 @@ export default function AllTours(/*{  }: AllToursInterface*/) {
 
   // Fetch the tours
   useEffect(() => {
-    fetch('http://localhost:3000/api/fetch-tours')
-      .then(response => response.json())
-      .then(data => {
-        setTours(data.tours);
-        setLoading(false);
-      })
-      .catch(error => {
-        console.error(`Failed to fetch tours: ${error}`);
-        setLoading(false);
-      });
+    if (!filter) {
+      fetch('http://localhost:3000/api/fetch-tours')
+        .then(response => response.json())
+        .then(data => {
+          setTours(data.tours);
+          setLoading(false);
+        })
+        .catch(error => {
+          console.error(`Failed to fetch tours: ${error}`);
+          setLoading(false);
+        });
+    }
   }, []);
 
   function handleClearFilter() {

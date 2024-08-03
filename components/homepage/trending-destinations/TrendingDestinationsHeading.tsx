@@ -11,7 +11,7 @@ export default function TrendingDestinationsHeading(/*{  }: TrendingDestinations
       <span className="subheading">Newest</span>
       <div className="trending-destinations-heading-wrapper flex flex-space-between flex-align-center">
         <h2 className="secondary-heading heading-scale-effect">Newest destinations</h2>
-        <Link href={`/tours`} className="link">See all</Link>
+        <Link href={`/tours?filter=new`} className="link">See all</Link>
       </div>
     </>
   );
