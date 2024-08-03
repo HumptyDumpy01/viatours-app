@@ -8,7 +8,7 @@ export async function POST(request: Request) {
     tourType,
     tourTags,
     tourLanguages,
-    tourRatings
+    tourRatings,
   } = await request.json();
   console.log(`tourRatings from route.ts`, tourRatings);
 

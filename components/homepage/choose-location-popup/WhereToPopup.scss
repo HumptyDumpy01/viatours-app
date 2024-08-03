@@ -36,6 +36,7 @@
   }
 
   &__element, {
+    color: var(--clr-blue-lighter);
     text-decoration: none;
     &--search-all {
       gap: 1.1rem;

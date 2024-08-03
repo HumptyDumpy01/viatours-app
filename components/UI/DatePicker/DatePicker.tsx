@@ -21,8 +21,9 @@ export default function DatePicker({ className, ...props }: DatePickerProps) {
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <div className={className}>
         {/*// @ts-ignore*/}
-        <MobileDatePicker {...props} name={`date`} defaultValue={dayjs('2022-04-17')} value={value}
-                          onChange={(newValue) => setValue(newValue)} />
+        <MobileDatePicker  {...props} name={`date`} defaultValue={dayjs('2022-04-17')}
+                           value={value}
+                           onChange={(newValue) => setValue(newValue)} />
       </div>
     </LocalizationProvider>
   );

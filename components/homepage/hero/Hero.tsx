@@ -23,6 +23,8 @@ export default function Hero(/*{  }: HeroInterface*/) {
   const [tours, setTours] = useState<TourInterface[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  const input = useRef<HTMLInputElement>(null);
+
   const dispatch = useCartDispatch();
 
   // CHANGE IT TO A CUSTOM HOOK LATER
@@ -42,22 +44,30 @@ export default function Hero(/*{  }: HeroInterface*/) {
   // function handleOpenCalendar() {
   //   dispatch(HeroSliceActions.toggleCalendar(true));
   // }
+  const loadingTimeout = useRef<NodeJS.Timeout>();
+  const debouncingTimeout = useRef<NodeJS.Timeout>();
 
   function handleOpenChooseLocation(/*event: React.ChangeEvent<HTMLInputElement> | React.FocusEvent<HTMLInputElement>*/) {
+    setIsLoading(true);
     dispatch(HeroSliceActions.toggleLocation(true));
 
-    // TODO: FETCH TOURS
-    fetch('http://localhost:3000/api/fetch-tours', {
+    fetch('http://localhost:3000/api/filter-tours', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ filter: false })
+      body: JSON.stringify({ sort: `default`, searchTerm: input.current?.value ? input.current?.value : `` })
     })
       .then(response => response.json())
       .then(data => {
         setTours(data.tours);
-        setIsLoading(false);
+
+        clearTimeout(loadingTimeout.current);
+
+        loadingTimeout.current = setTimeout(function() {
+          setIsLoading(false);
+        }, 1000);
+
       })
       .catch(error => {
         console.error(`Failed to fetch tours: ${error}`);
@@ -83,7 +93,7 @@ export default function Hero(/*{  }: HeroInterface*/) {
       <form onSubmit={handleSubmit} className={`hero-form`}>
         <HeroHeading />
         <div className="hero__second-part flex">
-          {locationIsOpen && (<WhereToPopup isLoading={isLoading} tours={tours} />)}
+          {locationIsOpen && (<WhereToPopup inputVal={input.current!.value} isLoading={isLoading} tours={tours} />)}
 
           <HeroInput icon={{
             src: pinIcon,
@@ -98,6 +108,8 @@ export default function Hero(/*{  }: HeroInterface*/) {
                 onFocus={handleOpenChooseLocation}
                 onBlur={handleCloseChooseLocation}
                 onChange={handleOpenChooseLocation} type="text"
+                ref={input}
+                defaultValue={input.current?.value}
                 name="searchTerm"
                 placeholder="Country, City, or Tour Name"
                 className="hero-input hero-input-destinations" required />

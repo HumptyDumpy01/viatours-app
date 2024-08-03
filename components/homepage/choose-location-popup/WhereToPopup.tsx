@@ -12,18 +12,20 @@ import WhereToPopupSkeleton from '@/components/homepage/skeletons/WhereToPopupSk
 interface WhereToPopupInterface {
   tours: TourInterface[];
   isLoading: boolean;
+  inputVal: string;
   // children: ReactNode;
 }
 
-export default function WhereToPopup({ tours, isLoading }: WhereToPopupInterface) {
+export default function WhereToPopup({ tours, isLoading, inputVal }: WhereToPopupInterface) {
 
   const isEmpty = tours.length === 0;
 
-  const firstThreeTours = tours.slice(0, 3);
-  //each title should contain max 20 characters
-  firstThreeTours.forEach(function(tour) {
-    tour.title = tour.title.slice(0, 60);
-  });
+  // pick the first three tours with different countries
+  const firstThreeTours = tours.filter((tour, index, self) =>
+      index === self.findIndex((t) => (
+        t.country === tour.country
+      ))
+  ).slice(0, 3);
 
   return (
     <>
@@ -42,7 +44,7 @@ export default function WhereToPopup({ tours, isLoading }: WhereToPopupInterface
                 return (
                   <>
                     <WhereToElement
-                      href={`/tours/?filter-country=${tour.country}`}
+                      href={`/tours/?filter-search=${tour.country}`}
                       type={`location`}
                       country={`Location`} title={tour.country} />
                   </>
@@ -62,7 +64,9 @@ export default function WhereToPopup({ tours, isLoading }: WhereToPopupInterface
                   </>
                 );
               })}
-              <WhereToElement type={`search-all`} title={`All Tours`} />
+              {inputVal && (
+                <WhereToElement href={`/tours?filter-search=${inputVal}`} type={`search-all`} title={inputVal} />
+              )}
             </>
           )}
           {(!isLoading && isEmpty) && (

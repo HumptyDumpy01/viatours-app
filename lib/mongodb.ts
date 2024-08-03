@@ -376,7 +376,8 @@ filterTours(
   tourType?: string[],
   tourTags?: string[],
   tourLanguages?: string[],
-  tourRatings?: number[]) {
+  tourRatings?: number[]
+) {
 
   const client = await clientPromise;
   const db = client.db(`viatoursdb`);
@@ -416,7 +417,6 @@ filterTours(
   if (tourLanguages) {
     tourLanguagesObj = { languages: { $in: tourLanguages } };
   }
-
 
   let tourRatingsObj = {};
   if (tourRatings) {

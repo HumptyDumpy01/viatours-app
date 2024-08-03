@@ -22,6 +22,7 @@ type WhereToElementTour = {
 type WhereToElementSearch = {
   type: `search-all`;
   title: string;
+  href: string;
 }
 
 type WhereToElementInterface = WhereToElementLocation | WhereToElementTour | WhereToElementSearch;
@@ -66,7 +67,7 @@ export default function WhereToElement(props: WhereToElementInterface) {
   }
   if (props.type === `search-all`) {
     content = (
-      <div className="where-to-popup__element flex flex-align-center">
+      <Link href={props.href} className="where-to-popup__element flex flex-align-center">
         <div className="where-to-popup__location-icon-wrapper">
           <svg className="where-to-popup__search-icon" xmlns="http://www.w3.org/2000/svg" width="22" height="22"
                viewBox="0 0 22 22" fill="none">
@@ -79,7 +80,7 @@ export default function WhereToElement(props: WhereToElementInterface) {
               <span className="where-to-popup__element__data-see-all">See all results for &quot;<span
                 className="where-to-popup__element__data-span user-search-input">{props.title}</span>&quot;</span>
         </div>
-      </div>
+      </Link>
     );
   }
 

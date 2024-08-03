@@ -28,11 +28,11 @@ export default function DateCalendarValue({ className, usage }: DateCalendarValu
 
   return (
     <>
-      <div className={`${className}`}>
+      <dialog className={`${className}`}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DateCalendar value={value} onChange={(newValue) => setValue(newValue)} />
         </LocalizationProvider>
-      </div>
+      </dialog>
     </>
   );
 }
