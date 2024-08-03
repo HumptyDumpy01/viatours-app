@@ -6,63 +6,81 @@ import whereToImg3 from '../../../assets/images/homepage/where-to-popup/where-to
 import whereToImg4 from '../../../assets/images/homepage/where-to-popup/where-to-image-4.svg';
 import whereToImg5 from '../../../assets/images/homepage/where-to-popup/where-to-image-5.svg';
 import whereToImg6 from '../../../assets/images/homepage/where-to-popup/where-to-image-6.svg';
-
+// import lottie component
+// import Lottie from 'lottie-react';
+// import animation data
+// import animationData from '@/animations/loading-spinner.json';
 import './WhereToPopup.scss';
 import WhereToElement from '@/components/homepage/choose-location-popup/WhereToElement';
+import { TourInterface } from '@/data/DUMMY_TOURS';
+import WhereToPopupSkeleton from '@/components/homepage/skeletons/WhereToPopupSkeleton';
 
-/*interface WhereToPopupInterface {
+interface WhereToPopupInterface {
+  tours: TourInterface[];
+  isLoading: boolean;
   // children: ReactNode;
-}*/
-export default function WhereToPopup(/*{  }: WhereToPopupInterface*/) {
+}
+
+export default function WhereToPopup({ tours, isLoading }: WhereToPopupInterface) {
   return (
     <>
       <div className="where-to-popup">
         <div className="where-to-popup-wrapper">
-          <WhereToElement type={`location`} country={`France`} title={`Eiffel Tower`} />
-          <WhereToElement type={`location`} country={`France`} title={`Louvre Museum`} />
-          <WhereToElement
-            type={`tour`}
-            title={`Eiffel Tower Guided Climb with Optional Summit Access`}
-            country={`France`}
-            price={`32.98$`}
-            image={whereToImg1.src}
-          />
-          <WhereToElement
-            type={`tour`}
-            title={`Skip-the-Line Eiffel Tower Tour and Seine River Cruise`}
-            country={`France`}
-            price={`32.98$`}
-            image={whereToImg2.src}
-          />
-          <WhereToElement
-            type={`tour`}
-            title={`Eiffel Tower Dinner Experience with Summit Option`}
-            country={`France`}
-            price={`32.98$`}
-            image={whereToImg3.src}
-          />
-          <WhereToElement
-            type={`tour`}
-            title={`Eiffel Tower Night Tour with Optional Champagne Toast`}
-            country={`France`}
-            price={`32.98$`}
-            image={whereToImg4.src}
-          />
-          <WhereToElement
-            type={`tour`}
-            title={`Exclusive Eiffel Tower History Walk with Summit Access`}
-            country={`France`}
-            price={`32.98$`}
-            image={whereToImg5}
-          />
-          <WhereToElement
-            type={`tour`}
-            title={`Eiffel Tower Access to 2nd Floor and Summit Option with Host`}
-            country={`France`}
-            price={`32.98$`}
-            image={whereToImg6}
-          />
-          <WhereToElement type={`search-all`} title={`Eiffel`} />
+          {isLoading && (
+            <div className={`where-to-popup-loading-screen-container`}>
+              <WhereToPopupSkeleton />
+              <WhereToPopupSkeleton />
+            </div>
+          )}
+          {!isLoading && (
+            <>
+              <WhereToElement type={`location`} country={`France`} title={`Eiffel Tower`} />
+              <WhereToElement type={`location`} country={`France`} title={`Louvre Museum`} />
+              <WhereToElement
+                type={`tour`}
+                title={`Eiffel Tower Guided Climb with Optional Summit Access`}
+                country={`France`}
+                price={`32.98$`}
+                image={whereToImg1.src}
+              />
+              <WhereToElement
+                type={`tour`}
+                title={`Skip-the-Line Eiffel Tower Tour and Seine River Cruise`}
+                country={`France`}
+                price={`32.98$`}
+                image={whereToImg2.src}
+              />
+              <WhereToElement
+                type={`tour`}
+                title={`Eiffel Tower Dinner Experience with Summit Option`}
+                country={`France`}
+                price={`32.98$`}
+                image={whereToImg3.src}
+              />
+              <WhereToElement
+                type={`tour`}
+                title={`Eiffel Tower Night Tour with Optional Champagne Toast`}
+                country={`France`}
+                price={`32.98$`}
+                image={whereToImg4.src}
+              />
+              <WhereToElement
+                type={`tour`}
+                title={`Exclusive Eiffel Tower History Walk with Summit Access`}
+                country={`France`}
+                price={`32.98$`}
+                image={whereToImg5}
+              />
+              <WhereToElement
+                type={`tour`}
+                title={`Eiffel Tower Access to 2nd Floor and Summit Option with Host`}
+                country={`France`}
+                price={`32.98$`}
+                image={whereToImg6}
+              />
+              <WhereToElement type={`search-all`} title={`Eiffel`} />
+            </>
+          )}
         </div>
       </div>
     </>

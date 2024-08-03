@@ -10,11 +10,17 @@
   position: absolute;
   top: 8.2rem;
   left: 0;
-  width: 85rem;
+  width: 77rem;
   margin: 0 auto;
   border-radius: 12px;
   border: 1px solid var(--clr-silver);
   padding: 3rem 4.6rem;
+
+  &-loading-screen-container {
+    display: grid;
+    gap: 1.6rem;
+  }
+
   @media only screen and (max-width: 57.3125em) {
     width: 60rem;
     left: 2rem;
@@ -70,6 +76,7 @@
 
     &__data {
       text-align: left;
+      width: 100%;
 
       &-span {
         font-weight: 600;
