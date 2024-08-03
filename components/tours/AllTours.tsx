@@ -18,7 +18,7 @@ export default function AllTours(/*{ params }: AllToursInterface*/) {
   const searchInput = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const searchParams = useSearchParams();
-  const filter = searchParams.get('filter');
+  const filter = searchParams.get('filter') ? searchParams.get('filter') : null;
 
   useEffect(() => {
     try {
@@ -165,7 +165,13 @@ export default function AllTours(/*{ params }: AllToursInterface*/) {
   // Fetch the tours
   useEffect(() => {
     if (!filter) {
-      fetch('http://localhost:3000/api/fetch-tours')
+      fetch('http://localhost:3000/api/fetch-tours', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ filter: false })
+      })
         .then(response => response.json())
         .then(data => {
           setTours(data.tours);
@@ -180,7 +186,14 @@ export default function AllTours(/*{ params }: AllToursInterface*/) {
 
   function handleClearFilter() {
     setLoading(true);
-    fetch('http://localhost:3000/api/fetch-tours')
+    fetch('http://localhost:3000/api/fetch-tours', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ filter: false })
+
+    })
       .then(response => response.json())
       .then(data => {
         setTours(data.tours);

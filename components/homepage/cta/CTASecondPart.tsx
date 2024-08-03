@@ -13,7 +13,7 @@ export default function CTASecondPart(/*{  }: CTASecondPartInterface*/) {
           on your favorite
           Destinations</h2>
         <p className="paragraph paragraph-cta">Limited time offers, don&apos;t miss the opportunity</p>
-        <Link href={`/tours?filter=`} className="btn btn--cta">Search Now <span
+        <Link href={`/tours?filter=onsale:5-20,onsale:20-40,onsale:40-90`} className="btn btn--cta">Search Now <span
           className="icon-arr">&rarr;</span></Link>
       </div>
     </>
