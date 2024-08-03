@@ -108,6 +108,7 @@ export default function AllTours(/*{  }: AllToursInterface*/) {
         .catch(error => {
           console.error(`Failed to fetch tours: ${error}`);
           setLoading(false);
+          throw new Error(`Failed to fetch tours: ${error}`);
         });
     } catch (e) {
       throw new Error(`Failed to fetch tours: ${e}`);
