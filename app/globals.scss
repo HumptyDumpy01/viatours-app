@@ -170,6 +170,19 @@ li {
   line-height: 2.1rem;
   color: var(--clr-dark-blue);
 
+  &-container {
+    display: grid;
+    grid-template-columns: 10px auto;
+  }
+
+  &-error {
+    margin-bottom: 2.4rem;
+    color: var(--clr-strawberry-red);
+    font-size: 1.8rem;
+    font-weight: 600;
+
+  }
+
   &--descr {
     gap: .5rem;
     margin-left: 2.4rem;

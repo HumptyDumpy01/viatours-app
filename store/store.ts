@@ -3,6 +3,7 @@ import navigationSlice from '@/store/navigationSlice';
 import heroSlice from '@/store/heroSlice';
 import toastSlice from '@/store/ToastSlice';
 import tourSlice from '@/store/tourSlice';
+import checkoutSlice from '@/store/checkoutSlice';
 
 const store = configureStore({
   reducer: {
@@ -12,7 +13,8 @@ const store = configureStore({
     navigation: navigationSlice,
     hero: heroSlice,
     notification: toastSlice,
-    tour: tourSlice
+    tour: tourSlice,
+    checkout: checkoutSlice
   }
 });
 

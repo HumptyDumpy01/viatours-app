@@ -8,6 +8,7 @@ import TooltipPhone from '@/components/UI/Tooltip/TooltipPhone';
 import TooltipEmail from '@/components/UI/Tooltip/TooltipEmail';
 
 type LabelTelType = {
+  contactDetailsSubmitted: boolean;
   mode: `tel`;
   type: `text` | `password` | `email` | `number` | `tel`
   label: string;
@@ -18,6 +19,7 @@ type LabelTelType = {
 }
 
 type LabelInputType = {
+  contactDetailsSubmitted: boolean;
   mode: `default` | `questionMark`;
   type: `text` | `password` | `email` | `number` | `tel`
   name: string;
@@ -39,14 +41,16 @@ export default function LabelInput(props: LabelInputType) {
     }
   }
 
+  // book-now__details__input-success
   return (
     <>
       {props.mode !== `questionMark` && props.mode !== `tel` &&
         <>
           <label htmlFor={props.name}
                  className="book-now__details-label">{props.label}</label>
-          <input id={props.name} type={props.type} placeholder={props.placeholder}
-                 className="book-now__details__input" required />
+          <input id={props.name} type={props.type} name={props.name} placeholder={props.placeholder}
+                 className={`book-now__details__input ${props.contactDetailsSubmitted ? `book-now__details__input-success` : ``}`}
+                 required />
         </>
       }
       {props.mode === `questionMark` &&
@@ -71,12 +75,13 @@ export default function LabelInput(props: LabelInputType) {
             {/*<!-- A TOOLTIP FOR REGISTRATION PAGE ON EMAIL FIELD --> */}
             <TooltipEmail isHovered={emailQuestionMarkHovered} />
           </div>
-          <input id={props.name} type={props.type} placeholder={props.placeholder}
-                 className="book-now__details__input" required />
+          <input id={props.name} name={props.name} type={props.type} placeholder={props.placeholder}
+                 className={`book-now__details__input ${props.contactDetailsSubmitted ? `book-now__details__input-success` : ``}`}
+                 required />
         </>
       }
       {props.mode === 'tel' &&
-        <>
+        <div className={`flex flex-direction-column gap-13px`}>
           <div className="fix-phone-tooltip flex flex-align-center gap-sm">
             <label htmlFor={props.name}
                    className="book-now__details-label">{props.label}</label>
@@ -96,13 +101,16 @@ export default function LabelInput(props: LabelInputType) {
             <TooltipPhone isHovered={phoneQuestionMarkHovered} />
           </div>
           <div className="book-now__details-1__phone-number-start grid">
-            <div className="book-now__details-1__phone-number-start-container">
-              <SelectPhoneIndex />
+            <div
+              className={`book-now__details-1__phone-number-start-container 
+              ${props.contactDetailsSubmitted ? `book-now__details__input-success` : ``}`}>
+              <SelectPhoneIndex contactDetailsSubmitted={props.contactDetailsSubmitted} />
             </div>
-            <input id={props.name} type="tel" placeholder={props.placeholder}
-                   className="book-now__details__input" required />
+            <input id={props.name} name={props.name} type="tel" placeholder={props.placeholder}
+                   className={`book-now__details__input ${props.contactDetailsSubmitted ? `book-now__details__input-success` : ``}`}
+                   required />
           </div>
-        </>
+        </div>
       }
     </>
   );

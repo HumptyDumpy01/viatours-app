@@ -99,7 +99,7 @@ export default function CheckoutOverall({ tour, order }: CheckoutOverallType) {
           </div>
           <div className="book-now__overall__details-total-container flex flex-align-center flex-space-between">
             <h3 className="book-now__overall__details-total">Total Price</h3>
-            <span className="inline-block book-now__overall__details-total-price">${order.totalPrice}$</span>
+            <span className="inline-block book-now__overall__details-total-price">${order.totalPrice.toFixed(2)}$</span>
           </div>
         </div>
       </div>

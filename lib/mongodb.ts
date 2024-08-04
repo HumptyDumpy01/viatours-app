@@ -77,7 +77,6 @@ export async function getTourById(id: string, incViews?: boolean) {
   //   await db.collection(`tours`).updateOne({ _id: new ObjectId(id) }, { $inc: { views: 1 } });
   // }
 
-
   const tour = await db.collection('tours').aggregate([
     {
       $match: {

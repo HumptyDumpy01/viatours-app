@@ -47,6 +47,15 @@
         height: 6rem;
       }
 
+      &-success {
+        border: 1px solid #04f891 !important;
+        background-color: #f0fff7 !important;
+      }
+
+      &-select-tel {
+        background-color: #f0fff7 !important;
+      }
+
       &:focus {
         background-color: var(--clr-white);
         box-shadow: 0 0 0 2px var(--clr-primary);
@@ -92,6 +101,7 @@
       border-radius: 12px;
       border: 1px solid var(--clr-grey-3);
       padding-top: 2.8rem;
+      padding-bottom: 2.8rem;
       padding-left: 3.6rem;
       padding-right: 5.4rem;
       margin-bottom: 2.5rem;

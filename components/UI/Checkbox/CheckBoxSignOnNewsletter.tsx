@@ -11,7 +11,7 @@ export default function CheckBoxSignOnNewsletter(/*{  }: CheckBoxSignOnNewslette
     <>
       <div className="book-now__details-1__sub-on-newsletter-check">
         <div className="book-now__details-1__sub-on-newsletter-check-container cursor-pointer">
-          <input type="checkbox" id="newsletter-check"
+          <input type="checkbox" name={`getEmailsWithOffers`} id="newsletter-check"
                  className="book-now__details-1__sub-on-newsletter-check__checkbox" />
           <label htmlFor="newsletter-check"
                  className="book-now__details-1__sub-on-newsletter-check__label cursor-pointer">Get emails with special

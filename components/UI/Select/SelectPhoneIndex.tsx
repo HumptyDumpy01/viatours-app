@@ -1,14 +1,17 @@
 // 'use client';
 
-/*type SelectPhoneIndexType = {
+type SelectPhoneIndexType = {
+  contactDetailsSubmitted: boolean;
   // children: ReactNode;
-}*/
+}
 
-export default function SelectPhoneIndex(/*{  }: SelectPhoneIndexType*/) {
+export default function SelectPhoneIndex({ contactDetailsSubmitted }: SelectPhoneIndexType) {
   return (
     <>
       <label htmlFor={`phone-number-start`}></label>
-      <select name={`phone-number-start`} id={`phone-number-start`} required>
+      <select name={`countryCode`}
+              className={`${contactDetailsSubmitted ? `book-now__details__input-select-tel` : ``}`}
+              id={`phone-number-start`} required>
         <option value="1">(+1) USA</option>
         <option value="38">(+38) Ukraine</option>
         <option value="44">(+44) UK</option>

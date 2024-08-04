@@ -54,19 +54,11 @@ export default function SidebarForm({ price, priceForExtra, time, tourId }: Side
     }
 
     if (youthTickets === 0 && adultTickets === 0 && childrenTickets > 0) {
-      const addServicePerPerson = document.querySelector(`input[name="service_per_person"]`) as HTMLInputElement;
+      const addServicePerPerson = document.querySelector(`input[name="servicePerPerson"]`) as HTMLInputElement;
       addServicePerPerson.checked = false;
     }
   }, [adultTickets, youthTickets, childrenTickets]);
 
-
-  /* IMPORTANT: Outsource your entire form(!) with the useFormState as a standalone component.
-      add a prop, e.g. action, and pass this prop to your useFormState as the first arg.
-      Then add this form to your PostForm file, where you handle server action. Pass your server action
-      to this newly created component.   */
-
-  // Thus you would be able to use the error messages to inject them onto your form.
-  // const [state, formAction] = useFormState(YOUR_SERVER_ACTION, { errors: null });
 
   function toggleServicePerBooking() {
     if (totalPrice === 0) {

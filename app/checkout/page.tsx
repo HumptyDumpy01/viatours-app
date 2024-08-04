@@ -13,6 +13,7 @@ export default function CheckoutPage() {
   const [tour, setTour] = useState<TourInterface>();
   const [loading, setLoading] = useState(true);
 
+
   useEffect(() => {
     const orderData = localStorage.getItem('order');
     if (!orderData) {
@@ -26,6 +27,7 @@ export default function CheckoutPage() {
           throw new Error('Tour not found');
         }
         setTour(tour);
+        console.log(tour);
         setLoading(false);
       }).catch((error) => {
         console.error(error);

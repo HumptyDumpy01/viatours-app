@@ -155,7 +155,7 @@ export default function LeaveReply({ tourId }: LeaveReplyType) {
       <h2 className="secondary-heading margin-bottom-small">Leave a reply</h2>
       {formError.map(function(item) {
         return (
-          <p key={item} className="paragraph leave-a-reply-error">{item}</p>
+          <p key={item} className="paragraph paragraph-error">{item}</p>
         );
       })}
 

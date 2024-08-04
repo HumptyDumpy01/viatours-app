@@ -2,7 +2,7 @@
   padding: 1.7rem;
 
   &__content {
-    display: none;
+    //display: none;
   }
 
   &__activity-details {
@@ -74,7 +74,16 @@
       &-img {
         margin-bottom: 1rem;
         width: 100%;
+        height: 15.6rem;
         border-radius: 9px;
+        object-fit: cover;
+
+        &-container {
+          position: relative;
+          width: 22.8rem;
+          height: 15.6rem;
+          margin-bottom: 1rem;
+        }
       }
 
       &-extra-info {

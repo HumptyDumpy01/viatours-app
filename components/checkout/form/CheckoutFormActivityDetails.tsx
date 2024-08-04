@@ -1,7 +1,11 @@
-// 'use client';
+'use client';
+
 import '@/components/checkout/card/card-second-col/ActivityDetailsExtraInfo.scss';
 import TravellerInput from '@/components/checkout/TravellerInput';
 import { MeetingPointType } from '@/data/DUMMY_MEETING_POINTS';
+import { FormEvent, useState } from 'react';
+import { useCartDispatch } from '@/store/hooks';
+import { checkoutSliceActions } from '@/store/checkoutSlice';
 
 type CheckoutFormActivityDetailsType = {
   adultTickets: number;
@@ -20,18 +24,98 @@ export default function
                                 meetingPoint,
                                 languages
                               }: CheckoutFormActivityDetailsType) {
+  const dispatch = useCartDispatch();
+  const [formSubmitted, setFormSubmitted] = useState<boolean>(false);
+
+  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const currObject = e.currentTarget;
+    const formData = new FormData(currObject);
+    const results = Object.fromEntries(formData.entries()) as any;
+
+    let transformedResults: any = {
+      specialRequirements: results.specialRequirements.trim() ? results.specialRequirements : false,
+      tourLanguage: results.tourLanguage,
+      adults: [],
+      youths: [],
+      children: []
+    };
+
+
+    // this code works as expected and transforms the "results" object into the desired format
+    //IMPORTANT:  DO NOT MODIFY THIS CODE
+    Object.keys(results).forEach(key => {
+      if (key.startsWith('traveler') && key.includes('Adult')) {
+
+        const index = Number(key.match(/\d+/)![0]);
+
+        if (!transformedResults.adults[index - 1]) {
+          transformedResults.adults[index - 1] = {};
+        }
+
+        if (key.includes('LastName')) {
+          transformedResults.adults[index - 1].lastName = results[key];
+        } else {
+          transformedResults.adults[index - 1].firstName = results[key];
+        }
+
+      } else if (key.startsWith('traveler') && key.includes('Youth')) {
+        const index = Number(key.match(/\d+/)![0]);
+        if (!transformedResults.youths[index - 1]) {
+          transformedResults.youths[index - 1] = {};
+        }
+        if (key.includes('LastName')) {
+          transformedResults.youths[index - 1].lastName = results[key];
+        } else {
+          transformedResults.youths[index - 1].firstName = results[key];
+        }
+
+      } else if (key.startsWith('traveler') && key.includes('Child')) {
+
+        const index = Number(key.match(/\d+/)![0]);
+
+        if (!transformedResults.children[index - 1]) {
+          transformedResults.children[index - 1] = {};
+        }
+        if (key.includes('LastName')) {
+          transformedResults.children[index - 1].lastName = results[key];
+        } else {
+          transformedResults.children[index - 1].firstName = results[key];
+        }
+      }
+    });
+
+    dispatch(checkoutSliceActions.pushData({ type: `activity`, data: transformedResults }));
+    dispatch(checkoutSliceActions.setOpenPaymentDetails(true));
+    console.log(`Dispatched Activity Details data to store: `, transformedResults);
+    setFormSubmitted(true);
+    // console.log(transformedResults);
+  }
+
+  function setSubmitFormToFalse() {
+    setFormSubmitted(false);
+  }
 
   return (
     <>
-      <form action="#" className="book-now__details-2__form-traveller">
+      <form onSubmit={handleSubmit} className="book-now__details-2__form-traveller">
         {Array.from({ length: adultTickets }, (_, i) => (
-          <TravellerInput key={`adult-${i}`} traveler={`Adult`} index={i + 1} />
+          <div key={i} onClick={setSubmitFormToFalse}>
+            <TravellerInput formIsSubmitted={formSubmitted} key={`adult-${i}`} traveler={`Adult`}
+                            index={i + 1} />
+          </div>
         ))}
         {Array.from({ length: youthTickets }, (_, i) => (
-          <TravellerInput key={`youth-${i}`} traveler={`Youth`} index={i + 1} />
+          <div key={i} onClick={setSubmitFormToFalse}>
+            <TravellerInput formIsSubmitted={formSubmitted} key={`youth-${i}`} traveler={`Youth`}
+                            index={i + 1} />
+          </div>
         ))}
         {Array.from({ length: childrenTickets }, (_, i) => (
-          <TravellerInput key={`child-${i}`} traveler={`Child`} index={i + 1} />
+          <div key={i} onClick={setSubmitFormToFalse}>
+            <TravellerInput formIsSubmitted={formSubmitted} key={`child-${i}`} traveler={`Child`}
+                            index={i + 1} />
+          </div>
         ))}
 
         <div className="meeting-point-container">
@@ -44,15 +128,18 @@ export default function
                   fill="#EB662B" />
               </svg>
               <p
-                className="meeting-point__location__text color-blue-lighter">{meetingPoint.title}, {meetingPoint.city}({meetingPoint.state}, {meetingPoint.country})</p>
+                className="meeting-point__location__text color-blue-lighter">{meetingPoint.title}, {meetingPoint.city}({meetingPoint.state})</p>
             </div>
           </div>
         </div>
         <div className="extra-info-container">
           <div className="extra-info">
-            <div className="extra-info__tour-language grid">
+            <div className="extra-info__tour-language grid" onClick={setSubmitFormToFalse}>
               <h3 className="extra-info__tour-language__heading">Tour language</h3>
-              <select className={`tour-language`} name="tour-language" id="tour-language" required>
+              <select className={`tour-language
+               ${formSubmitted ? `book-now__details__input-success`
+                : ``}`} name="tourLanguage"
+                      id="tour-language" required>
                 <option value="">Choose</option>
                 {languages.map((language, index) => (
                   <option className={`extra-info__tour-language__text`} key={index} value={language}>{language}</option>
@@ -60,21 +147,24 @@ export default function
               </select>
             </div>
             <div className="extra-info__special-requirements-container">
-              <div className="extra-info__special-requirements">
+              <div className="extra-info__special-requirements" onClick={setSubmitFormToFalse}>
                 <h3 className="extra-info__special-requirements__heading">Special Requirements</h3>
 
                 <div className="flex flex-direction-column gap-13px">
                   <label htmlFor="special-requirements"></label>
-                  <input id="special-requirements" type="text"
+                  <input id="special-requirements" name={`specialRequirements`} type="text"
                          placeholder="e.g. dietary requirements, mobility issues"
-                         className="book-now__details__input" />
+                         className={`book-now__details__input 
+                         ${formSubmitted ? `book-now__details__input-success` :
+                           ``}`} />
                 </div>
               </div>
             </div>
           </div>
         </div>
         <div className="flex">
-          <button className="btn btn--next-activity-details contact-details-next" type="submit">Next</button>
+          <button className="btn btn--next-activity-details contact-details-next"
+                  type="submit">{!formSubmitted ? `Next` : `Save`}</button>
         </div>
       </form>
     </>
