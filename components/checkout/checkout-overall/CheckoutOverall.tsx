@@ -2,7 +2,7 @@
 import './CheckoutOverall.scss';
 import { TourInterface } from '@/data/DUMMY_TOURS';
 import { OrderInterface } from '@/components/checkout/checkout-details/CheckoutDetails';
-import Image from 'next/image';
+import { CldImage } from 'next-cloudinary';
 
 type CheckoutOverallType = {
   tour: TourInterface;
@@ -18,8 +18,10 @@ export default function CheckoutOverall({ tour, order }: CheckoutOverallType) {
         <div className="book-now__overall">
           <div className="book-now__overall__heading flex">
             <div className={`flex-align-center flex`}>
-              <Image src={tour.images[0]} alt={tour.title}
-                     className="book-now__overall__heading-img" />
+              <CldImage width={300} height={200} src={tour.images[0]} alt={tour.title}
+                        className="book-now__overall__heading-img" />
+              {/*<Image src={tour.images[0]} alt={tour.title}*/}
+              {/*       className="book-now__overall__heading-img" />*/}
               <h3 className="book-now__overall__heading-text">{tour.title}</h3>
             </div>
             <span className="book-now__overall__heading-price inline-block">${order.totalPrice}</span>

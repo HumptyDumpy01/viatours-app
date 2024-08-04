@@ -272,14 +272,15 @@ export default function SidebarForm({ price, priceForExtra, time, tourId }: Side
             Extra</h3>
           <div className="flex flex-column border-bottom">
             {/*<!--          // insert a checkbox input here, with the Add Service per booking text--> */}
-            <SidebarCheckbox disabled={totalPrice === 0} onClick={toggleServicePerBooking} name={`service_per_booking`}
+            <SidebarCheckbox disabled={totalPrice === 0} onClick={toggleServicePerBooking}
+                             name={`servicePerBooking`}
                              label={`Add Service per booking `}
                              servicePrice={priceForExtra.servicePerBooking}
             />
             <SidebarCheckbox disabled={youthTickets === 0 && adultTickets === 0 && childrenTickets === 0 ||
               youthTickets === 0 && adultTickets === 0 && childrenTickets > 0}
                              onClick={toggleServicePerPerson}
-                             name={`service_per_person`}
+                             name={`servicePerPerson`}
                              label={`Add Service per person `}
                              servicePrice={priceForExtra.servicePerPerson}
             />

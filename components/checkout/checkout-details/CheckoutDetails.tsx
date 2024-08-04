@@ -14,10 +14,10 @@ export type OrderInterface = {
   adultTickets: number;
   youthTickets: number;
   childrenTickets: number;
-  service_per_booking?: 'on';
-  service_per_person?: 'on';
+  servicePerBooking?: 'on';
+  servicePerPerson?: 'on';
   totalPrice: number;
-  tourId: number | string;
+  tourId: string;
 }
 
 export default function CheckoutDetails({ tour, order }: { tour: any, order: OrderInterface }) {

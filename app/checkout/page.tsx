@@ -3,48 +3,50 @@
 import React, { useEffect, useState } from 'react';
 import './page.scss';
 import CheckoutDetails, { OrderInterface } from '@/components/checkout/checkout-details/CheckoutDetails';
+import { getTourById } from '@/lib/mongodb';
+import { notFound } from 'next/navigation';
+import { TourInterface } from '@/data/DUMMY_TOURS';
 import CheckoutLoadingPage from '@/app/checkout/loading';
 
 export default function CheckoutPage() {
-
   const [order, setOrder] = useState<OrderInterface | null>(null);
-  const [loading, setLoading] = useState(true); // Step 1: Introduce a loading state
-
+  const [tour, setTour] = useState<TourInterface>();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setLoading(true); // Step 2: Set loading to true initially
-    async function fetchData() {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+    const orderData = localStorage.getItem('order');
+    if (!orderData) {
+      notFound();
+    } else {
+      const parsedOrder = JSON.parse(orderData);
+      setOrder(parsedOrder);
 
-      const orderData = localStorage.getItem('order');
-      if (orderData) {
-        setOrder(JSON.parse(orderData));
-      }
-      setLoading(false); // Step 4: Set loading to false after fetching data
+      getTourById(parsedOrder.tourId).then((tour) => {
+        if (!tour) {
+          throw new Error('Tour not found');
+        }
+        setTour(tour);
+        setLoading(false);
+      }).catch((error) => {
+        console.error(error);
+        setLoading(false);
+      });
     }
-
-    fetchData();
   }, []);
 
   if (loading) {
-    return <CheckoutLoadingPage />; // Step 3: Show loading page while fetching data
+    return <CheckoutLoadingPage />;
   }
 
-  if (!order) {
-    console.log('Order not found');
-    return null;
+  // TODO: ADD A SEPARATE PAGE FOR ERROR HANDLING
+  if (!order || !tour) {
+    return <div>Error loading order or tour data</div>;
   }
-
-  // const tour = DUMMY_TOURS.find((item) => item._id === order.tourId);
-
-  // if (!tour) {
-  //   throw new Error('Tour not found');
-  // }
 
   return (
     <section className="book-now-container">
       <div className="book-now grid container">
-        <CheckoutDetails tour={[]} order={order} />
+        <CheckoutDetails tour={tour} order={order} />
       </div>
     </section>
   );
