@@ -168,9 +168,9 @@ export default function CheckoutFormContactDetails() {
               />
             </div>
             <CheckBoxSignOnNewsletter />
-            {isContactDetailsEmpty && (
+            {(isContactDetailsEmpty && contactDetailsSubmitted) && (
               <>
-                <CheckoutBtn label={`Save`} />
+                <CheckoutBtn label={`Saved`} />
                 <div className={`paragraph-container`}>
                   <p className={`paragraph`}>*</p>
                   <p className={`paragraph`}>Contact Details are saved! If you want to update them, make
@@ -179,7 +179,7 @@ export default function CheckoutFormContactDetails() {
                 </div>
               </>
             )}
-            {!isContactDetailsEmpty && (
+            {(!contactDetailsSubmitted) && (
               <>
                 <CheckoutBtn label={`Next`} />
               </>

@@ -4,7 +4,7 @@ import '@/components/checkout/card/card-second-col/ActivityDetailsExtraInfo.scss
 import TravellerInput from '@/components/checkout/TravellerInput';
 import { MeetingPointType } from '@/data/DUMMY_MEETING_POINTS';
 import { FormEvent, useState } from 'react';
-import { useCartDispatch } from '@/store/hooks';
+import { useCartDispatch, useCartSelector } from '@/store/hooks';
 import { checkoutSliceActions } from '@/store/checkoutSlice';
 
 type CheckoutFormActivityDetailsType = {
@@ -26,6 +26,7 @@ export default function
                               }: CheckoutFormActivityDetailsType) {
   const dispatch = useCartDispatch();
   const [formSubmitted, setFormSubmitted] = useState<boolean>(false);
+  const isActivityDetailsEmpty = useCartSelector((state) => state.checkout.activityDetails !== null);
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -167,14 +168,27 @@ export default function
           </div>
         </div>
         <div className="flex flex-direction-column gap-sm">
-          <button className="btn btn--next-activity-details contact-details-next"
-                  type="submit">{!formSubmitted ? `Next` : `Saved`}</button>
-          {formSubmitted &&
+          {!formSubmitted && (
+            <>
+              <button className="btn btn--next-activity-details contact-details-next"
+                      type="submit">Next
+              </button>
+            </>
+          )}
+          {(formSubmitted && (
+            <>
+              <button className="btn btn--next-activity-details contact-details-next"
+                      type="submit">Saved
+              </button>
+            </>
+          ))}
+
+          {(formSubmitted || (!formSubmitted && !isActivityDetailsEmpty)) &&
             (
               <>
                 <div className={`paragraph-container`}>
                   <p className={`paragraph`}>*</p>
-                  <p className={`paragraph`}>Contact Details are saved! If you want to update them, make
+                  <p className={`paragraph`}>Activity Details are saved! If you want to update them, make
                     changes and click on the button
                     again.</p>
                 </div>
