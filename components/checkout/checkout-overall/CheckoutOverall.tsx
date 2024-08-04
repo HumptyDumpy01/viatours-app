@@ -24,7 +24,7 @@ export default function CheckoutOverall({ tour, order }: CheckoutOverallType) {
               {/*       className="book-now__overall__heading-img" />*/}
               <h3 className="book-now__overall__heading-text">{tour.title}</h3>
             </div>
-            <span className="book-now__overall__heading-price inline-block">${order.totalPrice}</span>
+            <span className="book-now__overall__heading-price inline-block">${order.totalPrice.toFixed(2)}</span>
           </div>
         </div>
         <div className="book-now__overall__details">

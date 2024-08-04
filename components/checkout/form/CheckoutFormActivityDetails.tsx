@@ -89,6 +89,10 @@ export default function
     dispatch(checkoutSliceActions.setOpenPaymentDetails(true));
     console.log(`Dispatched Activity Details data to store: `, transformedResults);
     setFormSubmitted(true);
+
+    // by this we scroll 300px down to the next section: Payment Details
+    window.scrollBy(0, 300);
+
     // console.log(transformedResults);
   }
 
@@ -162,9 +166,20 @@ export default function
             </div>
           </div>
         </div>
-        <div className="flex">
+        <div className="flex flex-direction-column gap-sm">
           <button className="btn btn--next-activity-details contact-details-next"
-                  type="submit">{!formSubmitted ? `Next` : `Save`}</button>
+                  type="submit">{!formSubmitted ? `Next` : `Saved`}</button>
+          {formSubmitted &&
+            (
+              <>
+                <div className={`paragraph-container`}>
+                  <p className={`paragraph`}>*</p>
+                  <p className={`paragraph`}>Contact Details are saved! If you want to update them, make
+                    changes and click on the button
+                    again.</p>
+                </div>
+              </>
+            )}
         </div>
       </form>
     </>
