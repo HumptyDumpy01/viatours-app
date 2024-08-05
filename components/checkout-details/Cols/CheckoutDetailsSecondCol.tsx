@@ -16,6 +16,8 @@ type CheckoutDetailsSecondColType = {
   youthTickets: number;
   totalTickets: number;
   totalPrice: number;
+  tourDiscount: false | number;
+  promoApplied: false | {};
   // children: ReactNode;
 }
 
@@ -28,7 +30,9 @@ export default function
                              youthTickets,
                              adultTickets,
                              totalTickets,
-                             totalPrice
+                             totalPrice,
+                             promoApplied,
+                             tourDiscount
                            }: CheckoutDetailsSecondColType) {
   return (
     <div className="thanks-for-purchase-col-2-container">
@@ -37,7 +41,7 @@ export default function
         <CheckoutDetailsHeading orderDate={orderDate} orderId={orderId} tourTitle={tourTitle} />
         <CheckoutDetailsTickets totalTickets={totalTickets} youthTickets={youthTickets}
                                 childrenTickets={childrenTickets} adultTickets={adultTickets} />
-        <CheckoutDetailsExtra />
+        <CheckoutDetailsExtra tourDiscount={tourDiscount} promoApplied={promoApplied} />
         <CheckoutDetailsTotalPrice totalPrice={totalPrice} />
       </div>
     </div>

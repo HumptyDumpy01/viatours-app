@@ -1,6 +1,7 @@
 // 'use client';
 
 import '@/app/checkout-details/page.scss';
+import Link from 'next/link';
 /*type CheckoutDetailsThanksForPurchaseType = {
   // children: ReactNode;
 }*/
@@ -16,9 +17,10 @@ export default function CheckoutDetailsThanksForPurchase(/*{  }: CheckoutDetails
           on
           your inbox</u> for further updates and travel information!</p>
       <div className="flex flex-align-center gap-25px margin-bottom-41px">
-        <button type="button" className="btn thanks-for-purchase__btn thanks-for-purchase__btn--1">Keep Shopping
-        </button>
-        <button type="button" className="btn thanks-for-purchase__btn thanks-for-purchase__btn--2">My Purchases
+        <Link href={`/tours`} type="button" className="btn thanks-for-purchase__btn thanks-for-purchase__btn--1">Keep
+          Shopping
+        </Link>
+        <button type="button" className="btn thanks-for-purchase__btn thanks-for-purchase__btn--2">Track Status
         </button>
       </div>
     </>
