@@ -58,6 +58,10 @@
   border-radius: 12px;
   margin-top: 3.2rem; /* mt-6 */
   cursor: pointer; /* cursor-pointer */
+  padding-top: 1.9rem; /* py-6 */
+  padding-bottom: 1.9rem; /* py-6 */
+  font-weight: 600;
+  font-size: 1.6rem; /* text-lg */
 }
 
 .submit-button:disabled {

@@ -16,6 +16,14 @@ type CheckoutFormActivityDetailsType = {
   // children: ReactNode;
 }
 
+export type transformedResultsType = {
+  specialRequirements: string | boolean;
+  tourLanguage: string;
+  adults: { firstName: string, lastName: string }[] | [];
+  youths: { firstName: string, lastName: string }[] | [];
+  children: { firstName: string, lastName: string }[] | [];
+}
+
 export default function
   CheckoutFormActivityDetails({
                                 adultTickets,
@@ -34,7 +42,7 @@ export default function
     const formData = new FormData(currObject);
     const results = Object.fromEntries(formData.entries()) as any;
 
-    let transformedResults: any = {
+    let transformedResults: transformedResultsType = {
       specialRequirements: results.specialRequirements.trim() ? results.specialRequirements : false,
       tourLanguage: results.tourLanguage,
       adults: [],
@@ -51,6 +59,7 @@ export default function
         const index = Number(key.match(/\d+/)![0]);
 
         if (!transformedResults.adults[index - 1]) {
+          // @ts-ignore
           transformedResults.adults[index - 1] = {};
         }
 
@@ -63,6 +72,7 @@ export default function
       } else if (key.startsWith('traveler') && key.includes('Youth')) {
         const index = Number(key.match(/\d+/)![0]);
         if (!transformedResults.youths[index - 1]) {
+          // @ts-ignore
           transformedResults.youths[index - 1] = {};
         }
         if (key.includes('LastName')) {
@@ -76,6 +86,7 @@ export default function
         const index = Number(key.match(/\d+/)![0]);
 
         if (!transformedResults.children[index - 1]) {
+          // @ts-ignore
           transformedResults.children[index - 1] = {};
         }
         if (key.includes('LastName')) {
@@ -88,7 +99,7 @@ export default function
 
     dispatch(checkoutSliceActions.pushData({ type: `activity`, data: transformedResults }));
     dispatch(checkoutSliceActions.setOpenPaymentDetails(true));
-    console.log(`Dispatched Activity Details data to store: `, transformedResults);
+    // console.log(`Dispatched Activity Details data to store: `, transformedResults);
     setFormSubmitted(true);
 
     // by this we scroll 300px down to the next section: Payment Details

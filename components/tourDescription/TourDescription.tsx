@@ -64,6 +64,7 @@ export default async function TourDescriptionSection({ params, tour, similarTour
                   tourId={tour._id}
                   time={tour.time}
                   price={tour.onSale.newPrice}
+                  tourMeetingPoint={tour.meetingPoint}
                   priceForExtra={tour.price.extra}
                 />
               </>
@@ -73,6 +74,7 @@ export default async function TourDescriptionSection({ params, tour, similarTour
                 <SidebarForm
                   tourId={tour._id}
                   time={tour.time}
+                  tourMeetingPoint={tour.meetingPoint}
                   price={tour.price}
                   priceForExtra={tour.price.extra}
                 />

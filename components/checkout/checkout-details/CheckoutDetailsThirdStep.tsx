@@ -9,6 +9,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
 import CheckoutFormPaymentDetails from '@/components/checkout/form/CheckoutFormPaymentDetails';
 import convertToCurrency from '@/lib/convertToCurrency';
+import { OrderInterface } from '@/components/checkout/checkout-details/CheckoutDetails';
 
 
 if (process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY === undefined) {
@@ -17,12 +18,12 @@ if (process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY === undefined) {
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
 
-/*type CheckoutDetailsThirdStepType = {
+type CheckoutDetailsThirdStepType = {
+  order: OrderInterface;
   // children: ReactNode;
-}*/
+}
 
-export default function CheckoutDetailsThirdStep(/*{  }: CheckoutDetailsThirdStepType*/) {
-  const amount = 1080.88;
+export default function CheckoutDetailsThirdStep({ order }: CheckoutDetailsThirdStepType) {
   const openPaymentDetails = useCartSelector((state) => !state.checkout.openPaymentDetails);
 
   return (
@@ -31,10 +32,10 @@ export default function CheckoutDetailsThirdStep(/*{  }: CheckoutDetailsThirdSte
       <div className={`book-now__details-3__content ${openPaymentDetails ? `hidden` : ``}`}>
         <Elements stripe={stripePromise} options={{
           mode: 'payment',
-          amount: convertToCurrency(amount),
+          amount: convertToCurrency(order.totalPrice),
           currency: 'usd'
         }}>
-          <CheckoutFormPaymentDetails amount={amount} />
+          <CheckoutFormPaymentDetails order={order} />
         </Elements>
       </div>
     </div>

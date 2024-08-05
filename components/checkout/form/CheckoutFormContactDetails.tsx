@@ -38,7 +38,7 @@ export default function CheckoutFormContactDetails() {
       body: JSON.stringify({ userEmail: results.email })
     });
     const userExistsData = await userExists.json() as { message: string, status: number, resp: boolean };
-    console.log(`userExistsData`, userExistsData);
+    // console.log(`userExistsData`, userExistsData);
 
 
     const typedResults: FormContactDetailsType = {

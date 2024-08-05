@@ -39,7 +39,7 @@ export default function MainNavigation(/*{  }: MainNavigationInterface*/) {
     // resetting the form
     currObject.reset();
     // output
-    console.log(results);
+    // console.log(results);
     // redirect to the search page
     router.push(`/tours?filter-search=${results.searchTerm}`);
   }

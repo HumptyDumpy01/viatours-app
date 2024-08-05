@@ -1,6 +1,6 @@
 export type MeetingPointType = {
   title: string;
-  location: { lat: number; lng: number };
+  location: { type: `Point`, coordinates: [number, number] };
   city: string;
   state: string;
   country: string;

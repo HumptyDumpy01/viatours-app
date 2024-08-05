@@ -27,7 +27,7 @@ export default function CheckoutDetails({ tour, order }: { tour: any, order: Ord
       <div className="book-now__details">
         <CheckoutDetailsFirstStep />
         <CheckoutDetailsSecondStep tour={tour} order={order} />
-        <CheckoutDetailsThirdStep />
+        <CheckoutDetailsThirdStep order={order} />
       </div>
       <div className="book-now__overall-container">
         <CheckoutOverall tour={tour} order={order} />

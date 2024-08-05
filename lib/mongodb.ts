@@ -2,6 +2,9 @@
 import { MongoClient, ObjectId, Timestamp } from 'mongodb';
 import { TourInterface } from '@/data/DUMMY_TOURS';
 import { revalidatePath } from 'next/cache';
+import { FormContactDetailsType } from '@/components/checkout/form/CheckoutFormContactDetails';
+import { transformedResultsType } from '@/components/checkout/form/CheckoutFormActivityDetails';
+import { OrderInterface } from '@/components/checkout/checkout-details/CheckoutDetails';
 
 // Extend the global interface
 // it resolves issues with the global variable missing type
@@ -148,7 +151,7 @@ export async function getTourById(id: string, incViews?: boolean) {
       }
     }
   ]).toArray();
-  console.log(`Executing tour: `, tour);
+  // console.log(`Executing tour: `, tour);
   return JSON.parse(JSON.stringify(tour))[0] as TourInterface;
 }
 
@@ -476,6 +479,16 @@ filterTours(
   ]).toArray();
   return JSON.parse(JSON.stringify(tours));
 
+
+}
+
+export async function createOrder(contactDetails: FormContactDetailsType,
+                                  activityDetails: transformedResultsType, order: OrderInterface) {
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+  console.log(`Executing contactDetails: `, contactDetails);
+  console.log(`Executing activityDetails: `, activityDetails);
+  console.log(`Executing order: `, order);
 
 }
 
