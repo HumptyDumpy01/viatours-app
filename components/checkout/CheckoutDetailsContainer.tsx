@@ -17,7 +17,6 @@ export default function CheckoutDetailsContainer(/*{  }: CheckoutDetailsContaine
   const [tour, setTour] = useState<TourInterface>();
   const [loading, setLoading] = useState(true);
 
-
   useEffect(() => {
     const orderData = localStorage.getItem('order');
     if (!orderData) {
@@ -48,6 +47,8 @@ export default function CheckoutDetailsContainer(/*{  }: CheckoutDetailsContaine
   if (!order || !tour) {
     return <div>Error loading order or tour data</div>;
   }
+
+
 
   return (
     <div className="book-now grid container">

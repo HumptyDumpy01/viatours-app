@@ -33,6 +33,8 @@ export default function ThanksForPurchase({ searchParams }: ThanksForPurchaseTyp
     orderId,
     orderDate
   } = searchParams;
+
+  /* TEMPORARY */
   console.log(`promoApplied: ${promoApplied}`);
   console.log(`promoApplied: ${typeof promoApplied}`);
   console.log(`tourDiscount: ${tourDiscount}`);
@@ -61,7 +63,8 @@ export default function ThanksForPurchase({ searchParams }: ThanksForPurchaseTyp
           totalPrice={Number(totalPrice)}
           tourTitle={tourTitle}
           orderId={orderId}
-          orderDate={orderDate} />
+          orderDate={orderDate}
+        />
       </div>
     </section>
   );

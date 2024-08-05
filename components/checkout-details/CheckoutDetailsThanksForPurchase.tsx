@@ -20,8 +20,9 @@ export default function CheckoutDetailsThanksForPurchase(/*{  }: CheckoutDetails
         <Link href={`/tours`} type="button" className="btn thanks-for-purchase__btn thanks-for-purchase__btn--1">Keep
           Shopping
         </Link>
-        <button type="button" className="btn thanks-for-purchase__btn thanks-for-purchase__btn--2">Track Status
-        </button>
+        <Link href={`/track-order`} type="button" className="btn thanks-for-purchase__btn thanks-for-purchase__btn--2">Track
+          Status
+        </Link>
       </div>
     </>
   );
