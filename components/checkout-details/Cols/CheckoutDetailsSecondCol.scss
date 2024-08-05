@@ -1,0 +1,127 @@
+.thanks-for-purchase-col-2 {
+  position: relative;
+
+  padding-left: 3.2rem;
+  padding-right: 5.2rem;
+  padding-bottom: 3.2rem;
+  padding-top: 4rem;
+
+  &-container {
+    border-radius: 12px;
+    border: 1px solid var(--clr-grey-3);
+    position: relative;
+    overflow: hidden;
+    width: 45rem;
+    @media only screen and (max-width: 53.75em) {
+      width: 90%;
+    }
+    @media only screen and (max-width: 33.8125em) {
+      justify-self: start;
+      width: 100%;
+    }
+    // add before and after pseudo elements to create the circular shapes
+    &::before {
+      content: '';
+      position: absolute;
+      top: -20rem;
+      left: -17rem;
+      width: 40rem;
+      height: 40rem;
+      background-color: var(--clr-primary);
+      border-radius: 50%;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: -20rem;
+      left: -15rem;
+      width: 40rem;
+      height: 40rem;
+      background-color: var(--clr-purple);
+      border-radius: 50%;
+      z-index: -1;
+    }
+  }
+
+  &__viatours-logo {
+    position: absolute;
+    top: 3rem;
+    right: 0;
+    width: 10.4rem;
+    height: 3.2rem;
+  }
+
+  &__heading {
+    color: var(--clr-blue-lighter);
+    //color: var(--clr-white);
+    font-size: 4rem;
+    font-weight: 700;
+    letter-spacing: -.04rem;
+    margin-bottom: 3.2rem;
+
+    &-2 {
+      color: var(--clr-blue-lighter);
+      //color: var(--clr-white);
+      font-size: 3.2rem;
+      font-weight: 700;
+      margin-bottom: 2rem;
+      letter-spacing: -.04rem;
+    }
+  }
+
+  &__order-text,
+  &__date-text {
+    font-size: 1.9rem;
+    font-weight: 700;
+    letter-spacing: -.019rem;
+    margin-bottom: 1rem;
+  }
+
+
+  &__order-number,
+  &__date-number {
+    color: var(--clr-blue-lighter);
+    font-size: 1.9rem;
+    font-weight: 600;
+    letter-spacing: -.019rem;
+  }
+
+  &__date-text {
+  }
+
+  &__date-number {
+  }
+
+  &__tour-title {
+    color: var(--clr-blue-lighter);
+    font-size: 1.7645rem;
+    font-weight: 600;
+    line-height: 2.3rem; /* 130.345% */
+    letter-spacing: -.0176rem;
+  }
+
+  &__extras {
+    margin-top: 3.2rem;
+    border-bottom: 1px solid #E5E5E5;
+    padding-bottom: 2.35rem;
+    margin-bottom: 2.8rem;
+
+    &-total {
+      color: var(--clr-blue-lighter);
+      font-size: 2.4rem;
+      font-weight: 700;
+      letter-spacing: -.03rem;
+
+      &__price {
+        color: var(--clr-primary);
+        font-size: 2rem;
+        font-weight: 700;
+        letter-spacing: -.02rem;
+      }
+    }
+  }
+
+  &__promo-code {
+  }
+}

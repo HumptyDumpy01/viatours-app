@@ -569,6 +569,10 @@ img {
   gap: 1rem;
 }
 
+.gap-25px {
+  gap: 2.5rem;
+}
+
 .on-alpha {
   color: var(--clr-silver-dark) !important;
 }
@@ -1042,4 +1046,20 @@ b {
   width: 14rem;
   margin-left: -2rem;
   //height: 15rem;
+}
+
+.margin-bottom-41px {
+  margin-bottom: 4.1rem;
+}
+
+.color-white {
+  color: var(--clr-white) !important;
+}
+
+.margin-bottom-34px {
+  margin-bottom: 3.4rem;
+}
+
+.margin-bottom-4px {
+  margin-bottom: .4rem;
 }

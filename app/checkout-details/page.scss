@@ -1,0 +1,102 @@
+.thanks-for-purchase {
+  grid-template-columns: repeat(2, 1fr);
+  max-width: 109.5rem;
+  padding: 0 3.2rem;
+  margin: 0 auto;
+  gap: 7.8rem;
+  justify-content: center;
+  @media only screen and (max-width: 53.75em) {
+    grid-template-columns: 1fr;
+    justify-content: center;
+    justify-items: center;
+  }
+
+  &-container {
+    margin-top: 4.8rem;
+    margin-bottom: 3.2rem;
+    padding-left: 3.2rem;
+    padding-right: 3.2rem;
+    @media only screen and (max-width: 33.8125em) {
+      padding-left: 1.2rem;
+      padding-right: 1.2rem;
+    }
+  }
+
+  &-col-1 {
+    margin-top: 4.1rem;
+    margin-bottom: 4.1rem;
+  }
+
+  &__heading {
+    color: var(--clr-blue-lighter);
+    font-size: 7.8rem;
+
+    @media only screen and (max-width: 28.125em) {
+      font-size: 7rem;
+    }
+    font-weight: 700;
+    line-height: 7.5rem; /* 96.154% */
+    letter-spacing: -.078rem;
+    margin-bottom: 2.8rem;
+  }
+
+  &__text {
+    color: var(--clr-blue-lighter);
+    font-size: 1.6rem;
+    line-height: 2.3rem; /* 143.75% */
+    letter-spacing: -.016rem;
+    margin-bottom: 4.3rem;
+  }
+
+  &__btn {
+    padding: 2.5rem 2.7rem;
+
+    &--1 {
+      background: var(--clr-primary);
+      color: var(--clr-white);
+      font-size: 1.6rem;
+      font-weight: 600;
+      transition: all 0.3s;
+
+      &:hover, &:active {
+        background: var(--clr-primary-lighter);
+      }
+    }
+
+    &--2 {
+      background: var(--clr-white);
+      color: var(--clr-primary);
+      font-size: 1.6rem;
+      font-weight: 600;
+      border: 1px solid var(--clr-primary);
+      transition: all 0.4s;
+
+      &:hover, &:active {
+        //background-color: var(--clr-purple);
+        color: var(--clr-purple);
+        border: 1px solid var(--clr-purple);
+      }
+    }
+
+  }
+
+  ///////////////////////
+  &__support {
+    gap: 1rem;
+
+    &-phone {
+      gap: .8rem;
+    }
+
+    &-chat-now {
+      gap: .8rem;
+    }
+
+    &-chat-now-btn {
+      background-color: var(--clr-white);
+      color: var(--clr-primary);
+      font-size: 1.6rem;
+      font-weight: 600;
+    }
+  }
+}
