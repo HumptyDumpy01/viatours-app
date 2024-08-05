@@ -8,16 +8,16 @@ import CheckoutDetailsTotalPrice from '@/components/checkout-details/CheckoutDet
 import CheckoutDetailsExtra from '@/components/checkout-details/CheckoutDetailsExtra';
 
 type CheckoutDetailsSecondColType = {
-  orderId: string;
-  orderDate: string;
-  tourTitle: string;
-  adultTickets: number;
-  childrenTickets: number;
-  youthTickets: number;
-  totalTickets: number;
-  totalPrice: number;
-  tourDiscount: false | number;
-  promoApplied: false | {};
+  promoApplied: false | {},
+  tourDiscount: false | number,
+  totalTickets: number,
+  adultTickets: number,
+  childrenTickets: number,
+  youthTickets: number,
+  totalPrice: number,
+  tourTitle: string,
+  orderId: string,
+  orderDate: string
   // children: ReactNode;
 }
 
@@ -41,7 +41,8 @@ export default function
         <CheckoutDetailsHeading orderDate={orderDate} orderId={orderId} tourTitle={tourTitle} />
         <CheckoutDetailsTickets totalTickets={totalTickets} youthTickets={youthTickets}
                                 childrenTickets={childrenTickets} adultTickets={adultTickets} />
-        <CheckoutDetailsExtra tourDiscount={tourDiscount} promoApplied={promoApplied} />
+        <CheckoutDetailsExtra tourDiscount={tourDiscount}
+                              promoApplied={promoApplied} />
         <CheckoutDetailsTotalPrice totalPrice={totalPrice} />
       </div>
     </div>
