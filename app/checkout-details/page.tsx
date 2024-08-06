@@ -17,6 +17,11 @@ export default async function ThanksForPurchase({ searchParams }: ThanksForPurch
     orderId
   } = searchParams;
 
+  // if no params are passed
+  if (!orderId) {
+    notFound();
+  }
+
   const fetchedOrder = await fetch(`http://localhost:3000/api/handle-order`, {
     method: 'POST',
     headers: {
