@@ -24,11 +24,20 @@ type SidebarFormType = {
   };
   time: string[];
   tourId: string;
+  tourTitle: string;
   tourMeetingPoint: {};
   // children: ReactNode;
 }
 
-export default function SidebarForm({ price, priceForExtra, time, tourId, tourMeetingPoint }: SidebarFormType) {
+export default function
+  SidebarForm({
+                price,
+                priceForExtra,
+                time,
+                tourId,
+                tourMeetingPoint,
+                tourTitle
+              }: SidebarFormType) {
   const navigate = useRouter();
   // extract the current tour id
 
@@ -219,7 +228,9 @@ export default function SidebarForm({ price, priceForExtra, time, tourId, tourMe
     const data = {
       ...results,
       totalPrice,
-      tourId
+      tourId,
+      meetingPoint: tourMeetingPoint,
+      tourTitle: tourTitle
     };
 
 

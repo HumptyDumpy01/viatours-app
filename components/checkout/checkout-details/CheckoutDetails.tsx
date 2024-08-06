@@ -7,6 +7,7 @@ import CheckoutDetailsSecondStep from '@/components/checkout/checkout-details/Ch
 import CheckoutDetailsThirdStep from '@/components/checkout/checkout-details/CheckoutDetailsThirdStep';
 import CheckoutOverall from '@/components/checkout/checkout-overall/CheckoutOverall';
 import BookWithConfidence from '@/components/UI/Layout/BookWithConfidence';
+import { MeetingPointType } from '@/data/DUMMY_MEETING_POINTS';
 
 export type OrderInterface = {
   date: string;
@@ -18,6 +19,8 @@ export type OrderInterface = {
   servicePerPerson?: 'on';
   totalPrice: number;
   tourId: string;
+  tourTitle: string;
+  meetingPoint: MeetingPointType;
 }
 
 export default function CheckoutDetails({ tour, order }: { tour: any, order: OrderInterface }) {

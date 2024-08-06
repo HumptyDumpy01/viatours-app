@@ -194,7 +194,7 @@ export default function
             </>
           ))}
 
-          {(formSubmitted || (!formSubmitted && !isActivityDetailsEmpty)) &&
+          {(formSubmitted || (formSubmitted && !isActivityDetailsEmpty)) &&
             (
               <>
                 <div className={`paragraph-container`}>

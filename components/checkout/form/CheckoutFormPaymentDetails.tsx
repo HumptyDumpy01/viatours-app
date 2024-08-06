@@ -57,8 +57,6 @@ export default function CheckoutFormPaymentDetails({ order }: CheckoutFormPaymen
       return;
     }
 
-    // TODO: making a request to db to save the payment details
-
     const createdOrder = await fetch('/api/create-order', {
       method: 'POST',
       headers: {
@@ -67,26 +65,67 @@ export default function CheckoutFormPaymentDetails({ order }: CheckoutFormPaymen
       body: JSON.stringify({ contactDetails, activityDetails, order })
     });
 
-    const orderData = await createdOrder.json();
+    // returns acknowledged and _id
+    const newOrder = await createdOrder.json() as {
+      message: string;
+      results: { acknowledged: boolean; insertedId: string; }
+    };
 
-    if (orderData.error) {
-      setErrorMessage(orderData.error);
+    console.log(`Executing orderId: `, newOrder);
+
+    if (!newOrder.results.acknowledged) {
+      setErrorMessage(newOrder.message);
       setLoading(false);
       return;
     }
 
+    // fetch the newly created order
+    const fetchedOrder = await fetch(`http://localhost:3000/api/handle-order`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      // in a body tag wer simply define the data that should be submitted
+      body: JSON.stringify({ perform: 'fetchById', id: newOrder.results.insertedId })
+    });
+
+    const fetchedOrderData = await fetchedOrder.json();
+    console.log(`Fetched Order: `, fetchedOrderData);
+
+    // transform ISO date to a readable date
 
     const { error } = await stripe.confirmPayment({
       elements,
       clientSecret,
       confirmParams: {
-        return_url: `http://localhost:3000/checkout-details?amount=${order.totalPrice}&promoApplied=false&tourDiscount=
-        false&totalTickets=1&adultTickets=1&childrenTickets=0&youthTickets=0&totalPrice=${orderData.totalPrice}&tourTitle=Tour N&orderId=4242j&orderDate=2022-01-01`
+        return_url: `http://localhost:3000/checkout-details?amount=${fetchedOrderData.order.booking.totalPrice}&promoApplied=${fetchedOrderData.order.extraDetails.promoApplied}&tourDiscount=
+        ${fetchedOrderData.order.extraDetails.tourDiscount}&totalTickets=${fetchedOrderData.order.booking.tickets.overall}
+        &adultTickets=${fetchedOrderData.order.booking.tickets.adultTickets}&childrenTickets=${fetchedOrderData.order.booking.tickets.childrenTickets}
+        &youthTickets=${fetchedOrderData.order.booking.tickets.youthTickets}&totalPrice=${fetchedOrderData.order.booking.totalPrice}
+        &tourTitle=${fetchedOrderData.order.tourTitle}&orderId=${fetchedOrderData.order._id}
+        &orderDate=${new Date(fetchedOrderData.order.booking.date).toLocaleDateString()}`
       }
     });
 
+    // check if stripe.confirmPayment returns a success
+
+
     if (error) {
       setErrorMessage(error.message);
+    }
+
+    const updateStatus = await fetch(`http://localhost:3000/api/handle-order`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ perform: 'changeStatus', id: newOrder.results.insertedId })
+    });
+
+    const updatedOrder = await updateStatus.json();
+
+    if (!updatedOrder) {
+      setErrorMessage('Failed to update order status.');
     }
 
     setLoading(false);

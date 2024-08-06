@@ -72,12 +72,16 @@
 
   &__order-text,
   &__date-text {
+    color: var(--clr-blue-lighter);
     font-size: 1.9rem;
     font-weight: 700;
     letter-spacing: -.019rem;
     margin-bottom: 1rem;
   }
 
+  &__order-number {
+    margin-bottom: 1.6rem;
+  }
 
   &__order-number,
   &__date-number {
