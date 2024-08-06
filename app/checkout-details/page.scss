@@ -12,6 +12,12 @@
   }
 
   &-container {
+    animation-name: moveInBottom;
+    animation-duration: 2s;
+    //animation-delay: 0.2s;
+    /*animation-iteration-count: 2;*/
+    animation-timing-function: ease-out;
+
     margin-top: 4.8rem;
     margin-bottom: 3.2rem;
     padding-left: 3.2rem;
