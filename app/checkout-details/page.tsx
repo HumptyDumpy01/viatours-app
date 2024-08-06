@@ -76,6 +76,14 @@ export default function ThanksForPurchase({ searchParams }: ThanksForPurchaseTyp
       }
       setOrderData(fetchedOrderData);
 
+      // TODO: email the user about the order
+      const sendEmail = await fetch(`http://localhost:3000/api/send-email`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
       if (fetchedOrderData.order.extraDetails.state.status === `pending`) {
 
         // update the status to paid
