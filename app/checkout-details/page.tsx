@@ -1,9 +1,13 @@
-// 'use client';
+'use client';
+
 import './page.scss';
 import '@/components/checkout-details/Cols/CheckoutDetailsSecondCol.scss';
 import CheckoutDetailsFirstCol from '@/components/checkout-details/Cols/CheckoutDetailsFirstCol';
 import CheckoutDetailsSecondCol from '@/components/checkout-details/Cols/CheckoutDetailsSecondCol';
-import { notFound } from 'next/navigation';
+import { notFound, useRouter } from 'next/navigation';
+import { useCartDispatch } from '@/store/hooks';
+import { useEffect, useState } from 'react';
+import { checkoutSliceActions } from '@/store/checkoutSlice';
 
 type ThanksForPurchaseType = {
   searchParams: {
@@ -12,48 +16,95 @@ type ThanksForPurchaseType = {
   // children: ReactNode;
 }
 
-export default async function ThanksForPurchase({ searchParams }: ThanksForPurchaseType) {
+export default function ThanksForPurchase({ searchParams }: ThanksForPurchaseType) {
   const {
     orderId
   } = searchParams;
+  const dispatch = useCartDispatch();
+
+  const [orderData, setOrderData] = useState<{
+    order: {
+      _id: string,
+      booking: {
+        tickets: {
+          overall: number,
+          adultTickets: number,
+          youthTickets: number,
+          childrenTickets: number
+        },
+        date: string,
+        totalPrice: number
+      },
+      extraDetails: {
+        promoApplied: boolean,
+        tourDiscount: number,
+        createdAt: string,
+        state: {
+          status: string
+        }
+      },
+      tourTitle: string
+    }
+  }>();
+  const [loading, setLoading] = useState<boolean>(true);
+  const router = useRouter();
 
   // if no params are passed
   if (!orderId) {
     notFound();
   }
 
-  const fetchedOrder = await fetch(`http://localhost:3000/api/handle-order`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ perform: 'fetchById', id: new Object(orderId) })
-  });
+  useEffect(() => {
 
-  const fetchedOrderData = await fetchedOrder.json();
+    dispatch(checkoutSliceActions.clearCheckoutForms());
 
-  if (!fetchedOrderData) {
-    notFound();
-  }
+    async function handleOrder() {
+      const fetchedOrder = await fetch(`http://localhost:3000/api/handle-order`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ perform: 'fetchById', id: new Object(orderId) })
+      });
 
-  if (fetchedOrderData.order.extraDetails.state.status === `pending`) {
+      const fetchedOrderData = await fetchedOrder.json();
 
-    // update the status to paid
-    const updateStatus = await fetch(`http://localhost:3000/api/handle-order`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ perform: 'changeStatus', id: new Object(orderId) })
-    });
+      if (!fetchedOrderData) {
+        setLoading(false);
+        notFound();
+      }
+      setOrderData(fetchedOrderData);
 
-    if (!updateStatus) {
-      throw new Error(`Failed to update order status.`);
+      if (fetchedOrderData.order.extraDetails.state.status === `pending`) {
+
+        // update the status to paid
+        const updateStatus = await fetch(`http://localhost:3000/api/handle-order`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ perform: 'changeStatus', id: new Object(orderId) })
+        });
+
+        if (!updateStatus) {
+          setLoading(false);
+          throw new Error(`Failed to update order status.`);
+        }
+
+        console.log(fetchedOrderData.order, `fetchedOrderData`);
+        console.log(`updateStatus`, updateStatus.json());
+
+      }
     }
 
-    console.log(fetchedOrderData.order, `fetchedOrderData`);
-    console.log(`updateStatus`, updateStatus.json());
+    handleOrder();
 
+    setLoading(false);
+
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
   }
 
 
@@ -63,18 +114,22 @@ export default async function ThanksForPurchase({ searchParams }: ThanksForPurch
         <div className="thanks-for-purchase-col-1">
           <CheckoutDetailsFirstCol />
         </div>
-        <CheckoutDetailsSecondCol
-          promoApplied={fetchedOrderData.order.extraDetails.promoApplied}
-          tourDiscount={fetchedOrderData.order.extraDetails.tourDiscount}
-          totalTickets={fetchedOrderData.order.booking.tickets.overall}
-          adultTickets={fetchedOrderData.order.booking.tickets.adultTickets}
-          youthTickets={fetchedOrderData.order.booking.tickets.youth}
-          childrenTickets={fetchedOrderData.order.booking.tickets.childrenTickets}
-          totalPrice={fetchedOrderData.order.booking.totalPrice}
-          tourTitle={fetchedOrderData.order.tourTitle}
-          orderId={fetchedOrderData.order._id}
-          orderDate={fetchedOrderData.order.booking.date}
-        />
+        {orderData && (
+          <>
+            <CheckoutDetailsSecondCol
+              promoApplied={orderData.order.extraDetails.promoApplied}
+              tourDiscount={orderData.order.extraDetails.tourDiscount}
+              totalTickets={orderData.order.booking.tickets.overall}
+              adultTickets={orderData.order.booking.tickets.adultTickets}
+              youthTickets={orderData.order.booking.tickets.youthTickets}
+              childrenTickets={orderData.order.booking.tickets.childrenTickets}
+              totalPrice={orderData.order.booking.totalPrice}
+              tourTitle={orderData.order.tourTitle}
+              orderId={orderData.order._id}
+              orderDate={new Date(orderData.order.extraDetails.createdAt).toLocaleString()}
+            />
+          </>
+        )}
       </div>
     </section>
   );

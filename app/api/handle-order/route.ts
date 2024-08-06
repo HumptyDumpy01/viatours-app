@@ -19,6 +19,10 @@ export async function POST(request: NextRequest) {
 
       return NextResponse.json({ order, message: 'Order status changed to paid.' });
     }
+    if (perform === `deletion`) {
+      await handleOrder(perform, id);
+      return NextResponse.json({ message: 'Order deleted successfully.' });
+    }
 
   } catch (e) {
     throw new Error(`Failed to handle the order! ${e}`);

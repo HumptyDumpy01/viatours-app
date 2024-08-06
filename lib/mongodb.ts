@@ -651,6 +651,15 @@ export async function handleOrder(perform: `deletion` | `changeStatus` | `fetchB
       return updatedOrder;
 
     }
+
+    if (perform === `deletion`) {
+      const deleteOrder = await db.collection(`orders`).deleteOne({ _id: new ObjectId(id) });
+
+      if (!deleteOrder) {
+        new Error(`Failed to delete the order with the id ${id}`);
+      }
+    }
+
   } catch (e) {
     throw new Error(`Failed to handle the order! ${e}`);
   }

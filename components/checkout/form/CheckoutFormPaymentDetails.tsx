@@ -3,7 +3,7 @@ import convertToCurrency from '@/lib/convertToCurrency';
 import React, { useEffect, useState } from 'react';
 import { PaymentElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import classes from './CheckoutFormPaymentDetails.module.scss';
-import { useCartDispatch, useCartSelector } from '@/store/hooks';
+import { useCartSelector } from '@/store/hooks';
 import { OrderInterface } from '@/components/checkout/checkout-details/CheckoutDetails';
 
 type CheckoutFormPaymentDetailsType = {
@@ -18,7 +18,6 @@ export default function CheckoutFormPaymentDetails({ order }: CheckoutFormPaymen
   const [clientSecret, setClientSecret] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
 
-  const dispatch = useCartDispatch();
   const contactDetails = useCartSelector((state) => state.checkout.contactDetails);
   const activityDetails = useCartSelector((state) => state.checkout.activityDetails);
 
@@ -83,7 +82,7 @@ export default function CheckoutFormPaymentDetails({ order }: CheckoutFormPaymen
       body: JSON.stringify({ perform: 'fetchById', id: newOrder.results.insertedId })
     });
 
-    const fetchedOrderData = await fetchedOrder.json();
+    // const fetchedOrderData = await fetchedOrder.json();
 
     // throw new Error(`ERROR!`);
 
@@ -99,23 +98,16 @@ export default function CheckoutFormPaymentDetails({ order }: CheckoutFormPaymen
       setErrorMessage(error.message);
       setLoading(false);
 
-      // TODO: Write logic to delete the order if payment fails
+
+      const deleteOrder = await fetch(`http://localhost:3000/api/handle-order`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ perform: 'deletion', id: newOrder.results.insertedId })
+      });
 
       return;
-    }
-
-    const updateStatus = await fetch(`http://localhost:3000/api/handle-order`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ perform: 'changeStatus', id: newOrder.results.insertedId })
-    });
-
-    const updatedOrder = await updateStatus.json();
-
-    if (!updatedOrder) {
-      setErrorMessage('Failed to update order status.');
     }
 
     setLoading(false);
