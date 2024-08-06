@@ -8,6 +8,7 @@ import { notFound, useRouter } from 'next/navigation';
 import { useCartDispatch } from '@/store/hooks';
 import { useEffect, useState } from 'react';
 import { checkoutSliceActions } from '@/store/checkoutSlice';
+import LoadingCheckoutDetails from '@/app/checkout-details/loading';
 
 type ThanksForPurchaseType = {
   searchParams: {
@@ -104,7 +105,7 @@ export default function ThanksForPurchase({ searchParams }: ThanksForPurchaseTyp
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <LoadingCheckoutDetails />;
   }
 
 
@@ -114,7 +115,7 @@ export default function ThanksForPurchase({ searchParams }: ThanksForPurchaseTyp
         <div className="thanks-for-purchase-col-1">
           <CheckoutDetailsFirstCol />
         </div>
-        {orderData && (
+        {(orderData && !loading) && (
           <>
             <CheckoutDetailsSecondCol
               promoApplied={orderData.order.extraDetails.promoApplied}

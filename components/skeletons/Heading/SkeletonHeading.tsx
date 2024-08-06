@@ -12,13 +12,23 @@ type SkeletonHeadingType = {
   amount: number;
   marginTop?: number | string;
   marginBottom?: number | string;
+  animation?: `wave` | `pulse` | false;
 }
 
-export default function SkeletonHeading({ width, amount, height, marginTop, marginBottom }: SkeletonHeadingType) {
+export default function
+  SkeletonHeading({
+                    width,
+                    amount,
+                    height,
+                    marginTop,
+                    marginBottom,
+                    animation
+                  }: SkeletonHeadingType) {
   return (
     <div className={classes[`skeleton-heading`]} style={{ marginTop: marginTop, marginBottom: marginBottom }}>
       {[...Array(amount)].map((_, index) => (
-        <Skeleton key={index} variant="rounded" sx={{ width: width, height: height }} />
+        <Skeleton animation={animation ? animation : `pulse`} key={index} variant="rounded"
+                  sx={{ width: width, height: height }} />
       ))}
       {/*<Skeleton variant="rounded" sx={{ width: '50%', height: 30 }} />*/}
     </div>
