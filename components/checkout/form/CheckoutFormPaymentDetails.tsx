@@ -26,7 +26,6 @@ export default function CheckoutFormPaymentDetails({ order }: CheckoutFormPaymen
     throw new Error('Failed to get form details!');
   }
 
-
   useEffect(() => {
     fetch('/api/create-payment-intent', {
       method: 'POST',
@@ -65,13 +64,10 @@ export default function CheckoutFormPaymentDetails({ order }: CheckoutFormPaymen
       body: JSON.stringify({ contactDetails, activityDetails, order })
     });
 
-    // returns acknowledged and _id
     const newOrder = await createdOrder.json() as {
       message: string;
       results: { acknowledged: boolean; insertedId: string; }
     };
-
-    console.log(`Executing orderId: `, newOrder);
 
     if (!newOrder.results.acknowledged) {
       setErrorMessage(newOrder.message);
@@ -79,39 +75,33 @@ export default function CheckoutFormPaymentDetails({ order }: CheckoutFormPaymen
       return;
     }
 
-    // fetch the newly created order
     const fetchedOrder = await fetch(`http://localhost:3000/api/handle-order`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      // in a body tag wer simply define the data that should be submitted
       body: JSON.stringify({ perform: 'fetchById', id: newOrder.results.insertedId })
     });
 
     const fetchedOrderData = await fetchedOrder.json();
-    console.log(`Fetched Order: `, fetchedOrderData);
 
-    // transform ISO date to a readable date
+    // throw new Error(`ERROR!`);
 
     const { error } = await stripe.confirmPayment({
       elements,
       clientSecret,
       confirmParams: {
-        return_url: `http://localhost:3000/checkout-details?amount=${fetchedOrderData.order.booking.totalPrice}&promoApplied=${fetchedOrderData.order.extraDetails.promoApplied}&tourDiscount=
-        ${fetchedOrderData.order.extraDetails.tourDiscount}&totalTickets=${fetchedOrderData.order.booking.tickets.overall}
-        &adultTickets=${fetchedOrderData.order.booking.tickets.adultTickets}&childrenTickets=${fetchedOrderData.order.booking.tickets.childrenTickets}
-        &youthTickets=${fetchedOrderData.order.booking.tickets.youthTickets}&totalPrice=${fetchedOrderData.order.booking.totalPrice}
-        &tourTitle=${fetchedOrderData.order.tourTitle}&orderId=${fetchedOrderData.order._id}
-        &orderDate=${new Date(fetchedOrderData.order.booking.date).toLocaleDateString()}`
+        return_url: `http://localhost:3000/checkout-details?orderId=${newOrder.results.insertedId}`
       }
     });
 
-    // check if stripe.confirmPayment returns a success
-
-
     if (error) {
       setErrorMessage(error.message);
+      setLoading(false);
+
+      // TODO: Write logic to delete the order if payment fails
+
+      return;
     }
 
     const updateStatus = await fetch(`http://localhost:3000/api/handle-order`, {
@@ -129,7 +119,6 @@ export default function CheckoutFormPaymentDetails({ order }: CheckoutFormPaymen
     }
 
     setLoading(false);
-
   }
 
   if (!clientSecret || !stripe || !elements) {

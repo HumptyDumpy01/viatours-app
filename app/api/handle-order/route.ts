@@ -20,7 +20,6 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ order, message: 'Order status changed to paid.' });
     }
 
-    return NextResponse.json({ message: 'Hello from the API!' });
   } catch (e) {
     throw new Error(`Failed to handle the order! ${e}`);
   }

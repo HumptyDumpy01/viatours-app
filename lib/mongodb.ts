@@ -643,6 +643,10 @@ export async function handleOrder(perform: `deletion` | `changeStatus` | `fetchB
       const updatedTour =
         await db.collection(`tours`).updateOne({ _id: new ObjectId(order!.tourId) }, { $inc: { booked: 1 } });
 
+      if (updatedTour) {
+        new Error(`Failed to update the tour with the id ${order!.tourId}`);
+      }
+
       revalidatePath(`/`, `layout`);
       return updatedOrder;
 
