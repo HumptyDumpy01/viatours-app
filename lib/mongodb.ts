@@ -593,6 +593,8 @@ export async function createOrder(contactDetails: FormContactDetailsType,
 
   const createdOrder = await db.collection(`orders`).insertOne(transformedOrder);
 
+  console.log(`Executing createdOrder: `, createdOrder);
+
   if (!createdOrder) {
     throw new Error(`Failed to create an order!`);
   } else {
