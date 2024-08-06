@@ -8,20 +8,20 @@ import React, { FormEvent, useEffect, useRef, useState } from 'react';
 import SkeletonCardHorizontal from '@/components/skeletons/Card/SkeletonCardHorizontal';
 import '@/components/UI/Input/Input.scss';
 import '@/components/UI/Input/SearchInput.scss';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import { AllToursInterface } from '@/app/tours/page';
 
-
-export default function AllTours(/*{ params }: AllToursInterface*/) {
+export default function AllTours({ searchParams }: AllToursInterface) {
   const [tours, setTours] = useState([]);
   const [loading, setLoading] = useState(true);
 
+
   const searchInput = useRef<HTMLInputElement>(null);
   const router = useRouter();
-  const searchParams = useSearchParams();
 
-  const filter = searchParams.get('filter') ? searchParams.get('filter') : null;
-  const filterType = searchParams.get('filter-type') ? searchParams.get('filter-type') : null;
-  const filterSearch = searchParams.get('filter-search') ? searchParams.get('filter-search') : null;
+  const filter = searchParams.filter ? searchParams.filter : null;
+  const filterType = searchParams[`filter-type`] ? searchParams[`filter-type`] : null;
+  const filterSearch = searchParams[`filter-search`] ? searchParams[`filter-search`] : null;
 
   // console.log(`filterCountry`, filterCountry);
 
