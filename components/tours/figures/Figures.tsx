@@ -12,9 +12,10 @@ import NoItemsFound from '@/components/UI/Layout/NoItems/NoItemsFound';
 interface FiguresInterface {
   tours: TourInterface[];
   clearFilters: () => void;
+  loading: boolean;
 }
 
-export default function Figures({ tours, clearFilters }: FiguresInterface) {
+export default function Figures({ tours, loading, clearFilters }: FiguresInterface) {
 
   // define how many tours to show per page
   const toursPerPage = 6;
@@ -59,45 +60,45 @@ export default function Figures({ tours, clearFilters }: FiguresInterface) {
           <SkeletonCardHorizontal />
         </div>
       )}*/}
-      {(currentTours.length === 0) && (
+      {(!loading && currentTours.length === 0) && (
         <>
           <FiguresHeader summarizedResults={tours.length} />
           <NoItemsFound clearFilters={handleClearFilters} />
         </>
       )}
-        {(currentTours.length > 0) && (
-          <>
-            <FiguresHeader summarizedResults={tours.length} />
-            <div className="all-tours__content__figures__figure-container">
-              {currentTours.map((tour) => (
-                <Figure
-                  key={tour._id}
-                  href={tour._id}
-                  imgSrc={tour.images[0]}
-                  imgAlt={tour.title}
-                  info={[{
-                    country: tour.country,
-                    city: tour.city,
-                    heading: tour.title,
-                    rating: tour.rating.overall,
-                    ratingCount: tour.reviews,
-                    duration: tour.duration,
-                    price: tour.price.children,
-                    overview: tour.overview,
-                    onSale: tour.onSale
-                  }]} />
-              ))}
-            </div>
+      {(currentTours.length > 0 && !loading) && (
+        <>
+          <FiguresHeader summarizedResults={tours.length} />
+          <div className="all-tours__content__figures__figure-container">
+            {currentTours.map((tour) => (
+              <Figure
+                key={tour._id}
+                href={tour._id}
+                imgSrc={tour.images[0]}
+                imgAlt={tour.title}
+                info={[{
+                  country: tour.country,
+                  city: tour.city,
+                  heading: tour.title,
+                  rating: tour.rating.overall,
+                  ratingCount: tour.reviews,
+                  duration: tour.duration,
+                  price: tour.price.children,
+                  overview: tour.overview,
+                  onSale: tour.onSale
+                }]} />
+            ))}
+          </div>
 
-            <Pagination
-              // handleSetLoading={() => setLoading(true)}
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-              totalItems={tours.length}
-              itemsPerPage={toursPerPage}
-            />
-          </>
-        )}
+          <Pagination
+            // handleSetLoading={() => setLoading(true)}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            totalItems={tours.length}
+            itemsPerPage={toursPerPage}
+          />
+        </>
+      )}
     </>
   );
 }

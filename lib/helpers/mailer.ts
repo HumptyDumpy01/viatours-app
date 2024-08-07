@@ -18,16 +18,17 @@ type SendEmailProps = {
   recipients: Mail.Address[];
   subject: string;
   message: string;
+  html?: string;
 }
 
 export const sendEmail = async (props: SendEmailProps) => {
-  const { sender, recipients, subject, message } = props;
+  const { sender, recipients, subject, html, message } = props;
 
   return await transporter.sendMail({
     from: sender,
     to: recipients,
     subject,
-    html: message,
+    html: html ? html : message,
     text: message
   });
 };

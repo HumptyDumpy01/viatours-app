@@ -29,6 +29,7 @@ export default function AllTours({ searchParams }: AllToursInterface) {
     try {
 
       if (filter) {
+        setLoading(true);
         // console.log(`Executing filter: `, filter);
         // Fetch tours based on the filter
         // create an array of tags
@@ -61,6 +62,7 @@ export default function AllTours({ searchParams }: AllToursInterface) {
       }
 
       if (filterType && !filterSearch) {
+        setLoading(true);
         // console.log(`Executing filter: `, filter);
         // Fetch tours based on the filter
         // create an array of tags
@@ -93,6 +95,7 @@ export default function AllTours({ searchParams }: AllToursInterface) {
       }
 
       if (filterSearch && !filterType) {
+        setLoading(true);
         // console.log(`Executing filter: `, filter);
         // Fetch tours based on the filter
         // create an array of tags
@@ -125,6 +128,7 @@ export default function AllTours({ searchParams }: AllToursInterface) {
       }
 
       if (filterSearch && filterType) {
+        setLoading(true);
         // console.log(`Executing filter: `, filter);
         // Fetch tours based on the filter
         // create an array of tags
@@ -352,7 +356,7 @@ export default function AllTours({ searchParams }: AllToursInterface) {
               <SkeletonCardHorizontal />
             </div>
           )}
-          {!loading && <Figures clearFilters={handleClearFilter} tours={tours} />}
+          {!loading && <Figures loading={loading} clearFilters={handleClearFilter} tours={tours} />}
         </div>
       </div>
     </form>

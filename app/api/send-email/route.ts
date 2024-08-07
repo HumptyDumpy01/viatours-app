@@ -16,7 +16,8 @@ export async function POST(request: NextRequest) {
       sender,
       recipients,
       subject: 'Order Confirmation',
-      message: 'Thank you for your order!'
+      message: 'Thank you for your order!',
+      
     });
 
     return Response.json({
