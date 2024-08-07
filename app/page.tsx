@@ -16,6 +16,7 @@ import { TourInterface } from '@/data/DUMMY_TOURS';
 import NewestDestinationsSkeleton from '@/components/homepage/skeletons/NewestDestinationsSkeleton';
 import FindPopularToursSkeleton from '@/components/homepage/skeletons/FindPopularToursSkeleton';
 import SkeletonCardFull from '@/components/skeletons/Card/SkeletonCardFull';
+import FormCompTemp from '@/app/FormCompTemp';
 
 
 async function GetTrendingDestinations() {
@@ -60,8 +61,10 @@ async function GetFeaturedTours() {
 }
 
 export default async function Home() {
+
   return (
     <main>
+      {/*<FormCompTemp />*/}
       <section className="hero flex flex-column">
         <HeroWrapper />
       </section>

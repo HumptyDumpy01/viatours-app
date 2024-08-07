@@ -76,14 +76,6 @@ export default function ThanksForPurchase({ searchParams }: ThanksForPurchaseTyp
       }
       setOrderData(fetchedOrderData);
 
-      // TODO: email the user about the order
-      const sendEmail = await fetch(`http://localhost:3000/api/send-email`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-
       if (fetchedOrderData.order.extraDetails.state.status === `pending`) {
 
         // update the status to paid
@@ -102,6 +94,30 @@ export default function ThanksForPurchase({ searchParams }: ThanksForPurchaseTyp
 
         console.log(fetchedOrderData.order, `fetchedOrderData`);
         console.log(`updateStatus`, updateStatus.json());
+
+        // TODO: email the user about the order
+        const sendEmail = await fetch(`http://localhost:3000/api/send-email`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            order: {
+              ...fetchedOrderData.order,
+              extraDetails: {
+                ...fetchedOrderData.order.extraDetails,
+                state: {
+                  status: `booked`,
+                  confirmed: true,
+                  paid: true,
+                  refunded: false,
+                  cancelled: false
+                }
+              }
+            }
+          })
+        });
+
 
       }
     }
