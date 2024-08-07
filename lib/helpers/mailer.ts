@@ -4,14 +4,13 @@ import Mail from 'nodemailer/lib/mailer';
 
 const transporter = nodemailer.createTransport({
   host: process.env.MAIL_HOST,
-  port: process.env.MAIL_POST,
+  port: process.env.MAIL_PORT,
   secure: process.env.NODE_ENV === 'production',
   auth: {
     user: process.env.MAIL_USER,
     pass: process.env.MAIL_PASS
   }
 } as SMTPTransport.Options);
-
 
 type SendEmailProps = {
   sender: Mail.Address;
