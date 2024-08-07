@@ -25,6 +25,27 @@ export default function AllTours({ searchParams }: AllToursInterface) {
 
   // console.log(`filterCountry`, filterCountry);
 
+  function handleFetchTours(filter: unknown) {
+
+    fetch('http://localhost:3000/api/fetch-tours', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(filter)
+    })
+      .then(response => response.json())
+      .then(data => {
+        setTours(data.tours);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error(`Failed to fetch tours: ${error}`);
+        setLoading(false);
+      });
+  }
+
+
   useEffect(() => {
     try {
 
@@ -35,30 +56,7 @@ export default function AllTours({ searchParams }: AllToursInterface) {
         // create an array of tags
         const tags = filter.split(',');
 
-
-        fetch('http://localhost:3000/api/fetch-tours', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ filter: tags })
-        })
-          .then(response => response.json())
-          .then(data => {
-            setTours(data.tours);
-            setLoading(false);
-          })
-          .catch(error => {
-            console.error(`Failed to fetch tours: ${error}`);
-            setLoading(false);
-          });
-
-
-        ///////////////////////////////////////
-        // Remove the filter parameter from the URL
-        const newSearchParams = new URLSearchParams(searchParams.toString());
-        newSearchParams.delete('filter');
-        router.replace(`/tours?${newSearchParams.toString()}`);
+        handleFetchTours({ filter: tags });
       }
 
       if (filterType && !filterSearch) {
@@ -68,63 +66,13 @@ export default function AllTours({ searchParams }: AllToursInterface) {
         // create an array of tags
         const type = filterType.split(',');
 
-
-        fetch('http://localhost:3000/api/fetch-tours', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ filterType: type })
-        })
-          .then(response => response.json())
-          .then(data => {
-            setTours(data.tours);
-            setLoading(false);
-          })
-          .catch(error => {
-            console.error(`Failed to fetch tours: ${error}`);
-            setLoading(false);
-          });
-
-
-        ///////////////////////////////////////
-        // Remove the filter parameter from the URL
-        const newSearchParams = new URLSearchParams(searchParams.toString());
-        newSearchParams.delete('filter-type');
-        router.replace(`/tours?${newSearchParams.toString()}`);
+        handleFetchTours({ filterType: type });
       }
 
       if (filterSearch && !filterType) {
         setLoading(true);
-        // console.log(`Executing filter: `, filter);
-        // Fetch tours based on the filter
-        // create an array of tags
-        // const search = filterSearch.split(',');
 
-
-        fetch('http://localhost:3000/api/fetch-tours', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ filterSearch: filterSearch })
-        })
-          .then(response => response.json())
-          .then(data => {
-            setTours(data.tours);
-            setLoading(false);
-          })
-          .catch(error => {
-            console.error(`Failed to fetch tours: ${error}`);
-            setLoading(false);
-          });
-
-
-        ///////////////////////////////////////
-        // Remove the filter parameter from the URL
-        const newSearchParams = new URLSearchParams(searchParams.toString());
-        newSearchParams.delete('filter-search');
-        router.replace(`/tours?${newSearchParams.toString()}`);
+        handleFetchTours({ filterSearch: filterSearch });
       }
 
       if (filterSearch && filterType) {
@@ -142,31 +90,7 @@ export default function AllTours({ searchParams }: AllToursInterface) {
           type = filterType.split(',');
         }
 
-
-        fetch('http://localhost:3000/api/fetch-tours', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ filterSearch: filterSearch, filterType: type })
-        })
-          .then(response => response.json())
-          .then(data => {
-            setTours(data.tours);
-            setLoading(false);
-          })
-          .catch(error => {
-            console.error(`Failed to fetch tours: ${error}`);
-            setLoading(false);
-          });
-
-
-        ///////////////////////////////////////
-        // Remove the filter parameter from the URL
-        const newSearchParams = new URLSearchParams(searchParams.toString());
-        newSearchParams.delete('filter-search');
-        newSearchParams.delete('filter-type');
-        router.replace(`/tours?${newSearchParams.toString()}`);
+        handleFetchTours({ filterSearch: filterSearch, filterType: type });
       }
 
       ///////////////////////////////////////
@@ -281,46 +205,14 @@ export default function AllTours({ searchParams }: AllToursInterface) {
   useEffect(() => {
 
     if (!filter && !filterType && !filterSearch) {
-
-      fetch('http://localhost:3000/api/fetch-tours', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ filter: false })
-      })
-        .then(response => response.json())
-        .then(data => {
-          setTours(data.tours);
-          setLoading(false);
-        })
-        .catch(error => {
-          console.error(`Failed to fetch tours: ${error}`);
-          setLoading(false);
-        });
+      handleFetchTours({ filter: false });
     }
   }, []);
 
   function handleClearFilter() {
 
     setLoading(true);
-    fetch('http://localhost:3000/api/fetch-tours', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ filter: false })
-
-    })
-      .then(response => response.json())
-      .then(data => {
-        setTours(data.tours);
-        setLoading(false);
-      })
-      .catch(error => {
-        console.error(`Failed to fetch tours: ${error}`);
-        setLoading(false);
-      });
+    handleFetchTours({ filter: false });
 
     // Uncheck all checkboxes
     const checkboxes = document.querySelectorAll('input[type="checkbox"]');
