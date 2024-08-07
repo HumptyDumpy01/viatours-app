@@ -48,7 +48,6 @@ export default function ThanksForPurchase({ searchParams }: ThanksForPurchaseTyp
     }
   }>();
   const [loading, setLoading] = useState<boolean>(true);
-  const router = useRouter();
 
   // if no params are passed
   if (!orderId) {
@@ -60,7 +59,7 @@ export default function ThanksForPurchase({ searchParams }: ThanksForPurchaseTyp
     dispatch(checkoutSliceActions.clearCheckoutForms());
 
     async function handleOrder() {
-      const fetchedOrder = await fetch(`http://localhost:3000/api/handle-order`, {
+      const fetchedOrder = await fetch(`/api/handle-order`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -79,7 +78,7 @@ export default function ThanksForPurchase({ searchParams }: ThanksForPurchaseTyp
       if (fetchedOrderData.order.extraDetails.state.status === `pending`) {
 
         // update the status to paid
-        const updateStatus = await fetch(`http://localhost:3000/api/handle-order`, {
+        const updateStatus = await fetch(`/api/handle-order`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -96,7 +95,7 @@ export default function ThanksForPurchase({ searchParams }: ThanksForPurchaseTyp
         console.log(`updateStatus`, updateStatus.json());
 
         // TODO: email the user about the order
-        const sendEmail = await fetch(`http://localhost:3000/api/send-email`, {
+        const sendEmail = await fetch(`/api/send-email`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

@@ -41,7 +41,7 @@ export default function FormCompTemp(/*{  }: formCompTempType*/) {
   async function handleSendEmail() {
     setLoading(true);
     // TODO: email the user about the order
-    const sendEmail = await fetch(`http://localhost:3000/api/send-email`, {
+    const sendEmail = await fetch(`/api/send-email`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

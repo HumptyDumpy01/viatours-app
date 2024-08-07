@@ -75,7 +75,7 @@ export default function CheckoutFormPaymentDetails({ order }: CheckoutFormPaymen
       return;
     }
 
-    const fetchedOrder = await fetch(`http://localhost:3000/api/handle-order`, {
+    const fetchedOrder = await fetch(`/api/handle-order`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -91,7 +91,8 @@ export default function CheckoutFormPaymentDetails({ order }: CheckoutFormPaymen
       elements,
       clientSecret,
       confirmParams: {
-        return_url: `http://localhost:3000/checkout-details?orderId=${newOrder.results.insertedId}`
+        // IMPORTANT: CHANGE THE STARTING URL TO THE PRODUCTION URL WHEN DEPLOYING
+        return_url: `https://viatours-web-app.lcl.host:44354/checkout-details?orderId=${newOrder.results.insertedId}`
       }
     });
 
@@ -100,7 +101,7 @@ export default function CheckoutFormPaymentDetails({ order }: CheckoutFormPaymen
       setLoading(false);
 
 
-      const deleteOrder = await fetch(`http://localhost:3000/api/handle-order`, {
+      const deleteOrder = await fetch(`/api/handle-order`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

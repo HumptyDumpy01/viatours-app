@@ -51,7 +51,7 @@ export default function Hero() {
     setIsLoading(true);
     dispatch(HeroSliceActions.toggleLocation(true));
 
-    fetch('http://localhost:3000/api/filter-tours', {
+    fetch('/api/filter-tours', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

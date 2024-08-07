@@ -23,7 +23,7 @@ export default function AllTours({ searchParams }: AllToursInterface) {
 
   function handleFetchTours(filter: unknown) {
 
-    fetch('http://localhost:3000/api/fetch-tours', {
+    fetch('/api/fetch-tours', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -168,7 +168,7 @@ export default function AllTours({ searchParams }: AllToursInterface) {
       // Output
       // console.log('Collected Data:', results);
 
-      fetch('http://localhost:3000/api/filter-tours', {
+      fetch('/api/filter-tours', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
