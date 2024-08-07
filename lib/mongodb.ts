@@ -664,10 +664,7 @@ export async function handleOrder(perform: `deletion` | `changeStatus` | `fetchB
   } catch (e) {
     throw new Error(`Failed to handle the order! ${e}`);
   }
-
-
 }
-
 
 ///////////////////////////////////////
 // IMPORTANT: USER
@@ -679,4 +676,39 @@ export async function getUser(filter: {}, options?: {}) {
   return JSON.parse(JSON.stringify(user));
 }
 
+type createUserType = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
+
+export async function createUser(formData: createUserType) {
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+
+  const userExists = await getUser({ email: formData.email }, { email: 1, _id: 0 });
+
+  if (userExists.length > 0) {
+    return {
+      error: `The user with the email ${formData.email} already exists. Please sign in to proceed.`
+    };
+  }
+
+  if (!formData.firstName || !formData.lastName || !formData.email || !formData.password || !formData.confirmPassword) {
+    return {
+      error: `Please fill in all the fields.`
+    };
+  }
+
+  if (formData.password !== formData.confirmPassword) {
+    return {
+      error: `The passwords do not match.`
+    };
+  }
+
+  console.log(`Executing formData on Server: `, formData);
+
+}
 

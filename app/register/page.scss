@@ -133,6 +133,12 @@
       font-weight: 600;
       height: 5.5rem;
 
+      &-pending {
+        background: var(--clr-grey-3);
+        color: var(--clr-grey-1);
+        cursor: not-allowed;
+      }
+
       &:hover, &:active {
         /*        background: var(--clr-white);
                 border: 1px solid var(--clr-primary);

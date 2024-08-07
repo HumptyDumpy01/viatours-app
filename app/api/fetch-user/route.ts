@@ -19,6 +19,6 @@ export async function POST(request: Request) {
       result
     });
   } else {
-    return NextResponse.json({ message: 'User does not exist.', status: 200, resp: false });
+    return NextResponse.json({ message: 'User does not exist.', status: 500, resp: false });
   }
 }

@@ -22,27 +22,96 @@ export default function RegisterForm(/*{  }: RegisterFormType*/) {
   const [formError, setFormError] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState<boolean | null>(null);
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    setIsSubmitting(true);
     const currObject = e.currentTarget;
     const formData = new FormData(currObject);
     const results = Object.fromEntries(formData.entries()) as RegisterFormType;
+
+    console.log(`Executing results: `, results);
+
+    const trimmedResults = {
+      initials: results.initials.trim(),
+      email: results.email.trim(),
+      password: results.password.trim(),
+      confirmPassword: results.confirmPassword
+    };
 
     // Clear previous errors
     setFormError([]);
 
     // Validate form data
-    const errors = validateFormData(results);
+    const errors = validateFormData(trimmedResults);
 
     if (errors.length > 0) {
       setFormError(errors);
+      setIsSubmitting(false);
+      return;
+    }
+
+    const userExists = await fetch(`api/fetch-user`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      // in a body tag wer simply define the data that should be submitted
+      body: JSON.stringify({
+        userEmail: results.email
+      })
+    });
+    const userExistsData = await userExists.json();
+    console.log(userExistsData);
+
+    if (userExistsData.resp) {
+      setFormError([`The user with the email ${results.email} already exists. Please sign in to proceed.`]);
+      setIsSubmitting(false);
       return;
     }
 
     // resetting the form
     // currObject.reset();
     // output
+
+    // I do need to split the user initials into first and last name
+    // even if the user initials consists of 3 words, I will still split them into first and last name
+    // the first word will be the first name, and the last two words will be the last name
+
+    const initialsArray = trimmedResults.initials.split(` `);
+    const firstName = initialsArray[0];
+    const lastName = initialsArray.slice(1).join(` `);
+
+    // get rid of initials from the results object
+    const finalResults = {
+      firstName: firstName,
+      lastName: lastName,
+      email: trimmedResults.email,
+      password: trimmedResults.password,
+      confirmPassword: trimmedResults.confirmPassword
+    };
+
+    const registerUser = await fetch(`api/create-user`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      // in a body tag wer simply define the data that should be submitted
+      body: JSON.stringify({
+        formData: finalResults
+      })
+    });
+
+    const registerUserData = await registerUser.json();
+
+    if (registerUserData.error) {
+      setFormError([registerUserData.error]);
+      setIsSubmitting(false);
+    }
+
+
     console.log(`Executing results: `, results);
+
+    setIsSubmitting(false);
   }
 
   function validateFormData(results: RegisterFormType): string[] {
@@ -57,10 +126,11 @@ export default function RegisterForm(/*{  }: RegisterFormType*/) {
     if (!results.email) {
       errors.push('Email is required.');
     }
-    if (!results.password || !results.confirmPassword) {
-      errors.push('Password is required.');
+    if ((!results.password || results.password.length < 6 || results.password.length > 100)) {
+      errors.push('Password must be between 6 and 100 characters.');
     }
-    if (results.password !== results.confirmPassword) {
+
+    if (results.password !== results.confirmPassword && (results.password.length !== 0 && results.confirmPassword.length !== 0)) {
       errors.push('Passwords do not match.');
     }
 
@@ -78,9 +148,10 @@ export default function RegisterForm(/*{  }: RegisterFormType*/) {
         <Input iconVisible type={`default`} name={`initials`} placeholder={`Enter your Initials: e.g. John Doe`} />
         <Input type={`email`} iconVisible placeholder={`Enter your Email:`} name={`email`} questionMarkVisible />
         <Input type={`password`} iconVisible placeholder={`Enter your Password`} name={`password`} />
-        <Input type={`confirmPassword`} iconVisible placeholder={`Confirm your password`} name={`confirm-password`} />
+        <Input type={`confirmPassword`} iconVisible placeholder={`Confirm your password`} name={`confirmPassword`} />
 
-        <button className="btn register__submit-button">Register</button>
+        <button className={`btn register__submit-button ${isSubmitting ? ` register__submit-button-pending` : ``}`}
+                disabled={!!isSubmitting}>{isSubmitting ? `Processing` : `Register`}</button>
       </form>
     </>
   );
