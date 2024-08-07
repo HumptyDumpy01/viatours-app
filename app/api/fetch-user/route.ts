@@ -15,7 +15,8 @@ export async function POST(request: Request) {
     return NextResponse.json({
       message: 'This user already exists in our database. For protection reasons, sign in to continue.',
       status: 200,
-      resp: true
+      resp: true,
+      result
     });
   } else {
     return NextResponse.json({ message: 'User does not exist.', status: 200, resp: false });

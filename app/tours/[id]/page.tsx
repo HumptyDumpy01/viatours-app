@@ -14,10 +14,10 @@ interface TourDescriptionInterface {
 }
 
 async function getTour(id: string): Promise<{ currTour: TourInterface, similarTours: TourInterface[] }> {
+  'use server';
 
   const currTour = await getTourById(id) as TourInterface;
   const similarTours = await getTours(22, { tags: { $in: currTour.tags } }) as TourInterface[];
-
 
   return {
     currTour,

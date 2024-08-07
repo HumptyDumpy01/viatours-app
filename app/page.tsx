@@ -16,10 +16,11 @@ import { TourInterface } from '@/data/DUMMY_TOURS';
 import NewestDestinationsSkeleton from '@/components/homepage/skeletons/NewestDestinationsSkeleton';
 import FindPopularToursSkeleton from '@/components/homepage/skeletons/FindPopularToursSkeleton';
 import SkeletonCardFull from '@/components/skeletons/Card/SkeletonCardFull';
-import FormCompTemp from '@/app/FormCompTemp';
 
+// import FormCompTemp from '@/app/FormCompTemp';
 
 async function GetTrendingDestinations() {
+  'use server';
   const tours = await getTours(22, { tags: `new` }, 0, {
     _id: 1,
     title: 1,
@@ -31,6 +32,7 @@ async function GetTrendingDestinations() {
 }
 
 async function GetPopularTours() {
+  'use server';
   const tours = await getTours(4, { tags: `popular` }, 0, {
     _id: 1,
     images: 1,
@@ -46,6 +48,7 @@ async function GetPopularTours() {
 }
 
 async function GetFeaturedTours() {
+  'use server';
   const tours = await getTours(22, { tags: `featured` }, 0, {
     _id: 1,
     images: 1,
@@ -60,7 +63,7 @@ async function GetFeaturedTours() {
   return <TopTrendingSlider tours={tours} />;
 }
 
-export default async function Home() {
+export default function Home() {
 
   return (
     <main>
