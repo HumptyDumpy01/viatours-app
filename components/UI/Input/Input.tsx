@@ -15,7 +15,7 @@ type EmailInputType = {
 }
 
 type ConfirmPasswordInputType = {
-  type: `confirm-password`;
+  type: `confirmPassword`;
   iconVisible: boolean;
   placeholder: string;
   name: string;
@@ -24,7 +24,7 @@ type ConfirmPasswordInputType = {
 }
 
 type InputType = {
-  type: `text` | `password`;
+  type: `text` | `password` | `default`;
   iconVisible: boolean;
   placeholder: string;
   name: string;
@@ -96,7 +96,7 @@ export default function Input(props: InputType) {
       </>
     );
   }
-  if (props.type === `confirm-password`) {
+  if (props.type === `confirmPassword`) {
     icon = (
       <Icon type={`confirm-password`} />
     );
@@ -107,16 +107,27 @@ export default function Input(props: InputType) {
       className={`${props.type !== `password` ?
         `initials-input-wrapper` : `password-input-wrapper`} margin-bottom-24px`}>
       <label htmlFor={props.name}></label>
-      {props.type !== `email` &&
-        <input type={props.type === `confirm-password` ? `password` :
+      {(
+          props.type !== `email` &&
+          props.type !== `default`) &&
+        <input type={props.type === `confirmPassword` ? `password` :
           showPassword ? `text` : props.type} name={props.name} id={props.name}
                placeholder={props.placeholder}
                className="register__input" required />
       }
+
       {props.type === `email` && (
         <>
           <input onChange={handleHideQuestionMark} type={`email`} id={props.name}
-                 placeholder={props.placeholder}
+                 placeholder={props.placeholder} name={props.name}
+                 className="register__input" required />
+        </>
+      )}
+
+      {props.type === `default` && (
+        <>
+          <input type={`text`} name={props.name} id={props.name}
+                 placeholder={props.placeholder} minLength={2} maxLength={100}
                  className="register__input" required />
         </>
       )}

@@ -29,7 +29,7 @@ export default function NavBurgerLink(props: NavBurgerLinkInterface) {
 
   return (
     <Link onClick={handleCloseNavigation}
-          className={`burger-link ${isActive && `active`} ${props.marked ? `link-marked` : ``}`}
+          className={`burger-link ${(isActive && props.pathName !== `/login`) ? `active` : ``} ${props.marked ? `link-marked` : ``}`}
           href={props.pathName}>{props.children}</Link>
   );
 }

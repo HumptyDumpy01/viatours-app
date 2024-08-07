@@ -40,6 +40,9 @@ if (process.env.NODE_ENV === 'development') {
   clientPromise = client.connect();
 }
 
+///////////////////////////////////////
+// IMPORTANT: TOUR(S)
+
 // this function is used to get the items from the database
 export async function getTours(limit: number, matchProps: unknown, skip: number = 0, project?: unknown) {
 
@@ -153,13 +156,6 @@ export async function getTourById(id: string, incViews?: boolean) {
   ]).toArray();
   // console.log(`Executing tour: `, tour);
   return JSON.parse(JSON.stringify(tour))[0] as TourInterface;
-}
-
-export async function getUser(filter: {}, options?: {}) {
-  const client = await clientPromise;
-  const db = client.db(`viatoursdb`);
-  const user = await db.collection(`users`).aggregate([{ $match: filter }, { $project: options }]).toArray();
-  return JSON.parse(JSON.stringify(user));
 }
 
 type submitTourComment = {
@@ -482,6 +478,9 @@ filterTours(
 
 }
 
+
+///////////////////////////////////////
+// IMPORTANT: ORDER
 export async function createOrder(contactDetails: FormContactDetailsType,
                                   activityDetails: transformedResultsType, order: OrderInterface) {
 
@@ -668,3 +667,16 @@ export async function handleOrder(perform: `deletion` | `changeStatus` | `fetchB
 
 
 }
+
+
+///////////////////////////////////////
+// IMPORTANT: USER
+
+export async function getUser(filter: {}, options?: {}) {
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+  const user = await db.collection(`users`).aggregate([{ $match: filter }, { $project: options }]).toArray();
+  return JSON.parse(JSON.stringify(user));
+}
+
+

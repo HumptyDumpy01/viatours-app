@@ -18,7 +18,7 @@ export default function NavButton(props: NavButtonInterface) {
 
   return (
     <Link href={props.pathName}
-          className={`link navigation__link ${isActive ? 'active' : ''} ${props.marked ? 'link-marked link-log-in' : ''}`}>
+          className={`link navigation__link ${(isActive && props.pathName !== `/login`) ? 'active' : ''} ${props.marked ? 'link-marked link-log-in' : ''}`}>
       {props.children}
     </Link>
   );
