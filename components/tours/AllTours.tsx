@@ -8,16 +8,12 @@ import React, { FormEvent, useEffect, useRef, useState } from 'react';
 import SkeletonCardHorizontal from '@/components/skeletons/Card/SkeletonCardHorizontal';
 import '@/components/UI/Input/Input.scss';
 import '@/components/UI/Input/SearchInput.scss';
-import { useRouter } from 'next/navigation';
 import { AllToursInterface } from '@/app/tours/page';
 
 export default function AllTours({ searchParams }: AllToursInterface) {
   const [tours, setTours] = useState([]);
   const [loading, setLoading] = useState(true);
-
-
   const searchInput = useRef<HTMLInputElement>(null);
-  const router = useRouter();
 
   const filter = searchParams.filter ? searchParams.filter : null;
   const filterType = searchParams[`filter-type`] ? searchParams[`filter-type`] : null;
@@ -77,11 +73,6 @@ export default function AllTours({ searchParams }: AllToursInterface) {
 
       if (filterSearch && filterType) {
         setLoading(true);
-        // console.log(`Executing filter: `, filter);
-        // Fetch tours based on the filter
-        // create an array of tags
-        // const search = filterSearch.split(',');
-
         let type;
 
         if (filterType === `default`) {
@@ -92,8 +83,6 @@ export default function AllTours({ searchParams }: AllToursInterface) {
 
         handleFetchTours({ filterSearch: filterSearch, filterType: type });
       }
-
-      ///////////////////////////////////////
 
     } catch (e) {
       throw new Error(`Failed to filter by URl params: ${e}`);
