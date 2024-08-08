@@ -10,6 +10,7 @@ type EmailInputType = {
   placeholder: string;
   name: string;
   questionMarkVisible: boolean;
+  disabled: boolean;
 // children: ReactNode;
 
 }
@@ -19,6 +20,7 @@ type ConfirmPasswordInputType = {
   iconVisible: boolean;
   placeholder: string;
   name: string;
+  disabled: boolean;
   // children: ReactNode;
 
 }
@@ -28,6 +30,7 @@ type InputType = {
   iconVisible: boolean;
   placeholder: string;
   name: string;
+  disabled: boolean;
   // children: ReactNode;
 } | EmailInputType | ConfirmPasswordInputType;
 
@@ -110,25 +113,26 @@ export default function Input(props: InputType) {
       {(
           props.type !== `email` &&
           props.type !== `default`) &&
-        <input type={props.type === `confirmPassword` ? `password` :
+        <input disabled={props.disabled} type={props.type === `confirmPassword` ? `password` :
           showPassword ? `text` : props.type} name={props.name} id={props.name}
                placeholder={props.placeholder}
-               className="register__input" required />
+               className={`register__input ${props.disabled ? `register__input-pending` : ``}`} required />
       }
 
       {props.type === `email` && (
         <>
-          <input onChange={handleHideQuestionMark} type={`email`} id={props.name}
+          <input disabled={props.disabled} onChange={handleHideQuestionMark} type={`email`} id={props.name}
                  placeholder={props.placeholder} name={props.name}
-                 className="register__input" required />
+                 className={`register__input ${props.disabled ? `register__input-pending` : ``}`} required />
         </>
       )}
 
       {props.type === `default` && (
         <>
-          <input type={`text`} name={props.name} id={props.name}
-                 placeholder={props.placeholder} minLength={2} maxLength={100}
-                 className="register__input" required />
+          <input disabled={props.disabled} type={`text`} name={props.name} id={props.name}
+                 placeholder={props.placeholder} minLength={1} maxLength={100}
+                 className={`register__input ${props.disabled ? `register__input-pending` : ``}`} required
+          />
         </>
       )}
       {props.iconVisible && (

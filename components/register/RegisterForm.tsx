@@ -145,12 +145,16 @@ export default function RegisterForm(/*{  }: RegisterFormType*/) {
         );
       })}
       <form onSubmit={handleSubmit} className="register__form flex flex-direction-column">
-        <Input iconVisible type={`default`} name={`initials`} placeholder={`Enter your Initials: e.g. John Doe`} />
-        <Input type={`email`} iconVisible placeholder={`Enter your Email:`} name={`email`} questionMarkVisible />
-        <Input type={`password`} iconVisible placeholder={`Enter your Password`} name={`password`} />
-        <Input type={`confirmPassword`} iconVisible placeholder={`Confirm your password`} name={`confirmPassword`} />
+        <Input disabled={!!isSubmitting} iconVisible type={`default`} name={`initials`}
+               placeholder={`Enter your Initials: e.g. John Doe`} />
+        <Input disabled={!!isSubmitting} type={`email`} iconVisible placeholder={`Enter your Email:`} name={`email`}
+               questionMarkVisible />
+        <Input disabled={!!isSubmitting} type={`password`} iconVisible placeholder={`Enter your Password`}
+               name={`password`} />
+        <Input disabled={!!isSubmitting} type={`confirmPassword`} iconVisible placeholder={`Confirm your password`}
+               name={`confirmPassword`} />
 
-        <button className={`btn register__submit-button ${isSubmitting ? ` register__submit-button-pending` : ``}`}
+        <button className={`btn register__submit-button ${isSubmitting ? `register__submit-button-pending` : ``}`}
                 disabled={!!isSubmitting}>{isSubmitting ? `Processing` : `Register`}</button>
       </form>
     </>

@@ -5,6 +5,7 @@ import { revalidatePath } from 'next/cache';
 import { FormContactDetailsType } from '@/components/checkout/form/CheckoutFormContactDetails';
 import { transformedResultsType } from '@/components/checkout/form/CheckoutFormActivityDetails';
 import { OrderInterface } from '@/components/checkout/checkout-details/CheckoutDetails';
+import bcrypt from 'bcrypt';
 
 // Extend the global interface
 // it resolves issues with the global variable missing type
@@ -684,6 +685,21 @@ type createUserType = {
   confirmPassword: string;
 }
 
+type UserType = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  phone: string | null;
+  orders: string[];
+  notifications: {}[];
+  wishlist: string[];
+  savedTours: string[];
+  extra: {
+    signedOnNewsletter: boolean;
+  }
+}
+
 export async function createUser(formData: createUserType) {
   const client = await clientPromise;
   const db = client.db(`viatoursdb`);
@@ -708,7 +724,23 @@ export async function createUser(formData: createUserType) {
     };
   }
 
+  const transformedUser: UserType = {
+    firstName: formData.firstName,
+    lastName: formData.lastName,
+    email: await bcrypt.hash(formData.email, 12),
+    password: await bcrypt.hash(formData.password, 12),
+    phone: null,
+    orders: [],
+    notifications: [],
+    wishlist: [],
+    savedTours: [],
+    extra: {
+      signedOnNewsletter: false
+    }
+  };
+
   console.log(`Executing formData on Server: `, formData);
+  console.log(`Executing transformedUser on Server: `, transformedUser);
 
 }
 
