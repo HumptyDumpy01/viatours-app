@@ -24,14 +24,14 @@ export const authConfig: NextAuthOptions = {
           firstName: 1,
           lastName: 1,
           email: 1,
-          password: 1, // Ensure password is included in the query
-          phone: 1,
-          image: 1,
-          orders: 1,
-          wishlist: 1,
-          savedArticles: 1,
-          notifications: 1,
-          extra: 1
+          password: 1
+          // phone: 1,
+          // image: 1,
+          // orders: 1,
+          // wishlist: 1,
+          // savedArticles: 1,
+          // notifications: 1,
+          // extra: 1
         }) as UserType[];
 
         console.log(`Executing dbUser: `, dbUser);
@@ -43,7 +43,10 @@ export const authConfig: NextAuthOptions = {
         const passwordsMatch = await bcrypt.compare(credentials.password, dbUser[0].password);
 
         if (dbUser && passwordsMatch) {
-          return dbUser;
+          // @ts-ignore
+          dbUser[0].name = `${dbUser[0].firstName} ${dbUser[0].lastName}`;
+
+          return dbUser[0];
         }
         return null;
       }
@@ -58,6 +61,7 @@ export const authConfig: NextAuthOptions = {
       clientSecret: process.env.GITHUB_CLIENT_SECRET as string
     })
   ]
+
 };
 
 export async function loginIsRequiredServer() {

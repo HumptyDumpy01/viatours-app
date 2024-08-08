@@ -5,6 +5,7 @@ import './MainNavigation.scss';
 import { useCartDispatch, useCartSelector } from '@/store/hooks';
 import { navigationSliceActions } from '@/store/navigationSlice';
 import NavBurgerLink from '@/components/UI/Link/NavBurgerLink';
+import { signOut, useSession } from 'next-auth/react';
 
 /*interface NavigationBurgerInterface {
   // children: ReactNode;
@@ -12,6 +13,8 @@ import NavBurgerLink from '@/components/UI/Link/NavBurgerLink';
 export default function NavigationBurger(/*{  }: NavigationBurgerInterface*/) {
   const isOpen = useCartSelector((state) => state.navigation.navIsOpen);
   const dispatch = useCartDispatch();
+
+  const { data: session, status } = useSession();
 
   function handleCloseNavigation() {
     dispatch(navigationSliceActions.toggleNavigation(`close`));
@@ -32,9 +35,18 @@ export default function NavigationBurger(/*{  }: NavigationBurgerInterface*/) {
         <li>
           <NavBurgerLink pathname={`/account-settings/wishlist`}>Wishlist</NavBurgerLink>
         </li>
-        <li>
-          <NavBurgerLink marked={`true`} pathname={`/login`}>Log in</NavBurgerLink>
-        </li>
+        {session && (
+          <>
+            <li>
+              <NavBurgerLink onMouseUp={() => signOut()} marked={`true`} pathname={``}>Log Out</NavBurgerLink>
+            </li>
+          </>
+        )}
+        {!session && (
+          <li>
+            <NavBurgerLink marked={`true`} pathname={`/login`}>Log in</NavBurgerLink>
+          </li>
+        )}
       </ul>
       <Image priority src={closeMenuIcon} alt="close menu icon" className="navigation-background-close-icon" />
     </div>

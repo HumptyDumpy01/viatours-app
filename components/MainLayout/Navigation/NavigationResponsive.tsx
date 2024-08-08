@@ -10,6 +10,8 @@ import { useCartDispatch, useCartSelector } from '@/store/hooks';
 import { navigationSliceActions } from '@/store/navigationSlice';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { useSession } from 'next-auth/react';
+import { Skeleton } from '@mui/material';
 
 /*interface NavigationBurgerInterface {
   // children: ReactNode;
@@ -18,6 +20,16 @@ import { useEffect, useState } from 'react';
 export default function NavigationResponsive(/*{  }: NavigationBurgerInterface*/) {
   const isOpen = useCartSelector((state) => state.navigation.navIsOpen);
   const dispatch = useCartDispatch();
+
+  const { data: session, status } = useSession();
+
+  const isStatusLoading = status === `loading`;
+
+  let userName = '';
+  if (session) {
+    const name = session.user?.name?.split(' ');
+    userName = name?.length === 1 ? name[0].charAt(0).toUpperCase() : `${name![0].charAt(0) + `.`}${name![1].charAt(0)}`.toUpperCase();
+  }
 
   function openNavBurger() {
     // console.log(`openNavBurger clicked`);
@@ -62,9 +74,26 @@ export default function NavigationResponsive(/*{  }: NavigationBurgerInterface*/
         <div className="nav-icon-wrapper flex flex-align-center">
           {/* @ts-ignore*/}
           {/*<ion-icon name="search-outline" className="nav-icon nav-icon--search"></ion-icon>*/}
-          <button className={`btn`} onClick={openSideNav}>
-            <Image priority src={userIcon} alt="user icon" className={`nav-icon nav-icon--user-icon`} />
-          </button>
+          {(session && !isStatusLoading) && (
+            <>
+              <div onClick={openSideNav} className="user-actions-sidebar__user-auth-icon-responsive">
+                {userName}
+              </div>
+            </>
+          )}
+
+          {(isStatusLoading && !session) && (
+            <Skeleton variant={`circular`} width={`3.6rem`} height={`3.6rem`} />
+          )}
+
+          {(!session && !isStatusLoading) && (
+            <>
+              <button className={`btn`} onClick={openSideNav}>
+                <Image priority src={userIcon} alt="user icon" className={`nav-icon nav-icon--user-icon`} />
+              </button>
+            </>
+          )}
+
         </div>
       </div>
     </>

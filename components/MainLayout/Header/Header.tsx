@@ -13,26 +13,6 @@ import { SessionProvider } from 'next-auth/react';
 
 export default function Header(/*{  }: HeaderInterface*/) {
 
-  /* IMPORTANT: USE CONDITION WHETHER THE isSticky true or not, and
-  *   apply different styles for sticky nav
-  *    e.g.  <header className={`header ${isSticky ? `sticky` : undefined}`}> */
-
-  /*
-  INFO: CSS STYLES NEEDED
-
-  // added a sticky class to the navigation
-  .sticky {
-  position: fixed;
-  height: 8rem;
-  margin-top: -1rem;
-  padding: 1.6rem 0 0 1.6rem;
-  top: 0;
-  z-index: 999;
-  background-color: var(--clr-white);
-  opacity: 0.97;
-
-}*/
-
   const [isSticky, setIsSticky] = useState(false);
 
   const handleScroll = () => {

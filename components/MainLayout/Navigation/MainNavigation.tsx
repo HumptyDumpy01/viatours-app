@@ -17,8 +17,12 @@ import { Skeleton } from '@mui/material';
 export default function MainNavigation(/*{  }: MainNavigationInterface*/) {
 
   const { data: session, status } = useSession();
-  // eslint-disable-next-line react-hooks/rules-of-hooks
 
+  let userName = '';
+  if (session) {
+    const name = session.user?.name?.split(' ');
+    userName = name?.length === 1 ? name[0].charAt(0).toUpperCase() : `${name![0].charAt(0) + `.`}${name![1].charAt(0)}`.toUpperCase();
+  }
 
   const [isSticky, setIsSticky] = useState(false);
   const router = useRouter();
@@ -65,7 +69,8 @@ export default function MainNavigation(/*{  }: MainNavigationInterface*/) {
             </label>
           </form>
           <div className={`navigation--search-wrapper`}>
-            <svg className={`icon--search icon ${isSticky ? `icon--search-sticky` : undefined}`}
+
+            <svg className={`icon--search icon ${isSticky ? `icon--search-sticky` : ``}`}
                  xmlns="http://www.w3.org/2000/svg" width="20"
                  height="19"
                  viewBox="0 0 20 19"

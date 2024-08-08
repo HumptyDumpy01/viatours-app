@@ -3,7 +3,11 @@
 /*interface WishlistInterface {
   // children: ReactNode;
 }*/
-export default function Wishlist(/*{  }: WishlistInterface*/) {
+import { UserType } from '@/lib/mongodb';
+import { getServerSession } from 'next-auth';
+import { authConfig } from '@/lib/auth';
+
+export default async function Wishlist(/*{  }: WishlistInterface*/) {
   return (
     <>
       <h1>Wishlist Page</h1>

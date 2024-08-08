@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode } from 'react';
+import { ComponentPropsWithoutRef, ReactNode } from 'react';
 import Link from 'next/link';
 import './NavBurgerLink.scss';
 import '@/components/MainLayout/Navigation/MainNavigation.scss';
@@ -8,11 +8,11 @@ import { useCartDispatch, useCartSelector } from '@/store/hooks';
 import { navigationSliceActions } from '@/store/navigationSlice';
 import { usePathname } from 'next/navigation';
 
-interface NavBurgerLinkInterface {
+type NavBurgerLinkInterface = {
   pathname: string;
   marked?: `true` | `false`;
   children: ReactNode;
-}
+} & ComponentPropsWithoutRef<'a'>;
 
 export default function NavBurgerLink(props: NavBurgerLinkInterface) {
 
@@ -28,7 +28,7 @@ export default function NavBurgerLink(props: NavBurgerLinkInterface) {
   }
 
   return (
-    <Link onClick={handleCloseNavigation}
+    <Link {...props} onClick={handleCloseNavigation}
           className={`burger-link ${(isActive && props.pathname !== `/login`) ? `active` : ``} ${props.marked === `true` ? `link-marked` : ``}`}
           href={props.pathname}>{props.children}</Link>
   );
