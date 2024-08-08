@@ -3,6 +3,8 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import GitHubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
 import { redirect } from 'next/navigation';
+import bcrypt from 'bcrypt';
+import { getUser, UserType } from '@/lib/mongodb';
 
 export const authConfig: NextAuthOptions = {
   providers: [
@@ -18,18 +20,32 @@ export const authConfig: NextAuthOptions = {
           return null;
         }
 
-        // TODO: replace this with a real db query
+        const dbUser = await getUser({ email: credentials.email }, {
+          firstName: 1,
+          lastName: 1,
+          email: 1,
+          password: 1, // Ensure password is included in the query
+          phone: 1,
+          image: 1,
+          orders: 1,
+          wishlist: 1,
+          savedArticles: 1,
+          notifications: 1,
+          extra: 1
+        }) as UserType[];
 
-        const dbUser = {
-          email: 'john.doe@gmail.com',
-          password: 'MalFox'
-        } as { email: string, password: string };
+        console.log(`Executing dbUser: `, dbUser);
 
-        if (dbUser && dbUser.password === credentials.password) {
+        if (dbUser.length === 0 || !dbUser[0].password) {
+          return null;
+        }
+
+        const passwordsMatch = await bcrypt.compare(credentials.password, dbUser[0].password);
+
+        if (dbUser && passwordsMatch) {
           return dbUser;
         }
         return null;
-
       }
     }),
 
@@ -41,8 +57,6 @@ export const authConfig: NextAuthOptions = {
       clientId: process.env.GITHUB_CLIENT_ID as string,
       clientSecret: process.env.GITHUB_CLIENT_SECRET as string
     })
-
-
   ]
 };
 

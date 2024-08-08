@@ -17,11 +17,13 @@ type LoginSecondColType = {
 
 export default function LoginSecondCol({ message }: LoginSecondColType) {
   const router = useRouter();
+  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    setLoading(true);
     const currObject = e.currentTarget;
     const formData = new FormData(currObject);
 
@@ -34,12 +36,16 @@ export default function LoginSecondCol({ message }: LoginSecondColType) {
     });
 
     if (signInResponse && !signInResponse.error) {
+
+      // setLoading(false);
       router.push(`/`);
     } else {
       console.error(`Sign in error: ${signInResponse?.error}`);
       setError(signInResponse?.error === `CredentialsSignin` ? `Invalid email or password` : `Sign in failed`);
+      setLoading(false);
     }
 
+    setLoading(false);
   }
 
   return (
@@ -55,7 +61,10 @@ export default function LoginSecondCol({ message }: LoginSecondColType) {
           <div>
             {error && <p className={`paragraph paragraph-error`}>{error}</p>}
           </div>
-          <button className="btn btn--book-now">Sign in</button>
+          {/*register__submit-button-pending*/}
+          <button className={`btn btn--book-now ${loading ? `register__submit-button-pending` : ``}`}>
+            {loading ? `Processing...` : `Sign in`}
+          </button>
         </form>
         <p className="sign-in__second-col-text-login-with text-align-center">Or login with</p>
         <GoogleBtn />

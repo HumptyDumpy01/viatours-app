@@ -675,6 +675,9 @@ export async function getUser(filter: {}, options?: {}) {
   const client = await clientPromise;
   const db = client.db(`viatoursdb`);
   const user = await db.collection(`users`).aggregate([{ $match: filter }, { $project: options }]).toArray();
+
+  console.log(`Executing user: `, user);
+
   return JSON.parse(JSON.stringify(user));
 }
 
@@ -686,7 +689,7 @@ type createUserType = {
   confirmPassword: string;
 }
 
-type UserType = {
+export type UserType = {
   firstName: string;
   lastName: string;
   email: string;
@@ -695,7 +698,7 @@ type UserType = {
   orders: string[];
   notifications: UserNotificationsType[];
   wishlist: string[];
-  savedTours: string[];
+  savedArticles: string[];
   extra: {
     signedOnNewsletter: boolean;
   }
@@ -751,7 +754,7 @@ export async function createUser(formData: createUserType) {
         text: `Welcome aboard! Your account was successfully registered!`
       }],
       wishlist: [],
-      savedTours: [],
+      savedArticles: [],
       extra: {
         signedOnNewsletter: false
       }

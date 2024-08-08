@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { FormEvent, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { signOut, useSession } from 'next-auth/react';
+import { Skeleton } from '@mui/material';
 
 // 'use client';
 
@@ -80,15 +81,20 @@ export default function MainNavigation(/*{  }: MainNavigationInterface*/) {
           <NavButton pathname={`/tours`}>All Tours</NavButton>
           <NavButton pathname={`/articles`}>Tour Articles</NavButton>
           <NavButton pathname={`/account-settings/wishlist`}>Wishlist</NavButton>
-          {session && (
+          {/*@ts-ignore*/}
+          {(session && status !== `loading`) && (
             <>
               <NavButton onClick={() => signOut()} marked={`true`} pathname={`/`}>Log Out</NavButton>
             </>
           )}
-          {!session && (
+          {/* @ts-ignore*/}
+          {(!session && status !== `loading`) && (
             <>
               <NavButton marked={'true'} pathname={`/login`}>Log in</NavButton>
             </>
+          )}
+          {status === `loading` && (
+            <Skeleton variant={`rectangular`} width={`8rem`} height={`4.4rem`} sx={{ borderRadius: `1000px` }} />
           )}
         </div>
       </div>
