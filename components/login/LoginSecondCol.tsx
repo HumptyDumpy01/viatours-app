@@ -3,23 +3,18 @@ import LoginHeading from '@/components/login/LoginHeading';
 import Link from 'next/link';
 import LoginInput from '@/components/login/LoginInput';
 import LoginRememberMe from '@/components/login/LoginRememberMe';
-/*type LoginSecondColType = {
+
+type LoginSecondColType = {
+  message: string;
   // children: ReactNode;
-}*/
+}
 
-export default function LoginSecondCol(/*{  }: LoginSecondColType*/) {
-  /* IMPORTANT: Outsource your entire form(!) with the useFormState as a standalone component.
-      add a prop, e.g. action, and pass this prop to your useFormState as the first arg.
-      Then add this form to your PostForm file, where you handle server action. Pass your server action
-      to this newly created component.   */
-
-  // Thus you would be able to use the error messages to inject them onto your form.
-  // const [state, formAction] = useFormState(YOUR_SERVER_ACTION, { errors: null });
+export default function LoginSecondCol({ message }: LoginSecondColType) {
 
   return (
     <>
       <div className="sign-in__second-col">
-        <LoginHeading />
+        <LoginHeading message={message} />
         <form className="sign-in__second-col-form flex flex-direction-column">
           <LoginInput name={`email`} placeholder={`Email`} type={`email`} />
           <LoginInput name={`password`} placeholder={`Password`} type={`password`} />

@@ -71,8 +71,6 @@ export default function RegisterForm(/*{  }: RegisterFormType*/) {
       return;
     }
 
-    // resetting the form
-    // currObject.reset();
     // output
 
     // I do need to split the user initials into first and last name
@@ -109,6 +107,8 @@ export default function RegisterForm(/*{  }: RegisterFormType*/) {
       setFormError([registerUserData.error]);
       setIsSubmitting(false);
     } else {
+      // resetting the form
+      currObject.reset();
       router.push(`login?registered=success`);
     }
 
@@ -159,7 +159,8 @@ export default function RegisterForm(/*{  }: RegisterFormType*/) {
                name={`confirmPassword`} />
 
         <button className={`btn register__submit-button ${isSubmitting ? `register__submit-button-pending` : ``}`}
-                disabled={!!isSubmitting}>{isSubmitting ? `Processing` : `Register`}</button>
+                disabled={!!isSubmitting}>{isSubmitting ? `Processing` : `Register`}
+        </button>
       </form>
     </>
   );
