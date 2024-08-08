@@ -179,6 +179,7 @@ type submitTourComment = {
 export async function submitTourComment({ rating, email, user, title, text, images, tourId }: submitTourComment) {
   const client = await clientPromise;
   const db = client.db(`viatoursdb`);
+
   const userExists = await getUser({ email: email }, { email: 1, _id: 0 });
 
   // console.log(`Executing userExists: (Server)`, userExists);
@@ -692,7 +693,7 @@ type UserType = {
   password: string;
   phone: string | null;
   orders: string[];
-  notifications: {}[];
+  notifications: UserNotificationsType[];
   wishlist: string[];
   savedTours: string[];
   extra: {
@@ -700,47 +701,87 @@ type UserType = {
   }
 }
 
+type UserNotificationsType = {
+  type: `green` | `red` | `orange` | `darkOrange`;
+  icon: `smile` | `bell` | `key` | `map` | `letter` | `sale` | `ticket` | `money`;
+  addedAt: Date;
+  timestamp: Timestamp;
+  text: string;
+}
+
+
 export async function createUser(formData: createUserType) {
-  const client = await clientPromise;
-  const db = client.db(`viatoursdb`);
+  try {
 
-  const userExists = await getUser({ email: formData.email }, { email: 1, _id: 0 });
+    const client = await clientPromise;
+    const db = client.db(`viatoursdb`);
 
-  if (userExists.length > 0) {
-    return {
-      error: `The user with the email ${formData.email} already exists. Please sign in to proceed.`
-    };
-  }
+    const userExists = await getUser({ email: formData.email }, { email: 1, _id: 0 });
 
-  if (!formData.firstName || !formData.lastName || !formData.email || !formData.password || !formData.confirmPassword) {
-    return {
-      error: `Please fill in all the fields.`
-    };
-  }
-
-  if (formData.password !== formData.confirmPassword) {
-    return {
-      error: `The passwords do not match.`
-    };
-  }
-
-  const transformedUser: UserType = {
-    firstName: formData.firstName,
-    lastName: formData.lastName,
-    email: await bcrypt.hash(formData.email, 12),
-    password: await bcrypt.hash(formData.password, 12),
-    phone: null,
-    orders: [],
-    notifications: [],
-    wishlist: [],
-    savedTours: [],
-    extra: {
-      signedOnNewsletter: false
+    if (userExists.length > 0) {
+      return {
+        error: `The user with the email ${formData.email} already exists. Please sign in to proceed.`
+      };
     }
-  };
 
-  console.log(`Executing formData on Server: `, formData);
-  console.log(`Executing transformedUser on Server: `, transformedUser);
+    if (!formData.firstName || !formData.lastName || !formData.email || !formData.password || !formData.confirmPassword) {
+      return {
+        error: `Please fill in all the fields.`
+      };
+    }
 
+    if (formData.password !== formData.confirmPassword) {
+      return {
+        error: `The passwords do not match.`
+      };
+    }
+
+    const transformedUser: UserType = {
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      email: formData.email,
+      password: await bcrypt.hash(formData.password, 12),
+      phone: null,
+      orders: [],
+      notifications: [{
+        type: `green`,
+        icon: `smile`,
+        addedAt: new Date(),
+        timestamp: Timestamp.fromNumber(Date.now()),
+        text: `Welcome aboard! Your account was successfully registered!`
+      }],
+      wishlist: [],
+      savedTours: [],
+      extra: {
+        signedOnNewsletter: false
+      }
+    };
+
+    // un-hash password
+    // const userPassword = await bcrypt.compare(formData.password, transformedUser.password);
+    // const userEmail = await bcrypt.compare(formData.email, transformedUser.email);
+    // console.log(`Executing userPassword: `, userPassword);
+    // console.log(`Executing userEmail: `, userEmail);
+
+    const createdUser = await db.collection(`users`).insertOne(transformedUser);
+
+    if (!createdUser.acknowledged) {
+      return {
+        error: `Failed to create a user.`
+      };
+    }
+
+    return {
+      success: `The user was successfully created.`,
+      acknowledged: createdUser.acknowledged,
+      insertedId: createdUser.insertedId
+    };
+    // console.log(`Executing formData on Server: `, formData);
+    // console.log(`Executing transformedUser on Server: `, transformedUser);
+
+
+  } catch (e) {
+    throw new Error(`An error occurred while creating a user. Please try again later. ${e}`);
+  }
 }
 

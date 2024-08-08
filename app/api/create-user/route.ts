@@ -11,13 +11,24 @@ export async function POST(request: NextRequest) {
 
     const handleCreateUser = await createUser(formData);
 
-    if (handleCreateUser?.error) {
-      return NextResponse.json({ error: handleCreateUser.error, status: 400 });
+    console.log(`Executing handleCreateUser: `, handleCreateUser);
+
+
+    if (!handleCreateUser.acknowledged) {
+      return NextResponse.json({
+        error: handleCreateUser.error,
+        status: 400,
+        acknowledged: handleCreateUser.acknowledged
+      });
+    } else {
+      return NextResponse.json({
+        message: handleCreateUser.success,
+        status: 200,
+        acknowledged: handleCreateUser.acknowledged
+      });
     }
 
-    return NextResponse.json({ message: 'User created successfully.', status: 200 });
-
   } catch (e) {
-    throw new Error(``);
+    throw new Error(`Failed to create user: ${e}`);
   }
 }

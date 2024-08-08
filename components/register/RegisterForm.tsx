@@ -3,6 +3,7 @@
 import '@/app/register/page.scss';
 import Input from '@/components/UI/Input/Input';
 import React, { FormEvent, useState } from 'react';
+import { useRouter } from 'next/navigation';
 /*type RegisterFormType = {
   // children: ReactNode;
 }*/
@@ -21,6 +22,7 @@ export default function RegisterForm(/*{  }: RegisterFormType*/) {
 
   const [formError, setFormError] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState<boolean | null>(null);
+  const router = useRouter();
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -103,9 +105,11 @@ export default function RegisterForm(/*{  }: RegisterFormType*/) {
 
     const registerUserData = await registerUser.json();
 
-    if (registerUserData.error) {
+    if (!registerUserData.acknowledged) {
       setFormError([registerUserData.error]);
       setIsSubmitting(false);
+    } else {
+      router.push(`login?registered=success`);
     }
 
 
@@ -120,8 +124,8 @@ export default function RegisterForm(/*{  }: RegisterFormType*/) {
     if (!results.initials && !results.email && !results.password && !results.confirmPassword) {
       errors.push('All fields are required.');
     }
-    if (!results.initials || results.initials.length < 2 || results.initials.length > 100) {
-      errors.push('Initials must be between 2 and 100 characters.');
+    if (!results.initials || results.initials.length < 2 || results.initials.length > 100 || results.initials.split(' ').length < 2) {
+      errors.push('Initials must be between 2 and 100 characters and contain at least 2 words.');
     }
     if (!results.email) {
       errors.push('Email is required.');
