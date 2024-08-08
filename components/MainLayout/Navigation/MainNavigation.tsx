@@ -6,6 +6,7 @@ import NavigationResponsive from '@/components/MainLayout/Navigation/NavigationR
 import Link from 'next/link';
 import { FormEvent, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { signOut, useSession } from 'next-auth/react';
 
 // 'use client';
 
@@ -13,6 +14,10 @@ import { useRouter } from 'next/navigation';
   // children: ReactNode;
 }*/
 export default function MainNavigation(/*{  }: MainNavigationInterface*/) {
+
+  const { data: session, status } = useSession();
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+
 
   const [isSticky, setIsSticky] = useState(false);
   const router = useRouter();
@@ -71,11 +76,20 @@ export default function MainNavigation(/*{  }: MainNavigationInterface*/) {
           </div>
         </div>
         <div className={`navigation-wrapper-2 flex flex-align-center`}>
-          <NavButton pathName={`/`}>Home</NavButton>
-          <NavButton pathName={`/tours`}>All Tours</NavButton>
-          <NavButton pathName={`/articles`}>Tour Articles</NavButton>
-          <NavButton pathName={`/account-settings/wishlist`}>Wishlist</NavButton>
-          <NavButton marked pathName={`/login`}>Log in</NavButton>
+          <NavButton pathname={`/`}>Home</NavButton>
+          <NavButton pathname={`/tours`}>All Tours</NavButton>
+          <NavButton pathname={`/articles`}>Tour Articles</NavButton>
+          <NavButton pathname={`/account-settings/wishlist`}>Wishlist</NavButton>
+          {session && (
+            <>
+              <NavButton onClick={() => signOut()} marked={`true`} pathname={`/`}>Log Out</NavButton>
+            </>
+          )}
+          {!session && (
+            <>
+              <NavButton marked={'true'} pathname={`/login`}>Log in</NavButton>
+            </>
+          )}
         </div>
       </div>
       <NavigationResponsive />

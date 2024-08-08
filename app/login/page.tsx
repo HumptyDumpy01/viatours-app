@@ -1,8 +1,11 @@
-'use client';
+// 'use client';
 
 import './page.scss';
 import LoginFirstCol from '@/components/login/LoginFirstCol';
 import LoginSecondCol from '@/components/login/LoginSecondCol';
+import { getServerSession } from 'next-auth';
+import { authConfig } from '@/lib/auth';
+import { redirect } from 'next/navigation';
 
 interface LogInPageInterface {
   searchParams: {
@@ -12,8 +15,21 @@ interface LogInPageInterface {
   // children: ReactNode;
 }
 
-export default function LoginPage({ searchParams }: LogInPageInterface) {
-  // extract the params from url
+export default async function LoginPage({ searchParams }: LogInPageInterface) {
+
+  const session = await getServerSession(authConfig) as {
+    user: {
+      email: string;
+      image: string;
+    }
+  };
+
+  if (session) {
+    redirect('..');
+  }
+
+
+  // extract the params from the url
   const registered = searchParams.registered ? searchParams.registered : null;
 
   let message = ``;

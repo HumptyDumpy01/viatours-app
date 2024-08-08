@@ -9,8 +9,8 @@ import { navigationSliceActions } from '@/store/navigationSlice';
 import { usePathname } from 'next/navigation';
 
 interface NavBurgerLinkInterface {
-  pathName: string;
-  marked?: boolean;
+  pathname: string;
+  marked?: `true` | `false`;
   children: ReactNode;
 }
 
@@ -21,7 +21,7 @@ export default function NavBurgerLink(props: NavBurgerLinkInterface) {
   // @ts-ignore
   const currentPath = usePathname();
 
-  const isActive = currentPath === props.pathName;
+  const isActive = currentPath === props.pathname;
 
   function handleCloseNavigation() {
     dispatch(navigationSliceActions.toggleNavigation(`close`));
@@ -29,7 +29,7 @@ export default function NavBurgerLink(props: NavBurgerLinkInterface) {
 
   return (
     <Link onClick={handleCloseNavigation}
-          className={`burger-link ${(isActive && props.pathName !== `/login`) ? `active` : ``} ${props.marked ? `link-marked` : ``}`}
-          href={props.pathName}>{props.children}</Link>
+          className={`burger-link ${(isActive && props.pathname !== `/login`) ? `active` : ``} ${props.marked === `true` ? `link-marked` : ``}`}
+          href={props.pathname}>{props.children}</Link>
   );
 }

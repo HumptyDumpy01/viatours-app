@@ -5,6 +5,7 @@ import MainNavigation from '@/components/MainLayout/Navigation/MainNavigation';
 import NavigationBurger from '@/components/MainLayout/Navigation/NavigationBurger';
 import React, { useEffect, useState } from 'react';
 import NavSideBar from '@/components/MainLayout/Sidebar/NavSideBar';
+import { SessionProvider } from 'next-auth/react';
 
 /*interface HeaderInterface {
   // children: ReactNode;
@@ -49,13 +50,13 @@ export default function Header(/*{  }: HeaderInterface*/) {
   }, []);
 
   return (
-    <>
+    <SessionProvider>
       <header className={`header ${isSticky ? `sticky` : undefined}`}>
         <MainNavigation />
       </header>
       <div className={`header-placeholder`}></div>
       <NavigationBurger />
       <NavSideBar />
-    </>
+    </SessionProvider>
   );
 }

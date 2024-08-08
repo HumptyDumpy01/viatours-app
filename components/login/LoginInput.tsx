@@ -28,7 +28,8 @@ export default function LoginInput({ type, name, placeholder }: LoginInputType) 
   if (type === `password`) {
     return (
       <label className="password-label">
-        <input type={passwordIsVisible ? `text` : `password`} className="sign-in__second-col-form-input-password"
+        <input name={name} type={passwordIsVisible ? `text` : `password`}
+               className="sign-in__second-col-form-input-password"
                placeholder={`Password`}
                required />
         {!passwordIsVisible &&
