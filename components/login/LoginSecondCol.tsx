@@ -41,7 +41,7 @@ export default function LoginSecondCol({ message }: LoginSecondColType) {
       router.push(`/`);
     } else {
       console.error(`Sign in error: ${signInResponse?.error}`);
-      setError(signInResponse?.error === `CredentialsSignin` ? `Invalid email or password` : `Sign in failed`);
+      setError(signInResponse?.error === `CredentialsSignin` ? `Invalid email or password!` : `Sign in failed`);
       setLoading(false);
     }
 
