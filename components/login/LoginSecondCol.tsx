@@ -9,6 +9,7 @@ import GoogleBtn from '@/components/UI/Button/GoogleBtn';
 import { FormEvent, useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import GithubBtn from '@/components/UI/Button/GithubBtn';
 
 type LoginSecondColType = {
   message: string;
@@ -68,6 +69,7 @@ export default function LoginSecondCol({ message }: LoginSecondColType) {
         </form>
         <p className="sign-in__second-col-text-login-with text-align-center">Or login with</p>
         <GoogleBtn />
+        <GithubBtn />
         <p className="sign-in__second-col-text-do-not-have-account text-align-center">Don’t have an account?
           <Link href={`/register`} className="inline-block highlighted text-decoration-none">&nbsp;Sign up now</Link>
         </p>

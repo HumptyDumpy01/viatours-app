@@ -1,13 +1,20 @@
-// 'use client';
+'use client';
 
 /*type GoogleBtnType = {
   // children: ReactNode;
 }*/
 
+import { signIn } from 'next-auth/react';
+
 export default function GoogleBtn(/*{  }: GoogleBtnType*/) {
+
+  function handleClick() {
+    signIn('google');
+  }
+
   return (
     <>
-      <button type={`button`} className="btn btn--sign-in-with-google">
+      <button onClick={handleClick} type={`button`} className="btn btn--sign-in-with-google">
         <svg xmlns="http://www.w3.org/2000/svg" width="27" height="26" viewBox="0 0 27 26" fill="none">
           <path
             d="M23.9183 10.6691H23.0625V10.625H13.5V14.875H19.5047C18.6287 17.349 16.2747 19.125 13.5 19.125C9.97941 19.125 7.125 16.2706 7.125 12.75C7.125 9.22941 9.97941 6.375 13.5 6.375C15.1251 6.375 16.6036 6.98806 17.7293 7.98947L20.7346 4.98419C18.8369 3.21566 16.2986 2.125 13.5 2.125C7.63234 2.125 2.875 6.88234 2.875 12.75C2.875 18.6177 7.63234 23.375 13.5 23.375C19.3677 23.375 24.125 18.6177 24.125 12.75C24.125 12.0376 24.0517 11.3422 23.9183 10.6691Z"
