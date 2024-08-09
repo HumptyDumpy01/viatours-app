@@ -60,8 +60,12 @@ export const authConfig: NextAuthOptions = {
       clientId: process.env.GITHUB_CLIENT_ID as string,
       clientSecret: process.env.GITHUB_CLIENT_SECRET as string
     })
-  ]
-
+  ],
+  // session should expire in 2 hours
+  session: {
+    strategy: `jwt`,
+    maxAge: 2 * 60 * 60 // 2 hours
+  }
 };
 
 export async function loginIsRequiredServer() {
