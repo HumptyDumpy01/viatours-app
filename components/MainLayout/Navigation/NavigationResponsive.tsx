@@ -76,9 +76,16 @@ export default function NavigationResponsive(/*{  }: NavigationBurgerInterface*/
           {/*<ion-icon name="search-outline" className="nav-icon nav-icon--search"></ion-icon>*/}
           {(session && !isStatusLoading) && (
             <>
-              <div onClick={openSideNav} className="user-actions-sidebar__user-auth-icon-responsive">
-                {userName}
-              </div>
+              {session?.user?.image &&
+                <img onClick={openSideNav} className={`user-actions-sidebar__user-auth-icon-responsive`} width={55}
+                     height={55}
+                     src={session.user.image}
+                     alt="user icon" />}
+              {!session?.user?.image &&
+                <div onClick={openSideNav}>
+                  {userName}
+                </div>
+              }
             </>
           )}
 

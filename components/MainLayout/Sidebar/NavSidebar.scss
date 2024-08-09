@@ -6,6 +6,10 @@
   transition: all .4s;
   transform: translateX(-100%);
 
+  &-logo {
+    border-radius: 50%;
+  }
+
   &__close-btn {
     position: absolute;
     top: 1.6rem;
