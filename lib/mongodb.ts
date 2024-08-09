@@ -174,19 +174,39 @@ type submitTourComment = {
   title: string;
   text: string;
   images: File[];
+  session: {
+    user: {
+      email: string;
+      name: string;
+    }
+  }
 }
 
-export async function submitTourComment({ rating, email, user, title, text, images, tourId }: submitTourComment) {
+export async function
+submitTourComment({
+                    rating,
+                    email,
+                    user,
+                    title,
+                    text,
+                    images,
+                    tourId,
+                    session
+                  }: submitTourComment) {
+
   const client = await clientPromise;
   const db = client.db(`viatoursdb`);
 
   const userExists = await getUser({ email: email }, { email: 1, _id: 0 });
 
   // console.log(`Executing userExists: (Server)`, userExists);
-  if (userExists.length > 0) {
-    return {
-      error: `The user with the email ${email} already exists. Please sign in to proceed.`
-    };
+
+  if (!session) {
+    if (userExists.length > 0) {
+      return {
+        error: `The user with the email ${email} already exists. Please sign in to proceed.`
+      };
+    }
   }
 
   if (!rating.location || !rating.amenities || !rating.food || !rating.room || !rating.price || !rating.tourOperator) {
@@ -815,7 +835,7 @@ export async function pushNotificationToUserDocument(userId: string, type: `ADDE
     // find this user by his email, and add a notification object to array.
 
     const result = await db.collection(`users`)
-    // @ts-ignore
+      // @ts-ignore
       .updateOne({ _id: new ObjectId(userId) }, { $push: { notifications: addedCommentNotification } });
 
     return result;

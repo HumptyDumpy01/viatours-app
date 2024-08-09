@@ -110,7 +110,8 @@ export default function LeaveReply({ tourId, tourTitle, userEmail, userName, ses
       title: results.title as string,
       images: imageUrls, // Use Cloudinary URLs
       email: results.email as string,
-      text: results.text as string
+      text: results.text as string,
+      session
     };
 
     // Uncheck all checkboxes
@@ -119,7 +120,7 @@ export default function LeaveReply({ tourId, tourTitle, userEmail, userName, ses
       (checkbox as HTMLInputElement).checked = false;
     });
 
-    if (!session) {
+    async function addComment() {
       // @ts-ignore
       const submitForm = await submitTourComment(formResults);
 
@@ -142,6 +143,12 @@ export default function LeaveReply({ tourId, tourTitle, userEmail, userName, ses
         setFormError([submitForm.error]);
         setIsSubmitting(false);
       }
+    }
+
+    if (!session) {
+      await addComment().catch(err => {
+        throw new Error(`Failed to add a comment(Cond:default). Error: ${err}`);
+      });
     }
 
     if (session && !userEmail) {
@@ -173,9 +180,12 @@ export default function LeaveReply({ tourId, tourTitle, userEmail, userName, ses
 
       if (pushNotificationData.error) {
         throw new Error(`Failed to push notification to user document. Error: ${pushNotificationData.error}`);
-      } else {
-        console.log(`Notification pushed to user document:`, pushNotificationData.data);
       }
+
+      // add a new comment to the database
+      await addComment().catch(err => {
+        throw new Error(`Failed to add a comment(Cond:2). Error: ${err}`);
+      });
 
       setIsSubmitting(false);
     }
