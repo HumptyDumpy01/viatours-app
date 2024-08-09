@@ -5,37 +5,37 @@
 }*/
 
 import IconIon from '@/components/UI/IonIcon/IconIon';
-import { useRef } from 'react';
-import Toast from '@/components/UI/Toast/Toast';
-import { useCartDispatch, useCartSelector } from '@/store/hooks';
-import { ToastSliceActions } from '@/store/ToastSlice';
+// import { useRef } from 'react';
+// import Toast from '@/components/UI/Toast/Toast';
+import {/* useCartDispatch,*/ useCartSelector } from '@/store/hooks';
+// import { ToastSliceActions } from '@/store/ToastSlice';
 
 export default function FooterNewsletter(/*{  }: FooterNewsletterInterface*/) {
-  const timer = useRef<NodeJS.Timeout | null>(null);
+  // const timer = useRef<NodeJS.Timeout | null>(null);
 
   const showNotification = useCartSelector((state) => state.notification.showNotification);
-  const dispatch = useCartDispatch();
-
-
-  function handleOpeningToast() {
-
-    if (timer.current) {
-      clearTimeout(timer.current);
-      // console.log(`Newsletter sign up toast cleared!`);
-    }
-
-    dispatch(ToastSliceActions.showNotification());
-
-    // Hide the toast after 3 seconds
-    timer.current = setTimeout(() => {
-      dispatch(ToastSliceActions.hideNotification());
-      // console.log(`Newsletter sign up toast hidden!`);
-    }, 6000);
-  }
+  // const dispatch = useCartDispatch();
+  //
+  //
+  // function handleOpeningToast() {
+  //
+  //   if (timer.current) {
+  //     clearTimeout(timer.current);
+  //     // console.log(`Newsletter sign up toast cleared!`);
+  //   }
+  //
+  //   dispatch(ToastSliceActions.showNotification());
+  //
+  //   // Hide the toast after 3 seconds
+  //   timer.current = setTimeout(() => {
+  //     dispatch(ToastSliceActions.hideNotification());
+  //     // console.log(`Newsletter sign up toast hidden!`);
+  //   }, 6000);
+  // }
 
   return (
     <>
-      {showNotification && <Toast visible={showNotification} badge={`success`} type={`NEWSLETTER_SIGNUP`} />}
+      {/*{showNotification && <Toast visible={showNotification} badge={`success`} type={`NEWSLETTER_SIGNUP`} />}*/}
       <div className="footer__bottom-column footer__bottom-column-4">
         <h3 className="footer__bottom-heading">Newsletter</h3>
         <p className="footer__bottom-paragraph">Subscribe to the free newsletter and stay
@@ -45,7 +45,8 @@ export default function FooterNewsletter(/*{  }: FooterNewsletterInterface*/) {
             <label>
               <input className="footer__bottom__input" type="text" placeholder="Your email address" required />
             </label>
-            <button type={'button'} className="btn footer__bottom__button" onClick={handleOpeningToast}>Send</button>
+            {/* onClick={handleOpeningToast}*/}
+            <button type={'button'} className="btn footer__bottom__button">Send</button>
           </form>
         </div>
         <h3 className="footer__bottom-heading">Mobile Apps</h3>

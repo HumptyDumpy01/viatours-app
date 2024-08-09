@@ -70,8 +70,8 @@ export default function LoginSecondCol({ message }: LoginSecondColType) {
         <p className="sign-in__second-col-text-login-with text-align-center">Or login with</p>
         <GoogleBtn />
         <GithubBtn />
-        <p className="sign-in__second-col-text-do-not-have-account text-align-center">Don’t have an account?
-          <Link href={`/register`} className="inline-block highlighted text-decoration-none">&nbsp;Sign up now</Link>
+        <p className="sign-in__second-col-text-do-not-have-account text-align-center">Want to sign up through viatours?
+          <Link href={`/register`} className="inline-block highlighted text-decoration-none">&nbsp;Sign up now!</Link>
         </p>
       </div>
     </>

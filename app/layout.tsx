@@ -5,7 +5,7 @@ import React from 'react';
 import Header from '@/components/MainLayout/Header/Header';
 import Footer from '@/components/MainLayout/Footer/Footer';
 import StoreProvider from '@/components/UI/Provider/StoreProvider';
-import ToastContainer from '@/components/UI/Toast/ToastContainer';
+// import ToastContainer from '@/components/UI/Toast/ToastContainer';
 import GoToTheTopBtn from '@/components/MainLayout/Button/GoToTheTopBtn';
 
 // Create a client
@@ -26,7 +26,7 @@ export default function RootLayout({ children }: Readonly<{
     <body className={inter.className}>
     <StoreProvider>
       <GoToTheTopBtn />
-      <ToastContainer />
+      {/*<ToastContainer />*/}
       <Header />
       {children}
       <section className="footer">
