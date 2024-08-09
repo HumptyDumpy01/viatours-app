@@ -809,11 +809,13 @@ export async function pushNotificationToUserDocument(userId: string, type: `ADDE
       icon: `map`,
       addedAt: new Date(),
       timestamp: Timestamp.fromNumber(Date.now()),
-      text: `You left a comment on <a href='tours/${data.tourId}'>“${data.tourTitle.slice(0, 20)}”</a> tour!`
+      // @ts-ignore
+      text: `You left a comment on <a href='tours/${data.tourId}'>“${data.tourTitle.slice(0, 40)}...”</a> tour!`
     };
     // find this user by his email, and add a notification object to array.
-    // @ts-ignore
+
     const result = await db.collection(`users`)
+    // @ts-ignore
       .updateOne({ _id: new ObjectId(userId) }, { $push: { notifications: addedCommentNotification } });
 
     return result;
