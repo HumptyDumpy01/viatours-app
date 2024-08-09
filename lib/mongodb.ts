@@ -812,6 +812,37 @@ export async function createUser(formData: createUserType, createViaProvider?: b
   }
 }
 
+export async function createUserWhenAuthViaProvider(formData: UserType) {
+  try {
+    const client = await clientPromise;
+    const db = client.db('viatoursdb');
+
+    const userExists = await getUser({ email: formData.email }, { email: 1, _id: 0 });
+
+    if (userExists.length > 0) {
+      return {
+        error: `The user with the email ${formData.email} already exists. Please sign in to proceed.`
+      };
+    }
+
+    const createdUser = await db.collection('users').insertOne(formData);
+
+    if (!createdUser.acknowledged) {
+      return {
+        error: `Failed to create a user.`
+      };
+    }
+
+    return {
+      success: `The user was successfully created.`,
+      acknowledged: createdUser.acknowledged,
+      insertedId: createdUser.insertedId
+    };
+  } catch (e) {
+    throw new Error(`An error occurred while creating a user. Please try again later. ${e}`);
+  }
+}
+
 export type updateUserType = {
   userId: string;
   type: `ADDED_COMMENT` | `MADE_ORDER`;

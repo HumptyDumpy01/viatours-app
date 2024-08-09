@@ -4,7 +4,8 @@ import GitHubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
 import { redirect } from 'next/navigation';
 import bcrypt from 'bcrypt';
-import { getUser, UserType } from '@/lib/mongodb';
+import { createUserWhenAuthViaProvider, getUser, UserType } from '@/lib/mongodb';
+import { Timestamp } from 'mongodb';
 
 export const authConfig: NextAuthOptions = {
   providers: [
@@ -25,19 +26,19 @@ export const authConfig: NextAuthOptions = {
           lastName: 1,
           email: 1,
           password: 1
-          // phone: 1,
-          // image: 1,
-          // orders: 1,
-          // wishlist: 1,
-          // savedArticles: 1,
-          // notifications: 1,
-          // extra: 1
         }) as UserType[];
-
-        console.log(`Executing dbUser: `, dbUser);
 
         if (dbUser.length === 0 || !dbUser[0].password) {
           return null;
+        }
+        if (dbUser.length > 0 && dbUser[0].password === null && !dbUser[0].registeredManually) {
+          // get
+          const user = {
+            name: `${dbUser[0].firstName} ${dbUser[0].lastName}`,
+            email: dbUser[0].email,
+            image: dbUser[0].image
+          };
+          return user;
         }
 
         const passwordsMatch = await bcrypt.compare(credentials.password, dbUser[0].password);
@@ -45,7 +46,6 @@ export const authConfig: NextAuthOptions = {
         if (dbUser && passwordsMatch) {
           // @ts-ignore
           dbUser[0].name = `${dbUser[0].firstName} ${dbUser[0].lastName}`;
-
           return dbUser[0];
         }
         return null;
@@ -61,10 +61,84 @@ export const authConfig: NextAuthOptions = {
       clientSecret: process.env.GITHUB_CLIENT_SECRET as string
     })
   ],
-  // session should expire in 2 hours
   session: {
     strategy: `jwt`,
     maxAge: 2 * 60 * 60 // 2 hours
+  },
+  callbacks: {
+    async jwt({ token, user, account, profile }) {
+      if (account && profile) {
+        const dbUser = await getUser({ email: profile.email }, {
+          email: 1,
+          firstName: 1,
+          lastName: 1,
+          image: 1
+        }) as UserType[];
+
+        if (dbUser.length === 0) {
+          const newUser: UserType = {
+            // @ts-ignore
+            firstName: profile.given_name || profile.name!.split(' ')[0],
+            // @ts-ignore
+            lastName: profile.family_name || profile.name!.split(' ')[1] || '',
+            // @ts-ignore
+            image: profile.picture || null,
+            // @ts-ignore
+            email: profile.email,
+            password: null, // No password since it's OAuth
+            registeredManually: false,
+            phone: null,
+            orders: [],
+            notifications: [{
+              type: `green`,
+              icon: `smile`,
+              addedAt: new Date(),
+              timestamp: Timestamp.fromNumber(Date.now()),
+              text: `Welcome aboard! Your account was successfully registered!`
+            }],
+            wishlist: [],
+            savedArticles: [],
+            extra: {
+              signedOnNewsletter: false
+            }
+          };
+
+          await createUserWhenAuthViaProvider(newUser);
+
+          const user = {
+            name: `${newUser.firstName} ${newUser.lastName}`,
+            email: newUser.email,
+            image: newUser.image
+
+          };
+          token.user = user;
+        } else {
+
+          const dbUser = await getUser({ email: profile.email }, {
+            email: 1,
+            firstName: 1,
+            lastName: 1,
+            image: 1
+          }) as UserType[];
+
+          const user = {
+            name: `${dbUser[0].firstName} ${dbUser[0].lastName}`,
+            email: dbUser[0].email,
+            image: dbUser[0].image
+
+          };
+
+          token.user = user;
+        }
+      }
+      return token;
+    },
+    async session({ session, token }) {
+      if (token.user) {
+        session.user = token.user;
+      }
+      return session;
+    }
   }
 };
 
