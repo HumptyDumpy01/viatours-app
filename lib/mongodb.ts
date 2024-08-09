@@ -876,3 +876,30 @@ export async function pushNotificationToUserDocument(userId: string, type: `ADDE
   }
 }
 
+export async function addOrderIdToUserDocument(orderId: string, userEmail: string) {
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+
+  if (!orderId && userEmail) {
+    throw new Error(`No order id or user email provided.`);
+  }
+
+  const IsUserExists = await getUser({ email: userEmail }, { email: 1, _id: 0 });
+
+  // if not, then just return. No need to save it onto user history.
+  // This is the benefit for authenticated users.
+  if (IsUserExists.length === 0) {
+    return;
+  }
+  // @ts-ignore
+  const result = await db.collection(`users`).updateOne({ email: userEmail }, { $push: { orders: new ObjectId(orderId) } });
+
+  if (!result) {
+    throw new Error(`Failed to add an order id to the user document.`);
+  }
+
+  return {
+    acknowledged: result.acknowledged
+  };
+
+}

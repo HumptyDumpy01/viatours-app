@@ -10,6 +10,7 @@ import { TourInterface } from '@/data/DUMMY_TOURS';
 import { notFound } from 'next/navigation';
 import { getTourById } from '@/lib/mongodb';
 import CheckoutLoadingPage from '@/app/checkout/loading';
+import { SessionProvider } from 'next-auth/react';
 
 export default function CheckoutDetailsContainer(/*{  }: CheckoutDetailsContainerType*/) {
 
@@ -49,10 +50,11 @@ export default function CheckoutDetailsContainer(/*{  }: CheckoutDetailsContaine
   }
 
 
-
   return (
-    <div className="book-now grid container">
-      <CheckoutDetails tour={tour} order={order} />
-    </div>
+    <SessionProvider>
+      <div className="book-now grid container">
+        <CheckoutDetails tour={tour} order={order} />
+      </div>
+    </SessionProvider>
   );
 }

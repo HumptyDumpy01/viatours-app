@@ -92,7 +92,8 @@ export default function CheckoutFormPaymentDetails({ order }: CheckoutFormPaymen
       clientSecret,
       confirmParams: {
         // IMPORTANT: CHANGE THE STARTING URL TO THE PRODUCTION URL WHEN DEPLOYING
-        return_url: `https://viatours-web-app.lcl.host:44354/checkout-details?orderId=${newOrder.results.insertedId}`
+        return_url: `https://viatours-web-app.lcl.host:44354/checkout-details?orderId=${newOrder.results.insertedId}&userEmail=${
+          (contactDetails! as { email: string; }).email}`
       }
     });
 

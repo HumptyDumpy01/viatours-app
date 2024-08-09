@@ -1,4 +1,5 @@
 // 'use client';
+
 import '@/app/checkout/page.scss';
 /*type ButtonLoginOrSignupType = {
   // children: ReactNode;
@@ -6,6 +7,7 @@ import '@/app/checkout/page.scss';
 import Link from 'next/link';
 
 export default function ButtonLoginOrSignup(/*{  }: ButtonLoginOrSignupType*/) {
+
   return (
     <div className="book-now__details-1__if-user-not-logged-in">
       <Link href={`/login`}

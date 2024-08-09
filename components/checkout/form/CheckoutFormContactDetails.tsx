@@ -7,6 +7,8 @@ import CheckoutBtn from '@/components/checkout/CheckoutBtn';
 import React, { FormEvent, useState } from 'react';
 import { useCartDispatch, useCartSelector } from '@/store/hooks';
 import { checkoutSliceActions } from '@/store/checkoutSlice';
+import { useSession } from 'next-auth/react';
+import { Skeleton } from '@mui/material';
 
 export type FormContactDetailsType = {
   firstName: string;
@@ -22,6 +24,21 @@ export default function CheckoutFormContactDetails() {
   const isContactDetailsEmpty = useCartSelector((state) => state.checkout.contactDetails !== null);
   const [contactDetailsSubmitted, setContactDetailsSubmitted] = useState<boolean>(false);
 
+
+  const { data: session, status } = useSession();
+
+  const isStatusLoading = status === 'loading';
+
+  let userFirstName = '';
+  let userLastName = '';
+  let userEmail = '';
+  if (session) {
+    const name = session.user?.name?.split(' ');
+    userFirstName = name?.[0] as string;
+    userLastName = name?.[1] as string;
+    userEmail = session.user?.email as string;
+  }
+
   const dispatch = useCartDispatch();
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
@@ -29,6 +46,14 @@ export default function CheckoutFormContactDetails() {
     const currObject = e.currentTarget;
     const formData = new FormData(currObject);
     const results = Object.fromEntries(formData.entries());
+
+    if (session && !session.user?.email) {
+      throw new Error('No email in session');
+    }
+
+    // const userEmail = session ? session.user!.email : results.email;
+    // @ts-ignore
+    // results.email = userEmail;
 
     const userExists = await fetch('/api/fetch-user', {
       method: 'POST',
@@ -57,7 +82,7 @@ export default function CheckoutFormContactDetails() {
     // Validate form data
     const errors = validateFormData(typedResults);
 
-    if (userExistsData.resp) {
+    if (userExistsData.resp && session?.user?.email !== results.email) {
       errors.push(userExistsData.message);
       setFormError(errors);
     }
@@ -67,13 +92,15 @@ export default function CheckoutFormContactDetails() {
       return;
     }
 
-
     // resetting the form
     // currObject.reset();
     // output
     console.log(typedResults);
     dispatch(checkoutSliceActions.pushData({ type: 'contact', data: typedResults }));
     dispatch(checkoutSliceActions.setOpenActivityDetails(true));
+    // clear order prop from local storage
+    localStorage.removeItem('order');
+
     setContactDetailsSubmitted(true);
 
     // scroll6200px down
@@ -120,37 +147,61 @@ export default function CheckoutFormContactDetails() {
         })}
         <div className="book-now__details-1__form-first-row">
           <div className="grid gap-13px" onClick={setContactDetailsSubmittedToFalse}>
-            <LabelInput
-              contactDetailsSubmitted={contactDetailsSubmitted}
-              mode={`default`}
-              type={`text`}
-              label={`First Name`}
-              placeholder={`Name`}
-              name={`firstName`}
-            />
+            {(!isStatusLoading || session) && (
+              <LabelInput defaultValue={userFirstName ? userFirstName : ``}
+                          contactDetailsSubmitted={contactDetailsSubmitted}
+                          mode={`default`}
+                          type={`text`}
+                          label={`First Name`}
+                          placeholder={`Name`}
+                          name={`firstName`}
+              />
+            )}
+            {(isStatusLoading && !session) && (
+              <>
+                <Skeleton variant={`rounded`} width={`100%`} height={55} className={`book-now__details__input`} />
+              </>
+            )}
           </div>
 
           <div className="grid gap-13px" onClick={setContactDetailsSubmittedToFalse}>
-            <LabelInput
-              contactDetailsSubmitted={contactDetailsSubmitted}
-              label={`Last Name`}
-              placeholder={`Last Name`}
-              name={`lastName`}
-              type={`text`}
-              mode={`default`}
-            />
+            {!isStatusLoading && (
+              <LabelInput
+                defaultValue={userLastName ? userLastName : ``}
+                contactDetailsSubmitted={contactDetailsSubmitted}
+                label={`Last Name`}
+                placeholder={`Last Name`}
+                name={`lastName`}
+                type={`text`}
+                mode={`default`}
+              />
+            )}
+            {isStatusLoading && (
+              <>
+                <Skeleton variant={`rounded`} width={`100%`} height={55} className={`book-now__details__input`} />
+              </>
+            )}
           </div>
         </div>
         <div className="grid margin-bottom-30px" onClick={setContactDetailsSubmittedToFalse}>
           <div className="flex flex-direction-column gap-13px margin-bottom-small">
-            <LabelInput
-              contactDetailsSubmitted={contactDetailsSubmitted}
-              label={`Email`}
-              placeholder={`Email Address`}
-              name={`email`}
-              type={`email`}
-              mode={`questionMark`}
-            />
+
+            {!isStatusLoading && (
+              <LabelInput
+                defaultValue={userEmail ? userEmail : ``}
+                contactDetailsSubmitted={contactDetailsSubmitted}
+                label={`Email`}
+                placeholder={`Email Address`}
+                name={`email`}
+                type={`email`}
+                mode={`questionMark`}
+              />
+            )}
+            {isStatusLoading && (
+              <>
+                <Skeleton variant={`rounded`} width={`100%`} height={55} className={`book-now__details__input`} />
+              </>
+            )}
           </div>
         </div>
 
@@ -159,6 +210,7 @@ export default function CheckoutFormContactDetails() {
 
             <div onClick={setContactDetailsSubmittedToFalse}>
               <LabelInput
+                defaultValue={``}
                 contactDetailsSubmitted={contactDetailsSubmitted}
                 label={`Phone`}
                 placeholder={`Phone Number`}

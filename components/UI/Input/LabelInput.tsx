@@ -14,6 +14,7 @@ type LabelTelType = {
   label: string;
   name: string;
   placeholder: string;
+  defaultValue: string;
   // children: ReactNode;
 
 }
@@ -25,6 +26,7 @@ type LabelInputType = {
   name: string;
   placeholder: string;
   label: string;
+  defaultValue: string;
   // children: ReactNode;
 } | LabelTelType;
 
@@ -48,7 +50,8 @@ export default function LabelInput(props: LabelInputType) {
         <>
           <label htmlFor={props.name}
                  className="book-now__details-label">{props.label}</label>
-          <input id={props.name} type={props.type} name={props.name} placeholder={props.placeholder}
+          <input defaultValue={props.defaultValue} id={props.name} type={props.type} name={props.name}
+                 placeholder={props.placeholder}
                  className={`book-now__details__input ${props.contactDetailsSubmitted ? `book-now__details__input-success` : ``}`}
                  required />
         </>
@@ -75,7 +78,8 @@ export default function LabelInput(props: LabelInputType) {
             {/*<!-- A TOOLTIP FOR REGISTRATION PAGE ON EMAIL FIELD --> */}
             <TooltipEmail isHovered={emailQuestionMarkHovered} />
           </div>
-          <input id={props.name} name={props.name} type={props.type} placeholder={props.placeholder}
+          <input defaultValue={props.defaultValue} id={props.name} name={props.name} type={props.type}
+                 placeholder={props.placeholder}
                  className={`book-now__details__input ${props.contactDetailsSubmitted ? `book-now__details__input-success` : ``}`}
                  required />
         </>
@@ -106,7 +110,8 @@ export default function LabelInput(props: LabelInputType) {
               ${props.contactDetailsSubmitted ? `book-now__details__input-success` : ``}`}>
               <SelectPhoneIndex contactDetailsSubmitted={props.contactDetailsSubmitted} />
             </div>
-            <input id={props.name} name={props.name} type="tel" placeholder={props.placeholder}
+            <input defaultValue={props.defaultValue} id={props.name} name={props.name} type="tel"
+                   placeholder={props.placeholder}
                    className={`book-now__details__input ${props.contactDetailsSubmitted ? `book-now__details__input-success` : ``}`}
                    required />
           </div>

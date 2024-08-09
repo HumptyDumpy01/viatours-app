@@ -4,7 +4,7 @@ import './page.scss';
 import '@/components/checkout-details/Cols/CheckoutDetailsSecondCol.scss';
 import CheckoutDetailsFirstCol from '@/components/checkout-details/Cols/CheckoutDetailsFirstCol';
 import CheckoutDetailsSecondCol from '@/components/checkout-details/Cols/CheckoutDetailsSecondCol';
-import { notFound, useRouter } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import { useCartDispatch } from '@/store/hooks';
 import { useEffect, useState } from 'react';
 import { checkoutSliceActions } from '@/store/checkoutSlice';
@@ -13,15 +13,18 @@ import LoadingCheckoutDetails from '@/app/checkout-details/loading';
 type ThanksForPurchaseType = {
   searchParams: {
     orderId: string,
+    userEmail: string
   }
   // children: ReactNode;
 }
 
 export default function ThanksForPurchase({ searchParams }: ThanksForPurchaseType) {
   const {
-    orderId
+    orderId,
+    userEmail
   } = searchParams;
   const dispatch = useCartDispatch();
+
 
   const [orderData, setOrderData] = useState<{
     order: {
@@ -94,7 +97,20 @@ export default function ThanksForPurchase({ searchParams }: ThanksForPurchaseTyp
         console.log(fetchedOrderData.order, `fetchedOrderData`);
         console.log(`updateStatus`, updateStatus.json());
 
-        // TODO: email the user about the order
+        // TODO: send back the inserted order id to user's orders array
+        const addOrderIdToUser = await fetch(`/api/add-order-id`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          // in a body tag wer simply define the data that should be submitted
+          body: JSON.stringify({
+            orderId: fetchedOrderData.order._id,
+            userEmail: userEmail
+          })
+        });
+
+        // email the user about the order
         const sendEmail = await fetch(`/api/send-email`, {
           method: 'POST',
           headers: {
