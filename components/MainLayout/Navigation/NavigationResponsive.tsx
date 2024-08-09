@@ -82,7 +82,7 @@ export default function NavigationResponsive(/*{  }: NavigationBurgerInterface*/
                      src={session.user.image}
                      alt="user icon" />}
               {!session?.user?.image &&
-                <div onClick={openSideNav}>
+                <div className={`user-actions-sidebar__user-auth-icon-responsive`} onClick={openSideNav}>
                   {userName}
                 </div>
               }

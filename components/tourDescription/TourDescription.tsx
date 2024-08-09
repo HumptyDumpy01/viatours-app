@@ -23,6 +23,8 @@ import TopTrendingWrapper from '@/components/homepage/top-trending/TopTrendingWr
 import '@/components/UI/Form/SidebarForm.scss';
 import React from 'react';
 import SidebarForm from '@/components/UI/Form/SidebarForm';
+import { getServerSession } from 'next-auth';
+import { authConfig } from '@/lib/auth';
 
 type TourDescriptionType = {
   params: {
@@ -34,6 +36,20 @@ type TourDescriptionType = {
 }
 
 export default async function TourDescriptionSection({ params, tour, similarTours }: TourDescriptionType) {
+
+  const session = await getServerSession(authConfig) as {
+    user: {
+      email: string;
+      name: string;
+      image: string;
+    }
+  };
+
+  const userEmail = session?.user.email ? session.user.email : null;
+  const userName = session?.user.name ? session.user.name : null;
+
+  console.log(`Session, executed in TourDescriptionSection:`, session);
+
   return (
     <>
       <TourDescriptionNavigation title={tour.title} params={params} />
@@ -104,7 +120,12 @@ export default async function TourDescriptionSection({ params, tour, similarTour
           <QuestionAnswer />
           <CustomerReviews rating={tour.rating} />
           <TourComments currTourComments={tour.tourComments} />
-          <LeaveReply tourId={tour._id} />
+          <LeaveReply
+            tourTitle={tour.title}
+            session={session}
+            userEmail={userEmail}
+            userName={userName}
+            tourId={tour._id} />
         </DescriptionOverview>
       </section>
       <div>

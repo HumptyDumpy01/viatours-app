@@ -12,6 +12,12 @@ import loadingSpinner from '@/animations/loading-spinner.json';
 
 type LeaveReplyType = {
   tourId: string;
+  userName: string | null;
+  userEmail: string | null;
+  tourTitle: string;
+  session: {
+    user: {}
+  };
 }
 
 function scrollToLeaveReplyForm() {
@@ -24,7 +30,7 @@ function scrollToLeaveReplyForm() {
   }
 }
 
-export default function LeaveReply({ tourId }: LeaveReplyType) {
+export default function LeaveReply({ tourId, tourTitle, userEmail, userName, session }: LeaveReplyType) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [formError, setFormError] = useState<string[]>([]);
@@ -48,19 +54,28 @@ export default function LeaveReply({ tourId }: LeaveReplyType) {
     const formData = new FormData(currObject);
     const results = Object.fromEntries(formData.entries());
 
+    // the userEmail comes directly from the session,
+    // if the user is authenticated, otherwise it comes from the form
+    const userEmailData = userEmail || results.email;
+    results.email = userEmailData;
     // Clear previous errors
     setFormError([]);
 
     // Validate form data
     const errors = validateFormData(results);
 
-    const userExists = await getUser({ email: results.email }, { email: 1, _id: 0 });
 
-    if (userExists.length > 0) {
-      setFormError([`The user with the email ${results.email} already exists. Please sign in to proceed.`]);
-      setIsSubmitting(false);
-      scrollToLeaveReplyForm();
-      return;
+    const userExists = await getUser({ email: results.email }, { email: 1 });
+
+    // INFO: The first, default condition: if user is not authenticated and the email he enters
+    //  is not in my db.
+    if (!session) {
+      if (userExists.length > 0) {
+        setFormError([`The user with the email ${results.email} already exists. Please sign in to proceed.`]);
+        setIsSubmitting(false);
+        scrollToLeaveReplyForm();
+        return;
+      }
     }
 
     if (errors.length > 0) {
@@ -104,28 +119,69 @@ export default function LeaveReply({ tourId }: LeaveReplyType) {
       (checkbox as HTMLInputElement).checked = false;
     });
 
-    // @ts-ignore
-    const submitForm = await submitTourComment(formResults);
+    if (!session) {
+      // @ts-ignore
+      const submitForm = await submitTourComment(formResults);
 
-    if (submitForm.success) {
-      e.preventDefault();
-      setIsSubmitting(false);
-      setSelectedFiles([]);
-      currObject.reset();
-
-      const customerReviewsHeading = document.querySelector('.customer-reviews-heading');
-      if (customerReviewsHeading) {
+      if (submitForm.success) {
         e.preventDefault();
-        setTimeout(function() {
-          customerReviewsHeading.scrollIntoView({ behavior: 'smooth' });
-        }, 80);
+        setIsSubmitting(false);
+        setSelectedFiles([]);
+        currObject.reset();
+
+        const customerReviewsHeading = document.querySelector('.customer-reviews-heading');
+        if (customerReviewsHeading) {
+          e.preventDefault();
+          setTimeout(function() {
+            customerReviewsHeading.scrollIntoView({ behavior: 'smooth' });
+          }, 80);
+        }
+      }
+
+      if (submitForm?.error) {
+        setFormError([submitForm.error]);
+        setIsSubmitting(false);
       }
     }
 
-    if (submitForm?.error) {
-      setFormError([submitForm.error]);
+    if (session && !userEmail) {
+      setIsSubmitting(false);
+      throw new Error(`The user is authenticated, but the email is not found in the session object.`);
+    }
+
+    // INFO: The second condition: if user is authenticated and the email he enters is IN MY DB ALREADY.
+
+    if (session && userEmail && userExists.length > 0 && userExists[0].email === results.email) {
+      console.log(`The user is authenticated and the email is found in the session object.`);
+
+      // find this user by his email, and add a notification object to array.
+      const pushNotification = await fetch(`/api/push-notification`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          userId: userExists[0]._id,
+          type: `ADDED_COMMENT`,
+          data: {
+            tourId,
+            tourTitle
+          }
+        })
+      });
+      const pushNotificationData = await pushNotification.json();
+
+      if (pushNotificationData.error) {
+        throw new Error(`Failed to push notification to user document. Error: ${pushNotificationData.error}`);
+      } else {
+        console.log(`Notification pushed to user document:`, pushNotificationData.data);
+      }
+
       setIsSubmitting(false);
     }
+
+    setIsSubmitting(false);
+
   }
 
   function validateFormData(results: Record<string, FormDataEntryValue>): string[] {
@@ -174,7 +230,7 @@ export default function LeaveReply({ tourId }: LeaveReplyType) {
             <Rate label={`Price`} name={`price`} />
             <Rate label={`Tour Operator`} name={`tourOperator`} />
           </div>
-          <LeaveReplyInputs />
+          <LeaveReplyInputs userEmail={userEmail} userName={userName} />
           <div className="leave-a-reply__form-inputs-file-upload">
             <input ref={fileInputRef} type="file" name="images" id="file"
                    className="leave-a-reply__form-inputs-file-upload-input" max={3}

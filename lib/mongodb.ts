@@ -690,10 +690,12 @@ type createUserType = {
 }
 
 export type UserType = {
+  image: null | `string`;
   firstName: string;
+  registeredManually: boolean;
   lastName: string;
   email: string;
-  password: string;
+  password: string | null;
   phone: string | null;
   orders: string[];
   notifications: UserNotificationsType[];
@@ -713,7 +715,7 @@ type UserNotificationsType = {
 }
 
 
-export async function createUser(formData: createUserType) {
+export async function createUser(formData: createUserType, createViaProvider?: boolean) {
   try {
 
     const client = await clientPromise;
@@ -740,6 +742,8 @@ export async function createUser(formData: createUserType) {
     }
 
     const transformedUser: UserType = {
+      image: null,
+      registeredManually: true,
       firstName: formData.firstName,
       lastName: formData.lastName,
       email: formData.email,
@@ -785,6 +789,34 @@ export async function createUser(formData: createUserType) {
 
   } catch (e) {
     throw new Error(`An error occurred while creating a user. Please try again later. ${e}`);
+  }
+}
+
+export type updateUserType = {
+  userId: string;
+  type: `ADDED_COMMENT` | `MADE_ORDER`;
+  data: unknown;
+}
+
+export async function pushNotificationToUserDocument(userId: string, type: `ADDED_COMMENT` | `MADE_ORDER`, data: unknown) {
+
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+
+  if (type === `ADDED_COMMENT`) {
+    const addedCommentNotification: UserNotificationsType = {
+      type: `darkOrange`,
+      icon: `map`,
+      addedAt: new Date(),
+      timestamp: Timestamp.fromNumber(Date.now()),
+      text: `You left a comment on <a href='tours/${data.tourId}'>“${data.tourTitle.slice(0, 20)}”</a> tour!`
+    };
+    // find this user by his email, and add a notification object to array.
+    // @ts-ignore
+    const result = await db.collection(`users`)
+      .updateOne({ _id: new ObjectId(userId) }, { $push: { notifications: addedCommentNotification } });
+
+    return result;
   }
 }
 

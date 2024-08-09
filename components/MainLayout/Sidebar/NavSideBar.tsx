@@ -22,7 +22,7 @@ export default function NavSideBar() {
     // even if the user has one word name
     const name = session.user?.name?.split(' ');
     userName = name?.length === 1 ? name[0].charAt(0).toUpperCase() : `${name![0].charAt(0) + `.`}${name![1].charAt(0)}`.toUpperCase();
-    console.log(`Session: `, session);
+    // console.log(`Session: `, session);
   }
 
 
