@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { addOrderIdToUserDocument } from '@/lib/mongodb';
+import { addOrderIdToUserDocument, getUser } from '@/lib/mongodb';
 
 export async function POST(request: NextRequest) {
   try {

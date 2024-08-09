@@ -9,6 +9,7 @@ import { useCartDispatch } from '@/store/hooks';
 import { useEffect, useState } from 'react';
 import { checkoutSliceActions } from '@/store/checkoutSlice';
 import LoadingCheckoutDetails from '@/app/checkout-details/loading';
+import { getUser } from '@/lib/mongodb';
 
 type ThanksForPurchaseType = {
   searchParams: {
@@ -97,18 +98,24 @@ export default function ThanksForPurchase({ searchParams }: ThanksForPurchaseTyp
         console.log(fetchedOrderData.order, `fetchedOrderData`);
         console.log(`updateStatus`, updateStatus.json());
 
-        // TODO: send back the inserted order id to user's orders array
-        const addOrderIdToUser = await fetch(`/api/add-order-id`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          // in a body tag wer simply define the data that should be submitted
-          body: JSON.stringify({
-            orderId: fetchedOrderData.order._id,
-            userEmail: userEmail
-          })
-        });
+        const IsUserExists = await getUser({ email: userEmail }, { email: 1, _id: 0 });
+
+        // if not, then just return. No need to save it onto user history.
+        // This is the benefit for authenticated users.
+        if (IsUserExists.length > 0) {
+          // TODO: send back the inserted order id to user's orders array
+          const addOrderIdToUser = await fetch(`/api/add-order-id`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            // in a body tag wer simply define the data that should be submitted
+            body: JSON.stringify({
+              orderId: fetchedOrderData.order._id,
+              userEmail: userEmail
+            })
+          });
+        }
 
         // email the user about the order
         const sendEmail = await fetch(`/api/send-email`, {

@@ -891,6 +891,9 @@ export async function addOrderIdToUserDocument(orderId: string, userEmail: strin
   if (IsUserExists.length === 0) {
     return;
   }
+
+  // TODO: Push new notification to the user's document
+
   // @ts-ignore
   const result = await db.collection(`users`).updateOne({ email: userEmail }, { $push: { orders: new ObjectId(orderId) } });
 
