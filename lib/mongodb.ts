@@ -823,6 +823,9 @@ export async function pushNotificationToUserDocument(userId: string, type: `ADDE
   const client = await clientPromise;
   const db = client.db(`viatoursdb`);
 
+  // @ts-ignore
+  const transformedTourTitle = data.tourTitle.length > 40 ? data.tourTitle.slice(0, 40) + `...` : data.tourTitle;
+
   if (type === `ADDED_COMMENT`) {
     const addedCommentNotification: UserNotificationsType = {
       type: `darkOrange`,
@@ -830,7 +833,7 @@ export async function pushNotificationToUserDocument(userId: string, type: `ADDE
       addedAt: new Date(),
       timestamp: Timestamp.fromNumber(Date.now()),
       // @ts-ignore
-      text: `You left a comment on <a href='tours/${data.tourId}'>“${data.tourTitle.slice(0, 40)}...”</a> tour!`
+      text: `You left a comment on <a href='tours/${data.tourId}'>“${transformedTourTitle}”</a> tour!`
     };
     // find this user by his email, and add a notification object to array.
 
