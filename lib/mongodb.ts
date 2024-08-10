@@ -879,7 +879,8 @@ export async function addOrderIdToUserDocument(
   userEmail: string,
   tourId: string,
   tourTitle: string,
-  userPhoneNumber: string
+  userPhoneNumber: string,
+  getEmailsWithOffers: boolean
 ) {
   const client = await clientPromise;
   const db = client.db(`viatoursdb`);
@@ -896,7 +897,8 @@ export async function addOrderIdToUserDocument(
     return;
   }
 
-  const user = await getUser({ email: userEmail }, { email: 1, _id: 0, phone: 1 });
+
+  const user = await getUser({ email: userEmail }, { email: 1, _id: 0, phone: 1, extra: 1 });
 
   let userPhone: string = ``;
 
@@ -906,8 +908,8 @@ export async function addOrderIdToUserDocument(
     userPhone = userPhoneNumber;
   }
 
-  console.log(`Executing tourId: `, tourId);
-  console.log(`Executing tourTitle: `, tourTitle);
+  // console.log(`Executing tourId: `, tourId);
+  // console.log(`Executing tourTitle: `, tourTitle);
 
   // Push new notification to the user's document
   const newNotificationOrder: UserNotificationsType = {
@@ -917,6 +919,31 @@ export async function addOrderIdToUserDocument(
     timestamp: Timestamp.fromNumber(Date.now()),
     text: `You successfully bought tickets to <a class="highlighted" href="tours/${tourId}">“${tourTitle}”<a/> tour!`
   };
+
+  console.log(`Executing getEmailsWithOffers: `, getEmailsWithOffers);
+  console.log(`Executing user: 
+  user[0].extra.signedOnNewsletter === false`, user[0].extra.signedOnNewsletter === false);
+
+  // TODO: check if you have user email in the newsletter collection, if not, add it.
+  if (getEmailsWithOffers && user[0].extra.signedOnNewsletter === false) {
+
+    const insertEmailToNewsletter = await db.collection('newsletter').updateOne(
+      { email: userEmail },
+      { $setOnInsert: { email: userEmail } },
+      { upsert: true }
+    );
+
+    if (!insertEmailToNewsletter.acknowledged) {
+      throw new Error(`Failed to insert email to the newsletter collection.`);
+    }
+
+    const updateUser = await db.collection(`users`)
+      .updateOne({ email: userEmail }, { $set: { 'extra.signedOnNewsletter': true } });
+
+    if (!updateUser.acknowledged) {
+      throw new Error(`Failed to update the user document.`);
+    }
+  }
 
 
   if (userPhone.length > 0) {
@@ -937,7 +964,7 @@ export async function addOrderIdToUserDocument(
     );
 
     if (!result) {
-      throw new Error(`Failed to add an order id to the user document.`);
+      throw new Error(` Failed to add an order id to the user document.`);
     }
 
     return {
@@ -957,13 +984,32 @@ export async function addOrderIdToUserDocument(
     );
 
     if (!result) {
-      throw new Error(`Failed to add an order id to the user document.`);
+      throw new Error(` Failed to add an order id to the user document.`);
     }
 
     return {
       acknowledged: result.acknowledged
     };
   }
+}
 
+export async function addEmailToNewsletter(email: string) {
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+
+  const insertEmailToNewsletter = await db.collection('newsletter').updateOne(
+    { email: email },
+    { $setOnInsert: { email: email } },
+    { upsert: true }
+  );
+
+  if (!insertEmailToNewsletter.acknowledged) {
+    throw new Error(`Failed to insert email to the newsletter collection.`);
+  }
+
+  return {
+    acknowledged: insertEmailToNewsletter.acknowledged
+  };
 
 }
+

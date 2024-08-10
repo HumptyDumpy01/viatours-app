@@ -105,11 +105,31 @@ export default function ThanksForPurchase({ searchParams }: ThanksForPurchaseTyp
         console.log(fetchedOrderData.order, `fetchedOrderData`);
         console.log(`updateStatus`, updateStatus.json());
 
-        const IsUserExists = await getUser({ email: userEmail }, { email: 1, _id: 0 });
+        const isUserExists = await getUser({ email: userEmail }, { email: 1, _id: 0 });
+
+
+        if (isUserExists.length === 0 && fetchedOrderData.order.contactDetails.getEmailsWithOffers) {
+          // if the user is not signed up, then add it to newsletter
+          const pushEmailToNewsletter = await fetch(`/api/newsletter`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              email: fetchedOrderData.order.contactDetails.email
+            })
+          });
+
+          const addEmailToNewsletterData = await pushEmailToNewsletter.json();
+
+          if (addEmailToNewsletterData.error) {
+            throw new Error(`Failed to add email to newsletter.`);
+          }
+        }
 
         // if not, then just return. No need to save it onto user history.
         // This is the benefit for authenticated users.
-        if (IsUserExists.length > 0) {
+        if (isUserExists.length > 0) {
 
           // send back the inserted order id to user's orders array
           const addOrderIdToUser = await fetch(`/api/add-order-id`, {
@@ -123,7 +143,8 @@ export default function ThanksForPurchase({ searchParams }: ThanksForPurchaseTyp
               userEmail: userEmail,
               tourId: fetchedOrderData.order.tourId,
               tourTitle: fetchedOrderData.order.tourTitle,
-              userPhoneNumber: fetchedOrderData.order.contactDetails.phone
+              userPhoneNumber: fetchedOrderData.order.contactDetails.phone,
+              getEmailsWithOffers: fetchedOrderData.order.contactDetails.getEmailsWithOffers
             })
           });
         }
