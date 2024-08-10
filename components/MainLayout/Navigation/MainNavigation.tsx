@@ -84,7 +84,7 @@ export default function MainNavigation(/*{  }: MainNavigationInterface*/) {
         </div>
         <div className={`navigation-wrapper-2 flex flex-align-center`}>
           <NavButton pathname={`/`}>Home</NavButton>
-          <NavButton pathname={`/tours`}>All Tours</NavButton>
+          <NavButton pathname={`/tours`}>Tours</NavButton>
           <NavButton pathname={`/articles`}>Tour Articles</NavButton>
           <NavButton pathname={`/account-settings/wishlist`}>Wishlist</NavButton>
           {/*@ts-ignore*/}

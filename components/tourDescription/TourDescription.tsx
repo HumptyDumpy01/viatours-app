@@ -4,7 +4,6 @@ import '@/components/homepage/top-trending/TopTrending.scss';
 import TourDescriptionNavigation from '@/components/tourDescription/TourDescriptionNav/TourDescriptionNavigation';
 import DescriptionTag from '@/components/tourDescription/DescriptionTag';
 import { TourInterface } from '@/data/DUMMY_TOURS';
-import TourStats from '@/components/tourDescription/TourStats';
 import Gallery from '@/components/UI/Gallery/Gallery';
 import DescriptionOverview from '@/components/tourDescription/TourOverview/DescriptionOverview';
 import TourOverviewInfo from '@/components/tourDescription/TourOverview/TourOverviewInfo';
@@ -25,6 +24,7 @@ import React from 'react';
 import SidebarForm from '@/components/UI/Form/SidebarForm';
 import { getServerSession } from 'next-auth';
 import { authConfig } from '@/lib/auth';
+import TourStatsContainer from '@/components/tourDescription/TourOverview/TourStatsContainer';
 
 type TourDescriptionType = {
   params: {
@@ -57,7 +57,7 @@ export default async function TourDescriptionSection({ params, tour, similarTour
         <DescriptionTag />
         <h1 className="description__heading margin-bottom-small">{tour.title}</h1>
         <div className="description__stats-wrapper flex flex-space-between">
-          <TourStats
+          <TourStatsContainer
             info={{
               rating: tour.rating.overall,
               totalReviews: tour.reviews,

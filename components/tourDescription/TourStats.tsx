@@ -1,7 +1,12 @@
-// 'use client';
+'use client';
+
 import './TourStats.scss';
 import Stars from '@/components/UI/Layout/Stars';
 import IconIon from '@/components/UI/IonIcon/IconIon';
+import { useSession } from 'next-auth/react';
+import { usePathname, useRouter } from 'next/navigation';
+import { Skeleton } from '@mui/material';
+import { useEffect, useState } from 'react';
 
 type TourStatsType = {
   info: {
@@ -17,6 +22,60 @@ type TourStatsType = {
 }
 
 export default function TourStats({ info }: TourStatsType) {
+
+  const { data: session, status } = useSession();
+  const router = useRouter();
+
+  const pathname = usePathname();
+  const pathParts = pathname.split('/');
+  const tourId = pathParts[pathParts.length - 1];
+
+  const [isUserAddedTourToWishlist, setIsUserAddedTourToWishlist] = useState<boolean | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  const isStatusLoading = status === 'loading';
+
+  useEffect(() => {
+    if (session && session.user?.email) {
+      setIsLoading(true);
+      // TODO: create a function to check if the user has added this tour to the wishlist already,
+      const result = fetch(`/api/find-wishlisted-tour`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          tourId,
+          userEmail: session.user.email
+        })
+
+      }).then(res => res.json()).then(data => {
+
+        console.log(`Data from the server: `, data);
+        setIsUserAddedTourToWishlist(data.result);
+        setIsLoading(false);
+      });
+      setIsLoading(false);
+    }
+
+  }, [session]);
+
+  function handleAddToWishlist() {
+    if (!session) {
+      // redirect to sign in page, with the new tab
+      router.push('/login');
+      // this would open the sign-in page in a new tab
+      // window.open('/login', '_blank');
+    } else {
+      // TODO: create a server function to ex ADD/REMOVE(if already added)
+      //  the tour to the wishlist in mongodb.ts.
+      //  use API route then. You should check the currently active tourId, and the user's email
+      //  from the session. Then push this  objectId(tourId) to wishlist array in the user's document.
+
+    }
+
+  }
+
   return (
     <>
       <div className="description__stats flex">
@@ -45,11 +104,19 @@ export default function TourStats({ info }: TourStatsType) {
           <IconIon type={`arrowRedo`} className="icon icon--share"></IconIon>
           Share
         </button>
-        <button className="paragraph--wishlist">
-          {/*<ion-icon name="bookmark-outline" className="icon icon--bookmark"></ion-icon>*/}
-          <IconIon type={`bookmarkOutline`} className="icon icon--bookmark"></IconIon>
-          Wishlist
-        </button>
+        {!isStatusLoading && (
+          <button className={`paragraph--wishlist ${isUserAddedTourToWishlist ? `highlighted` : ``}`}
+                  onClick={handleAddToWishlist}>
+            {/*<ion-icon name="bookmark-outline" className="icon icon--bookmark"></ion-icon>*/}
+            <IconIon type={`bookmarkOutline`} className="icon icon--bookmark"></IconIon>
+            {isUserAddedTourToWishlist ? `Wishlisted` : `Wishlist`}
+          </button>
+        )}
+        {(isStatusLoading || isLoading) && (
+          <>
+            <Skeleton variant="text" width={70} height={20} />
+          </>
+        )}
       </div>
     </>
   );

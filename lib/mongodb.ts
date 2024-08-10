@@ -920,11 +920,11 @@ export async function addOrderIdToUserDocument(
     text: `You successfully bought tickets to <a class="highlighted" href="tours/${tourId}">“${tourTitle}”<a/> tour!`
   };
 
-  console.log(`Executing getEmailsWithOffers: `, getEmailsWithOffers);
-  console.log(`Executing user: 
-  user[0].extra.signedOnNewsletter === false`, user[0].extra.signedOnNewsletter === false);
+  // console.log(`Executing getEmailsWithOffers: `, getEmailsWithOffers);
+  // console.log(`Executing user:
+  // user[0].extra.signedOnNewsletter === false`, user[0].extra.signedOnNewsletter === false);
 
-  // TODO: check if you have user email in the newsletter collection, if not, add it.
+  // check if you have user email in the newsletter collection, if not, add it.
   if (getEmailsWithOffers && user[0].extra.signedOnNewsletter === false) {
 
     const insertEmailToNewsletter = await db.collection('newsletter').updateOne(
@@ -993,6 +993,24 @@ export async function addOrderIdToUserDocument(
   }
 }
 
+export async function findWishlistedTour(tourId: string, userEmail: string) {
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+
+  const user = await getUser({ email: userEmail }, { email: 1, _id: 0, wishlist: 1 });
+
+  if (user.length === 0) {
+    throw new Error(`The user with the email ${userEmail} does not exist.`);
+  }
+
+  const isTourWishlisted = user[0].wishlist.includes(`ObjectId('${tourId}')`);
+
+  return isTourWishlisted;
+}
+
+///////////////////////////////////////
+
+/* IMPORTANT: NEWSLETTER */
 export async function addEmailToNewsletter(email: string) {
   const client = await clientPromise;
   const db = client.db(`viatoursdb`);
@@ -1012,4 +1030,3 @@ export async function addEmailToNewsletter(email: string) {
   };
 
 }
-
