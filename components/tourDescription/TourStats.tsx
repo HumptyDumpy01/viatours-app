@@ -38,7 +38,7 @@ export default function TourStats({ info }: TourStatsType) {
   useEffect(() => {
     if (session && session.user?.email) {
       setIsLoading(true);
-      // TODO: create a function to check if the user has added this tour to the wishlist already,
+      //  create a function to check if the user has added this tour to the wishlist already,
       const result = fetch(`/api/find-wishlisted-tour`, {
         method: 'POST',
         headers: {
@@ -56,6 +56,8 @@ export default function TourStats({ info }: TourStatsType) {
         setIsLoading(false);
       });
       setIsLoading(false);
+    } else {
+      setIsLoading(false);
     }
 
   }, [session]);
@@ -67,7 +69,7 @@ export default function TourStats({ info }: TourStatsType) {
       // this would open the sign-in page in a new tab
       // window.open('/login', '_blank');
     } else {
-      // TODO: create a server function to ex ADD/REMOVE(if already added)
+      //  create a server function to ex ADD/REMOVE(if already added)
       //  the tour to the wishlist in mongodb.ts.
       //  use API route then. You should check the currently active tourId, and the user's email
       //  from the session. Then push this  objectId(tourId) to wishlist array in the user's document.
