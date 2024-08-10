@@ -874,7 +874,13 @@ export async function pushNotificationToUserDocument(userId: string, type: `ADDE
   }
 }
 
-export async function addOrderIdToUserDocument(orderId: string, userEmail: string, tourId: string, tourTitle: string) {
+export async function addOrderIdToUserDocument(
+  orderId: string,
+  userEmail: string,
+  tourId: string,
+  tourTitle: string,
+  userPhoneNumber: string
+) {
   const client = await clientPromise;
   const db = client.db(`viatoursdb`);
 
@@ -882,7 +888,7 @@ export async function addOrderIdToUserDocument(orderId: string, userEmail: strin
     throw new Error(`No order id or user email provided.`);
   }
 
-  const IsUserExists = await getUser({ email: userEmail }, { email: 1, _id: 0 });
+  const IsUserExists = await getUser({ email: userEmail }, { email: 1, _id: 0, phone: 1 });
 
   // if not, then just return. No need to save it onto user history.
   // This is the benefit for authenticated users.
@@ -890,7 +896,20 @@ export async function addOrderIdToUserDocument(orderId: string, userEmail: strin
     return;
   }
 
-  // TODO: Push new notification to the user's document
+  const user = await getUser({ email: userEmail }, { email: 1, _id: 0, phone: 1 });
+
+  let userPhone: string = ``;
+
+  // TODO: check if user exists and if his phone number is null
+  if (user.length > 0 && !user[0].phone) {
+    // TODO: set the phone number the one got from the form
+    userPhone = userPhoneNumber;
+  }
+
+  console.log(`Executing tourId: `, tourId);
+  console.log(`Executing tourTitle: `, tourTitle);
+
+  // Push new notification to the user's document
   const newNotificationOrder: UserNotificationsType = {
     type: `green`,
     icon: `map`,
@@ -899,24 +918,52 @@ export async function addOrderIdToUserDocument(orderId: string, userEmail: strin
     text: `You successfully bought tickets to <a class="highlighted" href="tours/${tourId}">“${tourTitle}”<a/> tour!`
   };
 
-  const result = await db.collection('users').updateOne(
-    { email: userEmail },
-    {
-      // @ts-ignore
-      $push: {
-        orders: new ObjectId(orderId),
-        notifications: newNotificationOrder
+
+  if (userPhone.length > 0) {
+    const result = await db.collection('users').updateOne(
+      { email: userEmail },
+      {
+        // @ts-ignore
+        $push: {
+          orders: new ObjectId(orderId),
+          notifications: newNotificationOrder
+        },
+
+        // TODO: Push phone number to the user document
+        $set: {
+          phone: userPhone
+        }
       }
+    );
+
+    if (!result) {
+      throw new Error(`Failed to add an order id to the user document.`);
     }
-  );
 
+    return {
+      acknowledged: result.acknowledged
+    };
 
-  if (!result) {
-    throw new Error(`Failed to add an order id to the user document.`);
+  } else {
+    const result = await db.collection('users').updateOne(
+      { email: userEmail },
+      {
+        // @ts-ignore
+        $push: {
+          orders: new ObjectId(orderId),
+          notifications: newNotificationOrder
+        }
+      }
+    );
+
+    if (!result) {
+      throw new Error(`Failed to add an order id to the user document.`);
+    }
+
+    return {
+      acknowledged: result.acknowledged
+    };
   }
 
-  return {
-    acknowledged: result.acknowledged
-  };
 
 }

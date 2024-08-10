@@ -40,6 +40,13 @@ export default function ThanksForPurchase({ searchParams }: ThanksForPurchaseTyp
         date: string,
         totalPrice: number
       },
+      contactDetails: {
+        firstName: string,
+        lastName: string,
+        email: string,
+        getEmailsWithOffers: boolean,
+        phone: string
+      }
       extraDetails: {
         promoApplied: boolean,
         tourDiscount: number,
@@ -103,6 +110,7 @@ export default function ThanksForPurchase({ searchParams }: ThanksForPurchaseTyp
         // if not, then just return. No need to save it onto user history.
         // This is the benefit for authenticated users.
         if (IsUserExists.length > 0) {
+
           // TODO: send back the inserted order id to user's orders array
           const addOrderIdToUser = await fetch(`/api/add-order-id`, {
             method: 'POST',
@@ -114,7 +122,8 @@ export default function ThanksForPurchase({ searchParams }: ThanksForPurchaseTyp
               orderId: fetchedOrderData.order._id,
               userEmail: userEmail,
               tourId: fetchedOrderData.order.tourId,
-              tourTitle: fetchedOrderData.order.tourTitle
+              tourTitle: fetchedOrderData.order.tourTitle,
+              userPhoneNumber: fetchedOrderData.order.contactDetails.phone
             })
           });
         }
