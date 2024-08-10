@@ -112,7 +112,9 @@ export default function ThanksForPurchase({ searchParams }: ThanksForPurchaseTyp
             // in a body tag wer simply define the data that should be submitted
             body: JSON.stringify({
               orderId: fetchedOrderData.order._id,
-              userEmail: userEmail
+              userEmail: userEmail,
+              tourId: fetchedOrderData.order.tourId,
+              tourTitle: fetchedOrderData.order.tourTitle
             })
           });
         }

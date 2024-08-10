@@ -512,7 +512,7 @@ export async function createOrder(contactDetails: FormContactDetailsType,
   console.log(`Executing activityDetails: `, activityDetails);
   console.log(`Executing order: `, order);
 
-  const isUserExists = false;
+  // const isUserExists = false;
 
   if (!contactDetails || !activityDetails || !order) {
     throw new Error(`Failed to get form details!`);
@@ -525,8 +525,6 @@ export async function createOrder(contactDetails: FormContactDetailsType,
     tourId: new ObjectId(order.tourId),
     tourTitle: order.tourTitle,
     // can be null or an ObjectId
-    userId: !isUserExists ? null : new ObjectId(`HereComesTheUserId`),
-
     booking: {
       // should be a date in ISO format
       date: new Date(order.date).toISOString(),
@@ -876,7 +874,7 @@ export async function pushNotificationToUserDocument(userId: string, type: `ADDE
   }
 }
 
-export async function addOrderIdToUserDocument(orderId: string, userEmail: string) {
+export async function addOrderIdToUserDocument(orderId: string, userEmail: string, tourId: string, tourTitle: string) {
   const client = await clientPromise;
   const db = client.db(`viatoursdb`);
 
@@ -893,9 +891,25 @@ export async function addOrderIdToUserDocument(orderId: string, userEmail: strin
   }
 
   // TODO: Push new notification to the user's document
+  const newNotificationOrder: UserNotificationsType = {
+    type: `green`,
+    icon: `map`,
+    addedAt: new Date(),
+    timestamp: Timestamp.fromNumber(Date.now()),
+    text: `You successfully bought tickets to <a class="highlighted" href="tours/${tourId}">“${tourTitle}”<a/> tour!`
+  };
 
-  // @ts-ignore
-  const result = await db.collection(`users`).updateOne({ email: userEmail }, { $push: { orders: new ObjectId(orderId) } });
+  const result = await db.collection('users').updateOne(
+    { email: userEmail },
+    {
+      // @ts-ignore
+      $push: {
+        orders: new ObjectId(orderId),
+        notifications: newNotificationOrder
+      }
+    }
+  );
+
 
   if (!result) {
     throw new Error(`Failed to add an order id to the user document.`);
