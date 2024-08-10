@@ -1003,9 +1003,57 @@ export async function findWishlistedTour(tourId: string, userEmail: string) {
     throw new Error(`The user with the email ${userEmail} does not exist.`);
   }
 
-  const isTourWishlisted = user[0].wishlist.includes(`ObjectId('${tourId}')`);
+  const isTourWishlisted = user[0].wishlist.includes(tourId);
 
   return isTourWishlisted;
+}
+
+export async function handleAddRemoveFromWishlist(isWishlisted: boolean, tourId: string, userEmail: string) {
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+
+  if (isWishlisted) {
+    // remove from wishlist
+    const result = await db.collection(`users`).updateOne({ email: userEmail }, {
+      // @ts-ignore
+      $pull: {
+        wishlist: new ObjectId(tourId)
+      }
+    });
+
+    if (!result.acknowledged) {
+      return {
+        acknowledged: false
+      };
+    }
+
+    return {
+      acknowledged: result.acknowledged,
+      status: `REMOVED`
+    };
+
+  } else {
+    // TODO: add to wishlist
+    const result = await db.collection(`users`).updateOne({ email: userEmail }, {
+      // @ts-ignore
+      $push: {
+        wishlist: new ObjectId(tourId)
+      }
+    });
+
+    if (!result.acknowledged) {
+      return {
+        acknowledged: false
+      };
+    }
+
+    return {
+      acknowledged: result.acknowledged,
+      status: `ADDED`
+    };
+  }
+
+
 }
 
 ///////////////////////////////////////

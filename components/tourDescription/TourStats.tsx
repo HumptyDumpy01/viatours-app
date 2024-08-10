@@ -51,7 +51,7 @@ export default function TourStats({ info }: TourStatsType) {
 
       }).then(res => res.json()).then(data => {
 
-        console.log(`Data from the server: `, data);
+        console.log(`whether user has this tour in wishlist:`, data.result);
         setIsUserAddedTourToWishlist(data.result);
         setIsLoading(false);
       });
@@ -71,9 +71,33 @@ export default function TourStats({ info }: TourStatsType) {
       //  the tour to the wishlist in mongodb.ts.
       //  use API route then. You should check the currently active tourId, and the user's email
       //  from the session. Then push this  objectId(tourId) to wishlist array in the user's document.
+      setIsLoading(true);
+      const result = fetch(`/api/handle-remove-add-to-wishlist`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          isWishlisted: isUserAddedTourToWishlist,
+          tourId,
+          userEmail: session.user!.email
+        })
 
+      }).then(res => res.json()).then(data => {
+        if (data.error) {
+          setIsLoading(false);
+          console.error(`Failed to add/remove the tour to/from the wishlist!`);
+          return;
+        }
+        console.log(`Data from the server: `, data);
+        setIsUserAddedTourToWishlist(data.status === `ADDED`);
+        setIsLoading(false);
+
+      }).catch(e => {
+        console.error(`Failed to add/remove the tour to/from the wishlist: ${e}`);
+        setIsLoading(false);
+      });
     }
-
   }
 
   return (
@@ -104,7 +128,7 @@ export default function TourStats({ info }: TourStatsType) {
           <IconIon type={`arrowRedo`} className="icon icon--share"></IconIon>
           Share
         </button>
-        {!isStatusLoading && (
+        {(!isStatusLoading && !isLoading) && (
           <button className={`paragraph--wishlist ${isUserAddedTourToWishlist ? `highlighted` : ``}`}
                   onClick={handleAddToWishlist}>
             {/*<ion-icon name="bookmark-outline" className="icon icon--bookmark"></ion-icon>*/}
