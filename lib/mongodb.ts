@@ -900,9 +900,9 @@ export async function addOrderIdToUserDocument(
 
   let userPhone: string = ``;
 
-  // TODO: check if user exists and if his phone number is null
+  // check if user exists and if his phone number is null
   if (user.length > 0 && !user[0].phone) {
-    // TODO: set the phone number the one got from the form
+    // set the phone number the one got from the form
     userPhone = userPhoneNumber;
   }
 
@@ -929,7 +929,7 @@ export async function addOrderIdToUserDocument(
           notifications: newNotificationOrder
         },
 
-        // TODO: Push phone number to the user document
+        // Push phone number to the user document
         $set: {
           phone: userPhone
         }

@@ -111,7 +111,7 @@ export default function ThanksForPurchase({ searchParams }: ThanksForPurchaseTyp
         // This is the benefit for authenticated users.
         if (IsUserExists.length > 0) {
 
-          // TODO: send back the inserted order id to user's orders array
+          // send back the inserted order id to user's orders array
           const addOrderIdToUser = await fetch(`/api/add-order-id`, {
             method: 'POST',
             headers: {
