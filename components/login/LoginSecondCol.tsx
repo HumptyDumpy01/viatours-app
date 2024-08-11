@@ -37,8 +37,6 @@ export default function LoginSecondCol({ message }: LoginSecondColType) {
     });
 
     if (signInResponse && !signInResponse.error) {
-
-
       // setLoading(false);
       // router.push(`/`);
       window.location.href = `/`;

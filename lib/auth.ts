@@ -6,7 +6,6 @@ import { redirect } from 'next/navigation';
 import bcrypt from 'bcrypt';
 import { createUserWhenAuthViaProvider, getUser, UserType } from '@/lib/mongodb';
 import { Timestamp } from 'mongodb';
-import { revalidatePath } from 'next/cache';
 
 export const authConfig: NextAuthOptions = {
   providers: [
@@ -113,9 +112,6 @@ export const authConfig: NextAuthOptions = {
 
           };
           token.user = user;
-
-          revalidatePath(`/`, `layout`);
-
         } else {
 
           const dbUser = await getUser({ email: profile.email }, {
@@ -133,7 +129,6 @@ export const authConfig: NextAuthOptions = {
           };
 
           token.user = user;
-          revalidatePath(`/`, `layout`);
         }
       }
       return token;

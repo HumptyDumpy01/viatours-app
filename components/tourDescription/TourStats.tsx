@@ -183,7 +183,7 @@ export default function TourStats({ info }: TourStatsType) {
         )}
         {(isStatusLoading || isLoading) && (
           <>
-            <Skeleton variant="text" width={70} height={20} />
+            <Skeleton variant="text" width={115} height={29} />
           </>
         )}
       </div>
