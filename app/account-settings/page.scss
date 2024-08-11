@@ -317,6 +317,8 @@
         overflow: hidden;
 
         .user-logo {
+          overflow: hidden;
+          object-fit: cover;
           width: 7.4rem;
           height: 7.4rem;
           display: flex;
@@ -325,6 +327,13 @@
           font-weight: 600;
           background-color: var(--clr-dark-blue);
           color: var(--clr-white);
+
+          .user-image {
+            width: 7.4rem;
+            height: 7.4rem;
+            object-fit: cover;
+            border-radius: 50%;
+          }
 
           &-wrapper {
             position: relative;

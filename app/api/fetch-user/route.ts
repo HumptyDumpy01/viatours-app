@@ -2,13 +2,13 @@ import { NextResponse } from 'next/server';
 import { getUser } from '@/lib/mongodb';
 
 export async function POST(request: Request) {
-  const { userEmail } = await request.json();
+  const { userEmail, options } = await request.json();
 
   if (!userEmail) {
     return NextResponse.json({ message: 'Email is required.', status: 400, resp: false });
   }
 
-  const result = await getUser({ email: userEmail }, { _id: 0 });
+  const result = await getUser({ email: userEmail }, options);
   console.log(`result: `, result);
 
   if (result.length > 0) {

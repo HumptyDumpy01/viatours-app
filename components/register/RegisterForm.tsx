@@ -59,7 +59,8 @@ export default function RegisterForm(/*{  }: RegisterFormType*/) {
       },
       // in a body tag wer simply define the data that should be submitted
       body: JSON.stringify({
-        userEmail: results.email
+        userEmail: results.email,
+        options: { email: 1 }
       })
     });
     const userExistsData = await userExists.json();

@@ -3,10 +3,11 @@
 type UserType = {
   userInitials: string;
   userEmail: string;
+  image: string | null;
   // children: ReactNode;
 }
 
-export default function User({ userInitials, userEmail }: UserType) {
+export default function User({ userInitials, userEmail, image }: UserType) {
 
   if (!userInitials || !userEmail) {
     throw new Error('userName and userEmail are required');
@@ -17,18 +18,41 @@ export default function User({ userInitials, userEmail }: UserType) {
   return (
     <div className="account-settings__content-user">
       <div className="account-settings__content-user__info flex flex-align-center">
-        <div className="user-logo-wrapper">
-          <div className="user-logo">{userNameAbbr}</div>
-          <svg className="user-logo__edit-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
-               viewBox="0 0 32 32" fill="none">
-            <path
-              d="M32 16C32 24.8366 24.8366 32 16 32C7.16344 32 0 24.8366 0 16C0 7.16344 7.16344 0 16 0C24.8366 0 32 7.16344 32 16Z"
-              fill="#EB662B" />
-            <path
-              d="M11 18.917V21H13.0831L19.2267 14.8564L17.1436 12.7733L11 18.917ZM20.8376 13.2455C20.889 13.1941 20.9299 13.1331 20.9578 13.0659C20.9857 12.9987 21 12.9266 21 12.8539C21 12.7811 20.9857 12.7091 20.9578 12.6419C20.9299 12.5747 20.889 12.5137 20.8376 12.4623L19.5377 11.1624C19.4863 11.111 19.4253 11.0701 19.3581 11.0422C19.2909 11.0143 19.2189 11 19.1461 11C19.0734 11 19.0013 11.0143 18.9341 11.0422C18.8669 11.0701 18.8059 11.111 18.7545 11.1624L17.738 12.179L19.821 14.262L20.8376 13.2455Z"
-              fill="white" />
-          </svg>
-        </div>
+        {!image && (
+          <div className="user-logo-wrapper">
+            <div className="user-logo">{userNameAbbr}</div>
+            <svg className="user-logo__edit-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                 viewBox="0 0 32 32" fill="none">
+              <path
+                d="M32 16C32 24.8366 24.8366 32 16 32C7.16344 32 0 24.8366 0 16C0 7.16344 7.16344 0 16 0C24.8366 0 32 7.16344 32 16Z"
+                fill="#EB662B" />
+              <path
+                d="M11 18.917V21H13.0831L19.2267 14.8564L17.1436 12.7733L11 18.917ZM20.8376 13.2455C20.889 13.1941 20.9299 13.1331 20.9578 13.0659C20.9857 12.9987 21 12.9266 21 12.8539C21 12.7811 20.9857 12.7091 20.9578 12.6419C20.9299 12.5747 20.889 12.5137 20.8376 12.4623L19.5377 11.1624C19.4863 11.111 19.4253 11.0701 19.3581 11.0422C19.2909 11.0143 19.2189 11 19.1461 11C19.0734 11 19.0013 11.0143 18.9341 11.0422C18.8669 11.0701 18.8059 11.111 18.7545 11.1624L17.738 12.179L19.821 14.262L20.8376 13.2455Z"
+                fill="white" />
+            </svg>
+          </div>
+        )}
+        {image && (
+          <>
+            <div className="account-settings__content-user__info flex flex-align-center">
+              <div className="user-logo-wrapper">
+                <div className="user-logo">
+                  <img className={`user-image`} src={image} alt="User Avatar" />
+                  <svg className="user-logo__edit-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                       viewBox="0 0 32 32" fill="none">
+                    <path
+                      d="M32 16C32 24.8366 24.8366 32 16 32C7.16344 32 0 24.8366 0 16C0 7.16344 7.16344 0 16 0C24.8366 0 32 7.16344 32 16Z"
+                      fill="#EB662B" />
+                    <path
+                      d="M11 18.917V21H13.0831L19.2267 14.8564L17.1436 12.7733L11 18.917ZM20.8376 13.2455C20.889 13.1941 20.9299 13.1331 20.9578 13.0659C20.9857 12.9987 21 12.9266 21 12.8539C21 12.7811 20.9857 12.7091 20.9578 12.6419C20.9299 12.5747 20.889 12.5137 20.8376 12.4623L19.5377 11.1624C19.4863 11.111 19.4253 11.0701 19.3581 11.0422C19.2909 11.0143 19.2189 11 19.1461 11C19.0734 11 19.0013 11.0143 18.9341 11.0422C18.8669 11.0701 18.8059 11.111 18.7545 11.1624L17.738 12.179L19.821 14.262L20.8376 13.2455Z"
+                      fill="white" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+
         <div className="user-initials">
           <h3 className="user-initials__name">{userInitials}</h3>
           <p className="user-initials__email">{userEmail}</p>
