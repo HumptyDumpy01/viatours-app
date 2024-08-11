@@ -7,6 +7,7 @@ import { transformedResultsType } from '@/components/checkout/form/CheckoutFormA
 import { OrderInterface } from '@/components/checkout/checkout-details/CheckoutDetails';
 import bcrypt from 'bcrypt';
 import { comment } from 'postcss';
+import { notFound } from 'next/navigation';
 
 // Extend the global interface
 // it resolves issues with the global variable missing type
@@ -84,6 +85,11 @@ export async function getTourById(id: string, incViews?: boolean) {
   //   // increment the views by 1
   //   await db.collection(`tours`).updateOne({ _id: new ObjectId(id) }, { $inc: { views: 1 } });
   // }
+
+  // check if input must be a 24 character hex string, 12 byte Uint8Array, or an integer
+  if (!ObjectId.isValid(id)) {
+    notFound();
+  }
 
   const tour = await db.collection('tours').aggregate([
     {
