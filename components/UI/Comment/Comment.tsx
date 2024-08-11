@@ -5,7 +5,7 @@ import starEmpty from '../../../assets/images/homepage/findPopularTours/empty-st
 import Image, { StaticImageData } from 'next/image';
 import IconIon from '@/components/UI/IonIcon/IconIon';
 import GallerySlider from '@/components/UI/Gallery/GallerySlider';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CldImage } from 'next-cloudinary';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
@@ -20,6 +20,8 @@ type CommentType = {
   images: string[] | StaticImageData[];
   likes: number;
   dislikes: number;
+  likesArray: string[];
+  dislikesArray: string[];
   // abuseReports: number;
   // children: ReactNode;
 }
@@ -34,7 +36,9 @@ export default function
             text,
             images,
             likes,
-            dislikes
+            dislikes,
+            likesArray,
+            dislikesArray
             // abuseReports
           }: CommentType) {
 
@@ -48,14 +52,29 @@ export default function
   const [commentLikes, setCommentLikes] = useState(likes);
   const [commentDislikes, setCommentDislikes] = useState(dislikes);
 
-  const [userLikedComment, setUserLikedComment] = useState<boolean>(false);
-  const [userDislikedComment, setUserDislikedComment] = useState<boolean>(false);
-
-  // TODO: Check if user liked or disliked some comments or not
-
   const { data: session, status } = useSession();
   const router = useRouter();
 
+  console.log(`likesArray: `, likesArray);
+  console.log(`dislikesArray: `, dislikesArray);
+
+  let isUserLikedComment: boolean = false;
+  let isUserDislikedComment: boolean = false;
+
+  const [userLikedComment, setUserLikedComment] = useState<boolean>(isUserLikedComment);
+  const [userDislikedComment, setUserDislikedComment] = useState<boolean>(isUserDislikedComment);
+
+  useEffect(() => {
+    if (session && session.user!.email) {
+      isUserLikedComment = likesArray.includes(session.user!.email.toString());
+      isUserDislikedComment = dislikesArray.includes(session.user!.email.toString());
+
+      setUserLikedComment(isUserLikedComment);
+      setUserDislikedComment(isUserDislikedComment);
+    }
+  }, [session]);
+
+  // Check if user liked or disliked some comments or not
 
   function handleCommentAction(action: `LIKE` | `DISLIKE`, setActive: boolean,
                                setCommentVal: (prevState: number) => number) {
@@ -144,8 +163,8 @@ export default function
       setCommentLikes(prevState => prevState + 1);
       ///////////////////////////////////////
 
-      // TODO:  create a server function that would perform two actions
-      //  based on the params: push or pull the user id from the likes array
+      // create a server function that would perform two actions
+      // based on the params: push or pull the user id from the likes array
       handleCommentAction(`LIKE`, false, (prevState: number) => prevState - 1);
     }
 

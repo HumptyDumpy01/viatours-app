@@ -85,7 +85,9 @@ export default function Hero() {
   return (
     <>
       <form onSubmit={handleSubmit} className="hero-form">
+        {/*<SessionProvider>*/}
         <HeroHeading />
+        {/*</SessionProvider>*/}
         <div className="hero__second-part flex">
           {locationIsOpen && (
             // @ts-ignore

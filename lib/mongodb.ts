@@ -1067,7 +1067,7 @@ export async function handleCommentAction(commentId: string, userEmail: string, 
     const client = await clientPromise;
     const db = client.db(`viatoursdb`);
 
-    // TODO: fetch  the comment
+    // fetch  the comment
     const fetchedComment = await db.collection(`tourComments`).aggregate(
       [{ $match: { _id: new ObjectId(commentId) } }, { $project: { likes: 1, dislikes: 1 } }]).toArray();
 
@@ -1075,18 +1075,18 @@ export async function handleCommentAction(commentId: string, userEmail: string, 
       new Error(`Failed to fetch the comment.`);
     }
 
-    console.log(`Executing fetchedComment: `, fetchedComment[0]);
+    // console.log(`Executing fetchedComment: `, fetchedComment[0]);
 
-    console.log(`Executing commentId on Server: `, commentId);
-    console.log(`Executing userEmail on Server: `, userEmail);
-    console.log(`Executing action on Server: `, action);
+    // console.log(`Executing commentId on Server: `, commentId);
+    // console.log(`Executing userEmail on Server: `, userEmail);
+    // console.log(`Executing action on Server: `, action);
 
 
     if (action === `LIKE`) {
 
       // if the user already liked comment , and he did not dislike it before
       if (fetchedComment[0].likes.includes(userEmail) && !fetchedComment[0].dislikes.includes(userEmail)) {
-        // TODO: REMOVE THE LIKE
+        //  REMOVE THE LIKE
         const removedLike = await db.collection(`tourComments`).updateOne({ _id: new ObjectId(commentId) }, {
           // @ts-ignore
           $pull: {
@@ -1156,7 +1156,7 @@ export async function handleCommentAction(commentId: string, userEmail: string, 
 
     if (action === `DISLIKE`) {
 
-      // TODO: if the user already disliked comment , and he did not like it before
+      // if the user already disliked comment , and he did not like it before
       if (fetchedComment[0].dislikes.includes(userEmail) && !fetchedComment[0].likes.includes(userEmail)) {
         //  remove the dislike
         const removedDislike = await db.collection(`tourComments`).updateOne({ _id: new ObjectId(commentId) }, {
@@ -1178,7 +1178,7 @@ export async function handleCommentAction(commentId: string, userEmail: string, 
         }
       }
 
-      // TODO: // if the user did not dislike comment before, and he did not like either
+      // if the user did not dislike the comment before, and he did not like either
 
       if (!fetchedComment[0].dislikes.includes(userEmail) && !fetchedComment[0].likes.includes(userEmail)) {
 
@@ -1201,7 +1201,7 @@ export async function handleCommentAction(commentId: string, userEmail: string, 
         }
       }
 
-      // TODO: // if the user did not dislike comment, but he did like it before
+      // if the user did not dislike comment, but he did like it before
 
       if (!fetchedComment[0].dislikes.includes(userEmail) && fetchedComment[0].likes.includes(userEmail)) {
 

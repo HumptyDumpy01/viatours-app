@@ -39,7 +39,8 @@ export default function LoginSecondCol({ message }: LoginSecondColType) {
     if (signInResponse && !signInResponse.error) {
 
       // setLoading(false);
-      router.push(`/`);
+      // router.push(`/`);
+      window.location.href = `/`;
     } else {
       console.error(`Sign in error: ${signInResponse?.error}`);
       setError(signInResponse?.error === `CredentialsSignin` ? `Invalid email or password!` : `Sign in failed`);

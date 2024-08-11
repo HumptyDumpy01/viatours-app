@@ -59,6 +59,8 @@ export default function TourComments({ currTourComments }: TourCommentsType) {
           text={comment.text}
           images={comment.images}
           likes={comment.likes.length}
+          likesArray={comment.likes}
+          dislikesArray={comment.dislikes}
           dislikes={comment.dislikes.length}
           // abuse_reports={comment.abuseReports}
         />
