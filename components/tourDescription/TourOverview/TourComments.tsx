@@ -14,8 +14,8 @@ export type TourCommentsType = {
     text: string;
     images: string[];
     addedAt: string;
-    likes: number;
-    dislikes: number;
+    likes: [];
+    dislikes: [];
   }[];
 };
 
@@ -58,8 +58,8 @@ export default function TourComments({ currTourComments }: TourCommentsType) {
           title={comment.title}
           text={comment.text}
           images={comment.images}
-          likes={comment.likes}
-          dislikes={comment.dislikes}
+          likes={comment.likes.length}
+          dislikes={comment.dislikes.length}
           // abuse_reports={comment.abuseReports}
         />
       ))}

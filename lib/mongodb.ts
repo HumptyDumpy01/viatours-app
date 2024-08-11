@@ -6,6 +6,7 @@ import { FormContactDetailsType } from '@/components/checkout/form/CheckoutFormC
 import { transformedResultsType } from '@/components/checkout/form/CheckoutFormActivityDetails';
 import { OrderInterface } from '@/components/checkout/checkout-details/CheckoutDetails';
 import bcrypt from 'bcrypt';
+import { comment } from 'postcss';
 
 // Extend the global interface
 // it resolves issues with the global variable missing type
@@ -1033,7 +1034,7 @@ export async function handleAddRemoveFromWishlist(isWishlisted: boolean, tourId:
     };
 
   } else {
-    // TODO: add to wishlist
+    // add to wishlist
     const result = await db.collection(`users`).updateOne({ email: userEmail }, {
       // @ts-ignore
       $push: {
@@ -1052,9 +1053,189 @@ export async function handleAddRemoveFromWishlist(isWishlisted: boolean, tourId:
       status: `ADDED`
     };
   }
+}
 
+export type handleCommentActionType = {
+  commentId: string;
+  userEmail: string;
+  action: `LIKE` | `DISLIKE`;
 
 }
+
+export async function handleCommentAction(commentId: string, userEmail: string, action: `LIKE` | `DISLIKE`) {
+  try {
+    const client = await clientPromise;
+    const db = client.db(`viatoursdb`);
+
+    // TODO: fetch  the comment
+    const fetchedComment = await db.collection(`tourComments`).aggregate(
+      [{ $match: { _id: new ObjectId(commentId) } }, { $project: { likes: 1, dislikes: 1 } }]).toArray();
+
+    if (fetchedComment.length === 0) {
+      new Error(`Failed to fetch the comment.`);
+    }
+
+    console.log(`Executing fetchedComment: `, fetchedComment[0]);
+
+    console.log(`Executing commentId on Server: `, commentId);
+    console.log(`Executing userEmail on Server: `, userEmail);
+    console.log(`Executing action on Server: `, action);
+
+
+    if (action === `LIKE`) {
+
+      // if the user already liked comment , and he did not dislike it before
+      if (fetchedComment[0].likes.includes(userEmail) && !fetchedComment[0].dislikes.includes(userEmail)) {
+        // TODO: REMOVE THE LIKE
+        const removedLike = await db.collection(`tourComments`).updateOne({ _id: new ObjectId(commentId) }, {
+          // @ts-ignore
+          $pull: {
+            likes: userEmail
+          }
+        });
+
+        if (!removedLike.acknowledged) {
+          return {
+            acknowledged: false
+          };
+        } else {
+          return {
+            acknowledged: removedLike.acknowledged,
+            status: `REMOVED`
+          };
+        }
+      }
+
+      // if the user did not like comment, and he did not dislike it before
+      if (!fetchedComment[0].likes.includes(userEmail) && !fetchedComment[0].dislikes.includes(userEmail)) {
+        const pushedLike = await db.collection(`tourComments`).updateOne({ _id: new ObjectId(commentId) }, {
+          // @ts-ignore
+          $push: {
+            likes: userEmail
+          }
+        });
+
+        if (!pushedLike.acknowledged) {
+          return {
+            acknowledged: false
+          };
+        } else {
+          return {
+            acknowledged: pushedLike.acknowledged,
+            status: `LIKED`
+          };
+        }
+      }
+
+      // if the user disliked a comment before, and he did not like it
+      if (fetchedComment[0].dislikes.includes(userEmail) && !fetchedComment[0].likes.includes(userEmail)) {
+        const response = await db.collection(`tourComments`).updateOne({ _id: new ObjectId(commentId) }, {
+          // @ts-ignore
+          $pull: {
+            dislikes: userEmail
+          },
+          // @ts-ignore
+          $push: {
+            likes: userEmail
+          }
+        });
+
+        if (!response.acknowledged) {
+          return {
+            acknowledged: false
+          };
+        } else {
+          return {
+            acknowledged: response.acknowledged,
+            status: `LIKED_AND_REMOVED_DISLIKE`
+          };
+        }
+      }
+
+    }
+
+    if (action === `DISLIKE`) {
+
+      // TODO: if the user already disliked comment , and he did not like it before
+      if (fetchedComment[0].dislikes.includes(userEmail) && !fetchedComment[0].likes.includes(userEmail)) {
+        //  remove the dislike
+        const removedDislike = await db.collection(`tourComments`).updateOne({ _id: new ObjectId(commentId) }, {
+          // @ts-ignore
+          $pull: {
+            dislikes: userEmail
+          }
+        });
+
+        if (!removedDislike.acknowledged) {
+          return {
+            acknowledged: false
+          };
+        } else {
+          return {
+            acknowledged: removedDislike.acknowledged,
+            status: `REMOVED_DISLIKE`
+          };
+        }
+      }
+
+      // TODO: // if the user did not dislike comment before, and he did not like either
+
+      if (!fetchedComment[0].dislikes.includes(userEmail) && !fetchedComment[0].likes.includes(userEmail)) {
+
+        const addedDislike = await db.collection(`tourComments`).updateOne({ _id: new ObjectId(commentId) }, {
+          // @ts-ignore
+          $push: {
+            dislikes: userEmail
+          }
+        });
+
+        if (!addedDislike.acknowledged) {
+          return {
+            acknowledged: false
+          };
+        } else {
+          return {
+            acknowledged: addedDislike.acknowledged,
+            status: `ADDED_DISLIKE`
+          };
+        }
+      }
+
+      // TODO: // if the user did not dislike comment, but he did like it before
+
+      if (!fetchedComment[0].dislikes.includes(userEmail) && fetchedComment[0].likes.includes(userEmail)) {
+
+        const response = await db.collection(`tourComments`).updateOne({ _id: new ObjectId(commentId) }, {
+          // @ts-ignore
+          $pull: {
+            likes: userEmail
+          },
+          // @ts-ignore
+          $push: {
+            dislikes: userEmail
+          }
+        });
+
+        if (!response.acknowledged) {
+          return {
+            acknowledged: false
+          };
+        } else {
+          return {
+            acknowledged: response.acknowledged,
+            status: `ADDED_DISLIKE_AND_REMOVED_LIKE`
+          };
+        }
+      }
+
+    }
+
+  } catch (e) {
+    throw new Error(`Failed to handle the comment action. ${e}`);
+  }
+
+}
+
 
 ///////////////////////////////////////
 

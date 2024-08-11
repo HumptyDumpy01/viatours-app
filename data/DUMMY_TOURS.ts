@@ -74,7 +74,7 @@ export interface TourInterface {
     text: string;
     images: string[];
     addedAt: string;
-    likes: number;
-    dislikes: number;
+    likes: [];
+    dislikes: [];
   }[];
 }

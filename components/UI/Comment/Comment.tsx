@@ -6,7 +6,6 @@ import Image, { StaticImageData } from 'next/image';
 import IconIon from '@/components/UI/IonIcon/IconIon';
 import GallerySlider from '@/components/UI/Gallery/GallerySlider';
 import { useState } from 'react';
-import { DUMMY_TOUR_COMMENTS } from '@/data/DUMMY_COMMENTS';
 import { CldImage } from 'next-cloudinary';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
@@ -52,8 +51,43 @@ export default function
   const [userLikedComment, setUserLikedComment] = useState<boolean>(false);
   const [userDislikedComment, setUserDislikedComment] = useState<boolean>(false);
 
+  // TODO: Check if user liked or disliked some comments or not
+
   const { data: session, status } = useSession();
   const router = useRouter();
+
+
+  function handleCommentAction(action: `LIKE` | `DISLIKE`, setActive: boolean,
+                               setCommentVal: (prevState: number) => number) {
+
+    const result = fetch(`/api/handle-comment-action`, {
+      method: `POST`,
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        commentId: id,
+        userEmail: session!.user!.email,
+        action: action
+      })
+    }).then((res) => {
+      return res.json();
+    }).then((data) => {
+
+
+      if (!data.acknowledged && action === `LIKE`) {
+        setUserLikedComment(setActive);
+        setCommentLikes(setCommentVal);
+      }
+
+      if (!data.acknowledged && action === `DISLIKE`) {
+        setUserDislikedComment(setActive);
+        setCommentDislikes(setCommentVal);
+      }
+
+    });
+  }
+
 
   let nameParts;
   // if a user has a just one word in their name, we should take the first two letters of the name
@@ -86,80 +120,64 @@ export default function
 
   function handleLikeComment() {
 
-    // if user is not authenticated, redirect to the login page
     if (!session) {
       router.push(`/login`);
       return;
     }
 
-    if (userDislikedComment) {
-      setUserDislikedComment(false);
-      setCommentDislikes(prevState => prevState - 1);
-
-      // TODO: find the comment in the dummy data and decrease the dislikes
-      DUMMY_TOUR_COMMENTS.map((item) => {
-        if (item.id === id) {
-          item.dislikes = item.dislikes - 1;
-        }
-      });
-
-    }
-
     if (userLikedComment) {
       setUserLikedComment(false);
       setCommentLikes(prevState => prevState - 1);
+      ///////////////////////////////////////
 
-      // TODO: find the comment in the dummy data and decrease the likes
-      DUMMY_TOUR_COMMENTS.map((item) => {
-        if (item.id === id) {
-          item.likes = item.likes - 1;
-        }
-      });
+      handleCommentAction(`LIKE`, true, (prevState: number) => prevState + 1);
+
     } else {
+
+      if (userDislikedComment) {
+        setUserDislikedComment(false);
+        setCommentDislikes(prevState => prevState - 1);
+      }
+
+      // INFO: OPTIMISTIC UPDATE OF THE STATE
       setUserLikedComment(true);
       setCommentLikes(prevState => prevState + 1);
+      ///////////////////////////////////////
 
-      // TODO: find the comment in the dummy data and increase the likes
-      DUMMY_TOUR_COMMENTS.map((item) => {
-        if (item.id === id) {
-          item.likes = item.likes + 1;
-        }
-      });
+      // TODO:  create a server function that would perform two actions
+      //  based on the params: push or pull the user id from the likes array
+      handleCommentAction(`LIKE`, false, (prevState: number) => prevState - 1);
     }
+
   }
 
   function handleDislikeComment() {
 
-    // if user is not authenticated, redirect to the login page
+    // if the user is not authenticated, redirect to the login page
     if (!session) {
       router.push(`/login`);
       return;
     }
 
-    if (userLikedComment) {
-      setUserLikedComment(false);
-      setCommentLikes(prevState => prevState - 1);
-    }
     if (userDislikedComment) {
+      // INFO: OPTIMISTIC UPDATE OF THE STATE
       setUserDislikedComment(false);
       setCommentDislikes(prevState => prevState - 1);
-
-      DUMMY_TOUR_COMMENTS.map((item) => {
-        if (item.id === id) {
-          item.dislikes = item.dislikes - 1;
-        }
-      });
+      ///////////////////////////////////////
+      handleCommentAction(`DISLIKE`, false, (prevState: number) => prevState - 1);
 
     } else {
+
+      if (userLikedComment) {
+        setUserLikedComment(false);
+        setCommentLikes(prevState => prevState - 1);
+      }
+
+      // INFO: OPTIMISTIC UPDATE OF THE STATE
       setUserDislikedComment(true);
       setCommentDislikes(prevState => prevState + 1);
 
-      // TODO: find the comment in the dummy data and increase the dislikes
-      DUMMY_TOUR_COMMENTS.map((item) => {
-        if (item.id === id) {
-          item.dislikes = item.dislikes + 1;
-        }
-      });
+      handleCommentAction(`DISLIKE`, true, (prevState: number) => prevState + 1);
     }
   }
 
