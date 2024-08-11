@@ -17,7 +17,7 @@
   --clr-light-white-2: #F5F5F5;
   --clr-grey-3: #EFEEEE;
   --clr-silver: #E7E6E6;
-  --clr-grey: #717171;
+  --clr-grey: #989898;
   --clr-darker-grey: #757575;
   --clr-darker-grey-2: #5e5e5e;
   --clr-purple: #4A43C4;
@@ -1113,4 +1113,15 @@ b {
 .input-error {
   border: 1px solid #ff0000;
   background-color: #fff0f0;
+}
+
+.disabled-input-label {
+  cursor: not-allowed;
+  color: #989898FF !important;
+}
+
+.disabled-input-field {
+  cursor: not-allowed;
+  background-color: #e8e8e8 !important;
+  color: var(--clr-grey) !important;
 }

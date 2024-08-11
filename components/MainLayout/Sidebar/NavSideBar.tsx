@@ -54,9 +54,9 @@ export default function NavSideBar() {
         )}
         <div className="user-actions-sidebar__actions-container">
           <SidebarLink disabled label="Viatours Rewards" type="reward" pathName="" />
-          <SidebarLink label="Wishlist" type="orange-heart" pathName="/account-settings/wishlist" />
-          <SidebarLink label="Saved Articles" type="purple-heart" pathName="/account-settings/saved-articles" />
-          <SidebarLink label="Account Settings" type="settings" pathName="/account-settings/" />
+          <SidebarLink label="Wishlist" type="orange-heart" pathName="/account-settings?page=wishlist" />
+          <SidebarLink label="Saved Articles" type="purple-heart" pathName="/account-settings?page=saved-articles" />
+          <SidebarLink label="Account Settings" type="settings" pathName="/account-settings?page=profile" />
           <SidebarLink disabled label="" type="language" pathName="" />
           <SidebarLink disabled label="" type="currency" pathName="" />
         </div>

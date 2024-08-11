@@ -1,0 +1,46 @@
+.account-settings__content__secondary {
+  &-heading {
+    font-size: 2rem;
+    margin-bottom: 2.5rem;
+    margin-top: 3.5rem;
+    color: var(--clr-primary);
+  }
+
+  &__p-wrapper {
+    position: relative;
+    margin-bottom: 1.3rem;
+    display: grid;
+    grid-template-columns: 2.5rem auto;
+  }
+
+  &__p {
+    color: var(--clr-blue-lighter);
+    margin-left: 1.5rem;
+    font-size: 1.5rem;
+    line-height: 1.6;
+
+
+    &-icon {
+      top: -.4rem;
+      left: 0;
+      width: 2.2rem;
+      height: 2.2rem;
+      padding: .5rem;
+      border-radius: 50%;
+      background-color: var(--clr-primary);
+    }
+  }
+
+  &-link {
+    text-decoration: none;
+    color: var(--clr-primary);
+    transition: all 0.3s;
+    cursor: pointer;
+    display: inline-block;
+
+    &:hover, &:active {
+      color: var(--clr-primary);
+      transform: scale(1.03);
+    }
+  }
+}

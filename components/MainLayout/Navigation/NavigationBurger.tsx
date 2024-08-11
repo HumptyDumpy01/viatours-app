@@ -33,7 +33,7 @@ export default function NavigationBurger(/*{  }: NavigationBurgerInterface*/) {
           <NavBurgerLink pathname={`/articles`}>Tour Articles</NavBurgerLink>
         </li>
         <li>
-          <NavBurgerLink pathname={`/account-settings/wishlist`}>Wishlist</NavBurgerLink>
+          <NavBurgerLink pathname={`/account-settings?page=wishlist`}>Wishlist</NavBurgerLink>
         </li>
         {session && (
           <>

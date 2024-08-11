@@ -1,0 +1,457 @@
+.account-settings-wrapper {
+  margin-top: 4rem;
+  padding: 4.3rem 4rem;
+  padding-right: 0;
+  background-color: #FCFCFC;
+
+  @media only screen and (max-width: 54.3125em) {
+    background-color: var(--clr-white);
+    margin-top: 5.4rem;
+    padding-top: 0;
+  }
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  border-bottom-left-radius: 12px;
+
+  .account-settings {
+
+    &__heading {
+      font-weight: 700;
+    }
+
+    grid-template-columns: 22.2rem auto;
+    background-color: var(--clr-white);
+    margin-top: 3.6rem;
+    padding-bottom: 4.3rem;
+    width: 100%;
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+    @media only screen and (max-width: 54.3125em) {
+      grid-template-columns: 1fr;
+    }
+
+    &__element {
+      &-title,
+      &-title-skeleton {
+        border-radius: 2px !important;
+        cursor: pointer;
+        transition: all .3s cubic-bezier(0.041, 0.094, 0.212, 0.935);
+        border: none;
+        width: 100%;
+        background-color: var(--clr-white);
+        font-weight: 600;
+        padding: 1.7rem;
+        font-size: 1.7rem;
+        text-align: center;
+        color: var(--clr-blue-lighter);
+
+
+      }
+
+      &-title {
+        &:hover, &:active {
+          color: var(--clr-white);
+          background-color: var(--clr-primary);
+        }
+
+      }
+
+      &-title-skeleton {
+        &:hover, &:active {
+          color: var(--clr-white);
+          background-color: var(--clr-white) !important;
+        }
+      }
+    }
+
+    &__sidebar {
+
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      scrollbar-color: transparent transparent;
+      padding-top: 2.7rem;
+      border-right: 1px solid var(--clr-grey-3);
+      @media only screen and (max-width: 54.3125em) {
+        display: flex;
+        align-items: center;
+        padding-top: 0;
+        max-width: 100%;
+        height: 5.8rem;
+      }
+
+      &__element-skeleton {
+        margin-bottom: -1.5rem;
+
+        &:hover, &:active {
+          background-color: var(--clr-white) !important;
+
+          .account-settings__element-title {
+            color: var(--clr-white);
+          }
+        }
+      }
+
+      &__element {
+        &:hover, &:active {
+          background-color: var(--clr-primary);
+
+          .account-settings__element-title {
+            color: var(--clr-white);
+          }
+        }
+      }
+
+      &__element-skeleton,
+      &__element {
+        transition: all .4s;
+        @media only screen and (max-width: 54.3125em) {
+          min-width: 20rem;
+          margin-top: .3rem;
+        }
+
+        @media only screen and (max-width: 32.4375em) {
+          min-width: 20rem !important;
+        }
+      }
+
+      //&__element {
+      //  transition: all .4s;
+      //  @media only screen and (max-width: 54.3125em) {
+      //    min-width: 20rem;
+      //    margin-top: .3rem;
+      //  }
+      //
+      //  @media only screen and (max-width: 32.4375em) {
+      //    min-width: 20rem !important;
+      //  }
+      //
+      //  &:hover, &:active {
+      //    background-color: var(--clr-primary);
+      //
+      //    .account-settings__element-title {
+      //      color: var(--clr-white);
+      //    }
+      //  }
+      //}
+    }
+
+    // STYLES FOR ACCOUNT SETTINGS CONTENT
+    &__content {
+      width: 67.7rem;
+      margin-top: 6.7rem;
+      margin-left: 8rem;
+      animation-name: moveInLeft;
+      animation-duration: 1s;
+      //animation-delay: 0.2s;
+      /*animation-iteration-count: 2;*/
+      animation-timing-function: ease-out;
+
+      @media only screen and (max-width: 54.3125em) {
+        margin: 3.3rem auto 0 auto;
+        width: 80%;
+      }
+      @media only screen and (max-width: 40.5625em) {
+        margin: 3.3rem;
+        max-width: 90%;
+      }
+
+      .my-profile-heading {
+        margin-right: auto;
+        font-weight: 600;
+        font-family: 'Inter', sans-serif;
+      }
+
+      &-my-profile-heading {
+        align-items: center;
+        margin-bottom: 2.1rem;
+
+        @media only screen and (max-width: 37.5em) {
+          justify-content: left;
+          gap: 1.9rem;
+        }
+      }
+
+      &-user__info {
+        gap: 2.7rem;
+      }
+
+      .my-profile-cancel-button-wrapper {
+        transition: all .4s;
+        visibility: hidden;
+        opacity: 0;
+        width: 0;
+        padding: .3rem;
+        background-color: #fff;
+        border: none;
+        border-radius: 12px;
+      }
+
+      .my-profile-cancel-button {
+        transition: all .4s;
+        color: var(--clr-primary);
+        background-color: #fff;
+        border: none;
+        padding: 1.6rem 1.2rem 1.6rem 3.2rem;
+        font-size: 1.6rem;
+        font-weight: 600;
+        border-radius: 9px;
+        height: 4.9rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        @media only screen and (max-width: 28.0625em) {
+          display: none;
+        }
+      }
+
+      .my-profile-edit-button {
+        /*        opacity: 0;
+                visibility: hidden;*/
+        &-wrapper {
+          cursor: pointer;
+          background-color: var(--clr-primary);
+          padding-right: 1.5rem;
+          border-radius: 12px;
+          transition: all .3s;
+
+          &:hover, &:active {
+            background-color: var(--clr-white);
+            //box-shadow: 0 0 0 1px var(--clr-primary);
+            border: 1px solid var(--clr-primary);
+
+            .account-settings__content__secondary__p-icon-save {
+              transition: all .2s;
+              stroke: var(--clr-primary);
+              fill: var(--clr-primary);
+            }
+
+            .my-profile-edit-button__icon--save {
+              stroke: var(--clr-primary);
+            }
+
+            .my-profile-edit-button {
+              transition: all .2s;
+              color: var(--clr-primary);
+            }
+          }
+        }
+
+        background-color: transparent;
+        //color: var(--clr-primary);
+        color: var(--clr-white);
+        //background-color: #fff;
+        border: none;
+        padding: 1.6rem 1.2rem 1.6rem 3.2rem;
+        font-size: 1.6rem;
+        font-weight: 600;
+        border-radius: 9px;
+        height: 4.9rem;
+        cursor: pointer;
+        transition: all .4s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &__icon {
+          stroke: var(--clr-white);
+
+          &--save {
+          }
+        }
+      }
+
+      &-user {
+        border-radius: 12px;
+        padding: 2.5rem 2.5rem;
+        border: 1px solid var(--clr-silver);
+        @media only screen and (max-width: 37.5em) {
+          border: none;
+          padding-left: 0;
+        }
+        position: relative;
+        overflow: hidden;
+
+        .user-logo {
+          width: 7.4rem;
+          height: 7.4rem;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          font-weight: 600;
+          background-color: var(--clr-dark-blue);
+          color: var(--clr-white);
+
+          &-wrapper {
+            position: relative;
+          }
+
+          border-radius: 50%;
+          //box-shadow: 0 0 1.5rem rgba(0, 0, 0, .2);
+
+          &__edit-icon {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all .4s;
+            @media only screen and (max-width: 75em) {
+              width: 2.9rem;
+              height: 2.9rem;
+            }
+          }
+        }
+
+        // add before pseudo element to create a shape
+        &::before {
+          content: '';
+          position: absolute;
+          top: -4rem;
+          right: -10rem;
+          width: 40rem;
+          height: 40rem;
+          border-radius: 50%;
+          background-color: var(--clr-primary);
+          @media only screen and (max-width: 37.5em) {
+            display: none;
+          }
+        }
+
+        .viatours-logo {
+          position: absolute;
+          bottom: 1.9rem;
+          right: 1.5rem;
+          width: 12.7rem;
+          height: 2.3rem;
+          @media only screen and (max-width: 37.5em) {
+            display: none;
+          }
+        }
+
+      }
+
+      &__inputs {
+        margin-top: 3.4rem;
+        column-gap: 3.4rem;
+        row-gap: 3rem;
+        @media only screen and (max-width: 33.375em) {
+          display: flex;
+          flex-direction: column;
+        }
+      }
+
+      &__input-field {
+        height: 5.8rem;
+        padding: 2rem 3.2rem 2rem 2rem;
+        border-radius: 12px;
+        border: none;
+        background-color: var(--clr-grey-3);
+        font-size: 1.47rem;
+        color: var(--clr-grey4);
+        @media only screen and (max-width: 37.5em) {
+          height: 6.1rem;
+          width: 100%;
+        }
+
+        &--active {
+          background-color: var(--clr-white);
+          box-shadow: 0 0 0 1px var(--clr-primary);
+
+          &:focus {
+            color: var(--clr-blue-lighter);
+          }
+        }
+
+        &--error {
+          background-color: rgba(235, 43, 43, .2);
+          border: 1px solid var(--clr-error);
+          color: var(--clr-blue-lighter);
+        }
+      }
+
+      &__input-label {
+        font-size: 2.1rem;
+        font-weight: 600;
+        color: var(--clr-dark-blue);
+        margin-bottom: 1.5rem;
+      }
+
+
+    }
+
+    .user-initials {
+      &__name {
+        font-size: 2rem;
+        font-weight: 600;
+        color: var(--clr-blue-lighter);
+        margin-bottom: .6rem;
+      }
+
+      &__email {
+        font-size: 1.4rem;
+        color: var(--clr-grey4);
+      }
+    }
+  }
+}
+
+.delete-account.account-settings__element-title {
+  color: var(--clr-primary);
+}
+
+.account-settings__sidebar__element.delete-account {
+  margin-top: 2.7rem;
+  @media only screen and (max-width: 54.3125em) {
+    margin-top: 0;
+  }
+}
+
+.fix-alpha-badge {
+  position: relative;
+
+}
+
+.alpha-badge {
+  position: absolute;
+  top: 1.5rem;
+  right: 4.2rem;
+  pointer-events: none;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  padding: .2rem .3rem;
+  color: var(--clr-white);
+  background-color: var(--clr-error);
+  @media only screen and (max-width: 57.9375em) {
+    right: 3rem;
+    top: 1rem;
+  }
+}
+
+.active.account-settings__element-title {
+  color: var(--clr-white);
+  background-color: var(--clr-primary);
+  border-radius: 2px;
+}
+
+.notifications {
+  font-size: 1rem;
+  background-color: var(--clr-strawberry-red);
+  padding: .2rem;
+  border-radius: 50%;
+}
+
+.account-settings-content-container {
+  transition: all .4s;
+  animation-name: moveInLeft;
+  animation-duration: 1s;
+  //animation-delay: 0.2s;
+  /*animation-iteration-count: 2;*/
+  animation-timing-function: ease-out;
+
+  &:hover, &:active {
+    transform: scale(1.02);
+  }
+
+}
