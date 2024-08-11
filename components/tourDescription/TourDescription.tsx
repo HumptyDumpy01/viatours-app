@@ -56,9 +56,10 @@ export default async function TourDescriptionSection({ params, tour, similarTour
       <section className="description container">
         <DescriptionTag />
         <h1 className="description__heading margin-bottom-small">{tour.title}</h1>
-        <div className="description__stats-wrapper flex flex-space-between">
+        <div className="description__stats-wrapper">
           <TourStatsContainer
             info={{
+              title: tour.title,
               rating: tour.rating.overall,
               totalReviews: tour.reviews,
               city: tour.city,

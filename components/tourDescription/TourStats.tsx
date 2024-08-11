@@ -8,6 +8,18 @@ import { usePathname, useRouter } from 'next/navigation';
 import { Skeleton } from '@mui/material';
 import { useEffect, useState } from 'react';
 
+import {
+  EmailIcon,
+  EmailShareButton,
+  FacebookIcon,
+  FacebookShareButton,
+  TwitterIcon,
+  TwitterShareButton,
+  WhatsappIcon,
+  WhatsappShareButton
+} from 'react-share';
+
+
 type TourStatsType = {
   info: {
     rating: number;
@@ -16,7 +28,7 @@ type TourStatsType = {
     country: string;
     booked: number;
     views: number;
-
+    title: string;
   }
   // children: ReactNode;
 }
@@ -25,6 +37,9 @@ export default function TourStats({ info }: TourStatsType) {
 
   const { data: session, status } = useSession();
   const router = useRouter();
+
+  const shareUrl = window.location.href;
+  const shareTitle = `${info.title}, ${info.city}, ${info.country}`;
 
   const pathname = usePathname();
   const pathParts = pathname.split('/');
@@ -105,31 +120,53 @@ export default function TourStats({ info }: TourStatsType) {
   return (
     <>
       <div className="description__stats flex">
-        <div className="description__stats-rating flex">
-          <Stars rating={info.rating} />
-          <div className="description__stats-rating--rate flex">
-            <p className="description__stats-rating--rate">{info.rating.toFixed(1)}</p>
-            <p className="description__stats-rating--reviews">({info.totalReviews})</p>
+
+        <div className={`description__stats-first-col`}>
+          <div className="description__stats-rating flex">
+            <Stars rating={info.rating} />
+            <div className="description__stats-rating--rate flex">
+              <p className="description__stats-rating--rate">{info.rating.toFixed(1)}</p>
+              <p className="description__stats-rating--reviews">({info.totalReviews})</p>
+            </div>
+          </div>
+          <div className="description__stats-country flex">
+            <p className="paragraph">{info.city}, {info.country}</p>
           </div>
         </div>
-        <div className="description__stats-country flex">
-          <p className="paragraph">{info.city}, {info.country}</p>
+
+        <div className={`description__stats-first-col`}>
+          <div className="description__stats-booked">
+            <p
+              className="paragraph">{info.views < 1000 ? info.views : `${(info.views / 1000).toFixed()}K+`} Views</p>
+          </div>
+          <div className="description__stats-booked">
+            <p
+              className="paragraph">{info.booked < 1000 ? info.booked : `${(info.booked / 1000).toFixed()}K+`} booked</p>
+          </div>
         </div>
-        <div className="description__stats-booked">
-          <p
-            className="paragraph">{info.views < 1000 ? info.views : `${(info.views / 1000).toFixed()}K+`} Views</p>
-        </div>
-        <div className="description__stats-booked">
-          <p
-            className="paragraph">{info.booked < 1000 ? info.booked : `${(info.booked / 1000).toFixed()}K+`} booked</p>
-        </div>
+
       </div>
-      <div className="description__stats-share flex flex-align-center">
-        <button className="paragraph--share">
-          {/*<ion-icon name="arrow-redo" className="icon icon--share"></ion-icon>*/}
-          <IconIon type={`arrowRedo`} className="icon icon--share"></IconIon>
-          Share
-        </button>
+      <div className="description__stats-share">
+        {/*<button className="paragraph--share">*/}
+        {/*  <ion-icon name="arrow-redo" className="icon icon--share"></ion-icon>*/}
+        {/*  <IconIon type={`arrowRedo`} className="icon icon--share"></IconIon>*/}
+        {/*  Share*/}
+        {/*</button>*/}
+        <div className={`description__stats-share-btns`}>
+          {/*@ts-ignore*/}
+          <FacebookShareButton url={shareUrl} quote={shareTitle}>
+            <FacebookIcon size={25} round />
+          </FacebookShareButton>
+          <TwitterShareButton url={shareUrl} title={shareTitle}>
+            <TwitterIcon size={25} round />
+          </TwitterShareButton>
+          <WhatsappShareButton url={shareUrl} title={shareTitle}>
+            <WhatsappIcon size={25} round />
+          </WhatsappShareButton>
+          <EmailShareButton url={shareUrl} subject={shareTitle} body="Check out this tour!">
+            <EmailIcon size={25} round />
+          </EmailShareButton>
+        </div>
         {(!isStatusLoading && !isLoading) && (
           <button className={`paragraph--wishlist ${isUserAddedTourToWishlist ? `highlighted` : ``}`}
                   onClick={handleAddToWishlist}>

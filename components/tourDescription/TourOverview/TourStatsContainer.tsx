@@ -9,6 +9,7 @@ type TourStatsContainerType = {
     rating: number;
     totalReviews: number;
     city: string;
+    title: string;
     country: string;
     booked: number;
     views: number;
@@ -21,6 +22,7 @@ export default function TourStatsContainer({ info }: TourStatsContainerType) {
     <SessionProvider>
       <TourStats
         info={{
+          title: info.title,
           rating: info.rating,
           totalReviews: info.totalReviews,
           city: info.city,

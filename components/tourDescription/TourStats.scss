@@ -1,5 +1,16 @@
 .description__stats {
   gap: 4rem;
+  align-items: center;
+
+
+  &-first-col {
+    display: flex;
+    gap: 2rem;
+    @media only screen and (max-width: 25.1875em) {
+      flex-direction: column;
+      gap: 3rem;
+    }
+  }
 
   &-rating {
     cursor: pointer;
@@ -17,7 +28,16 @@
   }
 
   &-share {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     gap: 3rem;
+
+    &-btns {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+    }
 
     &-icons {
       gap: .6rem;
