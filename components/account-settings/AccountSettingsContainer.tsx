@@ -75,7 +75,7 @@ export default function AccountSettingsContainer({ page }: AccountSettingsContai
               <UserProfile
                 loading={isLoading}
                 image={userData?.image || null}
-                userPassword={userData?.password || ``}
+                userPassword={userData?.password || null}
                 userLastName={userData?.lastName || ``}
                 userName={userData?.firstName || ``}
                 userEmail={userData?.email || ``}

@@ -1,14 +1,37 @@
-// 'use client';
+'use client';
 
-/*type UserProfileHeadingType = {
+type UserProfileHeadingType = {
+  handleEnableEditing: () => void;
+  handleApplyChanges: () => void;
+  handleCancelChanges: () => void;
+  mode: 'view' | 'edit';
   // children: ReactNode;
-}*/
-export default function UserProfileHeading(/*{  }: UserProfileHeadingType*/) {
+}
+export default function
+  UserProfileHeading({
+                       handleEnableEditing,
+                       handleApplyChanges,
+                       handleCancelChanges,
+                       mode
+                     }: UserProfileHeadingType) {
+
   return (
     <div className="account-settings__content-my-profile-heading flex">
       <h2 className="my-profile-heading">My Profile</h2>
-      <button className="btn my-profile-edit-button-wrapper flex flex-align-center">
-        <p className="btn my-profile-edit-button">Edit</p>
+
+      {mode === `edit` && (
+        <button onClick={handleCancelChanges} className="my-profile-cancel-button-wrapper flex flex-align-center">
+          <p className="btn my-profile-cancel-button">Cancel</p>
+          <svg className="my-profile-cancel-button--icon" xmlns="http://www.w3.org/2000/svg" width="12" height="12"
+               viewBox="0 0 12 12" fill="none">
+            <path d="M0.75708 11.2438L6.00008 6.00081L11.2431 11.2438M11.2431 0.757812L5.99908 6.00081L0.75708 0.757812"
+                  stroke="#EB662B" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
+      )}
+      <button onClick={mode === `view` ? handleEnableEditing : handleApplyChanges}
+              className="btn my-profile-edit-button-wrapper flex flex-align-center">
+        <p className="btn my-profile-edit-button">{mode === `view` ? `Edit` : `Apply`}</p>
         <svg className="my-profile-edit-button__icon" xmlns="http://www.w3.org/2000/svg" width="13" height="14"
              viewBox="0 0 13 14" fill="none">
           <path
@@ -24,14 +47,6 @@ export default function UserProfileHeading(/*{  }: UserProfileHeadingType*/) {
         </svg>
       </button>
 
-      <button className="my-profile-cancel-button-wrapper flex flex-align-center">
-        <p className="btn my-profile-cancel-button">Cancel</p>
-        <svg className="my-profile-cancel-button--icon" xmlns="http://www.w3.org/2000/svg" width="12" height="12"
-             viewBox="0 0 12 12" fill="none">
-          <path d="M0.75708 11.2438L6.00008 6.00081L11.2431 11.2438M11.2431 0.757812L5.99908 6.00081L0.75708 0.757812"
-                stroke="#EB662B" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      </button>
     </div>
   );
 }

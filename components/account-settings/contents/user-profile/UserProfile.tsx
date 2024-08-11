@@ -1,4 +1,4 @@
-// 'use client';
+'use client';
 
 import UserProfileHeading from '@/components/account-settings/contents/user-profile/UserProfileHeading';
 import User from '@/components/account-settings/contents/user-profile/User';
@@ -8,17 +8,26 @@ import UserProfileHeadingSkeleton from '@/components/account-settings/skeletons/
 import UserSkeleton from '@/components/account-settings/skeletons/UserSkeleton';
 import UserDataSkeleton from '@/components/account-settings/skeletons/UserDataSkeleton';
 import UserProfileAdditionalSkeleton from '@/components/account-settings/skeletons/UserProfileAdditionalSkeleton';
+import { useState } from 'react';
 
 type UserProfileType = {
   userInitials: string;
   userEmail: string;
   userName: string;
   userLastName: string;
-  userPassword: string;
+  userPassword: string | null;
   userPhone: string;
   loading: boolean;
   image: string | null;
   // children: ReactNode;
+}
+
+export type UserInputsType = {
+  userName: string;
+  userLastName: string;
+  userPassword: string | null;
+  userPhone: string;
+  userEmail: string;
 }
 
 export default function
@@ -36,6 +45,22 @@ export default function
   // INFO: readonly prop should be handled here,
   //  when the btn edit in UserProfileHeading is clicked.
 
+  const [readOnly, setReadOnly] = useState<boolean>(true);
+
+  function handleEnableEditing() {
+    setReadOnly(false);
+  }
+
+  function handleApplyChanges() {
+  }
+
+
+  function handleCancelChanges() {
+    // TODO: Roll back to the previous state
+    //  Input data should be rolled back.
+    setReadOnly(true);
+  }
+
   return (
     <div className={`account-settings-content-container`}>
       {loading && (
@@ -48,15 +73,17 @@ export default function
       )}
       {!loading && (
         <>
-          <UserProfileHeading />
+          <UserProfileHeading handleCancelChanges={handleCancelChanges} handleApplyChanges={handleApplyChanges}
+                              mode={readOnly ? `view` : `edit`}
+                              handleEnableEditing={handleEnableEditing} />
           <User image={image} userInitials={userInitials} userEmail={userEmail} />
           <UserData
             userEmail={userEmail}
             userName={userName}
             userLastName={userLastName}
-            readonly={true}
+            readonly={readOnly}
             userPassword={userPassword}
-            userPhone={userPhone}
+            userPhone={null}
           />
           <UserProfileAdditional />
         </>

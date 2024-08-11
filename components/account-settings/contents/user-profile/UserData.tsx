@@ -5,8 +5,8 @@ import UserInput from '@/components/account-settings/contents/user-profile/UserI
 type UserDataType = {
   userName: string;
   userLastName: string;
-  userPassword: string;
-  userPhone: string;
+  userPassword: string | null;
+  userPhone: string | null;
   userEmail: string;
   readonly: boolean;
   // children: ReactNode;
@@ -48,22 +48,28 @@ export default function
           type={`email`}
           defaultVal={userEmail}
         />
-        <UserInput
-          readonly={readonly}
-          label={`Password`}
-          placeholder={`Choose your password wisely!`}
-          htmlFor={`password`}
-          type={`password`}
-          defaultVal={userPassword}
-        />
-        <UserInput
-          readonly={readonly}
-          label={`Phone`}
-          placeholder={`e.g. +380501234567`}
-          htmlFor={`phone`}
-          type={`tel`}
-          defaultVal={userPhone}
-        />
+        {userPassword === null && (
+          <UserInput
+            readonly={readonly}
+            label={`Set Password`}
+            redBox
+            placeholder={`Password is not set!`}
+            htmlFor={`password`}
+            type={`text`}
+            defaultVal={``}
+          />
+        )}
+        {userPassword === null && (
+          <UserInput
+            readonly={readonly}
+            redBox
+            label={`Set Phone`}
+            placeholder={`Phone is not set!`}
+            htmlFor={`phone`}
+            type={`tel`}
+            defaultVal={userPhone ? userPhone : undefined}
+          />
+        )}
       </div>
     </>
   );
