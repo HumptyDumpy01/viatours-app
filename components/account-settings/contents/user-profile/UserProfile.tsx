@@ -76,14 +76,14 @@ export default function
           <UserProfileHeading handleCancelChanges={handleCancelChanges} handleApplyChanges={handleApplyChanges}
                               mode={readOnly ? `view` : `edit`}
                               handleEnableEditing={handleEnableEditing} />
-          <User image={image} userInitials={userInitials} userEmail={userEmail} />
+          <User readOnly={readOnly} image={image} userInitials={userInitials} userEmail={userEmail} />
           <UserData
             userEmail={userEmail}
             userName={userName}
             userLastName={userLastName}
             readonly={readOnly}
             userPassword={userPassword}
-            userPhone={null}
+            userPhone={userPhone}
           />
           <UserProfileAdditional />
         </>

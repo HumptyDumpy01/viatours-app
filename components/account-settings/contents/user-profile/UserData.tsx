@@ -59,7 +59,23 @@ export default function
             defaultVal={``}
           />
         )}
-        {userPassword === null && (
+        {/* IF PASSWORD IS SET, ADD A UI TO ENTER OLD PASS AND THEN CHANGE IT*/}
+        {userPassword !== null && (
+          <div className={`account-settings-change-password`}>
+            <UserInput
+              readonly={readonly}
+              label={`Change Password`}
+              placeholder={`Confirm old password`}
+              htmlFor={`password`}
+              type={`text`}
+              defaultVal={``}
+            />
+            <button
+              className={`btn btn--submit account-settings-change-password-btn${readonly ? `-disabled` : ``}`}>&rarr;</button>
+          </div>
+        )}
+
+        {userPhone === null && (
           <UserInput
             readonly={readonly}
             redBox
@@ -70,6 +86,18 @@ export default function
             defaultVal={userPhone ? userPhone : undefined}
           />
         )}
+
+        {userPhone !== null && (
+          <UserInput
+            readonly={readonly}
+            label={`Phone`}
+            placeholder={`Set a phone number`}
+            htmlFor={`phone`}
+            type={`tel`}
+            defaultVal={userPhone ? userPhone : undefined}
+          />
+        )}
+
       </div>
     </>
   );
