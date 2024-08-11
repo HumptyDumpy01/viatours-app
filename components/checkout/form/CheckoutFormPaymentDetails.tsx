@@ -5,6 +5,7 @@ import { PaymentElement, useElements, useStripe } from '@stripe/react-stripe-js'
 import classes from './CheckoutFormPaymentDetails.module.scss';
 import { useCartSelector } from '@/store/hooks';
 import { OrderInterface } from '@/components/checkout/checkout-details/CheckoutDetails';
+import { DOMAIN } from '@/helpers/generics';
 
 type CheckoutFormPaymentDetailsType = {
   order: OrderInterface;
@@ -92,7 +93,7 @@ export default function CheckoutFormPaymentDetails({ order }: CheckoutFormPaymen
       clientSecret,
       confirmParams: {
         // IMPORTANT: CHANGE THE STARTING URL TO THE PRODUCTION URL WHEN DEPLOYING
-        return_url: `https://viatours-web-app.lcl.host:44354/checkout-details?orderId=${newOrder.results.insertedId}&userEmail=${
+        return_url: `${DOMAIN}/checkout-details?orderId=${newOrder.results.insertedId}&userEmail=${
           (contactDetails! as { email: string; }).email}`
       }
     });
