@@ -3,7 +3,8 @@
 import { useRouter } from 'next/navigation';
 import UserProfile from '@/components/account-settings/contents/user-profile/UserProfile';
 import { useSession } from 'next-auth/react';
-import AccountSettingsSidebarSkeleton from '@/components/skeletons/other/Sidebar/AccountSettingsSkeleton';
+import AccountSettingsSidebar from '@/components/account-settings/AccountSettingsSidebar';
+import { useState } from 'react';
 
 type AccountSettingsContainerType = {
   page: 'profile' | `notifications` | `wishlist` | `tour-purchases` | `delete-account`;
@@ -12,31 +13,43 @@ type AccountSettingsContainerType = {
 
 export default function AccountSettingsContainer({ page }: AccountSettingsContainerType) {
 
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   // get access to session data
   const { data: session, status } = useSession();
   const router = useRouter();
 
-  if (!session && status !== `loading`) {
-    router.push(`/`);
-  }
+  // if (!session && status !== `loading`) {
+  //   router.push(`/`);
+  // }
 
   if (status === `loading`) {
   }
 
-  if (session) {
+  if (session && session.user?.email) {
     console.log(`Session data coming from AccountSettings:`, session);
-  }
 
-  // TODO: use useEffect here, get access to user email via session data and
-  //  fetch it from the server to get the user data.
+    // TODO: use useEffect here, get access to user email via session data and
+    //  fetch it from the server to get the user data.
+    const fetchedUser = fetch(`/api/fetch-user`, {
+      method: `POST`,
+      headers: {
+        'Content-Type': `application/json`
+      },
+      body: JSON.stringify({
+        userEmail: session?.user.email
+      })
+    });
+
+
+  }
 
   return (
     <>
       <section className="account-settings-wrapper container">
         <h1 className="secondary-heading account-settings__heading">Account Settings</h1>
         <div className="account-settings grid">
-          {/*<AccountSettingsSidebar notificationsCount={12} activeUrl={page} />*/}
-          <AccountSettingsSidebarSkeleton />
+          <AccountSettingsSidebar notificationsCount={12} activeUrl={page} />
+          {/*<AccountSettingsSidebarSkeleton />*/}
           <div className="account-settings__content">
             {page === `profile` && (
               <UserProfile

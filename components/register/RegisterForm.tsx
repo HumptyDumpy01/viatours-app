@@ -63,7 +63,7 @@ export default function RegisterForm(/*{  }: RegisterFormType*/) {
       })
     });
     const userExistsData = await userExists.json();
-    console.log(userExistsData);
+    // console.log(userExistsData);
 
     if (userExistsData.resp) {
       setFormError([`The user with the email ${results.email} already exists. Please sign in to proceed.`]);
