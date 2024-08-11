@@ -1,0 +1,1 @@
+export const DOMAIN = `https://viatours-web-app.lcl.host:44354`;

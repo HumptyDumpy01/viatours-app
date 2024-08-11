@@ -13,11 +13,12 @@ import {
   EmailShareButton,
   FacebookIcon,
   FacebookShareButton,
-  TwitterIcon,
   TwitterShareButton,
   WhatsappIcon,
-  WhatsappShareButton
+  WhatsappShareButton,
+  XIcon
 } from 'react-share';
+import { DOMAIN } from '@/helpers/generics';
 
 
 type TourStatsType = {
@@ -38,10 +39,15 @@ export default function TourStats({ info }: TourStatsType) {
   const { data: session, status } = useSession();
   const router = useRouter();
 
-  const shareUrl = window.location.href;
-  const shareTitle = `${info.title}, ${info.city}, ${info.country}`;
 
   const pathname = usePathname();
+
+  // create a full url path using router
+  const shareURL = `${DOMAIN}/${pathname}`;
+
+
+  const shareTitle = `${info.title}, ${info.city}, ${info.country}`;
+
   const pathParts = pathname.split('/');
   const tourId = pathParts[pathParts.length - 1];
 
@@ -154,16 +160,16 @@ export default function TourStats({ info }: TourStatsType) {
         {/*</button>*/}
         <div className={`description__stats-share-btns`}>
           {/*@ts-ignore*/}
-          <FacebookShareButton url={shareUrl} quote={shareTitle}>
+          <FacebookShareButton url={shareURL} quote={shareTitle}>
             <FacebookIcon size={25} round />
           </FacebookShareButton>
-          <TwitterShareButton url={shareUrl} title={shareTitle}>
-            <TwitterIcon size={25} round />
+          <TwitterShareButton url={shareURL} title={shareTitle}>
+            <XIcon size={25} round />
           </TwitterShareButton>
-          <WhatsappShareButton url={shareUrl} title={shareTitle}>
+          <WhatsappShareButton url={shareURL} title={shareTitle}>
             <WhatsappIcon size={25} round />
           </WhatsappShareButton>
-          <EmailShareButton url={shareUrl} subject={shareTitle} body="Check out this tour!">
+          <EmailShareButton url={shareURL} subject={shareTitle} body="Check out this tour!">
             <EmailIcon size={25} round />
           </EmailShareButton>
         </div>
