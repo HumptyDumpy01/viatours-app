@@ -8,6 +8,8 @@ import GallerySlider from '@/components/UI/Gallery/GallerySlider';
 import { useState } from 'react';
 import { DUMMY_TOUR_COMMENTS } from '@/data/DUMMY_COMMENTS';
 import { CldImage } from 'next-cloudinary';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 type CommentType = {
   user: string;
@@ -50,6 +52,9 @@ export default function
   const [userLikedComment, setUserLikedComment] = useState<boolean>(false);
   const [userDislikedComment, setUserDislikedComment] = useState<boolean>(false);
 
+  const { data: session, status } = useSession();
+  const router = useRouter();
+
   let nameParts;
   // if a user has a just one word in their name, we should take the first two letters of the name
   if (user.split(' ').length === 1) {
@@ -59,7 +64,7 @@ export default function
   }
   // Take the first character of the first and last name part, capitalize them, and join with a period
   const userInitials = `${nameParts[0][0].toUpperCase()}${nameParts.length > 1 ? '.' + nameParts[nameParts.length - 1][0].toUpperCase() : ''}`;
-  // date is received in the format: 2024-07-01T13:45:04.000Z, and it should be of the format: April 2023, at 13:45
+  // the date is received in the format: 2024-07-01T13:45:04.000Z, and it should be of the format: April 2023, at 13:45
   const date = new Date(date_added);
   const options = {
     month: 'long',
@@ -80,6 +85,13 @@ export default function
   }
 
   function handleLikeComment() {
+
+    // if user is not authenticated, redirect to the login page
+    if (!session) {
+      router.push(`/login`);
+      return;
+    }
+
     if (userDislikedComment) {
       setUserDislikedComment(false);
       setCommentDislikes(prevState => prevState - 1);
@@ -117,6 +129,13 @@ export default function
   }
 
   function handleDislikeComment() {
+
+    // if user is not authenticated, redirect to the login page
+    if (!session) {
+      router.push(`/login`);
+      return;
+    }
+
     if (userLikedComment) {
       setUserLikedComment(false);
       setCommentLikes(prevState => prevState - 1);

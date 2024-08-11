@@ -14,7 +14,6 @@ import TourItinerary from '@/components/tourDescription/TourOverview/Itinerary/T
 // import GoogleMap from '@/components/UI/Map/Map';
 import QuestionAnswer from '@/components/tourDescription/FAQ/QuestionAnswer';
 import CustomerReviews from '@/components/tourDescription/CustomerReviews/CustomerReviews';
-import TourComments from '@/components/tourDescription/TourOverview/TourComments';
 import LeaveReply from '@/components/UI/Layout/LeaveReply';
 import TopTrendingHeading from '@/components/homepage/top-trending/TopTrendingHeading';
 import TopTrendingSlider from '@/components/homepage/top-trending/TopTrendingSlider';
@@ -25,6 +24,7 @@ import SidebarForm from '@/components/UI/Form/SidebarForm';
 import { getServerSession } from 'next-auth';
 import { authConfig } from '@/lib/auth';
 import TourStatsContainer from '@/components/tourDescription/TourOverview/TourStatsContainer';
+import TourCommentsContainer from '@/components/tourDescription/TourComments/TourCommentsContainer';
 
 type TourDescriptionType = {
   params: {
@@ -120,7 +120,7 @@ export default async function TourDescriptionSection({ params, tour, similarTour
           {/*<GoogleMap locations={tour.tour_map} />*/}
           <QuestionAnswer />
           <CustomerReviews rating={tour.rating} />
-          <TourComments currTourComments={tour.tourComments} />
+          <TourCommentsContainer currTourComments={tour.tourComments} />
           <LeaveReply
             tourTitle={tour.title}
             session={session}

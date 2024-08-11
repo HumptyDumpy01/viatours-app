@@ -5,7 +5,7 @@ import Comment from '@/components/UI/Comment/Comment';
 import IconIon from '@/components/UI/IonIcon/IconIon';
 import { useState } from 'react';
 
-type TourCommentsType = {
+export type TourCommentsType = {
   currTourComments: [] | {
     _id: string;
     user: string;
