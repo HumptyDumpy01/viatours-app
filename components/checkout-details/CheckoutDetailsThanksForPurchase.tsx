@@ -2,11 +2,16 @@
 
 import '@/app/checkout-details/page.scss';
 import Link from 'next/link';
+import { useSession } from 'next-auth/react';
 /*type CheckoutDetailsThanksForPurchaseType = {
   // children: ReactNode;
 }*/
 
 export default function CheckoutDetailsThanksForPurchase(/*{  }: CheckoutDetailsThanksForPurchaseType*/) {
+
+
+  const { data: session, status } = useSession();
+
   return (
     <>
       <h1 className="thanks-for-purchase__heading">Thanks for
@@ -20,7 +25,8 @@ export default function CheckoutDetailsThanksForPurchase(/*{  }: CheckoutDetails
         <Link href={`/tours`} type="button" className="btn thanks-for-purchase__btn thanks-for-purchase__btn--1">Keep
           Shopping
         </Link>
-        <Link href={`/track-order`} type="button" className="btn thanks-for-purchase__btn thanks-for-purchase__btn--2">Track
+        <Link href={session ? `/account-settings?page=tour-purchases` : `/track-order`} type="button"
+              className="btn thanks-for-purchase__btn thanks-for-purchase__btn--2">Track
           Status
         </Link>
       </div>

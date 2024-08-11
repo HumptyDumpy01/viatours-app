@@ -46,6 +46,8 @@ export default function
   const [youthTickets, setYouthTickets] = useState<number>(0);
   const [childrenTickets, setChildrenTickets] = useState<number>(0);
 
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
   const [servicePerBookingActive, setServicePerBookingActive] = useState<boolean>(false);
   const [servicePerPersonActive, setServicePerPersonActive] = useState<boolean>(false);
 
@@ -206,6 +208,7 @@ export default function
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    setIsSubmitting(true);
     const currObject = e.currentTarget;
     const formData = new FormData(currObject);
     const results = Object.fromEntries(formData.entries());
@@ -214,14 +217,18 @@ export default function
       && results[`youthTickets`] === `0`
       && results[`childrenTickets`] === `0`) {
       alert(`Please select at least one ticket!`);
+      setIsSubmitting(false);
       return;
     }
     if (results[`date`] === ``) {
       alert(`Please select a date!`);
+      setIsSubmitting(false);
       return;
     }
     if (results[`time`] === ``) {
       alert(`Please select a time!`);
+
+      setIsSubmitting(false);
       return;
     }
 
@@ -242,6 +249,7 @@ export default function
     // let's store the data in the local storage
     localStorage.setItem(`order`, JSON.stringify(data));
 
+    setIsSubmitting(false);
     navigate.push(`/checkout`);
   }
 
@@ -295,7 +303,7 @@ export default function
           </div>
           <div>
             <SidebarTotal total={Number(totalPrice.toFixed(2))} />
-            <button className="btn btn--book-now" id="book-now-btn-sidebar">Book Now
+            <button className="btn btn--book-now" id="book-now-btn-sidebar">{isSubmitting ? `Loading...` : `Book Now`}
               <IconIon type={`arrowForwardOutline`} className="icon icon--right-arrow"></IconIon>
             </button>
           </div>

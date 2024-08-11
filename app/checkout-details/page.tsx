@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 import { checkoutSliceActions } from '@/store/checkoutSlice';
 import LoadingCheckoutDetails from '@/app/checkout-details/loading';
 import { getUser } from '@/lib/mongodb';
+import SessionProviderContainer from '@/components/UI/Provider/SessionProviderContainer';
 
 type ThanksForPurchaseType = {
   searchParams: {
@@ -191,7 +192,9 @@ export default function ThanksForPurchase({ searchParams }: ThanksForPurchaseTyp
     <section className="thanks-for-purchase-container">
       <div className="thanks-for-purchase grid">
         <div className="thanks-for-purchase-col-1">
-          <CheckoutDetailsFirstCol />
+          <SessionProviderContainer>
+            <CheckoutDetailsFirstCol />
+          </SessionProviderContainer>
         </div>
         {(orderData && !loading) && (
           <>
