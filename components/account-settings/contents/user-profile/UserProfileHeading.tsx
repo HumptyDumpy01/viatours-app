@@ -6,7 +6,7 @@
 export default function UserProfileHeading(/*{  }: UserProfileHeadingType*/) {
   return (
     <div className="account-settings__content-my-profile-heading flex">
-      <h2 className="my-profile-heading tertiary-heading">My Profile</h2>
+      <h2 className="my-profile-heading">My Profile</h2>
       <button className="btn my-profile-edit-button-wrapper flex flex-align-center">
         <p className="btn my-profile-edit-button">Edit</p>
         <svg className="my-profile-edit-button__icon" xmlns="http://www.w3.org/2000/svg" width="13" height="14"

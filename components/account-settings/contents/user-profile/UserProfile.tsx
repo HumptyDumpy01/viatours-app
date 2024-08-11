@@ -1,5 +1,10 @@
 // 'use client';
 
+import UserSkeleton from '@/components/account-settings/skeletons/UserSkeleton';
+import UserProfileHeadingSkeleton from '@/components/account-settings/skeletons/UserProflleHeadingSkeleton';
+import UserDataSkeleton from '@/components/account-settings/skeletons/UserDataSkeleton';
+import UserProfileAdditionalSkeleton from '@/components/account-settings/skeletons/UserProfileAdditionalSkeleton';
+
 type UserProfileType = {
   userInitials: string;
   userEmail: string;
@@ -9,11 +14,6 @@ type UserProfileType = {
   userPhone: string;
   // children: ReactNode;
 }
-
-import UserProfileHeading from '@/components/account-settings/contents/user-profile/UserProfileHeading';
-import User from '@/components/account-settings/contents/user-profile/User';
-import UserData from '@/components/account-settings/contents/user-profile/UserData';
-import UserProfileAdditional from '@/components/account-settings/contents/user-profile/UserProfileAdditional';
 
 export default function
   UserProfile({
@@ -30,17 +30,21 @@ export default function
 
   return (
     <div className={`account-settings-content-container`}>
-      <UserProfileHeading />
-      <User userInitials={userInitials} userEmail={userEmail} />
-      <UserData
+      {/*<UserProfileHeading />*/}
+      <UserProfileHeadingSkeleton />
+      {/*<User userInitials={userInitials} userEmail={userEmail} />*/}
+      <UserSkeleton />
+      {/*<UserData
         userEmail={userEmail}
         userName={userName}
         userLastName={userLastName}
         readonly={true}
         userPassword={userPassword}
         userPhone={userPhone}
-      />
-      <UserProfileAdditional />
+      />*/}
+      <UserDataSkeleton />
+      {/*<UserProfileAdditional />*/}
+      <UserProfileAdditionalSkeleton />
     </div>
   );
 }

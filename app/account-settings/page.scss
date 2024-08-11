@@ -159,7 +159,10 @@
       .my-profile-heading {
         margin-right: auto;
         font-weight: 600;
-        font-family: 'Inter', sans-serif;
+        color: var(--clr-dark-blue);
+        font-size: 4rem;
+        font-family: inherit;
+
       }
 
       &-my-profile-heading {
@@ -259,10 +262,50 @@
 
           &--save {
           }
+
+          &-disabled {
+            stroke: var(--clr-grey-3);
+          }
         }
       }
 
       &-user {
+        // add before pseudo element to create a shape
+        &::before {
+          content: '';
+          position: absolute;
+          top: -4rem;
+          right: -10rem;
+          width: 40rem;
+          height: 40rem;
+          border-radius: 50%;
+          background-color: var(--clr-primary);
+          @media only screen and (max-width: 37.5em) {
+            display: none;
+          }
+        }
+      }
+
+
+      &-user-skeleton {
+        // add before pseudo element to create a shape
+        &::before {
+          content: '';
+          position: absolute;
+          top: -4rem;
+          right: -10rem;
+          width: 40rem;
+          height: 40rem;
+          border-radius: 50%;
+          background-color: var(--clr-grey-3);
+          @media only screen and (max-width: 37.5em) {
+            display: none;
+          }
+        }
+      }
+
+      &-user,
+      &-user-skeleton {
         border-radius: 12px;
         padding: 2.5rem 2.5rem;
         border: 1px solid var(--clr-silver);
@@ -301,21 +344,6 @@
               width: 2.9rem;
               height: 2.9rem;
             }
-          }
-        }
-
-        // add before pseudo element to create a shape
-        &::before {
-          content: '';
-          position: absolute;
-          top: -4rem;
-          right: -10rem;
-          width: 40rem;
-          height: 40rem;
-          border-radius: 50%;
-          background-color: var(--clr-primary);
-          @media only screen and (max-width: 37.5em) {
-            display: none;
           }
         }
 
