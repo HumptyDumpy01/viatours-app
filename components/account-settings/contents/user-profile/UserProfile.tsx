@@ -9,6 +9,7 @@ import UserSkeleton from '@/components/account-settings/skeletons/UserSkeleton';
 import UserDataSkeleton from '@/components/account-settings/skeletons/UserDataSkeleton';
 import UserProfileAdditionalSkeleton from '@/components/account-settings/skeletons/UserProfileAdditionalSkeleton';
 import React, { FormEvent, useRef, useState } from 'react';
+import { uploadUserLogoImage } from '@/lib/cloudinary';
 
 export type FormDataType = {
   firstName: string;
@@ -126,6 +127,22 @@ export default function
       window.scrollBy(0, 100);
       setIsSubmitting(false);
       return;
+    }
+
+    // Upload images to Cloudinary
+    const imageUrls = await Promise.all(selectedFiles.map(uploadUserLogoImage));
+
+    console.log(`Image urls: `, imageUrls);
+
+    if (imageUrls.length > 0 && imageUrls.length > 1) {
+      setFormError(['Failed to upload the images. You can only upload up to 3 or can omit image upload.']);
+      window.scrollBy(0, 100);
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (imageUrls.length > 0) {
+      transformedResults.image = imageUrls[0];
     }
 
     console.log(transformedResults);
