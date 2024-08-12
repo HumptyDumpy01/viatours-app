@@ -1127,3 +1127,17 @@ b {
   background-color: #e8e8e8 !important;
   color: var(--clr-grey) !important;
 }
+
+.user-img {
+  background-color: #f1f1f1;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 7rem;
+  height: 7rem;
+  border-radius: 12px;
+}
+
+.border-radius-round {
+  border-radius: 50%;
+}

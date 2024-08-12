@@ -10,13 +10,14 @@ type UserType = {
   readOnly: boolean;
   handleOnClick: (() => void) | undefined;
   handleFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  selectedFiles: File[];
   // children: ReactNode;
 }
 
 const User = forwardRef<HTMLInputElement, UserType>(function User(
   {
     userInitials, userEmail, handleOnClick,
-    handleFileChange, image, readOnly
+    handleFileChange, image, readOnly, selectedFiles
   }, ref) {
 
   if (!userInitials || !userEmail) {
@@ -30,7 +31,17 @@ const User = forwardRef<HTMLInputElement, UserType>(function User(
       <div className="account-settings__content-user__info flex flex-align-center">
         {!image && (
           <div className="user-logo-wrapper">
-            <div onClick={handleOnClick} className="user-logo">{userNameAbbr}</div>
+            {selectedFiles.length === 0 && (
+              <div onClick={handleOnClick} className="user-logo">{userNameAbbr}</div>
+            )}
+            {selectedFiles.length > 0 && (
+              <>
+                <div onClick={handleOnClick}
+                     className={`user-img border-radius-round cursor-pointer ${selectedFiles[0] ? '' : 'none'}`}
+                     style={selectedFiles[0] ? { backgroundImage: `url(${URL.createObjectURL(selectedFiles[0])})` } : {}}>
+                </div>
+              </>
+            )}
             <input ref={ref} type="file" name="image" id="file"
                    className="hidden" max={1}
                    multiple onChange={handleFileChange} accept="image/jpg, image/jpeg, image/png" />

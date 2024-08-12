@@ -213,6 +213,8 @@ export default function
     setFormError([]);
   }
 
+  console.log(selectedFiles);
+
   return (
     <div className={`account-settings-content-container`}>
       {loading && (
@@ -229,6 +231,7 @@ export default function
                               mode={readOnly ? `view` : `edit`}
                               handleEnableEditing={handleEnableEditing} />
           <User
+            selectedFiles={selectedFiles}
             handleFileChange={handleFileChange}
             handleOnClick={!readOnly ? openFilePicker : undefined}
             ref={fileInputRef}
