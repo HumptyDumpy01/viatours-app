@@ -2,7 +2,6 @@
 
 type UserProfileHeadingType = {
   handleEnableEditing: () => void;
-  handleApplyChanges: () => void;
   handleCancelChanges: () => void;
   mode: 'view' | 'edit';
   // children: ReactNode;
@@ -10,7 +9,6 @@ type UserProfileHeadingType = {
 export default function
   UserProfileHeading({
                        handleEnableEditing,
-                       handleApplyChanges,
                        handleCancelChanges,
                        mode
                      }: UserProfileHeadingType) {
@@ -20,7 +18,8 @@ export default function
       <h2 className="my-profile-heading">My Profile</h2>
 
       {mode === `edit` && (
-        <button onClick={handleCancelChanges} className="my-profile-cancel-button-wrapper flex flex-align-center">
+        <button type={`button`} onClick={handleCancelChanges}
+                className="my-profile-cancel-button-wrapper flex flex-align-center">
           <p className="btn my-profile-cancel-button">Cancel</p>
           <svg className="my-profile-cancel-button--icon" xmlns="http://www.w3.org/2000/svg" width="12" height="12"
                viewBox="0 0 12 12" fill="none">
@@ -29,7 +28,7 @@ export default function
           </svg>
         </button>
       )}
-      <button onClick={mode === `view` ? handleEnableEditing : handleApplyChanges}
+      <button type={mode === `view` ? `button` : `submit`} onClick={mode === `view` ? handleEnableEditing : undefined}
               className="btn my-profile-edit-button-wrapper flex flex-align-center">
         <p className="btn my-profile-edit-button">{mode === `view` ? `Edit` : `Apply`}</p>
         <svg className="my-profile-edit-button__icon" xmlns="http://www.w3.org/2000/svg" width="13" height="14"

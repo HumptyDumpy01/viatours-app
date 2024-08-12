@@ -8,7 +8,7 @@ import UserProfileHeadingSkeleton from '@/components/account-settings/skeletons/
 import UserSkeleton from '@/components/account-settings/skeletons/UserSkeleton';
 import UserDataSkeleton from '@/components/account-settings/skeletons/UserDataSkeleton';
 import UserProfileAdditionalSkeleton from '@/components/account-settings/skeletons/UserProfileAdditionalSkeleton';
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 
 type UserProfileType = {
   userInitials: string;
@@ -51,9 +51,16 @@ export default function
     setReadOnly(false);
   }
 
-  function handleApplyChanges() {
+  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const currObject = e.currentTarget;
+    const formData = new FormData(currObject);
+    const results = Object.fromEntries(formData.entries());
+    // resetting the form
+    currObject.reset();
+    // output
+    console.log(results);
   }
-
 
   function handleCancelChanges() {
     // TODO: Roll back to the previous state
@@ -72,8 +79,8 @@ export default function
         </>
       )}
       {!loading && (
-        <>
-          <UserProfileHeading handleCancelChanges={handleCancelChanges} handleApplyChanges={handleApplyChanges}
+        <form onSubmit={handleSubmit}>
+          <UserProfileHeading handleCancelChanges={handleCancelChanges}
                               mode={readOnly ? `view` : `edit`}
                               handleEnableEditing={handleEnableEditing} />
           <User readOnly={readOnly} image={image} userInitials={userInitials} userEmail={userEmail} />
@@ -86,7 +93,7 @@ export default function
             userPhone={userPhone}
           />
           <UserProfileAdditional />
-        </>
+        </form>
       )}
     </div>
   );
