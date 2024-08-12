@@ -1,6 +1,5 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import UserProfile from '@/components/account-settings/contents/user-profile/UserProfile';
 import { useSession } from 'next-auth/react';
 import AccountSettingsSidebar from '@/components/account-settings/AccountSettingsSidebar';
@@ -19,11 +18,6 @@ export default function AccountSettingsContainer({ page }: AccountSettingsContai
   const [isLoading, setIsLoading] = useState<boolean>(true);
   // get access to session data
   const { data: session, status } = useSession();
-  const router = useRouter();
-
-  // if (!session && status !== `loading`) {
-  //   router.push(`/`);
-  // }
 
   if (status === `loading`) {
   }
@@ -32,8 +26,8 @@ export default function AccountSettingsContainer({ page }: AccountSettingsContai
     if (session && session.user?.email) {
       console.log(`Session data coming from AccountSettings:`, session);
 
-      // TODO: use useEffect here, get access to user email via session data and
-      //  fetch it from the server to get the user data.
+      // use useEffect here, get access to user email via session data and
+      // fetch it from the server to get the user data.
       const fetchedUser = fetch(`/api/fetch-user`, {
         method: `POST`,
         headers: {

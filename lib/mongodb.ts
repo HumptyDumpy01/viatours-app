@@ -1317,6 +1317,8 @@ export async function updateUserData(formData: FormDataType, method: `UPDATE_WIT
     console.log(`The UPDATE_WITH_PASSWORD method is executed.`);
   }
 
+  revalidatePath(`/account-settings`, `layout`);
+
 }
 
 
