@@ -4,13 +4,10 @@ import UserProfileHeading from '@/components/account-settings/contents/user-prof
 import User from '@/components/account-settings/contents/user-profile/User';
 import UserData from '@/components/account-settings/contents/user-profile/UserData';
 import UserProfileAdditional from '@/components/account-settings/contents/user-profile/UserProfileAdditional';
-import UserProfileHeadingSkeleton from '@/components/account-settings/skeletons/UserProflleHeadingSkeleton';
-import UserSkeleton from '@/components/account-settings/skeletons/UserSkeleton';
-import UserDataSkeleton from '@/components/account-settings/skeletons/UserDataSkeleton';
-import UserProfileAdditionalSkeleton from '@/components/account-settings/skeletons/UserProfileAdditionalSkeleton';
 import React, { FormEvent, useRef, useState } from 'react';
 import { uploadUserLogoImage } from '@/lib/cloudinary';
 import { validateFormData } from '@/helpers/validateUserProfileFormData';
+import { useRouter } from 'next/navigation';
 
 export type FormDataType = {
   firstName: string;
@@ -27,10 +24,9 @@ type UserProfileType = {
   userInitials: string;
   userEmail: string;
   userName: string;
-  userLastName: string;
+  userLastName: string | null;
   userPassword: string | null;
-  userPhone: string;
-  loading: boolean;
+  userPhone: string | null;
   image: string | null;
   // children: ReactNode;
 }
@@ -43,22 +39,20 @@ export default function
                 userPhone,
                 userName,
                 userLastName,
-                loading,
                 image,
                 userEmailFromSession
               }: UserProfileType) {
 
   const [readOnly, setReadOnly] = useState<boolean>(true);
   const [formError, setFormError] = useState<string[]>([]);
-
+  const router = useRouter();
   const [messageSuccess, setMessageSuccess] = useState<string>();
-
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-
   const timer = useRef<NodeJS.Timeout | null>(null);
-
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+
+  const [updatedUserInitials, setUpdatedUserInitials] = useState(userInitials);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -118,6 +112,8 @@ export default function
       return;
     }
 
+    setReadOnly(true);
+
     // Upload images to Cloudinary
     const imageUrls = await Promise.all(selectedFiles.map(uploadUserLogoImage));
 
@@ -127,6 +123,8 @@ export default function
       setFormError(['Failed to upload the images. You can only upload up to 3 or can omit image upload.']);
       window.scrollBy(0, 100);
       setIsSubmitting(false);
+
+      setReadOnly(false);
       return;
     }
 
@@ -134,7 +132,7 @@ export default function
       transformedResults.image = imageUrls[0];
     }
 
-    console.log(transformedResults);
+    // console.log(transformedResults);
 
     if (!results.password) {
       setReadOnly(true);
@@ -151,16 +149,23 @@ export default function
       });
 
       const data = await response.json();
+
       if (data.acknowledged) {
         setReadOnly(true);
         setIsSubmitting(false);
         setMessageSuccess(`Changes saved successfully!`);
+
         window.scrollBy(0, 100);
         timer.current = setTimeout(() => {
           setMessageSuccess(undefined);
           return () => clearTimeout(timer.current as NodeJS.Timeout);
         }, 7000);
 
+      } else {
+        setFormError([`Failed to save the changes. Please try again.`]);
+        window.scrollBy(0, 100);
+        setIsSubmitting(false);
+        setReadOnly(false);
       }
 
 
@@ -171,6 +176,7 @@ export default function
       //  and tried to submit the form without the confirmOldPassword field
       console.log(`For users who did log in via provider and do not have the pass set`);
     }
+
   }
 
   function handleCancelChanges() {
@@ -184,51 +190,41 @@ export default function
 
   return (
     <div className={`account-settings-content-container`}>
-      {loading && (
-        <>
-          <UserProfileHeadingSkeleton />
-          <UserSkeleton />
-          <UserDataSkeleton />
-          <UserProfileAdditionalSkeleton />
-        </>
-      )}
-      {!loading && (
-        <form onSubmit={handleSubmit}>
-          <UserProfileHeading handleCancelChanges={handleCancelChanges}
-                              mode={readOnly ? `view` : `edit`}
-                              handleEnableEditing={handleEnableEditing} />
-          <User
-            selectedFiles={selectedFiles}
-            handleFileChange={handleFileChange}
-            handleOnClick={!readOnly ? openFilePicker : undefined}
-            ref={fileInputRef}
-            readOnly={readOnly}
-            image={image}
-            userInitials={userInitials}
-            userEmail={userEmail} />
-          <div className={`margin-top-big`}>
-            {formError.map(function(item) {
-              return (
-                <p key={item} className="paragraph paragraph-error">{item}</p>
-              );
-            })}
+      <form onSubmit={handleSubmit}>
+        <UserProfileHeading isSubmitting={isSubmitting} handleCancelChanges={handleCancelChanges}
+                            mode={readOnly ? `view` : `edit`}
+                            handleEnableEditing={handleEnableEditing} />
+        <User
+          selectedFiles={selectedFiles}
+          handleFileChange={handleFileChange}
+          handleOnClick={!readOnly ? openFilePicker : undefined}
+          ref={fileInputRef}
+          readOnly={readOnly}
+          image={image}
+          userInitials={updatedUserInitials}
+          userEmail={userEmail} />
+        <div className={`margin-top-big`}>
+          {formError.map(function(item) {
+            return (
+              <p key={item} className="paragraph paragraph-error">{item}</p>
+            );
+          })}
 
-            {messageSuccess && (
-              <p className="paragraph paragraph-success">{messageSuccess}</p>
-            )}
+          {messageSuccess && (
+            <p className="paragraph paragraph-success">{messageSuccess}</p>
+          )}
 
-          </div>
-          <UserData
-            userEmail={userEmail}
-            userName={userName}
-            userLastName={userLastName}
-            readonly={readOnly}
-            userPassword={userPassword}
-            userPhone={userPhone}
-          />
-          <UserProfileAdditional />
-        </form>
-      )}
+        </div>
+        <UserData
+          userEmail={userEmail}
+          userName={userName}
+          userLastName={userLastName}
+          readonly={readOnly}
+          userPassword={userPassword}
+          userPhone={userPhone}
+        />
+        <UserProfileAdditional />
+      </form>
     </div>
   );
 }

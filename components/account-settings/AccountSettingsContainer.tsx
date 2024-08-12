@@ -3,9 +3,13 @@
 import UserProfile from '@/components/account-settings/contents/user-profile/UserProfile';
 import { useSession } from 'next-auth/react';
 import AccountSettingsSidebar from '@/components/account-settings/AccountSettingsSidebar';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import AccountSettingsSidebarSkeleton from '@/components/skeletons/other/Sidebar/AccountSettingsSkeleton';
 import { UserType } from '@/lib/mongodb';
+import UserProfileHeadingSkeleton from '@/components/account-settings/skeletons/UserProflleHeadingSkeleton';
+import UserSkeleton from '@/components/account-settings/skeletons/UserSkeleton';
+import UserDataSkeleton from '@/components/account-settings/skeletons/UserDataSkeleton';
+import UserProfileAdditionalSkeleton from '@/components/account-settings/skeletons/UserProfileAdditionalSkeleton';
 
 type AccountSettingsContainerType = {
   page: 'profile' | `notifications` | `wishlist` | `tour-purchases` | `delete-account`;
@@ -59,26 +63,39 @@ export default function AccountSettingsContainer({ page }: AccountSettingsContai
         <h1 className="secondary-heading account-settings__heading">Account Settings</h1>
         <div className="account-settings grid">
           {isLoading && (
-            <AccountSettingsSidebarSkeleton />
+            <>
+              <AccountSettingsSidebarSkeleton />
+              <div className="account-settings__content">
+                <div className={`account-settings-content-container`}>
+                  <UserProfileHeadingSkeleton />
+                  <UserSkeleton />
+                  <UserDataSkeleton />
+                  <UserProfileAdditionalSkeleton />
+                </div>
+              </div>
+            </>
           )}
           {!isLoading && (
             <AccountSettingsSidebar notificationsCount={12} activeUrl={page} />
           )}
-          <div className="account-settings__content">
-            {page === `profile` && (
-              <UserProfile
-                userEmailFromSession={session?.user?.email || ``}
-                loading={isLoading}
-                image={userData?.image || null}
-                userPassword={userData?.password || null}
-                userLastName={userData?.lastName || ``}
-                userName={userData?.firstName || ``}
-                userEmail={userData?.email || ``}
-                userPhone={userData?.phone || ``}
-                userInitials={`${userData?.firstName} ${userData?.lastName}`}
-              />
-            )}
-          </div>
+          {(!isLoading && session && userData) && (
+            <>
+              <div className="account-settings__content">
+                {page === `profile` && (
+                  <UserProfile
+                    userEmailFromSession={String(session.user!.email)}
+                    image={userData.image}
+                    userPassword={userData.password}
+                    userLastName={userData.lastName}
+                    userName={userData.firstName}
+                    userEmail={userData.email}
+                    userPhone={userData.phone}
+                    userInitials={`${userData.firstName} ${userData.lastName}`}
+                  />
+                )}
+              </div>
+            </>
+          )}
         </div>
       </section>
     </>

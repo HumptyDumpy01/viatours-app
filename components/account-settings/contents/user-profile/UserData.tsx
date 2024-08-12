@@ -4,7 +4,7 @@ import UserInput from '@/components/account-settings/contents/user-profile/UserI
 
 type UserDataType = {
   userName: string;
-  userLastName: string;
+  userLastName: string | null;
   userPassword: string | null;
   userPhone: string | null;
   userEmail: string;
@@ -40,7 +40,7 @@ export default function
           htmlFor={`lastName`}
           type={`text`}
           required={true}
-          defaultVal={userLastName}
+          defaultVal={userLastName ? userLastName : ``}
         />
         <UserInput
           readonly={true}

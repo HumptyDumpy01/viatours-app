@@ -3,6 +3,7 @@
 type UserProfileHeadingType = {
   handleEnableEditing: () => void;
   handleCancelChanges: () => void;
+  isSubmitting: boolean;
   mode: 'view' | 'edit';
   // children: ReactNode;
 }
@@ -10,6 +11,7 @@ export default function
   UserProfileHeading({
                        handleEnableEditing,
                        handleCancelChanges,
+                       isSubmitting,
                        mode
                      }: UserProfileHeadingType) {
 
@@ -29,7 +31,7 @@ export default function
         </button>
       )}
       {mode === `view` && (
-        <button type={`button`} onClick={handleEnableEditing}
+        <button disabled={isSubmitting} type={`button`} onClick={handleEnableEditing}
                 className="btn my-profile-edit-button-wrapper flex flex-align-center">
           <p className="btn my-profile-edit-button">Edit</p>
           <svg className="my-profile-edit-button__icon" xmlns="http://www.w3.org/2000/svg" width="13" height="14"
