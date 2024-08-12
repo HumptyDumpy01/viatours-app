@@ -352,6 +352,7 @@
         overflow: hidden;
 
         .user-logo {
+          cursor: pointer;
           font-size: 2.2rem;
           overflow: hidden;
           object-fit: cover;
@@ -365,6 +366,7 @@
           color: var(--clr-white);
 
           .user-image {
+            cursor: pointer;
             width: 7.4rem;
             height: 7.4rem;
             object-fit: cover;

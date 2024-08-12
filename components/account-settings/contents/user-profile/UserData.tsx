@@ -71,12 +71,12 @@ export default function
               label={`Change Password`}
               placeholder={`Confirm old password`}
               required={false}
-              htmlFor={`confirmOldPassword`}
+              htmlFor={``}
               type={`text`}
               defaultVal={``}
             />
-            <button
-              className={`btn btn--submit account-settings-change-password-btn${readonly ? `-disabled` : ``}`}>&rarr;</button>
+            <button type={`button`}
+                    className={`btn btn--submit account-settings-change-password-btn${readonly ? `-disabled` : ``}`}>&rarr;</button>
           </div>
         )}
 

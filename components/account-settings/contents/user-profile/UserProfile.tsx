@@ -8,7 +8,17 @@ import UserProfileHeadingSkeleton from '@/components/account-settings/skeletons/
 import UserSkeleton from '@/components/account-settings/skeletons/UserSkeleton';
 import UserDataSkeleton from '@/components/account-settings/skeletons/UserDataSkeleton';
 import UserProfileAdditionalSkeleton from '@/components/account-settings/skeletons/UserProfileAdditionalSkeleton';
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, useRef, useState } from 'react';
+
+export type FormDataType = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password?: string;
+  newPassword?: string;
+  phone?: string;
+  image: File | null;
+}
 
 type UserProfileType = {
   userInitials: string;
@@ -42,18 +52,30 @@ export default function
                 image
               }: UserProfileType) {
 
-  // INFO: readonly prop should be handled here,
-  //  when the btn edit in UserProfileHeading is clicked.
-
   const [readOnly, setReadOnly] = useState<boolean>(true);
   const [formError, setFormError] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files) {
+      const filesArray = Array.from(event.target.files).slice(0, 1); // Limit to 1 file
+      setSelectedFiles(filesArray);
+    }
+  };
+
+  const openFilePicker = () => {
+    fileInputRef.current?.click();
+  };
+
 
   function handleEnableEditing() {
     setReadOnly(false);
   }
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setIsSubmitting(true);
     const currObject = e.currentTarget;
@@ -62,6 +84,14 @@ export default function
 
     console.log(`Executing results: `, results);
 
+    // Upload images to Cloudinary
+    // const imageUrls = await Promise.all(selectedFiles.map(uploadImage));
+
+    /*if (imageUrls.length > 0 && imageUrls.length > 3) {
+      setFormError(['Failed to upload the images. You can only upload up to 3 or can omit image upload.']);
+      setIsSubmitting(false);
+      return;
+    }*/
 
     // if the user already set a password, this particular input would be empty
     // and can be empty if user does not want to change the password
@@ -69,13 +99,25 @@ export default function
       email: results.email.toString(),
       firstName: results.firstName.toString(),
       lastName: results.lastName.toString(),
-      password: results.password?.toString() ? results.password.toString() : undefined,
-      confirmOldPassword: results.confirmOldPassword?.toString() ? results.confirmOldPassword.toString() : undefined
+      phone: results.phone?.toString() ? results.phone.toString() : null,
+      // @ts-ignore
+      image: results.image.size === 0 ? null : results.image
     };
+
+    if (results.newPassword) {
+      // @ts-ignore
+      transformedResults.newPassword = results.newPassword.toString();
+    }
+    if (results.password) {
+      // @ts-ignore
+      transformedResults.password = results.password.toString();
+    }
+
     // Clear previous errors
     setFormError([]);
 
     // Validate form data
+    // @ts-ignore
     const errors = validateFormDataWithPassword(transformedResults, `passwordRequired`);
 
 
@@ -85,6 +127,8 @@ export default function
       setIsSubmitting(false);
       return;
     }
+
+    console.log(transformedResults);
 
     if (results.confirmOldPassword || results.confirmOldPassword === ``) {
       // TODO: Write the corresponding logic for the user has his pass set already
@@ -99,13 +143,7 @@ export default function
     }
   }
 
-  function validateFormDataWithPassword(results: {
-    email: string;
-    firstName: string;
-    lastName: string;
-    password?: string;
-    confirmOldPassword?: string;
-  }, validateAs: `passwordRequired` | `confirmPassIsNotRequired`): string[] {
+  function validateFormDataWithPassword(results: FormDataType, validateAs: `passwordRequired` | `confirmPassIsNotRequired`): string[] {
     const errors: string[] = [];
 
     if (validateAs === `passwordRequired` && results.password) {
@@ -173,7 +211,14 @@ export default function
           <UserProfileHeading handleCancelChanges={handleCancelChanges}
                               mode={readOnly ? `view` : `edit`}
                               handleEnableEditing={handleEnableEditing} />
-          <User readOnly={readOnly} image={image} userInitials={userInitials} userEmail={userEmail} />
+          <User
+            handleFileChange={handleFileChange}
+            handleOnClick={!readOnly ? openFilePicker : undefined}
+            ref={fileInputRef}
+            readOnly={readOnly}
+            image={image}
+            userInitials={userInitials}
+            userEmail={userEmail} />
           <div className={`margin-top-big`}>
             {formError.map(function(item) {
               return (

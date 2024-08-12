@@ -20,7 +20,7 @@ export default function MainNavigation(/*{  }: MainNavigationInterface*/) {
 
   let userName = '';
   if (session) {
-    console.log(`Current session: `, session);
+    // console.log(`Current session: `, session);
     const name = session.user?.name?.split(' ');
     userName = name?.length === 1 ? name[0].charAt(0).toUpperCase() : `${name![0].charAt(0) + `.`}${name![1].charAt(0)}`.toUpperCase();
   }

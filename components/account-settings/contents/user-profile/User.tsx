@@ -1,35 +1,27 @@
 'use client';
 
 import '@/app/account-settings/page.scss';
-import React, { useRef, useState } from 'react';
+import React, { forwardRef } from 'react';
 
 type UserType = {
   userInitials: string;
   userEmail: string;
   image: string | null;
   readOnly: boolean;
+  handleOnClick: (() => void) | undefined;
+  handleFileChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   // children: ReactNode;
 }
 
-export default function User({ userInitials, userEmail, image, readOnly }: UserType) {
-
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+const User = forwardRef<HTMLInputElement, UserType>(function User(
+  {
+    userInitials, userEmail, handleOnClick,
+    handleFileChange, image, readOnly
+  }, ref) {
 
   if (!userInitials || !userEmail) {
     throw new Error('userName and userEmail are required');
   }
-
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
-      const filesArray = Array.from(event.target.files).slice(0, 1); // Limit to 1 file
-      setSelectedFiles(filesArray);
-    }
-  };
-
-  const openFilePicker = () => {
-    fileInputRef.current?.click();
-  };
 
   const userNameAbbr = userInitials.split(' ').map((name) => name.charAt(0)).join('.');
 
@@ -38,11 +30,11 @@ export default function User({ userInitials, userEmail, image, readOnly }: UserT
       <div className="account-settings__content-user__info flex flex-align-center">
         {!image && (
           <div className="user-logo-wrapper">
-            <div className="user-logo">{userNameAbbr}</div>
-            <input ref={fileInputRef} type="file" name="image" id="file"
+            <div onClick={handleOnClick} className="user-logo">{userNameAbbr}</div>
+            <input ref={ref} type="file" name="image" id="file"
                    className="hidden" max={1}
                    multiple onChange={handleFileChange} accept="image/jpg, image/jpeg, image/png" />
-            <svg onClick={readOnly ? undefined : openFilePicker}
+            <svg onClick={handleOnClick}
                  className={`user-logo__edit-icon${readOnly ? `-disabled` : ``}`}
                  xmlns="http://www.w3.org/2000/svg"
                  width="32" height="32"
@@ -61,15 +53,17 @@ export default function User({ userInitials, userEmail, image, readOnly }: UserT
             <div className="account-settings__content-user__info flex flex-align-center">
               <div className="user-logo-wrapper">
                 <div className="user-logo">
-                  <img className={`user-image`} src={image} alt="User Avatar" />
-                  <input ref={fileInputRef} type="file" name="image" id="file"
+                  <img onClick={handleOnClick} className={`user-image`} src={image}
+                       alt="User Avatar" />
+                  <input ref={ref} type="file" name="image" id="file"
                          className="hidden" max={1}
                          multiple onChange={handleFileChange} accept="image/jpg, image/jpeg, image/png" />
-                  <svg onClick={readOnly ? undefined : openFilePicker}
-                       className={`user-logo__edit-icon${readOnly ? `-disabled` : ``}`}
-                       xmlns="http://www.w3.org/2000/svg"
-                       width="32" height="32"
-                       viewBox="0 0 32 32" fill="none">
+                  <svg
+                    onClick={handleOnClick}
+                    className={`user-logo__edit-icon${readOnly ? `-disabled` : ``}`}
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="32" height="32"
+                    viewBox="0 0 32 32" fill="none">
                     <path className={readOnly ? `edit-icon-path-1` : ``}
                           d="M32 16C32 24.8366 24.8366 32 16 32C7.16344 32 0 24.8366 0 16C0 7.16344 7.16344 0 16 0C24.8366 0 32 7.16344 32 16Z"
                           fill="#EB662B" />
@@ -135,4 +129,7 @@ export default function User({ userInitials, userEmail, image, readOnly }: UserT
       </svg>
     </div>
   );
-}
+});
+
+
+export default User;

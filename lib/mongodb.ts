@@ -8,6 +8,7 @@ import { OrderInterface } from '@/components/checkout/checkout-details/CheckoutD
 import bcrypt from 'bcrypt';
 import { comment } from 'postcss';
 import { notFound } from 'next/navigation';
+import { FormDataType } from '@/components/account-settings/contents/user-profile/UserProfile';
 
 // Extend the global interface
 // it resolves issues with the global variable missing type
@@ -1000,6 +1001,7 @@ export async function addOrderIdToUserDocument(
   }
 }
 
+
 export async function findWishlistedTour(tourId: string, userEmail: string) {
   const client = await clientPromise;
   const db = client.db(`viatoursdb`);
@@ -1242,6 +1244,11 @@ export async function handleCommentAction(commentId: string, userEmail: string, 
 
 }
 
+export async function changeUserData(formData: FormDataType) {
+  const client = await clientPromise;
+  const db = client.db(`viatours`);
+}
+
 
 ///////////////////////////////////////
 
@@ -1265,3 +1272,5 @@ export async function addEmailToNewsletter(email: string) {
   };
 
 }
+
+
