@@ -26,24 +26,27 @@ export default function
       <div className="account-settings__content__inputs grid grid-two-cols">
         <UserInput
           readonly={readonly}
-          label={`First Name`}
+          label={`First Name *`}
           placeholder={`e.g. John`}
           htmlFor={`firstName`}
+          required={true}
           type={`text`}
           defaultVal={userName}
         />
         <UserInput
           readonly={readonly}
-          label={`Last Name`}
+          label={`Last Name *`}
           placeholder={`e.g. Doe`}
           htmlFor={`lastName`}
           type={`text`}
+          required={true}
           defaultVal={userLastName}
         />
         <UserInput
           readonly={readonly}
-          label={`Email`}
+          label={`Email *`}
           placeholder={`example@gmail.com`}
+          required={true}
           htmlFor={`email`}
           type={`email`}
           defaultVal={userEmail}
@@ -51,7 +54,8 @@ export default function
         {userPassword === null && (
           <UserInput
             readonly={readonly}
-            label={`Set Password`}
+            label={`Set Password *`}
+            required={true}
             redBox
             placeholder={`Password is not set!`}
             htmlFor={`password`}
@@ -66,7 +70,8 @@ export default function
               readonly={readonly}
               label={`Change Password`}
               placeholder={`Confirm old password`}
-              htmlFor={`password`}
+              required={false}
+              htmlFor={`confirmOldPassword`}
               type={`text`}
               defaultVal={``}
             />
@@ -81,6 +86,7 @@ export default function
             redBox
             label={`Set Phone`}
             placeholder={`Phone is not set!`}
+            required={false}
             htmlFor={`phone`}
             type={`tel`}
             defaultVal={userPhone ? userPhone : undefined}
@@ -91,6 +97,7 @@ export default function
           <UserInput
             readonly={readonly}
             label={`Phone`}
+            required={false}
             placeholder={`Set a phone number`}
             htmlFor={`phone`}
             type={`tel`}
