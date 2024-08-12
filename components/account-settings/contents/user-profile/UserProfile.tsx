@@ -22,6 +22,7 @@ export type FormDataType = {
 }
 
 type UserProfileType = {
+  userEmailFromSession: string;
   userInitials: string;
   userEmail: string;
   userName: string;
@@ -50,12 +51,16 @@ export default function
                 userName,
                 userLastName,
                 loading,
-                image
+                image,
+                userEmailFromSession
               }: UserProfileType) {
 
   const [readOnly, setReadOnly] = useState<boolean>(true);
   const [formError, setFormError] = useState<string[]>([]);
+  const [messageSuccess, setMessageSuccess] = useState<string>();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+
+  const timer = useRef<NodeJS.Timeout | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
@@ -97,7 +102,7 @@ export default function
     // if the user already set a password, this particular input would be empty
     // and can be empty if user does not want to change the password
     const transformedResults = {
-      email: results.email.toString(),
+      email: userEmailFromSession,
       firstName: results.firstName.toString(),
       lastName: results.lastName.toString(),
       phone: results.phone?.toString() ? results.phone.toString() : null,
@@ -119,8 +124,7 @@ export default function
 
     // Validate form data
     // @ts-ignore
-    const errors = validateFormDataWithPassword(transformedResults, `passwordRequired`);
-
+    const errors = validateFormData(transformedResults, `passwordRequired`);
 
     if (errors.length > 0) {
       setFormError(errors);
@@ -147,10 +151,33 @@ export default function
 
     console.log(transformedResults);
 
-    if (results.confirmOldPassword || results.confirmOldPassword === ``) {
-      // TODO: Write the corresponding logic for the user has his pass set already
-      //  and tried to submit the form with the confirmOldPassword field
-      console.log(`For users who logged in manually or have the pass set`);
+    if (!results.password) {
+
+      const response = await fetch(`/api/update-user-data`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          formData: transformedResults,
+          method: `UPDATE_WITHOUT_PASSWORD`
+        })
+      });
+
+      const data = await response.json();
+      if (data.acknowledged) {
+        setReadOnly(true);
+        setIsSubmitting(false);
+        setMessageSuccess(`Changes saved successfully!`);
+        window.scrollBy(0, 100);
+        timer.current = setTimeout(() => {
+          setMessageSuccess(undefined);
+          return () => clearTimeout(timer.current as NodeJS.Timeout);
+        }, 4000);
+
+      }
+
+
     }
 
     if (results.password && !results.confirmOldPassword) {
@@ -160,7 +187,7 @@ export default function
     }
   }
 
-  function validateFormDataWithPassword(results: FormDataType, validateAs: `passwordRequired` | `confirmPassIsNotRequired`): string[] {
+  function validateFormData(results: FormDataType, validateAs: `passwordRequired` | `confirmPassIsNotRequired`): string[] {
     const errors: string[] = [];
 
     if (validateAs === `passwordRequired` && results.password) {

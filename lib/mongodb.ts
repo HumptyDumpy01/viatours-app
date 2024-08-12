@@ -1244,9 +1244,79 @@ export async function handleCommentAction(commentId: string, userEmail: string, 
 
 }
 
-export async function changeUserData(formData: FormDataType) {
+export type UpdateUserDataType = {
+  formData: FormDataType;
+  method: `UPDATE_WITHOUT_PASSWORD` | `UPDATE_WITH_PASSWORD`;
+}
+
+export async function updateUserData(formData: FormDataType, method: `UPDATE_WITHOUT_PASSWORD` | `UPDATE_WITH_PASSWORD`) {
   const client = await clientPromise;
-  const db = client.db(`viatours`);
+  const db = client.db(`viatoursdb`);
+
+  const isUserExists = await getUser({ email: formData.email }, { email: 1, _id: 0 });
+
+  if (isUserExists.length === 0) {
+    return {
+      error: `The user with the email ${formData.email} does not exist.`
+    };
+  }
+
+  if (method === `UPDATE_WITHOUT_PASSWORD`) {
+    console.log(`The UPDATE_WITHOUT_PASSWORD method is executed.`);
+
+    console.log(`Executing formData: `, formData);
+
+    if (formData.image === null) {
+      const updatedUser = await db.collection(`users`).updateOne({ email: formData.email }, {
+        $set: {
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          phone: formData.phone
+        }
+      });
+
+      if (!updatedUser.acknowledged) {
+        return {
+          error: `Failed to update the user.`
+        };
+      } else {
+        console.log(`Executing updatedUser: `, updatedUser);
+        return {
+          success: `The user was successfully updated.`,
+          acknowledged: updatedUser.acknowledged
+        };
+      }
+    }
+
+    if (formData.image) {
+      const updatedUser = await db.collection(`users`).updateOne({ email: formData.email }, {
+        $set: {
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          phone: formData.phone,
+          image: formData.image
+        }
+      });
+
+      if (!updatedUser.acknowledged) {
+        return {
+          error: `Failed to update the user.`
+        };
+      } else {
+        return {
+          success: `The user was successfully updated.`,
+          acknowledged: updatedUser.acknowledged
+        };
+      }
+
+    }
+
+  }
+
+  if (method === `UPDATE_WITH_PASSWORD`) {
+    console.log(`The UPDATE_WITH_PASSWORD method is executed.`);
+  }
+
 }
 
 

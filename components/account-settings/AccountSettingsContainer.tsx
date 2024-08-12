@@ -73,6 +73,7 @@ export default function AccountSettingsContainer({ page }: AccountSettingsContai
           <div className="account-settings__content">
             {page === `profile` && (
               <UserProfile
+                userEmailFromSession={session?.user?.email || ``}
                 loading={isLoading}
                 image={userData?.image || null}
                 userPassword={userData?.password || null}

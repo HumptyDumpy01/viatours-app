@@ -31,9 +31,14 @@ const User = forwardRef<HTMLInputElement, UserType>(function User(
       <div className="account-settings__content-user__info flex flex-align-center">
         {!image && (
           <div className="user-logo-wrapper">
+
             {selectedFiles.length === 0 && (
-              <div onClick={handleOnClick} className="user-logo">{userNameAbbr}</div>
+              <div onClick={handleOnClick}
+                   className={selectedFiles.length === 0 || !image ? `user-logo` : ``}>
+                {userNameAbbr}
+              </div>
             )}
+
             {selectedFiles.length > 0 && (
               <>
                 <div onClick={handleOnClick}
@@ -42,6 +47,7 @@ const User = forwardRef<HTMLInputElement, UserType>(function User(
                 </div>
               </>
             )}
+
             <input ref={ref} type="file" name="image" id="file"
                    className="hidden" max={1}
                    multiple onChange={handleFileChange} accept="image/jpg, image/jpeg, image/png" />
@@ -63,9 +69,22 @@ const User = forwardRef<HTMLInputElement, UserType>(function User(
           <>
             <div className="account-settings__content-user__info flex flex-align-center">
               <div className="user-logo-wrapper">
-                <div className="user-logo">
-                  <img onClick={handleOnClick} className={`user-image`} src={image}
-                       alt="User Avatar" />
+                <div className={selectedFiles.length === 0 || !image ? `user-logo` : ``}>
+
+                  {selectedFiles.length === 0 && (
+                    <img onClick={handleOnClick} className={`user-image`} src={image}
+                         alt="User Avatar" />
+                  )}
+
+                  {selectedFiles.length > 0 && (
+                    <>
+                      <div onClick={handleOnClick}
+                           className={`user-img border-radius-round cursor-pointer ${selectedFiles[0] ? '' : 'none'}`}
+                           style={selectedFiles[0] ? { backgroundImage: `url(${URL.createObjectURL(selectedFiles[0])})` } : {}}>
+                      </div>
+                    </>
+                  )}
+
                   <input ref={ref} type="file" name="image" id="file"
                          className="hidden" max={1}
                          multiple onChange={handleFileChange} accept="image/jpg, image/jpeg, image/png" />

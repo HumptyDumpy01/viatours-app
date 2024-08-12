@@ -43,8 +43,8 @@ export default function
           defaultVal={userLastName}
         />
         <UserInput
-          readonly={readonly}
-          label={`Email *`}
+          readonly={true}
+          label={`Email`}
           placeholder={`example@gmail.com`}
           required={true}
           htmlFor={`email`}
