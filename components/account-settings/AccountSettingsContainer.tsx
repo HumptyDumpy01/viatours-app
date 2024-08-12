@@ -28,7 +28,7 @@ export default function AccountSettingsContainer({ page }: AccountSettingsContai
 
   useEffect(() => {
     if (session && session.user?.email) {
-      console.log(`Session data coming from AccountSettings:`, session);
+      // console.log(`Session data coming from AccountSettings:`, session);
 
       // use useEffect here, get access to user email via session data and
       // fetch it from the server to get the user data.

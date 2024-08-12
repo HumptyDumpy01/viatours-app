@@ -52,7 +52,7 @@ export default function
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 
-  const [updatedUserInitials, setUpdatedUserInitials] = useState(userInitials);
+  const [userInitialsState, setUserInitialsState] = useState(userInitials);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -136,6 +136,7 @@ export default function
 
     if (!results.password) {
       setReadOnly(true);
+      setUserInitialsState(`${results.firstName} ${results.lastName}`);
 
       const response = await fetch(`/api/update-user-data`, {
         method: 'POST',
@@ -154,6 +155,7 @@ export default function
         setReadOnly(true);
         setIsSubmitting(false);
         setMessageSuccess(`Changes saved successfully!`);
+
 
         window.scrollBy(0, 100);
         timer.current = setTimeout(() => {
@@ -176,7 +178,6 @@ export default function
       //  and tried to submit the form without the confirmOldPassword field
       console.log(`For users who did log in via provider and do not have the pass set`);
     }
-
   }
 
   function handleCancelChanges() {
@@ -201,7 +202,7 @@ export default function
           ref={fileInputRef}
           readOnly={readOnly}
           image={image}
-          userInitials={updatedUserInitials}
+          userInitials={userInitialsState}
           userEmail={userEmail} />
         <div className={`margin-top-big`}>
           {formError.map(function(item) {
