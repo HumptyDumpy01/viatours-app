@@ -1261,6 +1261,23 @@ export async function updateUserData(formData: FormDataType, method: `UPDATE_WIT
     };
   }
 
+  if (formData.email === ``) {
+    return {
+      error: `The email cannot be empty.`
+    };
+  }
+  if (formData.firstName === ``) {
+    return {
+      error: `The first name cannot be empty.`
+    };
+  }
+  if (formData.lastName === ``) {
+    return {
+      error: `The last name cannot be empty.`
+    };
+  }
+
+
   if (method === `UPDATE_WITHOUT_PASSWORD`) {
     console.log(`The UPDATE_WITHOUT_PASSWORD method is executed.`);
 

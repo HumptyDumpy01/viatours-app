@@ -163,8 +163,10 @@ export default function
           return () => clearTimeout(timer.current as NodeJS.Timeout);
         }, 7000);
 
-      } else {
-        setFormError([`Failed to save the changes. Please try again.`]);
+      }
+
+      if (data.error) {
+        setFormError([`Failed to save the changes. Please try again.`, data.error ?? ``]);
         window.scrollBy(0, 100);
         setIsSubmitting(false);
         setReadOnly(false);
