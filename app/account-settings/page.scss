@@ -172,7 +172,7 @@
 
     // STYLES FOR ACCOUNT SETTINGS CONTENT
     &__content {
-      width: 67.7rem;
+      width: 77.7rem;
       margin-top: 6.7rem;
       margin-left: 8rem;
       animation-name: moveInLeft;
@@ -219,6 +219,85 @@
 
       &-user__info {
         gap: 2.7rem;
+      }
+
+
+      &-sort-by-wrapper {
+        @media only screen and (max-width: 27.4375em) {
+          flex-direction: column;
+          gap: 2.5rem;
+        }
+      }
+
+
+      &__title-wrapper {
+        align-items: center;
+        margin-bottom: 4.8rem;
+        justify-content: space-between;
+
+        &-container {
+          animation-name: moveInLeft;
+          animation-duration: 1s;
+          //animation-delay: 0.2s;
+          /*animation-iteration-count: 2;*/
+          animation-timing-function: ease-out;
+
+        }
+
+        @media only screen and (max-width: 38.4375em) {
+          flex-direction: column;
+          gap: 1.5rem;
+          justify-content: left;
+          align-items: flex-start;
+        }
+      }
+
+      &__title {
+        color: var(--clr-blue-lighter);
+        font-size: 3rem;
+        font-weight: 700;
+      }
+
+      &__delete-btn {
+        @media only screen and (max-width: 27.4375em) {
+          width: 80%;
+        }
+
+        border: none;
+        //background-color: var(--clr-error);
+        //color: var(--clr-white);
+        padding: 1.7rem 2.8rem;
+        font-size: 1.7rem;
+        border-radius: 2px;
+        font-weight: 600;
+        gap: 1.5rem;
+        cursor: pointer;
+        transition: all .3s cubic-bezier(0.41, 0.094, 0.212, 0.935);
+        background-color: var(--clr-white);
+        color: var(--clr-error);
+        box-shadow: 0 0 0 1px var(--clr-error);
+
+        .account-settings__content__delete-btn-close-path {
+          fill: var(--clr-error);
+        }
+
+        &:hover, &:active {
+        }
+      }
+
+      #sort-by {
+        font-size: 1.7rem;
+        font-weight: 600;
+        color: var(--clr-blue-lighter);
+        border: none;
+        background-color: var(--clr-white);
+      }
+
+      .sort-by-text {
+        font-size: 1.6rem;
+        font-weight: 500;
+        color: var(--clr-blue-lighter);
+        margin-right: 1rem;
       }
 
       .my-profile-cancel-button-wrapper {
@@ -537,7 +616,7 @@
 .notifications {
   font-size: 1rem;
   background-color: var(--clr-strawberry-red);
-  padding: .2rem;
+  padding: .2rem .5rem;
   border-radius: 50%;
 }
 
@@ -553,4 +632,43 @@
     transform: scale(1.02);
   }
 
+}
+
+.delete-account.account-settings__element-title {
+  color: var(--clr-primary);
+}
+
+.account-settings__sidebar__element.delete-account {
+  margin-top: 2.7rem;
+  @media only screen and (max-width: 54.3125em) {
+    margin-top: 0;
+  }
+}
+
+.fix-alpha-badge {
+  position: relative;
+
+}
+
+.alpha-badge {
+  position: absolute;
+  top: 1.5rem;
+  right: 4.2rem;
+  pointer-events: none;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  padding: .2rem .3rem;
+  color: var(--clr-white);
+  background-color: var(--clr-error);
+  @media only screen and (max-width: 57.9375em) {
+    right: 3rem;
+    top: 1rem;
+  }
+}
+
+.wishlist-items__empty {
+  font-size: 1.6rem;
+  color: var(--clr-blue-lighter);
+  margin-top: 2rem;
+  gap: 1rem;
 }

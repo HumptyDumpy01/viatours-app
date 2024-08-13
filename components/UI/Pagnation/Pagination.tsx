@@ -14,7 +14,7 @@ const Pagination = ({
                       currentPage,
                       setCurrentPage,
                       totalItems,
-                      itemsPerPage,
+                      itemsPerPage
                       // handleSetLoading
                     }: PaginationInterface) => {
   const pageNumbers = [];

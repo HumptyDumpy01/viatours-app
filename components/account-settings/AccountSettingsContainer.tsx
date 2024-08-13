@@ -5,11 +5,12 @@ import { useSession } from 'next-auth/react';
 import AccountSettingsSidebar from '@/components/account-settings/AccountSettingsSidebar';
 import React, { useEffect, useState } from 'react';
 import AccountSettingsSidebarSkeleton from '@/components/skeletons/other/Sidebar/AccountSettingsSkeleton';
-import { UserType } from '@/lib/mongodb';
+import { UserNotificationsType, UserType } from '@/lib/mongodb';
 import UserProfileHeadingSkeleton from '@/components/account-settings/skeletons/UserProflleHeadingSkeleton';
 import UserSkeleton from '@/components/account-settings/skeletons/UserSkeleton';
 import UserDataSkeleton from '@/components/account-settings/skeletons/UserDataSkeleton';
 import UserProfileAdditionalSkeleton from '@/components/account-settings/skeletons/UserProfileAdditionalSkeleton';
+import UserNotifications from '@/components/account-settings/contents/user-notifications/UserNotifications';
 
 type AccountSettingsContainerType = {
   page: 'profile' | `notifications` | `wishlist` | `tour-purchases` | `delete-account`;
@@ -76,7 +77,7 @@ export default function AccountSettingsContainer({ page }: AccountSettingsContai
             </>
           )}
           {!isLoading && (
-            <AccountSettingsSidebar notificationsCount={12} activeUrl={page} />
+            <AccountSettingsSidebar notificationsCount={Number(userData?.notifications.length)} activeUrl={page} />
           )}
           {(!isLoading && session && userData) && (
             <>
@@ -92,6 +93,11 @@ export default function AccountSettingsContainer({ page }: AccountSettingsContai
                     userPhone={userData.phone}
                     userInitials={`${userData.firstName} ${userData.lastName}`}
                   />
+                )}
+                {page === `notifications` && (
+                  <>
+                    <UserNotifications notifications={userData.notifications as UserNotificationsType[]} />
+                  </>
                 )}
               </div>
             </>

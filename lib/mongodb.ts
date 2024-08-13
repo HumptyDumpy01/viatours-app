@@ -732,7 +732,7 @@ export type UserType = {
   }
 }
 
-type UserNotificationsType = {
+export type UserNotificationsType = {
   type: `green` | `red` | `orange` | `darkOrange`;
   icon: `smile` | `bell` | `key` | `map` | `letter` | `sale` | `ticket` | `money`;
   addedAt: Date;
@@ -866,7 +866,7 @@ export async function pushNotificationToUserDocument(userId: string, type: `ADDE
   if (type === `ADDED_COMMENT`) {
     const addedCommentNotification: UserNotificationsType = {
       type: `darkOrange`,
-      icon: `map`,
+      icon: `letter`,
       addedAt: new Date(),
       timestamp: Timestamp.fromNumber(Date.now()),
       // @ts-ignore
