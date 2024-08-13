@@ -20,7 +20,6 @@ import SkeletonCardFull from '@/components/skeletons/Card/SkeletonCardFull';
 // import FormCompTemp from '@/app/FormCompTemp';
 
 async function GetTrendingDestinations() {
-  'use server';
   const tours = await getTours(22, { tags: `new` }, 0, {
     _id: 1,
     title: 1,
@@ -28,6 +27,7 @@ async function GetTrendingDestinations() {
     country: 1,
     images: 1
   }) as TourInterface[];
+
   return <TrendingDestinations tours={tours} />;
 }
 

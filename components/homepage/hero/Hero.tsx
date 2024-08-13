@@ -13,6 +13,7 @@ import { HeroSliceActions } from '@/store/heroSlice';
 import { TourInterface } from '@/data/DUMMY_TOURS';
 import useDebounce from '@/hooks/useDebounce';
 import { useRouter } from 'next/navigation';
+import { AnimatePresence, motion } from 'framer-motion';
 
 export default function Hero() {
   const locationIsOpen = useCartSelector((state) => state.hero.locationIsOpen);
@@ -88,11 +89,18 @@ export default function Hero() {
         {/*<SessionProvider>*/}
         <HeroHeading />
         {/*</SessionProvider>*/}
-        <div className="hero__second-part flex">
-          {locationIsOpen && (
-            // @ts-ignore
-            <WhereToPopup inputVal={input.current.value} isLoading={isLoading}
-                          tours={tours} />)}
+        <motion.div
+          className="hero__second-part flex"
+          // whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+        >
+          <AnimatePresence>
+            {locationIsOpen && (
+              // @ts-ignore
+              <WhereToPopup inputVal={input.current.value} isLoading={isLoading}
+                            tours={tours} />
+            )}
+          </AnimatePresence>
 
           <HeroInput icon={{
             src: pinIcon,
@@ -168,7 +176,7 @@ export default function Hero() {
             <Image className="search-req" width={20} height={30} src={searchIcon} alt="Search icon" />
             Search
           </button>
-        </div>
+        </motion.div>
       </form>
     </>
   );

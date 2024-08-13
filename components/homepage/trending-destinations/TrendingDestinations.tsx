@@ -4,6 +4,7 @@ import React, { useRef } from 'react';
 import './TrendingDestinations.scss';
 import TrendingDestinationsHeading from '@/components/homepage/trending-destinations/TrendingDestinationsHeading';
 import TrendingDestination from '@/components/homepage/trending-destinations/TrendingDestination';
+import { AnimatePresence, motion } from 'framer-motion';
 
 interface TourInterface {
   _id: string;
@@ -54,9 +55,9 @@ export default function TrendingDestinations({ tours }: TrendingDestinationsProp
   };
 
   return (
-    <>
+    <AnimatePresence>
       <TrendingDestinationsHeading />
-      <div
+      <motion.div
         className="trending-destinations-figure-wrapper container-trending-destinations flex"
         ref={containerRef}
         onMouseDown={handleMouseDown}
@@ -74,7 +75,7 @@ export default function TrendingDestinations({ tours }: TrendingDestinationsProp
             imgSrc={item.images[0]} // Use the first image path
           />
         ))}
-      </div>
-    </>
+      </motion.div>
+    </AnimatePresence>
   );
 }

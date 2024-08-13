@@ -27,9 +27,9 @@ export default function Feature({ title, text, type }: FeatureInterface) {
     //             viewport={{ once: true }}
     <motion.div
       initial={{ y: 200, opacity: 0 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: false }}
-      whileHover={{ y: -10 }}
+      whileInView={{ opacity: 1, y: 0, transition: { type: `spring`, damping: 10 } }}
+      viewport={{ once: true }}
+      whileHover={{ y: -10, transition: { type: `spring`, damping: 10 } }}
       className="section-features__layout-el">
       <div>
         <Image className="section-features__layout__img" src={imageSrc} alt={`${type} icon`} />

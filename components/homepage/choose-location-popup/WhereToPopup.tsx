@@ -1,4 +1,4 @@
-// 'use client';
+'use client';
 
 // import lottie component
 // import Lottie from 'lottie-react';
@@ -8,6 +8,7 @@ import './WhereToPopup.scss';
 import WhereToElement from '@/components/homepage/choose-location-popup/WhereToElement';
 import { TourInterface } from '@/data/DUMMY_TOURS';
 import WhereToPopupSkeleton from '@/components/homepage/skeletons/WhereToPopupSkeleton';
+import { motion } from 'framer-motion';
 
 interface WhereToPopupInterface {
   tours: TourInterface[];
@@ -29,7 +30,8 @@ export default function WhereToPopup({ tours, isLoading, inputVal }: WhereToPopu
 
   return (
     <>
-      <div className="where-to-popup">
+      <motion.div animate={{ opacity: 1 }} initial={{ opacity: 0 }} exit={{ opacity: 0 }}
+                  className="where-to-popup">
         <div className="where-to-popup-wrapper">
           {(isLoading) && (
             <div className={`where-to-popup-loading-screen-container`}>
@@ -77,7 +79,7 @@ export default function WhereToPopup({ tours, isLoading, inputVal }: WhereToPopu
             </>
           )}
         </div>
-      </div>
+      </motion.div>
     </>
   );
 }
