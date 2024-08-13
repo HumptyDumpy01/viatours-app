@@ -54,7 +54,7 @@ export default function AccountSettingsContainer({ page }: AccountSettingsContai
       });
 
     }
-  }, [session]);
+  }, [session, page]);
 
 
   return (

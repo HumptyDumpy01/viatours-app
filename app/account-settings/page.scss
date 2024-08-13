@@ -203,10 +203,18 @@
         align-items: center;
         margin-bottom: 2.1rem;
 
+        @media only screen and (max-width: 32.125em) {
+          display: grid;
+        }
+
         @media only screen and (max-width: 37.5em) {
           justify-content: left;
           gap: 1.9rem;
         }
+      }
+
+      &-my-profile-btns {
+        display: flex;
       }
 
       &-user__info {
