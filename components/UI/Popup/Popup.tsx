@@ -17,12 +17,12 @@ export default function Popup(/*{  }: PopupType*/) {
   return (
     <>
       <div className="account-settings_icon-container">
-        <svg onMouseLeave={() => handleTogglePopupVisibility(false)}
-             onMouseEnter={() => handleTogglePopupVisibility(true)} className="cursor-pointer"
-             xmlns="http://www.w3.org/2000/svg"
-             width="18"
-             height="16" viewBox="0 0 18 16"
-             fill="none">
+        <svg
+          onClick={() => handleTogglePopupVisibility(true)} className="cursor-pointer"
+          xmlns="http://www.w3.org/2000/svg"
+          width="18"
+          height="16" viewBox="0 0 18 16"
+          fill="none">
           <path d="M13 14V16H2V14H13ZM18 7V9H0V7H18ZM16 0V2H5V0H16Z" fill="#1E2050" />
         </svg>
 

@@ -3,6 +3,7 @@ import './UserNotification.scss';
 import { UserNotificationsType } from '@/lib/mongodb';
 import { formatDate } from '@/lib/helpers/formatDate';
 import DOMPurify from 'dompurify';
+import { motion } from 'framer-motion';
 
 export default function UserNotification({ type, icon, text, addedAt, timestamp }: UserNotificationsType) {
 
@@ -10,7 +11,8 @@ export default function UserNotification({ type, icon, text, addedAt, timestamp 
 
   return (
     <>
-      <div className="account-settings__content__element grid gap-16px">
+      <motion.div whileTap={{ scale: 0.9 }} whileHover={{ scale: 1.05 }}
+                  className="account-settings__content__element grid gap-16px">
         <div className={`account-settings__content__element-logo ${type}`}>
 
           {icon === 'bell' && (
@@ -93,7 +95,7 @@ export default function UserNotification({ type, icon, text, addedAt, timestamp 
               dangerouslySetInnerHTML={{ __html: sanitizedText }}></h2>
           <div className="account-settings__content__element-date">{formatDate(addedAt.toString())}</div>
         </div>
-      </div>
+      </motion.div>
     </>
   );
 }
