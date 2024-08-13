@@ -1,20 +1,34 @@
-// 'use client';
+'use client';
+
 import './Popup.scss';
+import { useState } from 'react';
 /*type PopupType = {
   // children: ReactNode;
 }*/
 
 export default function Popup(/*{  }: PopupType*/) {
+
+  const [openPopup, setOpenPopup] = useState<boolean>(false);
+
+  function handleTogglePopupVisibility(state: boolean) {
+    setOpenPopup(state);
+  }
+
   return (
     <>
       <div className="account-settings_icon-container">
-        <svg className="cursor-pointer" xmlns="http://www.w3.org/2000/svg" width="18" height="16" viewBox="0 0 18 16"
+        <svg onMouseLeave={() => handleTogglePopupVisibility(false)}
+             onMouseEnter={() => handleTogglePopupVisibility(true)} className="cursor-pointer"
+             xmlns="http://www.w3.org/2000/svg"
+             width="18"
+             height="16" viewBox="0 0 18 16"
              fill="none">
           <path d="M13 14V16H2V14H13ZM18 7V9H0V7H18ZM16 0V2H5V0H16Z" fill="#1E2050" />
         </svg>
 
-
-        <div className="popup-container">
+        <div onMouseLeave={() => handleTogglePopupVisibility(false)}
+             onMouseEnter={() => handleTogglePopupVisibility(true)}
+             className={`popup-container ${openPopup ? `open` : ``}`}>
           <div className="popup">
             <p className="popup-text">Each new notification can come right to your inbox!</p>
             <div className="grid">
