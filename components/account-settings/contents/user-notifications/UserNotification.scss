@@ -1,5 +1,11 @@
 .account-settings__content {
   &__element {
+    animation-name: moveInBottom;
+    animation-duration: .6s;
+    //animation-delay: 0.2s;
+    /*animation-iteration-count: 2;*/
+    animation-timing-function: ease-out;
+
     align-items: center;
     grid-template-columns: 6.4rem auto;
     transition: all .3s cubic-bezier(0.041, 0.094, 0.212, 0.935);
@@ -12,6 +18,15 @@
 
     &-wrapper {
       gap: 1.4rem;
+
+      &__no-items {
+        animation-name: moveInBottom;
+        animation-duration: 1s;
+        //animation-delay: 0.2s;
+        /*animation-iteration-count: 2;*/
+        animation-timing-function: ease-out;
+
+      }
     }
 
     &-logo {

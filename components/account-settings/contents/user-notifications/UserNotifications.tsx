@@ -20,27 +20,47 @@ export default function UserNotifications({ notifications }: UserNotificationsTy
   // define the current page
   const [currentPage, setCurrentPage] = useState(1);
   const [userNotifications, setUserNotifications] = useState<UserNotificationsType[]>(notifications);
-
+  const [originalNotifications] = useState<UserNotificationsType[]>([...notifications]);
 
   const indexOfLastTour = currentPage * notificationsPerPage;
   const indexOfFirstTour = indexOfLastTour - notificationsPerPage;
-  // fetch the tours
-  // numberOfTours = tours.length;
+
   useEffect(() => {
     setUserNotifications(notifications.slice(indexOfFirstTour, indexOfLastTour));
-  }, [currentPage]);
+  }, [currentPage, notifications]);
 
   function handleNotificationSorting(event: React.ChangeEvent<HTMLSelectElement>) {
     const value = event.target.value as 'newest' | 'oldest' | 'red' | 'green' | 'specials' | 'other' | `default`;
 
-    if (value === `default`) {
-      return;
+    let sortedNotifications = [...originalNotifications];
+
+    if (value === `newest`) {
+      sortedNotifications = sortedNotifications.sort((a, b) => (new Date(a.addedAt) > new Date(b.addedAt)) ? -1 : 1);
     }
 
+    if (value === `oldest`) {
+      sortedNotifications = sortedNotifications.sort((a, b) => (new Date(a.addedAt) < new Date(b.addedAt)) ? -1 : 1);
+    }
+
+    if (value === `red`) {
+      sortedNotifications = sortedNotifications.filter(notification => notification.type === `red`);
+    }
+
+    if (value === `green`) {
+      sortedNotifications = sortedNotifications.filter(notification => notification.type === `green`);
+    }
+
+    if (value === `specials`) {
+      sortedNotifications = sortedNotifications.filter(notification => notification.icon === `sale` || notification.icon === `ticket`);
+    }
+
+    if (value === `other`) {
+      sortedNotifications = sortedNotifications.filter(notification => notification.type === `darkOrange`);
+    }
+
+    setUserNotifications(sortedNotifications.slice(indexOfFirstTour, indexOfLastTour));
     console.log(`Sorting by: `, value);
-
   }
-
 
   return (
     <div className={`account-settings__content__title-wrapper-container`}>
@@ -59,13 +79,16 @@ export default function UserNotifications({ notifications }: UserNotificationsTy
         ]} />
       </div>
       <div className="account-settings__content__element-wrapper grid">
-        {userNotifications.map(function(notification: UserNotificationsType) {
+        {userNotifications.length > 0 && userNotifications.map(function(notification: UserNotificationsType) {
           return (
-            <>
-              <UserNotification {...notification} />
-            </>
+            <UserNotification key={notification.text} {...notification} />
           );
         })}
+        {userNotifications.length === 0 && (
+          <div className="account-settings__content__element-wrapper__no-items">
+            <p>No notifications found.</p>
+          </div>
+        )}
       </div>
       <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} totalItems={notifications.length}
                   itemsPerPage={notificationsPerPage} />
