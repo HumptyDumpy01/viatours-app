@@ -2,6 +2,12 @@
   position: relative;
 }
 
+.where-to-popup-anim-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+
 .where-to-popup {
   opacity: 1;
   visibility: visible;
@@ -38,6 +44,8 @@
   &__element, {
     color: var(--clr-blue-lighter);
     text-decoration: none;
+    display: flex;
+
     &--search-all {
       gap: 1.1rem;
 

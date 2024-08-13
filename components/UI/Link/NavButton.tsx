@@ -3,6 +3,7 @@
 import { ComponentPropsWithoutRef, ReactNode } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { motion } from 'framer-motion';
 
 type NavButtonInterface = {
   pathname: string;
@@ -17,9 +18,11 @@ export default function NavButton(props: NavButtonInterface) {
   const isActive = currentPath === props.pathname;
 
   return (
-    <Link {...props} href={props.pathname}
-          className={`link navigation__link ${(isActive && props.pathname !== `/login`) ? 'active' : ''} ${props.marked === `true` ? 'link-marked link-log-in' : ''}`}>
-      {props.children}
-    </Link>
+    <motion.div whileHover={{ scale: 1.2, color: `#EB662B` }}>
+      <Link {...props} href={props.pathname}
+            className={`link navigation__link text-decoration-none ${(isActive && props.pathname !== `/login`) ? 'active' : ''} ${props.marked === `true` ? 'link-marked link-log-in' : ''}`}>
+        {props.children}
+      </Link>
+    </motion.div>
   );
 }

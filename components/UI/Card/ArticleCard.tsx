@@ -1,7 +1,8 @@
-// 'use client';
+'use client';
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 
 interface ArticleCardInterface {
   imgSrc: string;
@@ -13,9 +14,20 @@ interface ArticleCardInterface {
   // children: ReactNode;
 }
 
+const item = {
+  transition: { type: 'spring', stiffness: 100, damping: 10 },
+  hidden: { opacity: 0, scale: 0.5 },
+  show: { opacity: 1, scale: 1 }
+};
+
 export default function ArticleCard({ imgSrc, href, tag, date, author, title }: ArticleCardInterface) {
   return (
-    <>
+    <motion.div
+      variants={item}
+      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 0.9 }}
+      transition={{ type: 'spring', stiffness: 100 }}
+    >
       <Link href={href} className="travel-articles-link">
         <article className="travel-articles__articles__article travel-articles__articles__article-1">
           <div className="travel-articles__articles__article__img-wrapper">
@@ -32,6 +44,6 @@ export default function ArticleCard({ imgSrc, href, tag, date, author, title }: 
           <h3 className="tertiary-heading travel-articles__articles__article__title">{title}</h3>
         </article>
       </Link>
-    </>
+    </motion.div>
   );
 }

@@ -36,11 +36,11 @@
     gap: 1.2rem;
     justify-content: center;
     align-items: center;
-    z-index: 99;
+    z-index: 9999;
   }
 
   &__heading {
-    margin-bottom: 3rem;
+    margin-bottom: 5rem;
   }
 
   &__img {
@@ -116,7 +116,7 @@
   &__review {
     &-wrapper {
       width: 100%;
-      height: 40rem;
+      //height: 40rem;
       margin: 0 auto;
       position: relative;
       border-radius: .9rem;

@@ -1,5 +1,6 @@
 .navigation.container {
   padding-top: 1.4rem !important;
+  z-index: 99999999;
 
   @media only screen and (max-width: 64.0625em) {
     width: 100%;
@@ -21,7 +22,7 @@
   margin-top: -1rem;
   padding: 1.6rem 0 0 1.6rem;
   top: 0;
-  z-index: 999;
+  z-index: 999999999999;
   background-color: rgba(255, 255, 255, 0.96);
   opacity: 0.97;
 
@@ -120,13 +121,14 @@
     transition: all .3s;
     border: 1px solid var(--clr-primary);
     border-radius: 10rem;
-    padding: 2.2rem;
+    padding-left: 2.2rem;
+    padding-right: 1.2rem;
     height: 4.9rem;
     width: 35rem;
     margin-top: .6rem;
-    font-size: 1.6rem;
+    //font-size: 1.6rem;
     color: var(--clr-darker-grey);
-    padding-left: 4.4rem;
+    //padding-left: 4.4rem;
     position: relative;
     @media only screen and (max-width: 41.25em) {
       height: 5.6rem;

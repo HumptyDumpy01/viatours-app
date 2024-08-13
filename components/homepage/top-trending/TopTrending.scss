@@ -74,6 +74,7 @@
   }
 
   &-toggle-left, &-toggle-right {
+    z-index: 999;
     @media only screen and (max-width: 68.4375em) {
       display: none;
     }

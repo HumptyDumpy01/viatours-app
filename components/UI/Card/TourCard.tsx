@@ -8,6 +8,7 @@ import '@/components/homepage/trending-destinations/TrendingDestinations.scss';
 import '@/components/homepage/find-popular-tours/FindPopularTours.scss';
 import Image from 'next/image';
 import { CldImage } from 'next-cloudinary';
+import { motion } from 'framer-motion';
 
 export interface TourCardInterface {
   href: string;
@@ -29,7 +30,11 @@ export interface TourCardInterface {
 
 export default function TourCard({ href, imgSrc, imgAlt, info }: TourCardInterface) {
   return (
-    <figure className="find-popular-tours__figure">
+    <motion.div
+      whileHover={{ scale: 1.1, y: -30, zIndex: 99, boxShadow: `0 0 20px 10px rgba(0, 0, 0, 0.1)` }}
+      transition={{ type: 'spring', stiffness: 100 }}
+      whileTap={{ scale: 0.9 }}
+      className="find-popular-tours__figure">
       <Link href={href} className="find-popular-tours__figure-link">
         <div className="find-popular-tours__figure__img-wrapper">
           {/*<img className="find-popular-tours__figure__img"*/}
@@ -74,6 +79,6 @@ export default function TourCard({ href, imgSrc, imgAlt, info }: TourCardInterfa
           </div>
         </div>
       </Link>
-    </figure>
+    </motion.div>
   );
 }

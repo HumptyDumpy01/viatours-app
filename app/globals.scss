@@ -698,7 +698,7 @@ span {
 }
 
 .text-decoration-none {
-  text-decoration: none;
+  text-decoration: none !important;
 }
 
 .container {
@@ -909,6 +909,7 @@ span {
 
 .secondary-heading {
   font-size: 4rem;
+  font-family: inherit;
   font-weight: 600;
   color: var(--clr-dark-blue);
 }

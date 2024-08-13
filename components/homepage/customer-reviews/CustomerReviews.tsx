@@ -3,11 +3,28 @@
 import React, { useRef, useState } from 'react';
 import CustomerReview from '@/components/homepage/customer-reviews/CustomerReview';
 import CustomerReviewsHeading from '@/components/homepage/customer-reviews/CustomerReviewsHeading';
-// Import other necessary components and assets
+// Import the other necessary parts and assets
 import customer1 from '@/assets/images/homepage/customerReviews/customer-1.png';
 import customer2 from '@/assets/images/homepage/customerReviews/customer-2.png';
 import customer3 from '@/assets/images/homepage/customerReviews/customer-3.png';
 import customer4 from '@/assets/images/homepage/customerReviews/customer-4.png';
+import { motion } from 'framer-motion';
+
+const container = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.5
+    }
+  }
+};
+
+const item = {
+  transition: { type: 'spring', stiffness: 100, damping: 10 },
+  hidden: { opacity: 0, scale: 0.5 },
+  show: { opacity: 1, scale: 1 }
+};
 
 export default function CustomerReviews() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -124,9 +141,14 @@ export default function CustomerReviews() {
   }
 
   return (
-    <>
+    <motion.div
+      initial={{ opacity: 0, y: 200 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ type: 'spring', stiffness: 100 }}
+      viewport={{ once: false }}
+    >
       <CustomerReviewsHeading />
-      <div
+      <motion.div
         className="customer-reviews__review-wrapper"
         ref={reviewWrapperRef}
         onMouseDown={handleMouseDown}
@@ -153,19 +175,22 @@ export default function CustomerReviews() {
         <CustomerReview customerLogoImg={customer4} title="Wonderful! Thanks a lot Viatours!"
                         text="I went on a tour to the Grand Canyon with Viatours Travel Agency and it was wonderful!"
                         initials="Jane Smith" job="Teacher" />
-      </div>
+      </motion.div>
       {/* Navigation dots */}
       {/* Insert navigation dots here */}
 
-      <aside className="customer-reviews-btn-wrapper flex heading-scale-effect">
+      <motion.aside
+        whileHover={{ scale: 1.8 }}
+        className="customer-reviews-btn-wrapper flex">
         {Array.from({ length: totalReviews }, (_, index) => (
-          <div
+          <motion.div
             key={index}
+            whileHover={{ scale: 1.8 }}
             className={`customer-reviews-toggle-btn ${currentIndex === index ? 'customer-reviews-toggle-btn--active' : ''}`}
             onClick={() => setCurrentIndex(index)}
-          ></div>
+          ></motion.div>
         ))}
-      </aside>
-    </>
+      </motion.aside>
+    </motion.div>
   );
 }

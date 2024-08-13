@@ -17,6 +17,20 @@ interface WhereToPopupInterface {
   // children: ReactNode;
 }
 
+const bounceVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      type: 'spring',
+      stiffness: 100,
+      damping: 10,
+      staggerChildren: 0.1
+    }
+  }
+};
+
 export default function WhereToPopup({ tours, isLoading, inputVal }: WhereToPopupInterface) {
 
   const isEmpty = tours.length === 0;
@@ -41,35 +55,38 @@ export default function WhereToPopup({ tours, isLoading, inputVal }: WhereToPopu
           )}
 
           {(!isLoading && !isEmpty) && (
-            <>
+            <motion.div
+              initial="hidden"
+              animate="visible"
+              variants={bounceVariants}
+              className="where-to-popup__elements"
+            >
               {firstThreeTours.map(function(tour) {
                 return (
-                  <>
-                    <WhereToElement
-                      href={`/tours/?filter-search=${tour.country}`}
-                      type={`location`}
-                      country={`Location`} title={tour.country} />
-                  </>
+                  <WhereToElement
+                    key={tour._id}
+                    href={`/tours/?filter-search=${tour.country}`}
+                    type={`location`}
+                    country={`Location`} title={tour.country} />
                 );
               })}
               {tours.slice(0, 5).map(function(tour) {
                 return (
-                  <>
-                    <WhereToElement
-                      href={`/tours/${tour._id}`}
-                      type={`tour`}
-                      title={tour.title}
-                      country={tour.country}
-                      price={`${tour.price.children}$`}
-                      image={tour.images[0]}
-                    />
-                  </>
+                  <WhereToElement
+                    key={tour._id}
+                    href={`/tours/${tour._id}`}
+                    type={`tour`}
+                    title={tour.title}
+                    country={tour.country}
+                    price={`${tour.price.children}$`}
+                    image={tour.images[0]}
+                  />
                 );
               })}
               {inputVal && (
                 <WhereToElement href={`/tours?filter-search=${inputVal}`} type={`search-all`} title={inputVal} />
               )}
-            </>
+            </motion.div>
           )}
           {(!isLoading && isEmpty) && (
             <>

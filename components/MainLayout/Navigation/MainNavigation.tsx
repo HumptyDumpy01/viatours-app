@@ -8,6 +8,7 @@ import { FormEvent, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { signOut, useSession } from 'next-auth/react';
 import { Skeleton } from '@mui/material';
+import { motion } from 'framer-motion';
 
 // 'use client';
 
@@ -60,16 +61,28 @@ export default function MainNavigation(/*{  }: MainNavigationInterface*/) {
     <nav className={`navigation container ${isSticky ? `sticky` : undefined}`}>
       <div className={`navigation__ul flex`}>
         <div className={`navigation-wrapper flex flex-align-center`}>
-          <Link href={`/`}>
-            <Image priority src={headerLogo} alt="viatours logo" className={`logo navigation__logo`} />
-          </Link>
+          <motion.div whileHover={{ scale: 1.05, transition: { type: `spring`, stiffness: 100, damping: 10 } }}
+                      whileTap={{ scale: 0.9 }}
+                      transition={{ type: 'spring', stiffness: 300 }}
+                      className={`navigation--logo-wrapper`}>
+            <Link href={`/`}>
+              <Image priority src={headerLogo} alt="viatours logo" className={`logo navigation__logo`} />
+            </Link>
+          </motion.div>
           <form onSubmit={handleSubmit}>
             <label>
-              <input type="search" name={`searchTerm`} className={`navigation--search`}
-                     placeholder="Search destinations or activities" />
+              <motion.input
+                whileFocus={{
+                  scale: 1.02,
+                  transition: { type: `spring`, duration: .3, stiffness: 300, damping: 20 }
+                }}
+                type="search"
+                name={`searchTerm`}
+                className={`navigation--search`}
+                placeholder="Search destinations or activities" />
             </label>
           </form>
-          <div className={`navigation--search-wrapper`}>
+          {/*<div className={`navigation--search-wrapper`}>
 
             <svg className={`icon--search icon ${isSticky ? `icon--search-sticky` : ``}`}
                  xmlns="http://www.w3.org/2000/svg" width="20"
@@ -80,7 +93,7 @@ export default function MainNavigation(/*{  }: MainNavigationInterface*/) {
                 d="M14.9622 14.8319L18.2999 18.1695M17.3365 9.04623C17.3365 13.5835 13.6705 17.2614 9.14951 17.2614C4.62743 17.2614 0.961426 13.5835 0.961426 9.04732C0.961426 4.50789 4.62743 0.831055 9.14843 0.831055C13.6705 0.831055 17.3365 4.50898 17.3365 9.04623Z"
                 stroke="#EB662B" strokeWidth="1.62548" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
-          </div>
+          </div>*/}
         </div>
         <div className={`navigation-wrapper-2 flex flex-align-center`}>
           <NavButton pathname={`/`}>Home</NavButton>
