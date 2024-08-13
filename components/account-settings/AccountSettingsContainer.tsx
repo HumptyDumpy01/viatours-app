@@ -79,7 +79,7 @@ export default function AccountSettingsContainer({ page }: AccountSettingsContai
           {!isLoading && (
             <AccountSettingsSidebar notificationsCount={Number(userData?.notifications.length)} activeUrl={page} />
           )}
-          {(!isLoading && session && userData) && (
+          {(!isLoading && session && session.user?.email && userData) && (
             <>
               <div className="account-settings__content">
                 {page === `profile` && (
@@ -96,7 +96,8 @@ export default function AccountSettingsContainer({ page }: AccountSettingsContai
                 )}
                 {page === `notifications` && (
                   <>
-                    <UserNotifications notifications={userData.notifications as UserNotificationsType[]} />
+                    <UserNotifications userEmail={session.user.email}
+                                       notifications={userData.notifications as UserNotificationsType[]} />
                   </>
                 )}
               </div>

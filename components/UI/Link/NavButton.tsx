@@ -18,7 +18,10 @@ export default function NavButton(props: NavButtonInterface) {
   const isActive = currentPath === props.pathname;
 
   return (
-    <motion.div whileHover={{ scale: 1.2, color: `#EB662B` }}>
+    <motion.div
+      whileHover={{ scale: 1.2, color: `#EB662B` }}
+      whileTap={{ scale: 0.9 }}
+    >
       <Link {...props} href={props.pathname}
             className={`link navigation__link text-decoration-none ${(isActive && props.pathname !== `/login`) ? 'active' : ''} ${props.marked === `true` ? 'link-marked link-log-in' : ''}`}>
         {props.children}

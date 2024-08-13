@@ -11,7 +11,7 @@ export default function UserNotification({ type, icon, text, addedAt, timestamp 
 
   return (
     <>
-      <motion.div whileTap={{ scale: 0.9 }} whileHover={{ scale: 1.05 }}
+      <motion.div whileTap={{ scale: 0.9, x: -10 }} whileHover={{ scale: 1.1, x: 10 }}
                   className="account-settings__content__element grid gap-16px">
         <div className={`account-settings__content__element-logo ${type}`}>
 

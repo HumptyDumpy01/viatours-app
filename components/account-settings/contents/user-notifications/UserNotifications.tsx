@@ -11,10 +11,11 @@ import React, { useEffect, useState } from 'react';
 
 type UserNotificationsTypeComponent = {
   notifications: UserNotificationsType[];
+  userEmail: string;
   // children: ReactNode;
 }
 
-export default function UserNotifications({ notifications }: UserNotificationsTypeComponent) {
+export default function UserNotifications({ notifications, userEmail }: UserNotificationsTypeComponent) {
 
   const notificationsPerPage = 5;
   // define the current page
@@ -25,9 +26,37 @@ export default function UserNotifications({ notifications }: UserNotificationsTy
   const indexOfLastTour = currentPage * notificationsPerPage;
   const indexOfFirstTour = indexOfLastTour - notificationsPerPage;
 
+  const [userSignedUpToNewsletter, setUserSignedUpToNewsletter] = useState<boolean | undefined>(undefined);
+
+
   useEffect(() => {
     setUserNotifications(notifications.slice(indexOfFirstTour, indexOfLastTour));
+
+    // TODO: use an api endpoint to check whether user email extracted from session is signed up to newsletter or not.
+    const response = fetch(`/api/user-signed-up-to-newsletter`, {
+      method: `POST`,
+      headers: {
+        'Content-Type': `application/json`
+      },
+      body: JSON.stringify({
+        userEmail
+      })
+    }).then(res => res.json()).then(data => {
+
+      if (data.error) {
+        console.error(`Failed to check whether the user signed up to newsletter or not.`);
+        return;
+      }
+
+      setUserSignedUpToNewsletter(data.userSignedUpToNewsletter);
+    }).catch((err) => {
+      console.error(`Error fetching user signed up to newsletter data: `, err);
+    });
+
+
   }, [currentPage, notifications]);
+
+  console.log(`User Signed Up To Newsletter: `, userSignedUpToNewsletter);
 
   function handleNotificationSorting(event: React.ChangeEvent<HTMLSelectElement>) {
     const value = event.target.value as 'newest' | 'oldest' | 'red' | 'green' | 'specials' | 'other' | `default`;
@@ -67,7 +96,7 @@ export default function UserNotifications({ notifications }: UserNotificationsTy
       <div className="account-settings__content__title-wrapper flex">
         <div className="flex flex-align-center gap-15px">
           <h2 className="account-settings__content__title">Notifications</h2>
-          <Popup />
+          <Popup userEmail={userEmail} signedInToNewsletter={userSignedUpToNewsletter} />
         </div>
         <SortBy handleOnChange={handleNotificationSorting} options={[
           { value: `newest`, label: `Newest` },

@@ -1,18 +1,39 @@
 'use client';
 
 import './Popup.scss';
-import { useState } from 'react';
-/*type PopupType = {
-  // children: ReactNode;
-}*/
+import { useRef, useState } from 'react';
 
-export default function Popup(/*{  }: PopupType*/) {
+type PopupType = {
+  userEmail: string;
+  signedInToNewsletter: boolean | undefined;
+  // children: ReactNode;
+}
+
+export default function Popup({ signedInToNewsletter, userEmail }: PopupType) {
 
   const [openPopup, setOpenPopup] = useState<boolean>(false);
+  const [disableBtn, setDisableBtn] = useState<boolean>(false);
+  const timeout = useRef<NodeJS.Timeout | null>(null);
+  const [userSignedUpOnNewsletterState, setUserSignedUpOnNewsletterState] = useState<boolean | undefined>(signedInToNewsletter);
 
   function handleTogglePopupVisibility(state: boolean) {
     setOpenPopup(state);
   }
+
+  function handleNewsletterSignUpOrSignOut() {
+    setDisableBtn(true);
+    setUserSignedUpOnNewsletterState(!userSignedUpOnNewsletterState);
+
+    // make a request to the server to add or remove user from newsletter
+
+
+    timeout.current = setTimeout(() => {
+      setDisableBtn(false);
+      return clearTimeout(timeout.current as NodeJS.Timeout);
+    }, 4000);
+
+  }
+
 
   return (
     <>
@@ -32,7 +53,12 @@ export default function Popup(/*{  }: PopupType*/) {
           <div className="popup">
             <p className="popup-text">Each new notification can come right to your inbox!</p>
             <div className="grid">
-              <button className="btn popup-btn popup-unsubscribe flex flex-align-center popup-btn--disabled">
+              <button
+                onClick={handleNewsletterSignUpOrSignOut}
+                disabled={disableBtn}
+                className={`btn popup-btn flex flex-align-center 
+                ${disableBtn ? `pointer-events-none` : ``} 
+                ${userSignedUpOnNewsletterState ? `popup-btn--disabled` : `popup-unsubscribe`}`}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                   <g clipPath="url(#clip0_918_1166)">
                     <path fillRule="evenodd" clipRule="evenodd"
@@ -45,7 +71,7 @@ export default function Popup(/*{  }: PopupType*/) {
                     </clipPath>
                   </defs>
                 </svg>
-                Turn on Notifications
+                {userSignedUpOnNewsletterState ? `Turn Off Notifications` : `Turn on Notifications`}
               </button>
               <button
                 className="btn popup-btn color-strawberry-red popup-clear flex flex-align-center flex-justify-center">

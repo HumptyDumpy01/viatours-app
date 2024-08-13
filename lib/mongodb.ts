@@ -1436,4 +1436,28 @@ export async function addEmailToNewsletter(email: string) {
 
 }
 
+export async function userSignedUpToNewsletter(userEmail: string) {
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
 
+  if (!userEmail) {
+    return {
+      error: `No user email provided.`
+    };
+  }
+
+  const response = await db.collection(`newsletter`).findOne({ email: userEmail });
+
+  if (!response?._id) {
+    return {
+      // means that the user is not signed up to the newsletter
+      status: false
+    };
+
+  } else {
+    return {
+      // means that the user is signed up to the newsletter
+      status: true
+    };
+  }
+}
