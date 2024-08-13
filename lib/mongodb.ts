@@ -1330,14 +1330,88 @@ export async function updateUserData(formData: FormDataType, method: `UPDATE_WIT
 
   }
 
-  if (method === `UPDATE_WITH_PASSWORD`) {
+  if (method === `UPDATE_WITH_PASSWORD` && formData.password?.trim() !== ``) {
+
+    if (!formData.password || formData.password.length < 8 || formData.password.length > 100) {
+      return {
+        error: `The password must be between 8 and 100 characters long.`
+      };
+    }
+
+
+    if (formData.image) {
+      const response = await db.collection(`users`).updateOne({ email: formData.email }, {
+        $set: {
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          phone: formData.phone,
+          image: formData.image,
+          password: await bcrypt.hash(formData.password, 12)
+        }
+      });
+
+      if (!response.acknowledged) {
+        return {
+          error: `Failed to update the user.`
+        };
+      } else {
+        return {
+          success: `The user was successfully updated.`,
+          acknowledged: response.acknowledged
+        };
+      }
+    }
+    if (formData.image === null) {
+      const response = await db.collection(`users`).updateOne({ email: formData.email }, {
+        $set: {
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          phone: formData.phone,
+          password: await bcrypt.hash(formData.password, 12)
+        }
+      });
+
+      if (!response.acknowledged) {
+        return {
+          error: `Failed to update the user.`
+        };
+      } else {
+        return {
+          success: `The user was successfully updated.`,
+          acknowledged: response.acknowledged
+        };
+      }
+    }
+
     console.log(`The UPDATE_WITH_PASSWORD method is executed.`);
   }
 
-  revalidatePath(`/account-settings`, `layout`);
+  revalidatePath(`/`, `layout`);
 
 }
 
+export type CompareUserPasswordType = {
+  email: string;
+  oldPassword: string;
+}
+
+export async function compareUserPassword(email: string, oldPassword: string) {
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+
+  const user = await getUser({ email: email }, { email: 1, password: 1, _id: 0 });
+
+  if (user.length === 0) {
+    return {
+      error: `The user with the email ${email} does not exist.`
+    };
+  }
+  const passwordMatch = await bcrypt.compare(oldPassword, user[0].password);
+
+  return {
+    passwordMatch: passwordMatch
+  };
+}
 
 ///////////////////////////////////////
 

@@ -1,4 +1,5 @@
 // 'use client';
+import { ComponentPropsWithoutRef } from 'react';
 
 type UserInputType = {
   readonly: boolean;
@@ -10,7 +11,7 @@ type UserInputType = {
   redBox?: boolean;
   required: boolean;
   // children: ReactNode;
-}
+} & ComponentPropsWithoutRef<'input'>;
 
 export default function
   UserInput({
@@ -21,14 +22,15 @@ export default function
               htmlFor,
               type,
               placeholder,
-              label
+              label,
+              ...props
             }: UserInputType) {
   return (
     <>
       <div className={`account-settings__content__input${redBox ? `-red` : ``} flex flex-column`}>
         <label htmlFor={htmlFor}
                className={`account-settings__content__input-label ${readonly ? `disabled-input-label` : ``}`}>{label}</label>
-        <input required={required} type={type} id={htmlFor} name={htmlFor}
+        <input {...props} required={required} type={type} id={htmlFor} name={htmlFor}
                className={`account-settings__content__input-field ${readonly ? `disabled-input-field` : ``}`}
                defaultValue={defaultVal} placeholder={placeholder} readOnly={readonly} />
       </div>

@@ -4,6 +4,7 @@ import heroSlice from '@/store/heroSlice';
 import toastSlice from '@/store/ToastSlice';
 import tourSlice from '@/store/tourSlice';
 import checkoutSlice from '@/store/checkoutSlice';
+import userProfileSlice from '@/store/userProfileSlice';
 
 const store = configureStore({
   reducer: {
@@ -14,7 +15,8 @@ const store = configureStore({
     hero: heroSlice,
     notification: toastSlice,
     tour: tourSlice,
-    checkout: checkoutSlice
+    checkout: checkoutSlice,
+    userProfile: userProfileSlice
   }
 });
 

@@ -7,7 +7,8 @@ import UserProfileAdditional from '@/components/account-settings/contents/user-p
 import React, { FormEvent, useRef, useState } from 'react';
 import { uploadUserLogoImage } from '@/lib/cloudinary';
 import { validateFormData } from '@/helpers/validateUserProfileFormData';
-import { useRouter } from 'next/navigation';
+import { useCartDispatch } from '@/store/hooks';
+import { userProfileSliceActions } from '@/store/userProfileSlice';
 
 export type FormDataType = {
   firstName: string;
@@ -45,12 +46,13 @@ export default function
 
   const [readOnly, setReadOnly] = useState<boolean>(true);
   const [formError, setFormError] = useState<string[]>([]);
-  const router = useRouter();
   const [messageSuccess, setMessageSuccess] = useState<string>();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const timer = useRef<NodeJS.Timeout | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+
+  const dispatch = useCartDispatch();
 
   const [userInitialsState, setUserInitialsState] = useState(userInitials);
 
@@ -61,42 +63,8 @@ export default function
     }
   };
 
-  const openFilePicker = () => {
-    fileInputRef.current?.click();
-  };
-
-
-  function handleEnableEditing() {
-    setReadOnly(false);
-  }
-
-  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setIsSubmitting(true);
-    const currObject = e.currentTarget;
-    const formData = new FormData(currObject);
-    const results = Object.fromEntries(formData.entries());
-
-    console.log(`Executing results: `, results);
-
-
-    const transformedResults = {
-      email: userEmailFromSession,
-      firstName: results.firstName.toString(),
-      lastName: results.lastName.toString(),
-      phone: results.phone?.toString() ? results.phone.toString() : null,
-      // @ts-ignore
-      image: results.image.size === 0 ? null : results.image
-    };
-
-    if (results.newPassword) {
-      // @ts-ignore
-      transformedResults.newPassword = results.newPassword.toString();
-    }
-    if (results.password) {
-      // @ts-ignore
-      transformedResults.password = results.password.toString();
-    }
+  // @ts-ignore
+  async function checkForErrors(transformedResults) {
 
     // Clear previous errors
     setFormError([]);
@@ -131,54 +99,119 @@ export default function
     if (imageUrls.length > 0) {
       transformedResults.image = imageUrls[0];
     }
+  }
 
-    // console.log(transformedResults);
+  // @ts-ignore
+  async function updateUserData(results, transformedResults, method: `UPDATE_WITHOUT_PASSWORD` | `UPDATE_WITH_PASSWORD`) {
 
-    if (!results.password) {
+    dispatch(userProfileSliceActions.toggleFormSubmitted(true));
+    setReadOnly(true);
+    setUserInitialsState(`${results.firstName} ${results.lastName}`);
+
+    const response = await fetch(`/api/update-user-data`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        formData: transformedResults,
+        method: method
+      })
+    });
+
+    const data = await response.json();
+
+    if (data.acknowledged) {
       setReadOnly(true);
-      setUserInitialsState(`${results.firstName} ${results.lastName}`);
+      setIsSubmitting(false);
+      setMessageSuccess(`Changes saved successfully!`);
 
-      const response = await fetch(`/api/update-user-data`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          formData: transformedResults,
-          method: `UPDATE_WITHOUT_PASSWORD`
-        })
-      });
-
-      const data = await response.json();
-
-      if (data.acknowledged) {
-        setReadOnly(true);
-        setIsSubmitting(false);
-        setMessageSuccess(`Changes saved successfully!`);
-
-
-        window.scrollBy(0, 100);
-        timer.current = setTimeout(() => {
-          setMessageSuccess(undefined);
-          return () => clearTimeout(timer.current as NodeJS.Timeout);
-        }, 7000);
-
-      }
-
-      if (data.error) {
-        setFormError([`Failed to save the changes. Please try again.`, data.error ?? ``]);
-        window.scrollBy(0, 100);
-        setIsSubmitting(false);
-        setReadOnly(false);
-      }
-
+      window.scrollBy(0, 100);
+      timer.current = setTimeout(() => {
+        setMessageSuccess(undefined);
+        return () => clearTimeout(timer.current as NodeJS.Timeout);
+      }, 7000);
 
     }
 
+    if (data.error) {
+      setFormError([`Failed to save the changes. Please try again.`, data.error ?? ``]);
+      window.scrollBy(0, 100);
+      setIsSubmitting(false);
+      setReadOnly(false);
+
+      dispatch(userProfileSliceActions.toggleFormSubmitted(false));
+    }
+    setReadOnly(true);
+  }
+
+  const openFilePicker = () => {
+    fileInputRef.current?.click();
+  };
+
+
+  function handleEnableEditing() {
+    setReadOnly(false);
+  }
+
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setIsSubmitting(true);
+    const currObject = e.currentTarget;
+    const formData = new FormData(currObject);
+    const results = Object.fromEntries(formData.entries());
+
+    console.log(`Executing results: `, results);
+
+
+    const transformedResults = {
+      email: userEmailFromSession,
+      firstName: results.firstName.toString(),
+      lastName: results.lastName.toString(),
+      phone: results.phone?.toString() ? results.phone.toString() : null,
+      // @ts-ignore
+      image: results.image.size === 0 ? null : results.image
+    };
+
+    /*
+        if (results.newPassword) {
+          // @ts-ignore
+          transformedResults.newPassword = results.newPassword.toString();
+        }
+        if (results.password) {
+          // @ts-ignore
+          transformedResults.password = results.password.toString();
+        }
+    */
+
+    await checkForErrors(transformedResults);
+    // console.log(transformedResults);
+
+    if (!results.password) {
+      await updateUserData(results, transformedResults, `UPDATE_WITHOUT_PASSWORD`);
+    }
+
     if (results.password && !results.confirmOldPassword) {
-      // TODO Write the corresponding logic for the user who did not set the pass
-      //  and tried to submit the form without the confirmOldPassword field
-      console.log(`For users who did log in via provider and do not have the pass set`);
+
+      const transformedResults = {
+        email: userEmailFromSession,
+        firstName: results.firstName.toString(),
+        lastName: results.lastName.toString(),
+        phone: results.phone?.toString() ? results.phone.toString() : null,
+        password: results.password.toString(),
+        // @ts-ignore
+        image: results.image.size === 0 ? null : results.image
+      };
+
+      // Implement the logic for the user who wants to set a new password.
+      // Use fetch API you used before, but now with the different condition  applied.
+      // We need to check if image exist or not, and if password user entered in a correct format.
+      await checkForErrors(transformedResults);
+
+      if (results.password) {
+        await updateUserData(results, transformedResults, `UPDATE_WITH_PASSWORD`);
+      }
+
     }
   }
 
