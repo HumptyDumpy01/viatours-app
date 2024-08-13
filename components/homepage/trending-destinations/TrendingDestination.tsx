@@ -20,12 +20,16 @@ interface TrendingDestinationInterface {
 export default function TrendingDestination({ href, imgSrc, alt, country, text }: TrendingDestinationInterface) {
 
   return (
-    <motion.div whileInView={{ y: 0, opacity: 1 }}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.9 }}
-                transition={{ type: 'spring', stiffness: 300 }}>
+    <motion.div
+      whileInView={{ y: 0, opacity: 1 }}
+      // initial={{ y: 0, opacity: 0 }}
+      // viewport={{ once: false }}
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.9 }}
+      transition={{ type: 'spring', stiffness: 300 }}>
       <Link className="trending-destinations-figure-link" href={href}>
-        <figure className="trending-destinations-figure">
+        <figure
+          className="trending-destinations-figure">
           <div className="trending-destinations-figure-wrapper-img">
             {/*<img className={`trending-destinations__img`} src={`http://localhost:3000${imgSrc}`} alt={alt} />*/}
             {/*<Image fill className="trending-destinations__img" src={`http://localhost:3000${imgSrc}`}*/}

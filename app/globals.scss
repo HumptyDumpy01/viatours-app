@@ -978,13 +978,13 @@ button {
 
   &:hover, &:active {
     background-color: var(--clr-primary-lighter);
-    transform: translateY(-3%);
+    //transform: translateY(-3%);
     cursor: pointer;
     box-shadow: 0 0 10px 5px rgba(235, 102, 43, 0.4);
   }
 
   &:active {
-    transform: translateY(20%);
+    //transform: translateY(20%);
   }
 
 }

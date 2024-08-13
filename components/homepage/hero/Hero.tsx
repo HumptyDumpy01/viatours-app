@@ -172,10 +172,14 @@ export default function Hero() {
             </select>
           </HeroInput>
 
-          <button className="btn btn--hero">
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            transition={{ type: 'spring', stiffness: 300 }}
+            className="btn btn--hero">
             <Image className="search-req" width={20} height={30} src={searchIcon} alt="Search icon" />
             Search
-          </button>
+          </motion.button>
         </motion.div>
       </form>
     </>
