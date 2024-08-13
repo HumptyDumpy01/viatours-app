@@ -70,7 +70,10 @@ export default function FooterNewsletter(/*{  }: FooterNewsletterInterface*/) {
       headers: {
         'Content-Type': `application/json`
       },
-      body: JSON.stringify(results)
+      body: JSON.stringify({
+        email: results.email,
+        method: `ADD`
+      })
     });
 
     const data = await result.json();

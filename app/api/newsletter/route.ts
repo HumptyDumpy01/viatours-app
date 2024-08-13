@@ -1,12 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { addEmailToNewsletter } from '@/lib/mongodb';
+import { addOrRemoveNewsletterEmail } from '@/lib/mongodb';
 
 export async function POST(request: NextRequest) {
   try {
 
-    const { email } = await request.json();
+    const { email, method } = await request.json() as { email: string, method: 'ADD' | 'REMOVE' };
 
-    const result = await addEmailToNewsletter(email);
+    console.log(`Email: `, email);
+    console.log(`Method: `, method);
+
+    const result = await addOrRemoveNewsletterEmail(email, method);
+
+    console.log(`Result: `, result);
 
     if (!result?.acknowledged) {
       return NextResponse.json({ error: true, message: 'Error adding email to newsletter' }, { status: 400 });

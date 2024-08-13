@@ -1416,23 +1416,39 @@ export async function compareUserPassword(email: string, oldPassword: string) {
 ///////////////////////////////////////
 
 /* IMPORTANT: NEWSLETTER */
-export async function addEmailToNewsletter(email: string) {
+export async function addOrRemoveNewsletterEmail(email: string, method: `ADD` | `REMOVE`) {
   const client = await clientPromise;
   const db = client.db(`viatoursdb`);
 
-  const insertEmailToNewsletter = await db.collection('newsletter').updateOne(
-    { email: email },
-    { $setOnInsert: { email: email } },
-    { upsert: true }
-  );
+  if (method === `ADD`) {
+    const insertEmailToNewsletter = await db.collection('newsletter').updateOne(
+      { email: email },
+      { $setOnInsert: { email: email } },
+      { upsert: true }
+    );
 
-  if (!insertEmailToNewsletter.acknowledged) {
-    throw new Error(`Failed to insert email to the newsletter collection.`);
+    if (!insertEmailToNewsletter.acknowledged) {
+      throw new Error(`Failed to insert email to the newsletter collection.`);
+    }
+
+    return {
+      acknowledged: insertEmailToNewsletter.acknowledged
+    };
   }
 
-  return {
-    acknowledged: insertEmailToNewsletter.acknowledged
-  };
+  if (method === `REMOVE`) {
+
+    const response = await db.collection(`newsletter`).deleteOne({ email: email });
+
+    if (!response.acknowledged) {
+      throw new Error(`Failed to remove email from the newsletter collection.`);
+    }
+
+    return {
+      error: false,
+      acknowledged: response.acknowledged
+    };
+  }
 
 }
 

@@ -54,7 +54,7 @@ export default function UserNotifications({ notifications, userEmail }: UserNoti
     });
 
 
-  }, [currentPage, notifications]);
+  }, [currentPage, notifications, userSignedUpToNewsletter]);
 
   console.log(`User Signed Up To Newsletter: `, userSignedUpToNewsletter);
 
@@ -96,7 +96,10 @@ export default function UserNotifications({ notifications, userEmail }: UserNoti
       <div className="account-settings__content__title-wrapper flex">
         <div className="flex flex-align-center gap-15px">
           <h2 className="account-settings__content__title">Notifications</h2>
-          <Popup userEmail={userEmail} signedInToNewsletter={userSignedUpToNewsletter} />
+          {userSignedUpToNewsletter !== undefined && (
+            <Popup userEmail={userEmail}
+                   signedInToNewsletter={userSignedUpToNewsletter} />
+          )}
         </div>
         <SortBy handleOnChange={handleNotificationSorting} options={[
           { value: `newest`, label: `Newest` },

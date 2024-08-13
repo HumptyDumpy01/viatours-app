@@ -5,7 +5,7 @@ import { useRef, useState } from 'react';
 
 type PopupType = {
   userEmail: string;
-  signedInToNewsletter: boolean | undefined;
+  signedInToNewsletter: boolean;
   // children: ReactNode;
 }
 
@@ -14,23 +14,68 @@ export default function Popup({ signedInToNewsletter, userEmail }: PopupType) {
   const [openPopup, setOpenPopup] = useState<boolean>(false);
   const [disableBtn, setDisableBtn] = useState<boolean>(false);
   const timeout = useRef<NodeJS.Timeout | null>(null);
-  const [userSignedUpOnNewsletterState, setUserSignedUpOnNewsletterState] = useState<boolean | undefined>(signedInToNewsletter);
+  const [userSignedUpOnNewsletterState, setUserSignedUpOnNewsletterState] = useState<boolean>(signedInToNewsletter);
+
+  async function handleNewsletter(method: `ADD` | `REMOVE`) {
+
+    setDisableBtn(true);
+    // make a request to the server to add or remove user from newsletter
+    const response = await fetch(`/api/newsletter`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      // in a body tag wer simply define the data that should be submitted
+      body: JSON.stringify({
+        email: userEmail,
+        method: method
+      })
+    });
+
+    const responseData = await response.json();
+
+    if (responseData.error) {
+      setDisableBtn(false);
+
+      if (method === `ADD`) {
+        setUserSignedUpOnNewsletterState(true);
+      } else {
+        setUserSignedUpOnNewsletterState(false);
+      }
+
+      console.error(`Failed to add or remove user from newsletter.`);
+    }
+
+    timeout.current = setTimeout(() => {
+      setDisableBtn(false);
+
+      if (method === `ADD`) {
+        setUserSignedUpOnNewsletterState(true);
+      } else {
+        setUserSignedUpOnNewsletterState(false);
+      }
+
+      return clearTimeout(timeout.current as NodeJS.Timeout);
+    }, 4000);
+  }
 
   function handleTogglePopupVisibility(state: boolean) {
     setOpenPopup(state);
   }
 
-  function handleNewsletterSignUpOrSignOut() {
-    setDisableBtn(true);
-    setUserSignedUpOnNewsletterState(!userSignedUpOnNewsletterState);
+  console.log(`User Signed Up On Newsletter State: `, userSignedUpOnNewsletterState);
 
-    // make a request to the server to add or remove user from newsletter
+  async function handleNewsletterSignUpOrSignOut() {
 
+    if (userSignedUpOnNewsletterState) {
+      setUserSignedUpOnNewsletterState(false);
 
-    timeout.current = setTimeout(() => {
-      setDisableBtn(false);
-      return clearTimeout(timeout.current as NodeJS.Timeout);
-    }, 4000);
+      await handleNewsletter(`REMOVE`);
+
+    } else {
+      setUserSignedUpOnNewsletterState(true);
+      await handleNewsletter(`ADD`);
+    }
 
   }
 

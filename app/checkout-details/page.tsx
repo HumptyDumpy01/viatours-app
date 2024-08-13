@@ -110,14 +110,15 @@ export default function ThanksForPurchase({ searchParams }: ThanksForPurchaseTyp
 
 
         if (isUserExists.length === 0 && fetchedOrderData.order.contactDetails.getEmailsWithOffers) {
-          // if the user is not signed up, then add it to newsletter
+          // if the user is not signed up, then add it to the newsletter
           const pushEmailToNewsletter = await fetch(`/api/newsletter`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-              email: fetchedOrderData.order.contactDetails.email
+              email: fetchedOrderData.order.contactDetails.email,
+              method: `ADD`
             })
           });
 
