@@ -1,4 +1,5 @@
-.wishlist-items {
+.wishlist-items,
+.wishlist-items-skeleton {
   grid-template-columns: repeat(2, 1fr);
   gap: 2.4rem;
   @media only screen and (max-width: 35.625em) {
@@ -153,4 +154,10 @@
   width: 28rem !important;
   height: 20.9rem !important;
   border-radius: 12px;
+}
+
+.wishlist-items-skeleton {
+  @media only screen and (max-width: 35.625em) {
+    justify-items: center;
+  }
 }
