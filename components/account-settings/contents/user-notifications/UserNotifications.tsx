@@ -132,8 +132,9 @@ export default function UserNotifications({ notifications, userEmail }: UserNoti
           <h2 className="account-settings__content__title">Notifications</h2>
           <AnimatePresence>
             {userSignedUpToNewsletter !== undefined && (
-              <Popup disableClearNotifications={disableClearNotifications}
-                     deleteAllNotifications={deleteAllNotifications} userEmail={userEmail}
+              <Popup showSignUpToNewsletterButton clearBtnLabel={`Clear Notifications`}
+                     disableClearItems={disableClearNotifications}
+                     deleteAllItems={deleteAllNotifications} userEmail={userEmail}
                      signedInToNewsletter={userSignedUpToNewsletter} />
             )}
           </AnimatePresence>

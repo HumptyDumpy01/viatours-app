@@ -12,6 +12,7 @@ import UserDataSkeleton from '@/components/account-settings/skeletons/UserDataSk
 import UserProfileAdditionalSkeleton from '@/components/account-settings/skeletons/UserProfileAdditionalSkeleton';
 import UserNotifications from '@/components/account-settings/contents/user-notifications/UserNotifications';
 import UserNotificationSkeleton from '@/components/account-settings/skeletons/UserNotificationSkeleton';
+import UserWishlist from '@/components/account-settings/contents/user-wishlist/UserWishlist';
 
 type AccountSettingsContainerType = {
   page: 'profile' | `notifications` | `wishlist` | `tour-purchases` | `delete-account`;
@@ -48,6 +49,10 @@ export default function AccountSettingsContainer({ page }: AccountSettingsContai
         // console.log(`Fetched User Data: `, data.result[0]);
 
         setIsLoading(false);
+
+        /* TEMPORARY */
+        console.log(`User Data: `, userData?.wishlist);
+
         setUserData(data.result[0]);
 
       }).catch((err) => {
@@ -58,6 +63,10 @@ export default function AccountSettingsContainer({ page }: AccountSettingsContai
     }
   }, [session, page]);
 
+
+  function handleClearWishlist() {
+    console.log(`Clearing Wishlist`);
+  }
 
   return (
     <>
@@ -112,6 +121,14 @@ export default function AccountSettingsContainer({ page }: AccountSettingsContai
                   <>
                     <UserNotifications userEmail={session.user.email}
                                        notifications={userData.notifications as UserNotificationsType[]} />
+                  </>
+                )}
+                {page === `wishlist` && (
+                  <>
+                    <UserWishlist
+                      wishlistItems={userData.wishlist}
+                      userEmail={userData.email}
+                      deleteAllItems={handleClearWishlist} />
                   </>
                 )}
               </div>
