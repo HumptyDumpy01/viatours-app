@@ -697,14 +697,23 @@ export async function handleOrder(perform: `deletion` | `changeStatus` | `fetchB
 ///////////////////////////////////////
 // IMPORTANT: USER
 
-export async function getUser(filter: {}, options?: {}) {
+export async function getUser(filter: {}, options?: {}, unwind: boolean = false) {
   const client = await clientPromise;
   const db = client.db(`viatoursdb`);
-  const user = await db.collection(`users`).aggregate([{ $match: filter }, { $project: options }]).toArray();
 
-  console.log(`Executing user: `, user);
+  if (!unwind) {
+    const user = await db.collection(`users`).aggregate([{ $match: filter }, { $project: options }]).toArray();
 
-  return JSON.parse(JSON.stringify(user));
+
+    console.log(`Executing user: `, user);
+
+    return JSON.parse(JSON.stringify(user));
+  } else {
+
+    // TODO: Unwind entire user document, particularly talking about wishlisted tours,
+    //  saved articles, orders
+  }
+
 }
 
 type createUserType = {

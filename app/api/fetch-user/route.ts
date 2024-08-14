@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { getUser } from '@/lib/mongodb';
 
 export async function POST(request: Request) {
-  const { userEmail, options } = await request.json();
+  const { userEmail, options, unwind } = await request.json();
 
   if (!userEmail) {
     return NextResponse.json({ message: 'Email is required.', status: 400, resp: false });

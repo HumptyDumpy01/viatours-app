@@ -2,10 +2,9 @@
 
 export type UserWishlistItemType = {
   _id: string;
-  image: string;
-  country: string;
-  city: string;
   title: string;
+  image: string;
+  location: string;
   rating: number;
   reviews: number;
   duration: string;

@@ -13,10 +13,72 @@ import UserProfileAdditionalSkeleton from '@/components/account-settings/skeleto
 import UserNotifications from '@/components/account-settings/contents/user-notifications/UserNotifications';
 import UserNotificationSkeleton from '@/components/account-settings/skeletons/UserNotificationSkeleton';
 import UserWishlist from '@/components/account-settings/contents/user-wishlist/UserWishlist';
+import { UserWishlistItemType } from '@/components/account-settings/contents/user-wishlist/UserWishlistItem';
+import { Timestamp } from 'mongodb';
 
 type AccountSettingsContainerType = {
   page: 'profile' | `notifications` | `wishlist` | `tour-purchases` | `delete-account`;
   // children: ReactNode;
+}
+
+export type UserOrdersType = {
+  _id: string;
+  date: string;
+  tickets: {
+    overall: number;
+    adultTickets: number;
+    youthTickets: number;
+    childrenTickets: number;
+  },
+  extraDetails: {
+    refund: {
+      available: boolean;
+      requested: boolean;
+    },
+    cancellation: {
+      available: boolean;
+      requested: boolean;
+    },
+    createdAt: string;
+    timestamp: Timestamp;
+    promoApplied: boolean;
+    tourDiscount: number | null;
+    state: {
+      status: `pending` | `scheduled` | `cancelled` | `refunded` | `booked` | `ongoing` | `finished`;
+      confirmed: boolean;
+      paid: boolean;
+      refunded: boolean;
+      cancelled: boolean;
+    }
+  },
+  // this one is unwounded tour data the user bought tickets for, + I projected only the necessary fields.
+  tour: {
+    _id: string;
+    title: string;
+    location: string;
+    image: string,
+    rating: number,
+    reviews: number,
+    duration: string
+  }
+}[]
+
+export type UnwindedUserData = {
+  _id: string;
+  email: string;
+  firstName: string;
+  // can be null because e.g. Google Auth/GitHub doesn't provide a last name
+  lastName: string | null;
+  // can be null because  by registering with Google Auth/GitHub, the user doesn't provide a password
+  password: string | null;
+  // can be null because I do not require the user to provide a phone number when
+  // he registers
+  phone: string | null;
+  notifications: UserNotificationsType[] | [];
+  wishlist: UserWishlistItemType[] | [];
+  // TODO: When working with saved articles, make sure to change the type to the correct one.
+  savedArticles: string[] | [];
+  orders: UserOrdersType[] | [];
 }
 
 export default function AccountSettingsContainer({ page }: AccountSettingsContainerType) {
