@@ -1,12 +1,22 @@
 // 'use client';
 import './UserWishlistItems.scss';
-/*type UserWishlistItemsType = {
-  // children: ReactNode;
-}*/
+import UserWishlistItem, {
+  UserWishlistItemType
+} from '@/components/account-settings/contents/user-wishlist/UserWishlistItem';
 
-export default function UserWishlistItems(/*{  }: UserWishlistItemsType*/) {
+type UserWishlistItems = {
+  wishlistItems: UserWishlistItemType[];
+}
+
+export default function UserWishlistItems({ wishlistItems }: UserWishlistItems) {
   return (
     <div className="wishlist-items grid">
+      {wishlistItems.map(function(tour) {
+        return (
+          <UserWishlistItem key={tour._id} {...tour} />
+        );
+      })}
+
     </div>
   );
 }

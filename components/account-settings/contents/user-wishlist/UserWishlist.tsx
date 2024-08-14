@@ -4,11 +4,13 @@ import React, { useState } from 'react';
 import Popup from '@/components/UI/Popup/Popup';
 import { AnimatePresence } from 'framer-motion';
 import SortBy from '@/components/UI/SortBy/SortBy';
+import UserWishlistItems from '@/components/account-settings/contents/user-wishlist/UserWishlistItems';
+import { UserWishlistItemType } from '@/components/account-settings/contents/user-wishlist/UserWishlistItem';
 
 type UserWishlistType = {
   userEmail: string;
   deleteAllItems: () => void;
-  wishlistItems: {}[]
+  wishlistItems: UserWishlistItemType[];
 
   // children: ReactNode;
 }
@@ -48,6 +50,7 @@ export default function UserWishlist({ userEmail, deleteAllItems, wishlistItems 
                   handleOnChange={handleWishlistSorting}
                   disabled={wishlistItems.length === 0} />
         </div>
+        <UserWishlistItems wishlistItems={wishlistItems} />
       </div>
 
     </>
