@@ -11,6 +11,7 @@ import UserSkeleton from '@/components/account-settings/skeletons/UserSkeleton';
 import UserDataSkeleton from '@/components/account-settings/skeletons/UserDataSkeleton';
 import UserProfileAdditionalSkeleton from '@/components/account-settings/skeletons/UserProfileAdditionalSkeleton';
 import UserNotifications from '@/components/account-settings/contents/user-notifications/UserNotifications';
+import UserNotificationSkeleton from '@/components/account-settings/skeletons/UserNotificationSkeleton';
 
 type AccountSettingsContainerType = {
   page: 'profile' | `notifications` | `wishlist` | `tour-purchases` | `delete-account`;
@@ -63,15 +64,28 @@ export default function AccountSettingsContainer({ page }: AccountSettingsContai
       <section className="account-settings-wrapper container">
         <h1 className="secondary-heading account-settings__heading">Account Settings</h1>
         <div className="account-settings grid">
-          {isLoading && (
+          {(isLoading) && (
             <>
               <AccountSettingsSidebarSkeleton />
               <div className="account-settings__content">
                 <div className={`account-settings-content-container`}>
                   <UserProfileHeadingSkeleton />
-                  <UserSkeleton />
-                  <UserDataSkeleton />
-                  <UserProfileAdditionalSkeleton />
+                  {page === `profile` && (
+                    <>
+                      <UserSkeleton />
+                      <UserDataSkeleton />
+                      <UserProfileAdditionalSkeleton />
+                    </>
+                  )}
+                  {page === `notifications` && (
+                    <div className={`grid gap-13px margin-top-big`}>
+                      <UserNotificationSkeleton />
+                      <UserNotificationSkeleton />
+                      <UserNotificationSkeleton />
+                      <UserNotificationSkeleton />
+                      <UserNotificationSkeleton />
+                    </div>
+                  )}
                 </div>
               </div>
             </>

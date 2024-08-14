@@ -6,6 +6,7 @@
     /*animation-iteration-count: 2;*/
     animation-timing-function: ease-out;
 
+
     align-items: center;
     grid-template-columns: 6.4rem auto;
     transition: all .3s cubic-bezier(0.041, 0.094, 0.212, 0.935);
@@ -55,6 +56,9 @@
       line-height: 1.9rem; /* 114.134% */
       letter-spacing: -.0149rem;
       margin-bottom: 1rem;
+
+      &-skeleton {
+      }
     }
 
     &-date {
