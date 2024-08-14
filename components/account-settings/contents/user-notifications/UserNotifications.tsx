@@ -2,65 +2,51 @@
 
 import '@/components/UI/Pagnation/Pagination.scss';
 import UserNotification from '@/components/account-settings/contents/user-notifications/UserNotifcation';
-
 import Popup from '@/components/UI/Popup/Popup';
 import SortBy from '@/components/UI/SortBy/SortBy';
 import { UserNotificationsType } from '@/lib/mongodb';
 import Pagination from '@/components/UI/Pagnation/Pagination';
 import React, { useEffect, useState } from 'react';
+import { AnimatePresence } from 'framer-motion';
 
 type UserNotificationsTypeComponent = {
   notifications: UserNotificationsType[];
   userEmail: string;
-  // children: ReactNode;
 }
 
 export default function UserNotifications({ notifications, userEmail }: UserNotificationsTypeComponent) {
-
   const notificationsPerPage = 5;
-  // define the current page
   const [currentPage, setCurrentPage] = useState(1);
   const [userNotifications, setUserNotifications] = useState<UserNotificationsType[]>(notifications);
+  const [filteredNotifications, setFilteredNotifications] = useState<UserNotificationsType[]>(notifications);
   const [originalNotifications] = useState<UserNotificationsType[]>([...notifications]);
-
-  const indexOfLastTour = currentPage * notificationsPerPage;
-  const indexOfFirstTour = indexOfLastTour - notificationsPerPage;
-
   const [userSignedUpToNewsletter, setUserSignedUpToNewsletter] = useState<boolean | undefined>(undefined);
 
+  const indexOfLastNotification = currentPage * notificationsPerPage;
+  const indexOfFirstNotification = indexOfLastNotification - notificationsPerPage;
 
   useEffect(() => {
-    setUserNotifications(notifications.slice(indexOfFirstTour, indexOfLastTour));
+    setUserNotifications(filteredNotifications.slice(indexOfFirstNotification, indexOfLastNotification));
 
-    // TODO: use an api endpoint to check whether user email extracted from session is signed up to newsletter or not.
     const response = fetch(`/api/user-signed-up-to-newsletter`, {
       method: `POST`,
       headers: {
         'Content-Type': `application/json`
       },
-      body: JSON.stringify({
-        userEmail
-      })
+      body: JSON.stringify({ userEmail })
     }).then(res => res.json()).then(data => {
-
       if (data.error) {
         console.error(`Failed to check whether the user signed up to newsletter or not.`);
         return;
       }
-
       setUserSignedUpToNewsletter(data.userSignedUpToNewsletter);
     }).catch((err) => {
       console.error(`Error fetching user signed up to newsletter data: `, err);
     });
-
-
-  }, [currentPage, notifications, userSignedUpToNewsletter]);
-
-  console.log(`User Signed Up To Newsletter: `, userSignedUpToNewsletter);
+  }, [currentPage, filteredNotifications, userSignedUpToNewsletter]);
 
   function handleNotificationSorting(event: React.ChangeEvent<HTMLSelectElement>) {
     const value = event.target.value as 'newest' | 'oldest' | 'red' | 'green' | 'specials' | 'other' | `default`;
-
     let sortedNotifications = [...originalNotifications];
 
     if (value === `newest`) {
@@ -87,8 +73,8 @@ export default function UserNotifications({ notifications, userEmail }: UserNoti
       sortedNotifications = sortedNotifications.filter(notification => notification.type === `darkOrange`);
     }
 
-    setUserNotifications(sortedNotifications.slice(indexOfFirstTour, indexOfLastTour));
-    console.log(`Sorting by: `, value);
+    setFilteredNotifications(sortedNotifications);
+    setCurrentPage(1);
   }
 
   return (
@@ -96,10 +82,11 @@ export default function UserNotifications({ notifications, userEmail }: UserNoti
       <div className="account-settings__content__title-wrapper flex">
         <div className="flex flex-align-center gap-15px">
           <h2 className="account-settings__content__title">Notifications</h2>
-          {userSignedUpToNewsletter !== undefined && (
-            <Popup userEmail={userEmail}
-                   signedInToNewsletter={userSignedUpToNewsletter} />
-          )}
+          <AnimatePresence>
+            {userSignedUpToNewsletter !== undefined && (
+              <Popup userEmail={userEmail} signedInToNewsletter={userSignedUpToNewsletter} />
+            )}
+          </AnimatePresence>
         </div>
         <SortBy handleOnChange={handleNotificationSorting} options={[
           { value: `newest`, label: `Newest` },
@@ -111,18 +98,16 @@ export default function UserNotifications({ notifications, userEmail }: UserNoti
         ]} />
       </div>
       <div className="account-settings__content__element-wrapper grid">
-        {userNotifications.length > 0 && userNotifications.map(function(notification: UserNotificationsType) {
-          return (
-            <UserNotification key={notification.text} {...notification} />
-          );
-        })}
+        {userNotifications.length > 0 && userNotifications.map(notification => (
+          <UserNotification key={notification.text} {...notification} />
+        ))}
         {userNotifications.length === 0 && (
           <div className="account-settings__content__element-wrapper__no-items">
             <p>No notifications found.</p>
           </div>
         )}
       </div>
-      <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} totalItems={notifications.length}
+      <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} totalItems={filteredNotifications.length}
                   itemsPerPage={notificationsPerPage} />
     </div>
   );
