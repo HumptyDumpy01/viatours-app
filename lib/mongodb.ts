@@ -1420,6 +1420,12 @@ export async function addOrRemoveNewsletterEmail(email: string, method: `ADD` | 
   const client = await clientPromise;
   const db = client.db(`viatoursdb`);
 
+  if (!email || !email.trim().includes(`@`)) {
+    return {
+      error: `No email provided.`
+    };
+  }
+
   if (method === `ADD`) {
     const insertEmailToNewsletter = await db.collection('newsletter').updateOne(
       { email: email },
