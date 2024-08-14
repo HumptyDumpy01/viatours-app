@@ -15,6 +15,7 @@ import UserNotificationSkeleton from '@/components/account-settings/skeletons/Us
 import UserWishlist from '@/components/account-settings/contents/user-wishlist/UserWishlist';
 import { UserWishlistItemType } from '@/components/account-settings/contents/user-wishlist/UserWishlistItem';
 import { Timestamp } from 'mongodb';
+import UserWishlistItemsSkeletons from '@/components/account-settings/skeletons/UserWishlistSkeletons';
 
 type AccountSettingsContainerType = {
   page: 'profile' | `notifications` | `wishlist` | `tour-purchases` | `delete-account`;
@@ -160,6 +161,11 @@ export default function AccountSettingsContainer({ page }: AccountSettingsContai
                       <UserNotificationSkeleton />
                       <UserNotificationSkeleton />
                     </div>
+                  )}
+                  {page === `wishlist` && (
+                    <>
+                      <UserWishlistItemsSkeletons />
+                    </>
                   )}
                 </div>
               </div>

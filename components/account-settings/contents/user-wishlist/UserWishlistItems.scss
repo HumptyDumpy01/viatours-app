@@ -5,7 +5,14 @@
     grid-template-columns: 1fr;
   }
 
-  &__item {
+  &__item-skeleton {
+    margin-top: 2rem;
+    width: 30rem !important;
+    //height: 20.9rem !important;
+  }
+
+  &__item,
+  &__item-skeleton {
     border-radius: 12px;
     padding: 1rem;
     cursor: pointer;
@@ -140,4 +147,10 @@
   color: var(--clr-blue-lighter);
   margin-top: 2rem;
   gap: 1rem;
+}
+
+.wishlist-items__img-skeleton {
+  width: 28rem !important;
+  height: 20.9rem !important;
+  border-radius: 12px;
 }
