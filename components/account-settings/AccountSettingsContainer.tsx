@@ -5,7 +5,7 @@ import { useSession } from 'next-auth/react';
 import AccountSettingsSidebar from '@/components/account-settings/AccountSettingsSidebar';
 import React, { useEffect, useState } from 'react';
 import AccountSettingsSidebarSkeleton from '@/components/skeletons/other/Sidebar/AccountSettingsSkeleton';
-import { UserNotificationsType, UserType } from '@/lib/mongodb';
+import { UserNotificationsType } from '@/lib/mongodb';
 import UserProfileHeadingSkeleton from '@/components/account-settings/skeletons/UserProflleHeadingSkeleton';
 import UserSkeleton from '@/components/account-settings/skeletons/UserSkeleton';
 import UserDataSkeleton from '@/components/account-settings/skeletons/UserDataSkeleton';
@@ -67,6 +67,7 @@ export type UnwoundUserData = {
   _id: string;
   email: string;
   firstName: string;
+  image: string | null;
   // can be null because e.g. Google Auth/GitHub doesn't provide a last name
   lastName: string | null;
   // can be null because  by registering with Google Auth/GitHub, the user doesn't provide a password
@@ -83,7 +84,7 @@ export type UnwoundUserData = {
 
 export default function AccountSettingsContainer({ page }: AccountSettingsContainerType) {
 
-  const [userData, setUserData] = useState<UserType>();
+  const [userData, setUserData] = useState<UnwoundUserData>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   // get access to session data
   const { data: session, status } = useSession();

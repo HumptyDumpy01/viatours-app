@@ -732,6 +732,7 @@ export async function getUser(filter: {}, options?: {}, unwind: boolean = false)
 
             // push all the data about the user except the unwounded wishlist
             email: { $first: '$email' },
+            image: { $first: '$image' },
             firstName: { $first: '$firstName' },
             lastName: { $first: '$lastName' },
             password: { $first: '$password' },
@@ -775,6 +776,7 @@ export async function getUser(filter: {}, options?: {}, unwind: boolean = false)
             email: { $first: '$email' },
             firstName: { $first: '$firstName' },
             lastName: { $first: '$lastName' },
+            image: { $first: '$image' },
             password: { $first: '$password' },
             phone: { $first: '$phone' },
             notifications: { $first: '$notifications' },
@@ -808,6 +810,7 @@ export async function getUser(filter: {}, options?: {}, unwind: boolean = false)
             email: { $first: '$email' },
             firstName: { $first: '$firstName' },
             lastName: { $first: '$lastName' },
+            image: { $first: '$image' },
             password: { $first: '$password' },
             phone: { $first: '$phone' },
             notifications: { $first: '$notifications' },
