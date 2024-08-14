@@ -11,6 +11,7 @@ type PopupType = {
   disableClearItems: boolean;
   clearBtnLabel: string;
   showSignUpToNewsletterButton: boolean;
+  labelText: string;
   // children: ReactNode;
 }
 
@@ -20,6 +21,7 @@ export default function
           deleteAllItems,
           userEmail,
           clearBtnLabel,
+          labelText,
           disableClearItems,
           showSignUpToNewsletterButton
         }: PopupType) {
@@ -130,7 +132,7 @@ export default function
               onMouseEnter={() => handleTogglePopupVisibility(true)}
               className={`popup-container`}>
               <div className="popup">
-                <p className="popup-text">Each new notification can come right to your inbox!</p>
+                <p className="popup-text">{labelText}</p>
                 <div className="grid">
                   {showSignUpToNewsletterButton && (
                     <>

@@ -709,10 +709,147 @@ export async function getUser(filter: {}, options?: {}, unwind: boolean = false)
 
     return JSON.parse(JSON.stringify(user));
   } else {
+    console.log(`User Email`, filter);
 
-    // TODO: Unwind entire user document, particularly talking about wishlisted tours,
-    //  saved articles, orders
+    // Unwind entire user document, particularly talking about wishlisted tours,
+    // saved articles, orders
+    const unwoundUser = await db.collection(`users`).aggregate(
+      [
+        { $match: filter },
+        {
+          $lookup: {
+            from: 'tours',
+            localField: 'wishlist',
+            foreignField: '_id',
+            as: 'wishlistedTours'
+          }
+        },
+
+        { $unwind: '$wishlistedTours' },
+        {
+          $group: {
+            _id: '$_id',
+
+            // push all the data about the user except the unwounded wishlist
+            email: { $first: '$email' },
+            firstName: { $first: '$firstName' },
+            lastName: { $first: '$lastName' },
+            password: { $first: '$password' },
+            phone: { $first: '$phone' },
+            orders: { $first: '$orders' },
+            notifications: { $first: '$notifications' },
+            savedArticles: { $first: '$savedArticles' },
+            wishlist: {
+              $push: {
+                _id: '$wishlistedTours._id',
+                title: '$wishlistedTours.title',
+                image: { $arrayElemAt: ['$wishlistedTours.images', 0] },
+                location: { $concat: ['$wishlistedTours.city', ', ', '$wishlistedTours.country'] },
+                rating: '$wishlistedTours.rating.overall',
+                reviews: '$wishlistedTours.reviews',
+                duration: '$wishlistedTours.duration',
+                fromPrice: '$wishlistedTours.price.children'
+              }
+            }
+
+          }
+        },
+
+        // unwind and project user orders in full
+        {
+          $lookup: {
+            from: 'orders',
+            localField: 'orders',
+            foreignField: '_id',
+            as: 'userOrders'
+          }
+        },
+
+        { $unwind: '$userOrders' },
+
+        {
+          $group: {
+            _id: '$_id',
+
+            // push back all prev data except orders
+            email: { $first: '$email' },
+            firstName: { $first: '$firstName' },
+            lastName: { $first: '$lastName' },
+            password: { $first: '$password' },
+            phone: { $first: '$phone' },
+            notifications: { $first: '$notifications' },
+            savedArticles: { $first: '$savedArticles' },
+            wishlist: { $last: '$wishlist' },
+            // unwounded orders
+            orders: {
+              $push: {
+                _id: '$userOrders._id',
+                tourId: '$userOrders.tourId',
+                date: '$userOrders.booking.date',
+                tickets: '$userOrders.booking.tickets',
+                extraDetails: '$userOrders.extraDetails'
+              }
+            }
+          }
+        },
+        { $unwind: '$orders' },
+
+        {
+          $lookup: {
+            from: 'tours',
+            localField: 'orders.tourId',
+            foreignField: '_id',
+            as: 'orderTours'
+          }
+        },
+        {
+          $group: {
+            _id: '$_id',
+            email: { $first: '$email' },
+            firstName: { $first: '$firstName' },
+            lastName: { $first: '$lastName' },
+            password: { $first: '$password' },
+            phone: { $first: '$phone' },
+            notifications: { $first: '$notifications' },
+            savedArticles: { $first: '$savedArticles' },
+            wishlist: { $last: '$wishlist' },
+            orders: {
+              $push: {
+                _id: '$orders._id',
+                date: '$orders.date',
+                tickets: '$orders.tickets',
+                extraDetails: '$orders.extraDetails',
+                tour: {
+                  _id: { $arrayElemAt: ['$orderTours._id', 0] },
+                  title: { $arrayElemAt: ['$orderTours.title', 0] },
+                  location: {
+                    $concat: [{ $arrayElemAt: ['$orderTours.city', 0] },
+                      ', ', { $arrayElemAt: ['$orderTours.country', 0] }]
+                  },
+                  image: { $arrayElemAt: [{ $arrayElemAt: ['$orderTours.images', 0] }, 0] },
+                  rating: { $arrayElemAt: ['$orderTours.rating.overall', 0] },
+                  reviews: { $arrayElemAt: ['$orderTours.reviews', 0] },
+                  duration: { $arrayElemAt: ['$orderTours.duration', 0] }
+
+                }
+              }
+            }
+          }
+        }
+      ]
+    ).toArray();
+    console.log(`Executing unwoundUser: `, unwoundUser);
+
+    if (!unwoundUser || unwoundUser.length === 0) {
+      return {
+        error: true,
+        message: `Failed to find the user with the email ${filter}`
+      };
+    } else {
+      return JSON.parse(JSON.stringify(unwoundUser));
+    }
   }
+
 
 }
 
@@ -935,7 +1072,7 @@ export async function addOrderIdToUserDocument(
     icon: `map`,
     addedAt: new Date(),
     timestamp: Timestamp.fromNumber(Date.now()),
-    text: `You successfully bought tickets to <a class="highlighted" href="tours/${tourId}">“${tourTitle}”<a/> tour!`
+    text: `You successfully bought tickets to <a class="highlighted text-decoration-none" href="tours/${tourId}">“${tourTitle}”<a/> tour!`
   };
 
   // console.log(`Executing getEmailsWithOffers: `, getEmailsWithOffers);

@@ -31,10 +31,12 @@ export default function UserWishlist({ userEmail, deleteAllItems, wishlistItems 
             <h2 className="account-settings__content__title">Wishlist</h2>
 
             <AnimatePresence>
-              <Popup showSignUpToNewsletterButton={false} clearBtnLabel={`Clear Wishlist`} userEmail={userEmail}
-                     signedInToNewsletter={true}
-                     deleteAllItems={deleteAllItems}
-                     disableClearItems={disableClearWishlist} />
+              <Popup
+                labelText={`You can delete all your wishlist items by one click!`}
+                showSignUpToNewsletterButton={false} clearBtnLabel={`Clear Wishlist`} userEmail={userEmail}
+                signedInToNewsletter={true}
+                deleteAllItems={deleteAllItems}
+                disableClearItems={disableClearWishlist} />
             </AnimatePresence>
           </div>
           <SortBy options={[

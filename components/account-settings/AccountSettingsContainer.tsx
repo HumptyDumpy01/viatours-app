@@ -63,7 +63,7 @@ export type UserOrdersType = {
   }
 }[]
 
-export type UnwindedUserData = {
+export type UnwoundUserData = {
   _id: string;
   email: string;
   firstName: string;
@@ -104,18 +104,21 @@ export default function AccountSettingsContainer({ page }: AccountSettingsContai
         },
         body: JSON.stringify({
           userEmail: session?.user.email,
-          options: { _id: 0 }
+          options: { _id: 0 },
+          unwind: true
         })
 
       }).then(res => res.json()).then(data => {
         // console.log(`Fetched User Data: `, data.result[0]);
 
+        console.log(`First result: `, data);
         setIsLoading(false);
 
         /* TEMPORARY */
         console.log(`User Data: `, userData?.wishlist);
 
         setUserData(data.result[0]);
+        console.log(`User Data: `, userData);
 
       }).catch((err) => {
         setIsLoading(false);
