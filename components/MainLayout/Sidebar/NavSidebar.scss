@@ -2,6 +2,7 @@
   width: 36.4rem;
   //width: 21vw;
   opacity: 0;
+  z-index: 9999999999;
   visibility: hidden;
   transition: all .4s;
   transform: translateX(-100%);
@@ -46,7 +47,6 @@
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1000;
   background-color: var(--clr-white);
   box-shadow: 0 0 1.6rem rgba(0, 0, 0, 0.1);
 

@@ -21,11 +21,18 @@ export default function UserNotifications({ notifications, userEmail }: UserNoti
   const [filteredNotifications, setFilteredNotifications] = useState<UserNotificationsType[]>(notifications);
   const [originalNotifications] = useState<UserNotificationsType[]>([...notifications]);
   const [userSignedUpToNewsletter, setUserSignedUpToNewsletter] = useState<boolean | undefined>(undefined);
+  const [disableClearNotifications, setDisableClearNotifications] = useState<boolean>(false);
+  const [userDeletedNotifications, setUserDeletedNotifications] = useState<boolean>(false);
 
   const indexOfLastNotification = currentPage * notificationsPerPage;
   const indexOfFirstNotification = indexOfLastNotification - notificationsPerPage;
 
   useEffect(() => {
+
+    if (notifications.length === 0) {
+      setDisableClearNotifications(true);
+    }
+
     setUserNotifications(filteredNotifications.slice(indexOfFirstNotification, indexOfLastNotification));
 
     const response = fetch(`/api/user-signed-up-to-newsletter`, {
@@ -40,13 +47,20 @@ export default function UserNotifications({ notifications, userEmail }: UserNoti
         return;
       }
       setUserSignedUpToNewsletter(data.userSignedUpToNewsletter);
+
+
     }).catch((err) => {
       console.error(`Error fetching user signed up to newsletter data: `, err);
     });
-  }, [currentPage, filteredNotifications, userSignedUpToNewsletter]);
+  }, [currentPage, filteredNotifications, userSignedUpToNewsletter, notifications]);
 
   function handleNotificationSorting(event: React.ChangeEvent<HTMLSelectElement>) {
     const value = event.target.value as 'newest' | 'oldest' | 'red' | 'green' | 'specials' | 'other' | `default`;
+
+    if (notifications.length === 0 && userNotifications.length === 0) {
+      return;
+    }
+
     let sortedNotifications = [...originalNotifications];
 
     if (value === `newest`) {
@@ -77,6 +91,40 @@ export default function UserNotifications({ notifications, userEmail }: UserNoti
     setCurrentPage(1);
   }
 
+  async function deleteAllNotifications() {
+    const currUserNotifications = [...userNotifications];
+    const currFilteredNotifications = [...filteredNotifications];
+    // optimistically update the ui
+    setUserNotifications([]);
+    setFilteredNotifications([]);
+    setUserDeletedNotifications(true);
+
+    // create a server function and api route to fetch user email from session
+    // and delete all notifications from the database.
+    // optimistically update the UI by removing all notifications from the state.
+    const response = await fetch(`/api/delete-user-data`, {
+      method: `POST`,
+      headers: {
+        'Content-Type': `application/json`
+      },
+      body: JSON.stringify({
+        as: `notifications`,
+        userEmail
+      })
+    });
+    const responseData = await response.json();
+
+    if (responseData.error) {
+      // if an error occurs, revert the UI to the original state.
+      setUserNotifications(currUserNotifications);
+      setFilteredNotifications(currFilteredNotifications);
+      setUserDeletedNotifications(false);
+
+      console.error(`Failed to delete all notifications.`);
+      return;
+    }
+  }
+
   return (
     <div className={`account-settings__content__title-wrapper-container`}>
       <div className="account-settings__content__title-wrapper flex">
@@ -84,11 +132,14 @@ export default function UserNotifications({ notifications, userEmail }: UserNoti
           <h2 className="account-settings__content__title">Notifications</h2>
           <AnimatePresence>
             {userSignedUpToNewsletter !== undefined && (
-              <Popup userEmail={userEmail} signedInToNewsletter={userSignedUpToNewsletter} />
+              <Popup disableClearNotifications={disableClearNotifications}
+                     deleteAllNotifications={deleteAllNotifications} userEmail={userEmail}
+                     signedInToNewsletter={userSignedUpToNewsletter} />
             )}
           </AnimatePresence>
         </div>
-        <SortBy handleOnChange={handleNotificationSorting} options={[
+        <SortBy disabled={userDeletedNotifications || notifications.length === 0}
+                handleOnChange={handleNotificationSorting} options={[
           { value: `newest`, label: `Newest` },
           { value: `oldest`, label: `Oldest` },
           { value: `red`, label: `Marked as Red` },

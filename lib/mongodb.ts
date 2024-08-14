@@ -7,7 +7,7 @@ import { transformedResultsType } from '@/components/checkout/form/CheckoutFormA
 import { OrderInterface } from '@/components/checkout/checkout-details/CheckoutDetails';
 import bcrypt from 'bcrypt';
 import { comment } from 'postcss';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import { FormDataType } from '@/components/account-settings/contents/user-profile/UserProfile';
 
 // Extend the global interface
@@ -293,9 +293,9 @@ submitTourComment({
       addedAt: new Date(),
       // add a timestamp, like in mongodb shell
       timestamp: Timestamp.fromNumber(Date.now()),
-      likes: 0,
-      dislikes: 0,
-      abuseReports: 0
+      likes: [],
+      dislikes: [],
+      abuseReports: []
 
     });
     if (!result.acknowledged) {
@@ -869,8 +869,9 @@ export async function pushNotificationToUserDocument(userId: string, type: `ADDE
       icon: `letter`,
       addedAt: new Date(),
       timestamp: Timestamp.fromNumber(Date.now()),
-      // @ts-ignore
-      text: `You left a comment on <a href='tours/${data.tourId}'>“${transformedTourTitle}”</a> tour!`
+      text: `You left a comment on <a class="highlighted text-decoration-none" href='tours/${(data as {
+        tourId: string
+      }).tourId}'>“${transformedTourTitle}”</a> tour!`
     };
     // find this user by his email, and add a notification object to array.
 
@@ -1483,3 +1484,110 @@ export async function userSignedUpToNewsletter(userEmail: string) {
     };
   }
 }
+
+export type DeleteUserDataType = {
+  as: `notifications` | `wishlist` | `savedArticles` | `deleteAccount`;
+  userEmail: string;
+}
+
+export async function deleteUserData(as: `notifications` | `wishlist` | `savedArticles` | `deleteAccount`, userEmail: string) {
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+
+  const isUserExists = await getUser({ email: userEmail }, { email: 1, _id: 0 });
+
+  if (isUserExists.length === 0) {
+    return {
+      error: `The user with the email ${userEmail} does not exist.`
+    };
+  }
+
+  if (!userEmail) {
+    return {
+      error: `No user email provided.`
+    };
+  }
+
+  if (as === `deleteAccount`) {
+    // TODO: delete user account by email provider in API route
+    const response = await db.collection(`users`).deleteOne({ email: userEmail });
+
+    if (!response.acknowledged) {
+      return {
+        error: `Failed to delete the user account.`
+      };
+    } else {
+      // redirect to the home page when the account is deleted
+      redirect(`/`);
+    }
+
+  }
+
+  if (as === `notifications`) {
+
+    const response = await db.collection(`users`).updateOne({ email: userEmail }, {
+      $set: {
+        notifications: []
+      }
+    });
+
+    if (!response.acknowledged) {
+      return {
+        error: `Failed to delete notifications.`
+      };
+    } else {
+      return {
+        success: `Notifications were successfully deleted.`,
+        acknowledged: response.acknowledged
+      };
+    }
+
+  }
+
+
+  if (as === `wishlist`) {
+
+    const response = await db.collection(`users`).updateOne({ email: userEmail }, {
+      $set: {
+        wishlist: []
+      }
+    });
+
+    if (!response.acknowledged) {
+      return {
+        error: `Failed to delete notifications.`
+      };
+    } else {
+      return {
+        success: `Notifications were successfully deleted.`,
+        acknowledged: response.acknowledged
+      };
+    }
+
+  }
+
+
+  if (as === `savedArticles`) {
+
+    const response = await db.collection(`users`).updateOne({ email: userEmail }, {
+      $set: {
+        savedArticles: []
+      }
+    });
+
+    if (!response.acknowledged) {
+      return {
+        error: `Failed to delete notifications.`
+      };
+    } else {
+      return {
+        success: `Notifications were successfully deleted.`,
+        acknowledged: response.acknowledged
+      };
+    }
+
+  }
+
+}
+
+///////////////////////////////////////

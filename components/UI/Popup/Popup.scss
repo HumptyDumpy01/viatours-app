@@ -99,6 +99,16 @@
   color: var(--clr-strawberry-red) !important;
 }
 
+.clear-btn--disabled {
+  color: var(--clr-grey) !important;
+  cursor: not-allowed;
+  //pointer-events: none;
+
+  svg {
+    stroke: var(--clr-grey) !important;
+  }
+}
+
 .popup-container.open {
   visibility: visible;
   opacity: 1;

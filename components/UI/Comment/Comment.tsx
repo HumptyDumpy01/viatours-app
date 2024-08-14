@@ -66,7 +66,9 @@ export default function
 
   useEffect(() => {
     if (session && session.user!.email) {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       isUserLikedComment = likesArray.includes(session.user!.email.toString());
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       isUserDislikedComment = dislikesArray.includes(session.user!.email.toString());
 
       setUserLikedComment(isUserLikedComment);

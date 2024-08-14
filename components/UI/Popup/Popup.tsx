@@ -7,10 +7,18 @@ import { AnimatePresence, motion } from 'framer-motion';
 type PopupType = {
   userEmail: string;
   signedInToNewsletter: boolean;
+  deleteAllNotifications: () => void;
+  disableClearNotifications: boolean;
   // children: ReactNode;
 }
 
-export default function Popup({ signedInToNewsletter, userEmail }: PopupType) {
+export default function
+  Popup({
+          signedInToNewsletter,
+          deleteAllNotifications,
+          userEmail,
+          disableClearNotifications
+        }: PopupType) {
 
   const [openPopup, setOpenPopup] = useState<boolean>(false);
   const [disableBtn, setDisableBtn] = useState<boolean>(false);
@@ -80,10 +88,23 @@ export default function Popup({ signedInToNewsletter, userEmail }: PopupType) {
 
   }
 
+  async function handleDeleteAllNotifications() {
+    const isConfirmed = confirm(`Are you sure you want to delete all notifications? We won't be able to recover them.`);
+
+    if (!isConfirmed) {
+      return;
+    }
+
+    deleteAllNotifications();
+
+  }
 
   return (
     <>
-      <div className="account-settings_icon-container">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="account-settings_icon-container">
         <svg
           onClick={() => handleTogglePopupVisibility(true)} className="cursor-pointer"
           xmlns="http://www.w3.org/2000/svg"
@@ -107,12 +128,15 @@ export default function Popup({ signedInToNewsletter, userEmail }: PopupType) {
               <div className="popup">
                 <p className="popup-text">Each new notification can come right to your inbox!</p>
                 <div className="grid">
-                  <button
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.9 }}
+                    transition={{ type: `spring`, stiffness: 260, damping: 20 }}
                     onClick={handleNewsletterSignUpOrSignOut}
                     disabled={disableBtn}
                     className={`btn popup-btn flex flex-align-center 
-                ${disableBtn ? `pointer-events-none` : ``} 
-                ${userSignedUpOnNewsletterState ? `popup-btn--disabled` : `popup-unsubscribe`}`}>
+                    ${disableBtn ? `pointer-events-none` : ``} 
+                    ${userSignedUpOnNewsletterState ? `popup-btn--disabled` : `popup-unsubscribe`}`}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                       <g clipPath="url(#clip0_918_1166)">
                         <path fillRule="evenodd" clipRule="evenodd"
@@ -126,22 +150,28 @@ export default function Popup({ signedInToNewsletter, userEmail }: PopupType) {
                       </defs>
                     </svg>
                     {userSignedUpOnNewsletterState ? `Turn Off Notifications` : `Turn on Notifications`}
-                  </button>
-                  <button
-                    className="btn popup-btn color-strawberry-red popup-clear flex flex-align-center flex-justify-center">
+                  </motion.button>
+                  <motion.button
+                    disabled={disableClearNotifications}
+                    onClick={handleDeleteAllNotifications}
+                    whileHover={{ x: 5 }}
+                    whileTap={{ scale: 0.9 }}
+                    transition={{ type: `spring`, stiffness: 260, damping: 20 }}
+                    className={`btn popup-btn color-strawberry-red
+                     ${disableClearNotifications ? `clear-btn--disabled` : ``} popup-clear flex flex-align-center flex-justify-center`}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                       <path
                         d="M5.8335 17.5C5.37516 17.5 4.98294 17.3369 4.65683 17.0108C4.33072 16.6847 4.16738 16.2922 4.16683 15.8333V5H3.3335V3.33333H7.50016V2.5H12.5002V3.33333H16.6668V5H15.8335V15.8333C15.8335 16.2917 15.6704 16.6842 15.3443 17.0108C15.0182 17.3375 14.6257 17.5006 14.1668 17.5H5.8335ZM14.1668 5H5.8335V15.8333H14.1668V5ZM7.50016 14.1667H9.16683V6.66667H7.50016V14.1667ZM10.8335 14.1667H12.5002V6.66667H10.8335V14.1667Z"
-                        fill="#EB2B2B" />
+                        fill={disableClearNotifications ? `#989898` : `#EB2B2B`} />
                     </svg>
                     Clear notifications
-                  </button>
+                  </motion.button>
                 </div>
               </div>
             </motion.div>
           )}
         </AnimatePresence>
-      </div>
+      </motion.div>
     </>
   );
 }
