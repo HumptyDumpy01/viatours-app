@@ -55,13 +55,29 @@ export default function FooterNewsletter(/*{  }: FooterNewsletterInterface*/) {
     };
     console.log(`Executing results: `, results);
 
-    if (results.email.trim() === '') {
+    if (results.email.trim() === '' || !results.email.trim().includes(`@`)) {
       setData(prevState => ({
         ...prevState,
         message: `Please enter your email address`,
         status: `error`
       }));
       setIsSubmitting(false);
+
+      timer.current = setTimeout(() => {
+        setData(prevState => ({
+          ...prevState,
+          message: ``,
+          status: ``
+        }));
+
+        // clearing the timer
+        return () => {
+          if (timer.current) {
+            clearTimeout(timer.current);
+          }
+        };
+      }, 4000);
+
       return;
     }
 
