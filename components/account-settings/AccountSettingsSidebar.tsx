@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 
 type AccountSettingsSidebarType = {
-  activeUrl: 'profile' | `notifications` | `wishlist` | `tour-purchases` | `delete-account`;
+  activeUrl: 'profile' | `notifications` | `wishlist` | `tour-purchases` | `delete-account` | `saved-articles`;
   notificationsCount: number;
   // children: ReactNode;
 }

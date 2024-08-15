@@ -882,7 +882,6 @@ export async function getUser(filter: {}, options?: {}, unwind: boolean = false)
     }
   }
 
-
 }
 
 type createUserType = {
@@ -1417,6 +1416,7 @@ export async function handleCommentAction(commentId: string, userEmail: string, 
 
     }
 
+    revalidatePath(`/`, `layout`);
   } catch (e) {
     throw new Error(`Failed to handle the comment action. ${e}`);
   }

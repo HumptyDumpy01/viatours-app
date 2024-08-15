@@ -8,7 +8,7 @@ import AccountSettingsContainer from '@/components/account-settings/AccountSetti
 
 interface AccountSettingsPageInterface {
   searchParams: {
-    page: 'profile' | `notifications` | `wishlist` | `tour-purchases` | `delete-account`;
+    page: 'profile' | `notifications` | `wishlist` | `tour-purchases` | `delete-account` | `saved-articles`;
   };
   // children: ReactNode;
 }
@@ -23,7 +23,7 @@ export default function AccountSettingsPage({ searchParams }: AccountSettingsPag
     setActivePage(page);
   }, [page]);
 
-  if (page !== 'profile' && page !== 'notifications' && page !== 'wishlist' && page !== 'tour-purchases' && page !== 'delete-account') {
+  if (page !== 'profile' && page !== 'notifications' && page !== 'wishlist' && page !== 'tour-purchases' && page !== 'delete-account' && page !== `saved-articles`) {
     notFound();
   }
 

@@ -125,7 +125,9 @@ export default function MainNavigation(/*{  }: MainNavigationInterface*/) {
             <NavButton pathname={`/`}>Home</NavButton>
             <NavButton pathname={`/tours`}>Tours</NavButton>
             <NavButton pathname={`/articles`}>Tour Articles</NavButton>
-            <NavButton pathname={`/account-settings?page=wishlist`}>Wishlist</NavButton>
+            {/*<NavButton pathname={`/account-settings?page=wishlist`}>Wishlist</NavButton>*/}
+            <a className={`link navigation__link text-decoration-none`}
+               href="/account-settings?page=wishlist">Wishlist</a>
             {/*@ts-ignore*/}
             {(session && status !== `loading`) && (
               <NavButton onClick={() => signOut()} marked={`true`} pathname={`/`}>Log Out</NavButton>

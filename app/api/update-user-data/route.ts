@@ -1,16 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { updateUserData, UpdateUserDataType } from '@/lib/mongodb';
 
-export async function POST(request: NextRequest) {
+export async function POST(request: NextRequest): Promise<Response> {
   try {
-
     const { formData, method } = await request.json() as UpdateUserDataType;
 
     if (!formData || !method) {
-      return {
-        error: 'Invalid request'
-      };
+      return NextResponse.json({ error: 'Invalid request' });
     }
+
     const result = await updateUserData(formData, method);
 
     if (result?.error) {
@@ -18,8 +16,7 @@ export async function POST(request: NextRequest) {
     } else {
       return NextResponse.json({ acknowledged: result?.acknowledged });
     }
-
   } catch (e) {
-    throw new Error(`Failed to update user data: ${e}`);
+    return NextResponse.json({ error: `Failed to update user data: ${e}` });
   }
 }

@@ -18,7 +18,7 @@ import { Timestamp } from 'mongodb';
 import UserWishlistItemsSkeletons from '@/components/account-settings/skeletons/UserWishlistSkeletons';
 
 type AccountSettingsContainerType = {
-  page: 'profile' | `notifications` | `wishlist` | `tour-purchases` | `delete-account`;
+  page: 'profile' | `notifications` | `wishlist` | `tour-purchases` | `delete-account` | `saved-articles`;
   // children: ReactNode;
 }
 
@@ -78,7 +78,7 @@ export type UnwoundUserData = {
   phone: string | null;
   notifications: UserNotificationsType[] | [];
   wishlist: UserWishlistItemType[] | [];
-  // TODO: When working with saved articles, make sure to change the type to the correct one.
+  // When working with saved articles, make sure to change the type to the correct one.
   savedArticles: string[] | [];
   orders: UserOrdersType[] | [];
 }
@@ -89,9 +89,6 @@ export default function AccountSettingsContainer({ page }: AccountSettingsContai
   const [isLoading, setIsLoading] = useState<boolean>(true);
   // get access to session data
   const { data: session, status } = useSession();
-
-  if (status === `loading`) {
-  }
 
   useEffect(() => {
     if (session && session.user?.email) {
@@ -197,6 +194,11 @@ export default function AccountSettingsContainer({ page }: AccountSettingsContai
                       wishlistItems={userData.wishlist.length > 0 ? userData.wishlist as UserWishlistItemType[] : []}
                       userEmail={userData.email}
                     />
+                  </>
+                )}
+                {page === `saved-articles` && (
+                  <>
+                    <h2 className="secondary-heading account-settings__heading">Saved Articles</h2>
                   </>
                 )}
               </div>
