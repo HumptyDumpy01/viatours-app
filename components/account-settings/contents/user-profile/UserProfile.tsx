@@ -9,6 +9,8 @@ import { uploadUserLogoImage } from '@/lib/cloudinary';
 import { validateFormData } from '@/helpers/validateUserProfileFormData';
 import { useCartDispatch } from '@/store/hooks';
 import { userProfileSliceActions } from '@/store/userProfileSlice';
+import { AnimatePresence, motion } from 'framer-motion';
+import { container } from '@/components/account-settings/contents/user-tour-purchases/UserTourPurchases';
 
 export type FormDataType = {
   firstName: string;
@@ -225,8 +227,17 @@ export default function
   console.log(selectedFiles);
 
   return (
-    <div className={`account-settings-content-container`}>
-      <form onSubmit={handleSubmit}>
+    <motion.div
+      initial={{ opacity: 0, y: 200 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ type: `spring`, stiffness: 100 }}
+      viewport={{ once: false }}
+      className={`account-settings-content-container`}>
+      <motion.form
+        variants={container}
+        initial="hidden"
+        animate="show"
+        onSubmit={handleSubmit}>
         <UserProfileHeading isSubmitting={isSubmitting} handleCancelChanges={handleCancelChanges}
                             mode={readOnly ? `view` : `edit`}
                             handleEnableEditing={handleEnableEditing} />
@@ -239,18 +250,30 @@ export default function
           image={image}
           userInitials={userInitialsState}
           userEmail={userEmail} />
-        <div className={`margin-top-big`}>
+        <motion.div
+          initial={{ opacity: 0, y: 200 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ type: `spring`, stiffness: 100 }}
+          viewport={{ once: false }}
+          className={`margin-top-big`}>
           {formError.map(function(item) {
             return (
               <p key={item} className="paragraph paragraph-error">{item}</p>
             );
           })}
 
-          {messageSuccess && (
-            <p className="paragraph paragraph-success">{messageSuccess}</p>
-          )}
+          <AnimatePresence>
+            {messageSuccess && (
+              <motion.p
+                whileHover={{ scale: 1.05, backfaceVisibility: `hidden` }}
+                whileTap={{ scale: 0.9 }}
+                exit={{ opacity: 0, y: 300 }}
+                // transition={{ type: `spring`, stiffness: 200 }}
+                className="paragraph paragraph-success">{messageSuccess}</motion.p>
+            )}
+          </AnimatePresence>
 
-        </div>
+        </motion.div>
         <UserData
           userEmail={userEmail}
           userName={userName}
@@ -260,7 +283,7 @@ export default function
           userPhone={userPhone}
         />
         <UserProfileAdditional />
-      </form>
-    </div>
+      </motion.form>
+    </motion.div>
   );
 }

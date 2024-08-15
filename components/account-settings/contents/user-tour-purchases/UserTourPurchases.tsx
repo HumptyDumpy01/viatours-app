@@ -13,7 +13,7 @@ type UserTourPurchasesType = {
 }
 
 
-const container = {
+export const container = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
@@ -21,6 +21,12 @@ const container = {
       staggerChildren: 0.5
     }
   }
+};
+
+export const item = {
+  transition: { type: 'spring', stiffness: 100, damping: 10 },
+  hidden: { opacity: 0, scale: 0.5 },
+  show: { opacity: 1, scale: 1 }
 };
 
 export default function UserTourPurchases({ userOrders }: UserTourPurchasesType) {
@@ -54,7 +60,7 @@ export default function UserTourPurchases({ userOrders }: UserTourPurchasesType)
           whileHover={{ scale: 1.1, backfaceVisibility: `hidden` }}
           whileTap={{ scale: 0.9 }}
           transition={{ type: `spring`, stiffness: 260, damping: 20 }}
-          className="secondary-heading account-settings__heading">Tour Purchases
+          className="account-settings__content__title">Tour Purchases
         </motion.h2>
         <SortBy options={
           [{ value: `newest`, label: `Newest` },

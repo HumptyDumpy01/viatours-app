@@ -3,6 +3,8 @@ import './UserWishlistItems.scss';
 import UserWishlistItem, {
   UserWishlistItemType
 } from '@/components/account-settings/contents/user-wishlist/UserWishlistItem';
+import { motion } from 'framer-motion';
+import { container } from '@/components/account-settings/contents/user-tour-purchases/UserTourPurchases';
 
 type UserWishlistItems = {
   wishlistItems: UserWishlistItemType[];
@@ -11,7 +13,11 @@ type UserWishlistItems = {
 
 export default function UserWishlistItems({ wishlistItems, handleDeleteWishlistItem }: UserWishlistItems) {
   return (
-    <div className="wishlist-items grid">
+    <motion.div
+      variants={container}
+      initial="hidden"
+      animate="show"
+      className="wishlist-items grid">
       {wishlistItems.map(function(tour) {
         return (
           <>
@@ -22,6 +28,6 @@ export default function UserWishlistItems({ wishlistItems, handleDeleteWishlistI
         );
       })}
 
-    </div>
+    </motion.div>
   );
 }

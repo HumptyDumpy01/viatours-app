@@ -7,19 +7,13 @@ import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import UserOrderCardFront from '@/components/account-settings/contents/user-tour-purchases/UserOrderCardFront';
 import UserOrderCardBack from '@/components/account-settings/contents/user-tour-purchases/UserOrderCardBack';
+import { item } from '@/components/account-settings/contents/user-tour-purchases/UserTourPurchases';
 
 type UserOrderType = {
   order: UserOrdersType;
   counter: number;
   // children: ReactNode;
 }
-
-const item = {
-  transition: { type: 'spring', stiffness: 100, damping: 10 },
-  hidden: { opacity: 0, scale: 0.5 },
-  show: { opacity: 1, scale: 1 }
-};
-
 
 export default function UserOrder({ order }: UserOrderType) {
 
@@ -30,18 +24,19 @@ export default function UserOrder({ order }: UserOrderType) {
     if (window.innerWidth < 593) {
       setViewportIsLessThan593px(true);
       console.log(`viewportIsLessThan593px`, viewportIsLessThan593px);
-    }
-  }, []);
-
-  window.addEventListener('resize', () => {
-    if (window.innerWidth < 593 && !viewportIsLessThan593px) {
-      setViewportIsLessThan593px(true);
-      console.log(`viewportIsLessThan593px`, viewportIsLessThan593px);
     } else {
       setViewportIsLessThan593px(false);
       console.log(`viewportIsLessThan593px`, viewportIsLessThan593px);
     }
-  });
+  }, []);
+
+  /*window.addEventListener('resize', () => {
+    if (window.innerWidth < 593 && !viewportIsLessThan593px) {
+      setViewportIsLessThan593px(true);
+    } else {
+      setViewportIsLessThan593px(false);
+    }
+  });*/
 
   function handleOpenCard(state: boolean) {
     setOpenCard(state);
@@ -55,7 +50,7 @@ export default function UserOrder({ order }: UserOrderType) {
           scale: 1.05,
           zIndex: 9999999999,
           backfaceVisibility: `hidden`,
-          boxShadow: `${!viewportIsLessThan593px ? `0 0 20px 10px rgba(235, 102, 43, 0.2)` : `none`}`,
+          boxShadow: `${!viewportIsLessThan593px ? `0 0 20px 10px rgba(235, 102, 43, 0.2)` : `none`}`
         }}
         transition={{ type: 'spring', stiffness: 100 }}
         whileTap={{ scale: 0.9 }}

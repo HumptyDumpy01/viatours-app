@@ -1,6 +1,7 @@
 import React from 'react';
 import './Pagination.scss';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 
 interface PaginationInterface {
   currentPage: number;
@@ -39,18 +40,26 @@ const Pagination = ({
 
   return (
     <>
-      <div className="pagination">
+      <motion.div
+        whileHover={{ scale: 1.3, backfaceVisibility: `hidden` }}
+        className="pagination">
         {pageNumbers.map(number => (
-          <Link
+          <motion.div
             key={number}
-            href="#"
-            onClick={(event) => handleClick(number, event, currentPage === number)}
-            className={`pagination__link ${currentPage === number ? 'pagination__link--active' : ''}`}
+            whileHover={{ scale: 1.3, backfaceVisibility: `hidden` }}
+            whileTap={{ scale: 0.9 }}
           >
-            {number}
-          </Link>
+            <Link
+              key={number}
+              href="#"
+              onClick={(event) => handleClick(number, event, currentPage === number)}
+              className={`pagination__link ${currentPage === number ? 'pagination__link--active' : ''}`}
+            >
+              {number}
+            </Link>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
       <div className="pagination__results-info">
         <p>Showing results <span className="pagination__results-info-from">{(currentPage - 1) * itemsPerPage + 1}</span>-<span
           className="pagination__results-info-to">{Math.min(currentPage * itemsPerPage, totalItems)}</span> of <span

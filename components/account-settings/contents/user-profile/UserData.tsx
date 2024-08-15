@@ -3,6 +3,8 @@
 import UserInput from '@/components/account-settings/contents/user-profile/UserInput';
 import React, { useEffect, useState } from 'react';
 import { useCartSelector } from '@/store/hooks';
+import { motion } from 'framer-motion';
+import { container, item } from '@/components/account-settings/contents/user-tour-purchases/UserTourPurchases';
 
 type UserDataType = {
   userName: string;
@@ -79,108 +81,114 @@ export default function
   console.log(`Executing confirmOldPasswordVal: `, confirmOldPasswordVal);
 
   return (
-    <>
-      <div className="account-settings__content__inputs grid grid-two-cols">
+    <motion.div
+      variants={container}
+      initial="hidden"
+      animate="show"
+      className="account-settings__content__inputs grid grid-two-cols">
+      <UserInput
+        readonly={readonly}
+        label={`First Name *`}
+        placeholder={`e.g. John`}
+        htmlFor={`firstName`}
+        required={true}
+        type={`text`}
+        defaultVal={userName}
+      />
+      <UserInput
+        readonly={readonly}
+        label={`Last Name *`}
+        placeholder={`e.g. Doe`}
+        htmlFor={`lastName`}
+        type={`text`}
+        required={true}
+        defaultVal={userLastName ? userLastName : ``}
+      />
+      <UserInput
+        readonly={true}
+        label={`Email`}
+        placeholder={`example@gmail.com`}
+        required={true}
+        htmlFor={`email`}
+        type={`email`}
+        defaultVal={userEmail}
+      />
+      {userPassword === null && (
         <UserInput
           readonly={readonly}
-          label={`First Name *`}
-          placeholder={`e.g. John`}
-          htmlFor={`firstName`}
+          label={`Set Password *`}
           required={true}
+          redBox
+          placeholder={`Password is not set!`}
+          htmlFor={`password`}
           type={`text`}
-          defaultVal={userName}
+          defaultVal={``}
         />
-        <UserInput
-          readonly={readonly}
-          label={`Last Name *`}
-          placeholder={`e.g. Doe`}
-          htmlFor={`lastName`}
-          type={`text`}
-          required={true}
-          defaultVal={userLastName ? userLastName : ``}
-        />
-        <UserInput
-          readonly={true}
-          label={`Email`}
-          placeholder={`example@gmail.com`}
-          required={true}
-          htmlFor={`email`}
-          type={`email`}
-          defaultVal={userEmail}
-        />
-        {userPassword === null && (
+      )}
+      {/* IF PASSWORD IS SET, ADD A UI TO ENTER OLD PASS AND THEN CHANGE IT*/}
+      {(userPassword !== null && passwordHtmlFor === ``) && (
+        <motion.div
+          variants={container}
+          className={`account-settings-change-password`}>
           <UserInput
             readonly={readonly}
-            label={`Set Password *`}
-            required={true}
-            redBox
-            placeholder={`Password is not set!`}
-            htmlFor={`password`}
+            label={passwordLabel}
+            placeholder={`Confirm old password`}
+            required={false}
+            onChange={(e) => setConfirmOldPasswordVal(e.target.value)}
+            disabled={isSubmitting}
+            htmlFor={passwordHtmlFor}
             type={`text`}
             defaultVal={``}
           />
-        )}
-        {/* IF PASSWORD IS SET, ADD A UI TO ENTER OLD PASS AND THEN CHANGE IT*/}
-        {(userPassword !== null && passwordHtmlFor === ``) && (
-          <div className={`account-settings-change-password`}>
-            <UserInput
-              readonly={readonly}
-              label={passwordLabel}
-              placeholder={`Confirm old password`}
-              required={false}
-              onChange={(e) => setConfirmOldPasswordVal(e.target.value)}
-              disabled={isSubmitting}
-              htmlFor={passwordHtmlFor}
-              type={`text`}
-              defaultVal={``}
-            />
-            <button onClick={handleConfirmPassword} disabled={isSubmitting} type={`button`}
-                    className={`btn btn--submit account-settings-change-password-btn${(readonly || isSubmitting) ? `-disabled` : ``}`}>&rarr;</button>
-          </div>
-        )}
+          <motion.button
+            variants={item}
+            onClick={handleConfirmPassword} disabled={isSubmitting} type={`button`}
+            className={`btn btn--submit account-settings-change-password-btn${(readonly || isSubmitting) ? `-disabled` : ``}`}>&rarr;</motion.button>
+        </motion.div>
+      )}
 
-        {(userPassword !== null && passwordHtmlFor === `password`) && (
-          <div className={`account-settings-change-password`}>
-            <UserInput
-              readonly={readonly}
-              label={passwordLabel}
-              placeholder={`New password`}
-              required={false}
-              onChange={(e) => setConfirmOldPasswordVal(e.target.value)}
-              disabled={isSubmitting}
-              htmlFor={passwordHtmlFor}
-              type={`text`}
-              defaultVal={``}
-            />
-          </div>
-        )}
-
-        {userPhone === null && (
+      {(userPassword !== null && passwordHtmlFor === `password`) && (
+        <div className={`account-settings-change-password`}>
           <UserInput
             readonly={readonly}
-            redBox
-            label={`Set Phone`}
-            placeholder={`Phone is not set!`}
+            label={passwordLabel}
+            placeholder={`New password`}
             required={false}
-            htmlFor={`phone`}
-            type={`tel`}
-            defaultVal={userPhone ? userPhone : undefined}
+            onChange={(e) => setConfirmOldPasswordVal(e.target.value)}
+            disabled={isSubmitting}
+            htmlFor={passwordHtmlFor}
+            type={`text`}
+            defaultVal={``}
           />
-        )}
+        </div>
+      )}
 
-        {userPhone !== null && (
-          <UserInput
-            readonly={readonly}
-            label={`Phone`}
-            required={false}
-            placeholder={`Set a phone number`}
-            htmlFor={`phone`}
-            type={`tel`}
-            defaultVal={userPhone ? userPhone : undefined}
-          />
-        )}
+      {userPhone === null && (
+        <UserInput
+          readonly={readonly}
+          redBox
+          label={`Set Phone`}
+          placeholder={`Phone is not set!`}
+          required={false}
+          htmlFor={`phone`}
+          type={`tel`}
+          defaultVal={userPhone ? userPhone : undefined}
+        />
+      )}
 
-      </div>
-    </>
+      {userPhone !== null && (
+        <UserInput
+          readonly={readonly}
+          label={`Phone`}
+          required={false}
+          placeholder={`Set a phone number`}
+          htmlFor={`phone`}
+          type={`tel`}
+          defaultVal={userPhone ? userPhone : undefined}
+        />
+      )}
+
+    </motion.div>
   );
 }

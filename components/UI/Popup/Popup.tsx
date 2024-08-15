@@ -111,20 +111,22 @@ export default function
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         className="account-settings_icon-container">
-        <svg
+        <motion.svg
+          whileHover={{ scale: 1.2 }}
+          whileTap={{ scale: 0.9 }}
           onClick={() => handleTogglePopupVisibility(true)} className="cursor-pointer"
           xmlns="http://www.w3.org/2000/svg"
           width="18"
           height="16" viewBox="0 0 18 16"
           fill="none">
           <path d="M13 14V16H2V14H13ZM18 7V9H0V7H18ZM16 0V2H5V0H16Z" fill="#1E2050" />
-        </svg>
+        </motion.svg>
 
         <AnimatePresence>
           {openPopup && (
 
             <motion.div
-              initial={{ opacity: 0, display: `none` }}
+              initial={{ opacity: 0, display: `none`, zIndex: 1000 }}
               animate={{ opacity: 1, display: `flex` }}
               exit={{ display: `none` }}
               // transition={{ type: `spring`, stiffness: 260, damping: 20 }}

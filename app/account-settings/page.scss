@@ -175,11 +175,11 @@
       width: 77.7rem;
       margin-top: 6.7rem;
       margin-left: 8rem;
-      animation-name: moveInLeft;
-      animation-duration: 1s;
+      //animation-name: moveInLeft;
+      //animation-duration: 1s;
       //animation-delay: 0.2s;
       /*animation-iteration-count: 2;*/
-      animation-timing-function: ease-out;
+      //animation-timing-function: ease-out;
 
       @media only screen and (max-width: 54.3125em) {
         margin: 3.3rem auto 0 auto;
@@ -236,11 +236,11 @@
         justify-content: space-between;
 
         &-container {
-          animation-name: moveInLeft;
-          animation-duration: 1s;
+          //animation-name: moveInLeft;
+          //animation-duration: 1s;
           //animation-delay: 0.2s;
           /*animation-iteration-count: 2;*/
-          animation-timing-function: ease-out;
+          //animation-timing-function: ease-out;
 
         }
 
@@ -343,8 +343,8 @@
 
           &:hover, &:active {
             background-color: var(--clr-white);
-            //box-shadow: 0 0 0 1px var(--clr-primary);
-            border: 1px solid var(--clr-primary);
+            box-shadow: 0 0 0 1px var(--clr-primary);
+            //border: 1px solid var(--clr-primary);
 
             .account-settings__content__secondary__p-icon-save {
               transition: all .2s;
@@ -621,16 +621,16 @@
 }
 
 .account-settings-content-container {
-  transition: all .4s;
-  animation-name: moveInLeft;
-  animation-duration: 1s;
+  //transition: all .4s;
+  //animation-name: moveInLeft;
+  //animation-duration: 1s;
   //animation-delay: 0.2s;
   /*animation-iteration-count: 2;*/
-  animation-timing-function: ease-out;
+  //animation-timing-function: ease-out;
 
-  &:hover, &:active {
-    transform: scale(1.02);
-  }
+  //&:hover, &:active {
+  //  transform: scale(1.02);
+  //}
 
 }
 

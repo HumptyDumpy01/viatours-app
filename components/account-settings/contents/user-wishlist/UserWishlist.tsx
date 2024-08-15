@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Popup from '@/components/UI/Popup/Popup';
-import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import SortBy from '@/components/UI/SortBy/SortBy';
 import UserWishlistItems from '@/components/account-settings/contents/user-wishlist/UserWishlistItems';
 import { UserWishlistItemType } from '@/components/account-settings/contents/user-wishlist/UserWishlistItem';
@@ -120,11 +120,21 @@ export default function UserWishlist({ userEmail, wishlistItems }: UserWishlistT
   }
 
   return (
-    <>
+    <motion.div
+      initial={{ opacity: 0, y: 200 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ type: `spring`, stiffness: 100 }}
+      viewport={{ once: false }}
+    >
       <div className={`account-settings__content__title-wrapper-container`}>
         <div className="account-settings__content__title-wrapper flex">
           <div className="flex flex-align-center gap-15px">
-            <h2 className="account-settings__content__title">Wishlist</h2>
+            <motion.h2
+              whileHover={{ scale: 1.1, backfaceVisibility: `hidden` }}
+              whileTap={{ scale: 0.9 }}
+              transition={{ type: `spring`, stiffness: 260, damping: 20 }}
+              className="account-settings__content__title">Wishlist
+            </motion.h2>
 
             <AnimatePresence>
               <Popup
@@ -147,14 +157,18 @@ export default function UserWishlist({ userEmail, wishlistItems }: UserWishlistT
           <UserWishlistItems handleDeleteWishlistItem={handleDeleteWishlistItem} wishlistItems={userWishlistItems} />
         )}
         {userWishlistItems.length === 0 && (
-          <div className="account-settings__content__empty-wishlist">
+          <motion.div
+            initial={{ opacity: 0, y: 200 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 200 }}
+            className="account-settings__content__empty-wishlist">
             <p>Your wishlist is empty</p>
-          </div>
+          </motion.div>
         )}
       </div>
 
       <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} totalItems={filteredWishlistItems.length}
                   itemsPerPage={wishlistItemsPerPage} />
-    </>
+    </motion.div>
   );
 }

@@ -126,8 +126,12 @@ export default function MainNavigation(/*{  }: MainNavigationInterface*/) {
             <NavButton pathname={`/tours`}>Tours</NavButton>
             <NavButton pathname={`/articles`}>Tour Articles</NavButton>
             {/*<NavButton pathname={`/account-settings?page=wishlist`}>Wishlist</NavButton>*/}
-            <a className={`link navigation__link text-decoration-none`}
-               href="/account-settings?page=wishlist">Wishlist</a>
+            <motion.a
+              whileHover={{ scale: 1.2, color: `#EB662B` }}
+              whileTap={{ scale: 0.9 }}
+              className={`link navigation__link text-decoration-none`}
+              href="/account-settings?page=wishlist">Wishlist
+            </motion.a>
             {/*@ts-ignore*/}
             {(session && status !== `loading`) && (
               <NavButton onClick={() => signOut()} marked={`true`} pathname={`/`}>Log Out</NavButton>

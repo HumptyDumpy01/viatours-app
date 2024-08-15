@@ -1,13 +1,14 @@
 'use client';
 
 import '@/components/UI/Pagnation/Pagination.scss';
-import UserNotification from '@/components/account-settings/contents/user-notifications/UserNotifcation';
+import UserNotification from '@/components/account-settings/contents/user-notifications/UserNotification';
 import Popup from '@/components/UI/Popup/Popup';
 import SortBy from '@/components/UI/SortBy/SortBy';
 import { UserNotificationsType } from '@/lib/mongodb';
 import Pagination from '@/components/UI/Pagnation/Pagination';
 import React, { useEffect, useState } from 'react';
-import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
+import { container } from '@/components/account-settings/contents/user-tour-purchases/UserTourPurchases';
 
 type UserNotificationsTypeComponent = {
   notifications: UserNotificationsType[];
@@ -126,10 +127,19 @@ export default function UserNotifications({ notifications, userEmail }: UserNoti
   }
 
   return (
-    <div className={`account-settings__content__title-wrapper-container`}>
+    <motion.div
+      initial={{ opacity: 0, y: 200 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ type: `spring`, stiffness: 100 }}
+      viewport={{ once: false }}
+      className={`account-settings__content__title-wrapper-container`}>
       <div className="account-settings__content__title-wrapper flex">
         <div className="flex flex-align-center gap-15px">
-          <h2 className="account-settings__content__title">Notifications</h2>
+          <motion.h2
+            whileHover={{ scale: 1.1, backfaceVisibility: `hidden` }}
+            whileTap={{ scale: 0.9 }}
+            className="account-settings__content__title">Notifications
+          </motion.h2>
           <AnimatePresence>
             {userSignedUpToNewsletter !== undefined && (
               <Popup
@@ -152,18 +162,26 @@ export default function UserNotifications({ notifications, userEmail }: UserNoti
           { value: `other`, label: `Other` }
         ]} />
       </div>
-      <div className="account-settings__content__element-wrapper grid">
+      <motion.div
+        variants={container}
+        initial="hidden"
+        animate="show"
+        className="account-settings__content__element-wrapper grid">
         {userNotifications.length > 0 && userNotifications.map(notification => (
           <UserNotification key={notification.text} {...notification} />
         ))}
         {userNotifications.length === 0 && (
-          <div className="account-settings__content__element-wrapper__no-items">
+          <motion.div
+            initial={{ opacity: 0, y: 200 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 200 }}
+            className="account-settings__content__element-wrapper__no-items">
             <p>No notifications found.</p>
-          </div>
+          </motion.div>
         )}
-      </div>
+      </motion.div>
       <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} totalItems={filteredNotifications.length}
                   itemsPerPage={notificationsPerPage} />
-    </div>
+    </motion.div>
   );
 }

@@ -2,6 +2,8 @@
 
 import '@/app/account-settings/page.scss';
 import React, { forwardRef } from 'react';
+import { motion } from 'framer-motion';
+import { item } from '@/components/account-settings/contents/user-tour-purchases/UserTourPurchases';
 
 type UserType = {
   userInitials: string;
@@ -27,7 +29,9 @@ const User = forwardRef<HTMLInputElement, UserType>(function User(
   const userNameAbbr = userInitials.split(' ').map((name) => name.charAt(0)).join('.');
 
   return (
-    <div className="account-settings__content-user">
+    <motion.div
+      variants={item}
+      className="account-settings__content-user">
       <div className="account-settings__content-user__info flex flex-align-center">
         {!image && (
           <div className="user-logo-wrapper">
@@ -157,7 +161,7 @@ const User = forwardRef<HTMLInputElement, UserType>(function User(
           </clipPath>
         </defs>
       </svg>
-    </div>
+    </motion.div>
   );
 });
 
