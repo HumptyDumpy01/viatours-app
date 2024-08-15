@@ -868,9 +868,9 @@ export async function getUser(filter: {}, options?: {}, unwind: boolean = false)
       }
     ]).toArray();
 
-    console.log(`Executing unwoundUser: `, unwoundUser);
-    console.log(`Executing unwoundUser.wishlist: `, unwoundUser[0].wishlist);
-    console.log(`Executing unwoundUser.orders: `, unwoundUser[0].orders);
+    // console.log(`Executing unwoundUser: `, unwoundUser);
+    // console.log(`Executing unwoundUser.wishlist: `, unwoundUser[0].wishlist);
+    // console.log(`Executing unwoundUser.orders: `, unwoundUser[0].orders);
 
     if (!unwoundUser || unwoundUser.length === 0) {
       return {

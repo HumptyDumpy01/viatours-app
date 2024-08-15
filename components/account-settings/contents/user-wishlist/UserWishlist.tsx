@@ -43,7 +43,7 @@ export default function UserWishlist({ userEmail, deleteAllItems, wishlistItems 
   }, [currentPage, filteredWishlistItems, wishlistItems]);
 
   function handleWishlistSorting(event: React.ChangeEvent<HTMLSelectElement>) {
-    const value = event.target.value as 'newest' | 'oldest' | 'descending' | 'ascending';
+    const value = event.target.value as 'rating' | 'descending' | 'ascending';
 
     if (wishlistItems.length === 0 && userWishlistItems.length === 0) {
       return;
@@ -51,6 +51,24 @@ export default function UserWishlist({ userEmail, deleteAllItems, wishlistItems 
 
     let sortedWishlistItems = [...originalWishlistItems];
 
+    if (value === `rating`) {
+      sortedWishlistItems = sortedWishlistItems.sort((a, b) => {
+        return b.rating - a.rating;
+      });
+    }
+    if (value === `descending`) {
+      sortedWishlistItems = sortedWishlistItems.sort((a, b) => {
+        return a.title.localeCompare(b.title);
+      });
+    }
+    if (value === `ascending`) {
+      sortedWishlistItems = sortedWishlistItems.sort((a, b) => {
+        return b.title.localeCompare(a.title);
+      });
+    }
+
+    setFilteredWishlistItems(sortedWishlistItems);
+    setCurrentPage(1);
   }
 
   return (
@@ -71,7 +89,7 @@ export default function UserWishlist({ userEmail, deleteAllItems, wishlistItems 
           </div>
           <SortBy options={[
             { value: `rating`, label: `Rating` },
-            { value: `descending`, label: `Descending(Z-A)` },
+            { value: `descending`, label: `Descending(A-Z)` },
             { value: `ascending`, label: `Ascending(Z-A)` }
           ]}
                   handleOnChange={handleWishlistSorting}
