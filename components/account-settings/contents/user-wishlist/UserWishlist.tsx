@@ -1,4 +1,4 @@
-// 'use client';
+'use client';
 
 import React, { useEffect, useState } from 'react';
 import Popup from '@/components/UI/Popup/Popup';
@@ -11,38 +11,26 @@ import Pagination from '@/components/UI/Pagnation/Pagination';
 type UserWishlistType = {
   userEmail: string;
   wishlistItems: UserWishlistItemType[];
-
-  // children: ReactNode;
 }
 
 export default function UserWishlist({ userEmail, wishlistItems }: UserWishlistType) {
-
-  console.log(`WishlistItems data: `, wishlistItems);
   const [filteredWishlistItems, setFilteredWishlistItems] = useState<UserWishlistItemType[]>(wishlistItems);
-  const [originalWishlistItems] = useState<UserWishlistItemType[]>([...wishlistItems]);
-
+  const [originalWishlistItems, setOriginalWishlistItems] = useState<UserWishlistItemType[]>([...wishlistItems]);
   const [userWishlistItems, setUserWishlistItems] = useState<UserWishlistItemType[]>(wishlistItems);
-
   const wishlistItemsPerPage = 4;
   const [currentPage, setCurrentPage] = useState(1);
-
   const [disableClearWishlist, setDisableClearWishlist] = useState<boolean>(false);
 
   const indexOfLastWishlistItem = currentPage * wishlistItemsPerPage;
   const indexOfFirstNotification = indexOfLastWishlistItem - wishlistItemsPerPage;
 
-
   async function handleDeleteWishlistItems() {
-
     const copiedWishlistItems = [...wishlistItems];
     const copiedFilteredWishlistItems = [...filteredWishlistItems];
 
     // OPTIMISTIC UI UPDATE
     setFilteredWishlistItems([]);
     setUserWishlistItems([]);
-
-    // Create an api endpoint which extracts user email from the session
-    // and deletes his wishlist arr.
 
     const response = await fetch(`/api/delete-user-data`, {
       method: `POST`,
@@ -62,64 +50,73 @@ export default function UserWishlist({ userEmail, wishlistItems }: UserWishlistT
       console.error(`Failed to delete all notifications.`);
       return;
     }
-
   }
 
   useEffect(() => {
-
     if (wishlistItems.length === 0) {
       setDisableClearWishlist(true);
     }
 
     setUserWishlistItems(filteredWishlistItems.slice(indexOfFirstNotification, indexOfLastWishlistItem));
-
   }, [currentPage, filteredWishlistItems, wishlistItems]);
 
   function handleWishlistSorting(event: React.ChangeEvent<HTMLSelectElement>) {
     const value = event.target.value as 'rating' | 'descending' | 'ascending';
+    let sortedWishlistItems = [...originalWishlistItems];
 
     if (wishlistItems.length === 0 || userWishlistItems.length === 0) {
       return;
     }
 
-    let sortedWishlistItems = [...originalWishlistItems];
-
     if (value === `rating`) {
-      sortedWishlistItems = sortedWishlistItems.sort((a, b) => {
-        return b.rating - a.rating;
-      });
+      sortedWishlistItems = sortedWishlistItems.sort((a, b) => b.rating - a.rating);
     }
     if (value === `descending`) {
-      sortedWishlistItems = sortedWishlistItems.sort((a, b) => {
-        return a.title.localeCompare(b.title);
-      });
+      sortedWishlistItems = sortedWishlistItems.sort((a, b) => a.title.localeCompare(b.title));
     }
     if (value === `ascending`) {
-      sortedWishlistItems = sortedWishlistItems.sort((a, b) => {
-        return b.title.localeCompare(a.title);
-      });
+      sortedWishlistItems = sortedWishlistItems.sort((a, b) => b.title.localeCompare(a.title));
     }
 
     setFilteredWishlistItems(sortedWishlistItems);
     setCurrentPage(1);
   }
 
-  function handleDeleteWishlistItem(id: string) {
-    // TODO: OPTIMISTIC UI UPDATE
+  async function handleDeleteWishlistItem(id: string) {
     const copiedWishlistItems = [...wishlistItems];
     const copiedFilteredWishlistItems = [...filteredWishlistItems];
 
-    setFilteredWishlistItems(filteredWishlistItems.filter(item => item._id !== id));
-    setUserWishlistItems(userWishlistItems.filter(item => item._id !== id));
+    const updatedFilteredWishlistItems = filteredWishlistItems.filter(item => item._id !== id);
+    const updatedOriginalWishlistItems = originalWishlistItems.filter(item => item._id !== id);
 
-    // check how many items left in the current page,
-    // and if there are no items left, go to the previous page.
-    if (userWishlistItems.length === 1) {
+    setFilteredWishlistItems(updatedFilteredWishlistItems);
+    setOriginalWishlistItems(updatedOriginalWishlistItems);
+    setUserWishlistItems(updatedFilteredWishlistItems.slice(indexOfFirstNotification, indexOfLastWishlistItem));
+
+    if (updatedFilteredWishlistItems.length <= indexOfFirstNotification && currentPage > 1) {
       setCurrentPage(currentPage - 1);
     }
 
-    // TODO: Create an api endpoint which extracts user email from the session  and
-    //  also passes the id of the item to be deleted from user's wishlist array.
+    const response = await fetch(`/api/delete-individual-user-item`, {
+      method: `POST`,
+      headers: {
+        'Content-Type': `application/json`
+      },
+      body: JSON.stringify({
+        userEmail,
+        itemId: id,
+        type: `WISHLIST`
+      })
+    });
+
+    const respData = await response.json();
+
+    if (respData.error) {
+      setFilteredWishlistItems(copiedFilteredWishlistItems);
+      setOriginalWishlistItems(copiedWishlistItems);
+      setUserWishlistItems(copiedFilteredWishlistItems.slice(indexOfFirstNotification, indexOfLastWishlistItem));
+      console.error(`Failed to delete the item.`);
+    }
   }
 
   return (
@@ -158,7 +155,6 @@ export default function UserWishlist({ userEmail, wishlistItems }: UserWishlistT
 
       <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} totalItems={filteredWishlistItems.length}
                   itemsPerPage={wishlistItemsPerPage} />
-
     </>
   );
 }

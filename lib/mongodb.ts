@@ -1195,6 +1195,84 @@ export async function findWishlistedTour(tourId: string, userEmail: string) {
   return isTourWishlisted;
 }
 
+
+export type DeleteIndividualUserItemType = {
+  userEmail: string;
+  itemId: string;
+  type: `WISHLIST` | `SAVED_ARTICLES`;
+}
+
+export async function deleteIndividualUserItem(userEmail: string, itemId: string, type: `WISHLIST` | `SAVED_ARTICLES`) {
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+
+  if (!userEmail || !itemId || !type) {
+    return {
+      error: true,
+      message: `Missing required fields.`,
+      status: 400
+    };
+  }
+
+  const user = await getUser({ email: userEmail }, { email: 1, _id: 0, wishlist: 1, savedArticles: 1 });
+
+  if (user.length === 0) {
+    return {
+      error: true,
+      message: `The user with the email ${userEmail} does not exist.`,
+      status: 404
+    };
+  }
+
+  if (type === `WISHLIST`) {
+    const response = await db.collection(`users`).updateOne({ email: userEmail }, {
+      // @ts-ignore
+      $pull: {
+        wishlist: new ObjectId(itemId)
+      }
+    });
+
+    if (!response.acknowledged) {
+      return {
+        error: true,
+        message: `Failed to delete the item from the wishlist.`,
+        status: 500
+      };
+    } else {
+      return {
+        error: false,
+        message: `The item was successfully deleted from the wishlist.`,
+        status: 200
+      };
+    }
+  }
+  if (type === `SAVED_ARTICLES`) {
+    const response = await db.collection(`users`).updateOne({ email: userEmail }, {
+      // @ts-ignore
+      $pull: {
+        savedArticles: new ObjectId(itemId)
+      }
+    });
+
+    if (!response.acknowledged) {
+      return {
+        error: true,
+        message: `Failed to delete the item from the Saved Articles.`,
+        status: 500
+      };
+    } else {
+      return {
+        error: false,
+        message: `The item was successfully deleted from the Saved Articles.`,
+        status: 200
+      };
+    }
+
+  }
+
+
+}
+
 export async function handleAddRemoveFromWishlist(isWishlisted: boolean, tourId: string, userEmail: string) {
   const client = await clientPromise;
   const db = client.db(`viatoursdb`);
