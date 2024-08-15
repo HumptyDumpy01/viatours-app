@@ -131,10 +131,6 @@ export default function AccountSettingsContainer({ page }: AccountSettingsContai
   }, [session, page]);
 
 
-  function handleClearWishlist() {
-    console.log(`Clearing Wishlist`);
-  }
-
   return (
     <>
       <section className="account-settings-wrapper container">
@@ -200,7 +196,7 @@ export default function AccountSettingsContainer({ page }: AccountSettingsContai
                     <UserWishlist
                       wishlistItems={userData.wishlist.length > 0 ? userData.wishlist as UserWishlistItemType[] : []}
                       userEmail={userData.email}
-                      deleteAllItems={handleClearWishlist} />
+                    />
                   </>
                 )}
               </div>

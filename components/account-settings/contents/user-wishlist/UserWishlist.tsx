@@ -10,13 +10,12 @@ import Pagination from '@/components/UI/Pagnation/Pagination';
 
 type UserWishlistType = {
   userEmail: string;
-  deleteAllItems: () => void;
   wishlistItems: UserWishlistItemType[];
 
   // children: ReactNode;
 }
 
-export default function UserWishlist({ userEmail, deleteAllItems, wishlistItems }: UserWishlistType) {
+export default function UserWishlist({ userEmail, wishlistItems }: UserWishlistType) {
 
   console.log(`WishlistItems data: `, wishlistItems);
   const [filteredWishlistItems, setFilteredWishlistItems] = useState<UserWishlistItemType[]>(wishlistItems);
@@ -32,6 +31,40 @@ export default function UserWishlist({ userEmail, deleteAllItems, wishlistItems 
   const indexOfLastWishlistItem = currentPage * wishlistItemsPerPage;
   const indexOfFirstNotification = indexOfLastWishlistItem - wishlistItemsPerPage;
 
+
+  async function handleDeleteWishlistItems() {
+
+    const copiedWishlistItems = [...wishlistItems];
+    const copiedFilteredWishlistItems = [...filteredWishlistItems];
+
+    // OPTIMISTIC UI UPDATE
+    setFilteredWishlistItems([]);
+    setUserWishlistItems([]);
+
+    // Create an api endpoint which extracts user email from the session
+    // and deletes his wishlist arr.
+
+    const response = await fetch(`/api/delete-user-data`, {
+      method: `POST`,
+      headers: {
+        'Content-Type': `application/json`
+      },
+      body: JSON.stringify({
+        as: `wishlist`,
+        userEmail
+      })
+    });
+    const responseData = await response.json();
+
+    if (responseData.error) {
+      setFilteredWishlistItems(copiedFilteredWishlistItems);
+      setUserWishlistItems(copiedWishlistItems);
+      console.error(`Failed to delete all notifications.`);
+      return;
+    }
+
+  }
+
   useEffect(() => {
 
     if (wishlistItems.length === 0) {
@@ -45,7 +78,7 @@ export default function UserWishlist({ userEmail, deleteAllItems, wishlistItems 
   function handleWishlistSorting(event: React.ChangeEvent<HTMLSelectElement>) {
     const value = event.target.value as 'rating' | 'descending' | 'ascending';
 
-    if (wishlistItems.length === 0 && userWishlistItems.length === 0) {
+    if (wishlistItems.length === 0 || userWishlistItems.length === 0) {
       return;
     }
 
@@ -83,7 +116,7 @@ export default function UserWishlist({ userEmail, deleteAllItems, wishlistItems 
                 labelText={`You can delete all your wishlist items by one click!`}
                 showSignUpToNewsletterButton={false} clearBtnLabel={`Clear Wishlist`} userEmail={userEmail}
                 signedInToNewsletter={true}
-                deleteAllItems={deleteAllItems}
+                deleteAllItems={handleDeleteWishlistItems}
                 disableClearItems={disableClearWishlist} />
             </AnimatePresence>
           </div>
@@ -93,7 +126,7 @@ export default function UserWishlist({ userEmail, deleteAllItems, wishlistItems 
             { value: `ascending`, label: `Ascending(Z-A)` }
           ]}
                   handleOnChange={handleWishlistSorting}
-                  disabled={wishlistItems.length === 0} />
+                  disabled={wishlistItems.length === 0 || userWishlistItems.length === 0} />
         </div>
         {userWishlistItems.length > 0 && (
           <UserWishlistItems wishlistItems={userWishlistItems} />
