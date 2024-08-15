@@ -6,14 +6,19 @@ import UserWishlistItem, {
 
 type UserWishlistItems = {
   wishlistItems: UserWishlistItemType[];
+  handleDeleteWishlistItem: (id: string) => void;
 }
 
-export default function UserWishlistItems({ wishlistItems }: UserWishlistItems) {
+export default function UserWishlistItems({ wishlistItems, handleDeleteWishlistItem }: UserWishlistItems) {
   return (
     <div className="wishlist-items grid">
       {wishlistItems.map(function(tour) {
         return (
-          <UserWishlistItem key={tour._id} {...tour} />
+          <>
+            {/*@ts-ignore*/}
+            <UserWishlistItem handleDeleteWishlistItem={handleDeleteWishlistItem}
+                              key={tour._id} {...tour} />
+          </>
         );
       })}
 

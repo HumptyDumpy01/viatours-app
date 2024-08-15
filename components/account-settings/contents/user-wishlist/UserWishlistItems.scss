@@ -47,18 +47,18 @@
     right: 1rem;
     cursor: pointer;
     transition: all .3s;
-    width: 2.7rem;
-    height: 2.6rem;
+    width: 4.7rem;
+    height: 4.6rem;
     @media only screen and (max-width: 50.3125em) {
-      width: 3rem;
-      height: 3.1rem;
+      width: 4rem;
+      height: 4.1rem;
     }
 
     &:hover, &:active {
       transform: scale(1.2);
 
       .wishlist-items__delete-item__path {
-        fill: var(--clr-error);
+        fill: var(--clr-strawberry-red);
       }
     }
   }

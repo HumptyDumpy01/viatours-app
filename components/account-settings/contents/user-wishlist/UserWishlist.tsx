@@ -104,6 +104,24 @@ export default function UserWishlist({ userEmail, wishlistItems }: UserWishlistT
     setCurrentPage(1);
   }
 
+  function handleDeleteWishlistItem(id: string) {
+    // TODO: OPTIMISTIC UI UPDATE
+    const copiedWishlistItems = [...wishlistItems];
+    const copiedFilteredWishlistItems = [...filteredWishlistItems];
+
+    setFilteredWishlistItems(filteredWishlistItems.filter(item => item._id !== id));
+    setUserWishlistItems(userWishlistItems.filter(item => item._id !== id));
+
+    // check how many items left in the current page,
+    // and if there are no items left, go to the previous page.
+    if (userWishlistItems.length === 1) {
+      setCurrentPage(currentPage - 1);
+    }
+
+    // TODO: Create an api endpoint which extracts user email from the session  and
+    //  also passes the id of the item to be deleted from user's wishlist array.
+  }
+
   return (
     <>
       <div className={`account-settings__content__title-wrapper-container`}>
@@ -129,7 +147,7 @@ export default function UserWishlist({ userEmail, wishlistItems }: UserWishlistT
                   disabled={wishlistItems.length === 0 || userWishlistItems.length === 0} />
         </div>
         {userWishlistItems.length > 0 && (
-          <UserWishlistItems wishlistItems={userWishlistItems} />
+          <UserWishlistItems handleDeleteWishlistItem={handleDeleteWishlistItem} wishlistItems={userWishlistItems} />
         )}
         {userWishlistItems.length === 0 && (
           <div className="account-settings__content__empty-wishlist">

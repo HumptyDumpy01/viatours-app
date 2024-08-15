@@ -12,6 +12,7 @@ export type UserWishlistItemType = {
   reviews: number;
   duration: string;
   fromPrice: number;
+  handleDeleteWishlistItem: (id: string) => void;
 
   // children: ReactNode;
 }
@@ -19,7 +20,8 @@ export type UserWishlistItemType = {
 export default function
   UserWishlistItem({
                      _id, title, image, rating, reviews,
-                     duration, fromPrice, location
+                     duration, fromPrice, location,
+                     handleDeleteWishlistItem
                    }: UserWishlistItemType) {
   console.log(image);
   return (
@@ -34,7 +36,8 @@ export default function
             alt={title}
             src={`${image}`}
           />
-          <svg className="wishlist-items__delete-item" xmlns="http://www.w3.org/2000/svg" width="23" height="22"
+          <svg onClick={() => handleDeleteWishlistItem(_id)} className="wishlist-items__delete-item"
+               xmlns="http://www.w3.org/2000/svg" width="23" height="22"
                viewBox="0 0 23 22" fill="none">
             <path
               d="M19 11C19 15.4183 15.4183 19 11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11Z"
