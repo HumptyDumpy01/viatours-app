@@ -94,6 +94,7 @@ html {
 body {
   font-family: var(--font-inter), serif;
   font-weight: 400;
+  overflow-x: hidden;
   font-size: 1.6rem;
   padding-left: 3.2rem;
   padding-right: 3.2rem;
@@ -1163,6 +1164,10 @@ b {
 
 .margin-0-auto {
   margin: 0 auto;
+}
+
+.margin-top-3rem {
+  margin-top: 3rem;
 }
 
 .justify-items-center {

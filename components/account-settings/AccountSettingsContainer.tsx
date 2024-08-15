@@ -16,6 +16,7 @@ import UserWishlist from '@/components/account-settings/contents/user-wishlist/U
 import { UserWishlistItemType } from '@/components/account-settings/contents/user-wishlist/UserWishlistItem';
 import { Timestamp } from 'mongodb';
 import UserWishlistItemsSkeletons from '@/components/account-settings/skeletons/UserWishlistSkeletons';
+import UserTourPurchases from '@/components/account-settings/contents/user-tour-purchases/UserTourPurchases';
 
 type AccountSettingsContainerType = {
   page: 'profile' | `notifications` | `wishlist` | `tour-purchases` | `delete-account` | `saved-articles`;
@@ -62,7 +63,7 @@ export type UserOrdersType = {
     reviews: number,
     duration: string
   }
-}[]
+}
 
 export type UnwoundUserData = {
   _id: string;
@@ -198,7 +199,7 @@ export default function AccountSettingsContainer({ page }: AccountSettingsContai
                 )}
                 {page === `tour-purchases` && (
                   <>
-                    <h2 className="secondary-heading account-settings__heading">Tour Purchases</h2>
+                    <UserTourPurchases userOrders={userData.orders} />
                   </>
                 )}
               </div>
