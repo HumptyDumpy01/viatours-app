@@ -16,7 +16,7 @@
   &__item-skeleton {
     border-radius: 12px;
     padding: 1rem;
-    cursor: pointer;
+    //cursor: pointer;
     transition: all .3s;
     //border: 1px solid var(--clr-light-white-2);
     position: relative;
@@ -42,6 +42,7 @@
   }
 
   &__delete-item {
+    z-index: 999;
     position: absolute;
     top: 1rem;
     right: 1rem;

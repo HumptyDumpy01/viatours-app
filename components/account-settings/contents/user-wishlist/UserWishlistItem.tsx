@@ -2,6 +2,7 @@
 
 import Stars from '@/components/UI/Layout/Stars';
 import { CldImage } from 'next-cloudinary';
+import Link from 'next/link';
 
 export type UserWishlistItemType = {
   _id: string;
@@ -48,7 +49,8 @@ export default function
           </svg>
 
         </div>
-        <div className="wishlist-items__info-wrapper">
+        <Link href={`/tours/${_id}`} target={`_blank`}
+              className="wishlist-items__info-wrapper text-decoration-none cursor-pointer">
           <svg className="wishlist-items__map" xmlns="http://www.w3.org/2000/svg" width="31" height="31"
                viewBox="0 0 31 31"
                fill="none">
@@ -87,7 +89,7 @@ export default function
             <span className="wishlist-items__info-price">From <span
               className="inline-block price">${fromPrice}</span></span>
           </div>
-        </div>
+        </Link>
       </div>
     </>
   );

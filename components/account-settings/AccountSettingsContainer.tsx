@@ -196,9 +196,9 @@ export default function AccountSettingsContainer({ page }: AccountSettingsContai
                     />
                   </>
                 )}
-                {page === `saved-articles` && (
+                {page === `tour-purchases` && (
                   <>
-                    <h2 className="secondary-heading account-settings__heading">Saved Articles</h2>
+                    <h2 className="secondary-heading account-settings__heading">Tour Purchases</h2>
                   </>
                 )}
               </div>
