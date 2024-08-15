@@ -711,137 +711,166 @@ export async function getUser(filter: {}, options?: {}, unwind: boolean = false)
   } else {
     console.log(`User Email`, filter);
 
-    // Unwind entire user document, particularly talking about wishlisted tours,
+
+    /* IMPORTANT: if user's wishlist/savedArticles/orders is empty, an empty arr would be returned
+    *   from this pipeline. It is done by a condition in the end of the pipeline.
+    *   without  this condition the format in which data gets returned would be horrible.*/
+
+    // Unwind an entire user document, particularly talking about wishlisted tours,
     // saved articles, orders
-    const unwoundUser = await db.collection(`users`).aggregate(
-      [
-        { $match: filter },
-        {
-          $lookup: {
-            from: 'tours',
-            localField: 'wishlist',
-            foreignField: '_id',
-            as: 'wishlistedTours'
-          }
-        },
+    const unwoundUser = await db.collection('users').aggregate([
+      { $match: filter },
 
-        { $unwind: '$wishlistedTours' },
-        {
-          $group: {
-            _id: '$_id',
+      // Ensure wishlist, notifications, and savedArticles have default values
+      {
+        $addFields: {
+          wishlist: { $ifNull: ['$wishlist', []] },
+          notifications: { $ifNull: ['$notifications', []] },
+          savedArticles: { $ifNull: ['$savedArticles', []] }
+        }
+      },
 
-            // push all the data about the user except the unwounded wishlist
-            email: { $first: '$email' },
-            image: { $first: '$image' },
-            firstName: { $first: '$firstName' },
-            lastName: { $first: '$lastName' },
-            password: { $first: '$password' },
-            phone: { $first: '$phone' },
-            orders: { $first: '$orders' },
-            notifications: { $first: '$notifications' },
-            savedArticles: { $first: '$savedArticles' },
-            wishlist: {
-              $push: {
-                _id: '$wishlistedTours._id',
-                title: '$wishlistedTours.title',
-                image: { $arrayElemAt: ['$wishlistedTours.images', 0] },
-                location: { $concat: ['$wishlistedTours.city', ', ', '$wishlistedTours.country'] },
-                rating: '$wishlistedTours.rating.overall',
-                reviews: '$wishlistedTours.reviews',
-                duration: '$wishlistedTours.duration',
-                fromPrice: '$wishlistedTours.price.children'
-              }
-            }
+      {
+        $lookup: {
+          from: 'tours',
+          localField: 'wishlist',
+          foreignField: '_id',
+          as: 'wishlistedTours'
+        }
+      },
 
-          }
-        },
-
-        // unwind and project user orders in full
-        {
-          $lookup: {
-            from: 'orders',
-            localField: 'orders',
-            foreignField: '_id',
-            as: 'userOrders'
-          }
-        },
-
-        { $unwind: '$userOrders' },
-
-        {
-          $group: {
-            _id: '$_id',
-
-            // push back all prev data except orders
-            email: { $first: '$email' },
-            firstName: { $first: '$firstName' },
-            lastName: { $first: '$lastName' },
-            image: { $first: '$image' },
-            password: { $first: '$password' },
-            phone: { $first: '$phone' },
-            notifications: { $first: '$notifications' },
-            savedArticles: { $first: '$savedArticles' },
-            wishlist: { $last: '$wishlist' },
-            // unwounded orders
-            orders: {
-              $push: {
-                _id: '$userOrders._id',
-                tourId: '$userOrders.tourId',
-                date: '$userOrders.booking.date',
-                tickets: '$userOrders.booking.tickets',
-                extraDetails: '$userOrders.extraDetails'
-              }
-            }
-          }
-        },
-        { $unwind: '$orders' },
-
-        {
-          $lookup: {
-            from: 'tours',
-            localField: 'orders.tourId',
-            foreignField: '_id',
-            as: 'orderTours'
-          }
-        },
-        {
-          $group: {
-            _id: '$_id',
-            email: { $first: '$email' },
-            firstName: { $first: '$firstName' },
-            lastName: { $first: '$lastName' },
-            image: { $first: '$image' },
-            password: { $first: '$password' },
-            phone: { $first: '$phone' },
-            notifications: { $first: '$notifications' },
-            savedArticles: { $first: '$savedArticles' },
-            wishlist: { $last: '$wishlist' },
-            orders: {
-              $push: {
-                _id: '$orders._id',
-                date: '$orders.date',
-                tickets: '$orders.tickets',
-                extraDetails: '$orders.extraDetails',
-                tour: {
-                  _id: { $arrayElemAt: ['$orderTours._id', 0] },
-                  title: { $arrayElemAt: ['$orderTours.title', 0] },
-                  location: {
-                    $concat: [{ $arrayElemAt: ['$orderTours.city', 0] },
-                      ', ', { $arrayElemAt: ['$orderTours.country', 0] }]
-                  },
-                  image: { $arrayElemAt: [{ $arrayElemAt: ['$orderTours.images', 0] }, 0] },
-                  rating: { $arrayElemAt: ['$orderTours.rating.overall', 0] },
-                  reviews: { $arrayElemAt: ['$orderTours.reviews', 0] },
-                  duration: { $arrayElemAt: ['$orderTours.duration', 0] }
-
+      { $unwind: { path: '$wishlistedTours', preserveNullAndEmptyArrays: true } },
+      {
+        $group: {
+          _id: '$_id',
+          email: { $first: '$email' },
+          image: { $first: '$image' },
+          firstName: { $first: '$firstName' },
+          lastName: { $first: '$lastName' },
+          password: { $first: '$password' },
+          phone: { $first: '$phone' },
+          orders: { $first: '$orders' },
+          notifications: { $first: '$notifications' },
+          savedArticles: { $first: '$savedArticles' },
+          wishlist: {
+            $push: {
+              _id: { $ifNull: ['$wishlistedTours._id', null] },  // Push null-safe values
+              title: { $ifNull: ['$wishlistedTours.title', null] },
+              image: { $ifNull: [{ $arrayElemAt: ['$wishlistedTours.images', 0] }, null] },
+              location: {
+                $cond: {
+                  if: { $and: ['$wishlistedTours.city', '$wishlistedTours.country'] },
+                  then: { $concat: ['$wishlistedTours.city', ', ', '$wishlistedTours.country'] },
+                  else: null
                 }
+              },
+              rating: { $ifNull: ['$wishlistedTours.rating.overall', 0] },
+              reviews: { $ifNull: ['$wishlistedTours.reviews', 0] },
+              duration: { $ifNull: ['$wishlistedTours.duration', null] },
+              fromPrice: { $ifNull: ['$wishlistedTours.price.children', null] }
+            }
+          }
+        }
+      },
+
+      { $lookup: { from: 'orders', localField: 'orders', foreignField: '_id', as: 'userOrders' } },
+      { $unwind: { path: '$userOrders', preserveNullAndEmptyArrays: true } },
+      {
+        $group: {
+          _id: '$_id',
+          email: { $first: '$email' },
+          firstName: { $first: '$firstName' },
+          lastName: { $first: '$lastName' },
+          image: { $first: '$image' },
+          password: { $first: '$password' },
+          phone: { $first: '$phone' },
+          notifications: { $first: '$notifications' },
+          savedArticles: { $first: '$savedArticles' },
+          wishlist: { $last: '$wishlist' },
+          orders: {
+            $push: {
+              _id: { $ifNull: ['$userOrders._id', null] },
+              tourId: { $ifNull: ['$userOrders.tourId', null] },
+              date: { $ifNull: ['$userOrders.booking.date', null] },
+              tickets: { $ifNull: ['$userOrders.booking.tickets', null] },
+              extraDetails: { $ifNull: ['$userOrders.extraDetails', null] }
+            }
+          }
+        }
+      },
+      { $unwind: { path: '$orders', preserveNullAndEmptyArrays: true } },
+
+      {
+        $lookup: {
+          from: 'tours',
+          localField: 'orders.tourId',
+          foreignField: '_id',
+          as: 'orderTours'
+        }
+      },
+      {
+        $group: {
+          _id: '$_id',
+          email: { $first: '$email' },
+          firstName: { $first: '$firstName' },
+          lastName: { $first: '$lastName' },
+          image: { $first: '$image' },
+          password: { $first: '$password' },
+          phone: { $first: '$phone' },
+          notifications: { $first: '$notifications' },
+          savedArticles: { $first: '$savedArticles' },
+          wishlist: { $last: '$wishlist' },
+          orders: {
+            $push: {
+              _id: '$orders._id',
+              date: '$orders.date',
+              tickets: '$orders.tickets',
+              extraDetails: '$orders.extraDetails',
+              tour: {
+                _id: { $arrayElemAt: ['$orderTours._id', 0] },
+                title: { $arrayElemAt: ['$orderTours.title', 0] },
+                location: {
+                  $cond: {
+                    if: { $and: [{ $arrayElemAt: ['$orderTours.city', 0] }, { $arrayElemAt: ['$orderTours.country', 0] }] },
+                    then: { $concat: [{ $arrayElemAt: ['$orderTours.city', 0] }, ', ', { $arrayElemAt: ['$orderTours.country', 0] }] },
+                    else: null
+                  }
+                },
+                image: { $arrayElemAt: [{ $arrayElemAt: ['$orderTours.images', 0] }, 0] },
+                rating: { $arrayElemAt: ['$orderTours.rating.overall', 0] },
+                reviews: { $arrayElemAt: ['$orderTours.reviews', 0] },
+                duration: { $arrayElemAt: ['$orderTours.duration', 0] }
               }
             }
           }
         }
-      ]
-    ).toArray();
+      },
+
+      // IMPORTANT: Add this final stage to replace nulls with empty arrays
+      //  DO NOT REMOVE THIS STAGE
+      {
+        $addFields: {
+          wishlist: {
+            $cond: {
+              if: { $ne: [{ $arrayElemAt: ['$wishlist._id', 0] }, null] },
+              then: '$wishlist',
+              else: []
+            }
+          },
+          orders: {
+            $cond: {
+              if: { $ne: [{ $arrayElemAt: ['$orders._id', 0] }, null] },
+              then: '$orders',
+              else: []
+            }
+          }
+        }
+      }
+    ]).toArray();
+
     console.log(`Executing unwoundUser: `, unwoundUser);
+    console.log(`Executing unwoundUser.wishlist: `, unwoundUser[0].wishlist);
+    console.log(`Executing unwoundUser.orders: `, unwoundUser[0].orders);
 
     if (!unwoundUser || unwoundUser.length === 0) {
       return {

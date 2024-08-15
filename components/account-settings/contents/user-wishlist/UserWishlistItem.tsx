@@ -8,7 +8,7 @@ export type UserWishlistItemType = {
   title: string;
   image: string;
   location: string;
-  rating: number;
+  rating: number | 0;
   reviews: number;
   duration: string;
   fromPrice: number;

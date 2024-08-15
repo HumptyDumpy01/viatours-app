@@ -18,8 +18,9 @@ type UserWishlistType = {
 
 export default function UserWishlist({ userEmail, deleteAllItems, wishlistItems }: UserWishlistType) {
 
+  console.log(`WishlistItems data: `, wishlistItems);
   const [filteredWishlistItems, setFilteredWishlistItems] = useState<UserWishlistItemType[]>(wishlistItems);
-  const [originalNotifications] = useState<UserWishlistItemType[]>([...wishlistItems]);
+  const [originalWishlistItems] = useState<UserWishlistItemType[]>([...wishlistItems]);
 
   const [userWishlistItems, setUserWishlistItems] = useState<UserWishlistItemType[]>(wishlistItems);
 
@@ -42,7 +43,14 @@ export default function UserWishlist({ userEmail, deleteAllItems, wishlistItems 
   }, [currentPage, filteredWishlistItems, wishlistItems]);
 
   function handleWishlistSorting(event: React.ChangeEvent<HTMLSelectElement>) {
-    const value = event.target.value as 'newest' | 'oldest' | 'red' | 'green' | 'specials' | 'other' | `default`;
+    const value = event.target.value as 'newest' | 'oldest' | 'descending' | 'ascending';
+
+    if (wishlistItems.length === 0 && userWishlistItems.length === 0) {
+      return;
+    }
+
+    let sortedWishlistItems = [...originalWishlistItems];
+
   }
 
   return (
@@ -62,8 +70,7 @@ export default function UserWishlist({ userEmail, deleteAllItems, wishlistItems 
             </AnimatePresence>
           </div>
           <SortBy options={[
-            { value: `newest`, label: `Newest` },
-            { value: `oldest`, label: `Oldest` },
+            { value: `rating`, label: `Rating` },
             { value: `descending`, label: `Descending(Z-A)` },
             { value: `ascending`, label: `Ascending(Z-A)` }
           ]}

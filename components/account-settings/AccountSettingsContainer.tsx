@@ -198,7 +198,7 @@ export default function AccountSettingsContainer({ page }: AccountSettingsContai
                 {page === `wishlist` && (
                   <>
                     <UserWishlist
-                      wishlistItems={userData.wishlist}
+                      wishlistItems={userData.wishlist.length > 0 ? userData.wishlist as UserWishlistItemType[] : []}
                       userEmail={userData.email}
                       deleteAllItems={handleClearWishlist} />
                   </>
