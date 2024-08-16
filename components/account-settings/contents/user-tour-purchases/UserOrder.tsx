@@ -15,7 +15,7 @@ type UserOrderType = {
   // children: ReactNode;
 }
 
-export default function UserOrder({ order }: UserOrderType) {
+export default function UserOrder({ order, counter }: UserOrderType) {
 
   const [openCard, setOpenCard] = useState<boolean>(false);
   const [viewportIsLessThan593px, setViewportIsLessThan593px] = useState<boolean>(false);
@@ -76,7 +76,8 @@ export default function UserOrder({ order }: UserOrderType) {
         {/*SECOND COLUMN*/}
         <div className="tour-purchases__card-details-1">
           <div className="tour-purchases__card-details-1__date flex flex-align-center">
-            <p className="tour-purchases__card-details-1__date-value uppercase">01</p>
+            <p
+              className="tour-purchases__card-details-1__date-value uppercase">{counter < 9 ? String('0' + counter) : counter}</p>
             <div className="flex flex-direction-column">
               <p className="tour-purchases__card-details-1__date-title">Date:</p>
               <p className="tour-purchases__card-details-1__date-info">{formatDate(order.date)}</p>
@@ -157,7 +158,7 @@ export default function UserOrder({ order }: UserOrderType) {
           <div className="tour-purchases__card-details-2__total">
             <p className="tour-purchases__card-details-2__total-title uppercase">total</p>
             <p
-              className="tour-purchases__card-details-2__total-info uppercase font-weight-bold">${order.totalPrice}</p>
+              className="tour-purchases__card-details-2__total-info uppercase font-weight-bold">${order.totalPrice.toFixed()}</p>
           </div>
         </div>
 

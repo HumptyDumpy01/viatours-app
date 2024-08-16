@@ -46,8 +46,32 @@ export default function UserTourPurchases({ userOrders }: UserTourPurchasesType)
   }, [currentPage, filteredOrderItems]);
 
   function handleSortUserOrders(event: React.ChangeEvent<HTMLSelectElement>) {
-    const value = event.target.value as 'rating' | 'descending' | 'ascending';
+    const value = event.target.value as 'newest' | 'oldest' | 'price:descending' | 'price:ascending';
     let sortedUserOrders = [...originalOrderItems];
+
+    if (value === `newest`) {
+      sortedUserOrders = sortedUserOrders.sort((a, b) => {
+
+        return new Date(b.extraDetails.createdAt).getTime() - new Date(a.extraDetails.createdAt).getTime();
+      });
+    }
+    if (value === `oldest`) {
+      sortedUserOrders = sortedUserOrders.sort((a, b) => {
+        return new Date(a.extraDetails.createdAt).getTime() - new Date(b.extraDetails.createdAt).getTime();
+      });
+    }
+    if (value === `price:descending`) {
+      sortedUserOrders = sortedUserOrders.sort((a, b) => {
+        return b.totalPrice - a.totalPrice;
+      });
+    }
+    if (value === `price:ascending`) {
+      sortedUserOrders = sortedUserOrders.sort((a, b) => {
+        return a.totalPrice - b.totalPrice;
+      });
+    }
+    setFilteredOrderItems(sortedUserOrders);
+    setCurrentPage(1);
 
   }
 
@@ -78,16 +102,16 @@ export default function UserTourPurchases({ userOrders }: UserTourPurchasesType)
         initial="hidden"
         animate="show"
         className="tour-purchases__cards-wrapper">
-        {userOrderItems.length > 0 && userOrderItems.map(function(order) {
+        {filteredOrderItems.length > 0 && filteredOrderItems.map(function(order, index) {
+          const startingIndex = (currentPage - 1) * orderItemsPerPage;
           return (
-            <UserOrder counter={userOrderItems.length} key={order._id} order={order} />
+            <UserOrder counter={startingIndex + index + 1} key={order._id} order={order} />
           );
-        })}
-        {userOrderItems.length === 0 && (
-          <div className="tour-purchases__no-orders">
-            <p>No tour purchases yet! Feel free to explore our tours and book your next adventure.</p>
-          </div>
-        )}
+        })} {userOrderItems.length === 0 && (
+        <div className="tour-purchases__no-orders">
+          <p>No tour purchases yet! Feel free to explore our tours and book your next adventure.</p>
+        </div>
+      )}
       </motion.div>
       <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} totalItems={filteredOrderItems.length}
                   itemsPerPage={orderItemsPerPage} />

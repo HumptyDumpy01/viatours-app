@@ -159,7 +159,8 @@ export default function CheckoutFormContactDetails() {
             )}
             {(isStatusLoading && !session) && (
               <>
-                <Skeleton variant={`rounded`} width={`100%`} height={55} className={`book-now__details__input`} />
+                <Skeleton animation={`wave`} variant={`rounded`} width={`100%`} height={55}
+                          className={`book-now__details__input`} />
               </>
             )}
           </div>

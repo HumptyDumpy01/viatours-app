@@ -151,8 +151,11 @@ export default function ThanksForPurchase({ searchParams }: ThanksForPurchaseTyp
           });
         }
 
+        /* IMPORTANT: DISABLED BECAUSE OF THE LIMITS OF MAILTRAP */
+
         // email the user about the order
-        const sendEmail = await fetch(`/api/send-email`, {
+
+        /*const sendEmail = await fetch(`/api/send-email`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -172,7 +175,7 @@ export default function ThanksForPurchase({ searchParams }: ThanksForPurchaseTyp
               }
             }
           })
-        });
+        });*/
 
 
       }

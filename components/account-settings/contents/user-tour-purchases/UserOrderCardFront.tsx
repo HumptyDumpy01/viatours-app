@@ -20,6 +20,14 @@ export default function
                        handleOpenCard,
                        viewportIsLessThan593px
                      }: UserOrderCardFrontType) {
+
+  window.addEventListener(`resize`, () => {
+    if (window.innerWidth > 593) {
+      handleOpenCard(false
+      );
+    }
+  });
+
   return (
     <motion.div
       // initial={{ transform: `${openCard ? `rotateY(180deg)` : `rotateY(0deg)`}`, opacity: 0 }}
@@ -73,20 +81,34 @@ export default function
             <Stars rating={order.tour.rating} />
           </div>
           <div className="tour-purchases__card-tour-rating-count-wrapper">
-                    <span className="tour-purchases__card-tour-rating-count inline-block">{order.tour.rating} <span
-                      className="inline-block font-weight-reg">({order.tour.reviews})</span></span>
+                    <span className="tour-purchases__card-tour-rating-count inline-block">{order.tour.rating.toFixed(1)}
+                      <span
+                        className="inline-block font-weight-reg">({order.tour.reviews})</span></span>
           </div>
         </div>
         <div
           className="tour-purchases__card-tour-price-see-more-and-duration flex flex-space-between flex-align-center">
           <p className="tour-purchases__card-tour-duration">{order.tour.duration}</p>
-          <motion.button
-            whileHover={{ scale: 1.2 }}
-            whileTap={{ scale: 0.9 }}
-            onClick={viewportIsLessThan593px ? () => handleOpenCard(true) : undefined}
-            className="tour-purchases__card-tour-see-more text-decoration-none">See
-            more
-          </motion.button>
+          {viewportIsLessThan593px && (
+            <motion.button
+              whileHover={{ scale: 1.2 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={viewportIsLessThan593px ? () => handleOpenCard(true) : undefined}
+              className="tour-purchases__card-tour-see-more text-decoration-none">See
+              more
+            </motion.button>
+          )}
+          {!viewportIsLessThan593px && (
+            <motion.a
+              whileHover={{ scale: 1.2 }}
+              whileTap={{ scale: 0.9 }}
+              href={`/tours/${order.tour._id}`}
+              target={`_blank`}
+              onClick={viewportIsLessThan593px ? () => handleOpenCard(true) : undefined}
+              className="tour-purchases__card-tour-see-more text-decoration-none">See
+              more
+            </motion.a>
+          )}
         </div>
       </div>
     </motion.div>
