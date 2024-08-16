@@ -14,13 +14,15 @@ type TourStatsContainerType = {
     booked: number;
     views: number;
   };
+  session: any;
   // children: ReactNode;
 }
 
-export default function TourStatsContainer({ info }: TourStatsContainerType) {
+export default function TourStatsContainer({ info, session }: TourStatsContainerType) {
   return (
     <SessionProvider>
       <TourStats
+        session={session}
         info={{
           title: info.title,
           rating: info.rating,

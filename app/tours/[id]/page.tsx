@@ -1,6 +1,9 @@
 import TourDescriptionSection from '@/components/tourDescription/TourDescription';
 import { notFound } from 'next/navigation';
 import { TourInterface } from '@/data/DUMMY_TOURS';
+import { getServerSession } from 'next-auth';
+import { authConfig } from '@/lib/auth';
+import TourDescriptionLoadingPage from './loading';
 
 interface TourDescriptionInterface {
   params: {
@@ -45,16 +48,44 @@ export async function generateMetadata({ params }: TourDescriptionInterface) {
     description: `${currTour.overview}. The Tour to ${currTour.city} is ${currTour.duration} long and costs ${currTour.price.adult} per person,
     ${currTour.price.youth} per youth, and ${currTour.price.children} per children.
     This particular tour is rated ${currTour.rating.overall} stars by our customers, and also includes: ${currTour.whatsIncluded.green.join(`, `)}. We did not
-    for forget about the ${currTour.whatsIncluded.orange.join(`, `)} and more! Book now!`
+    forget about the ${currTour.whatsIncluded.orange.join(`, `)} and more! Book now!`
   };
 }
 
 export default async function TourDescription({ params }: TourDescriptionInterface) {
+  const session = await getServerSession(authConfig);
+
+  if (session === undefined) {
+    return <TourDescriptionLoadingPage />;
+  }
+
+
+  let sessionVar;
+  if (session === null) {
+    sessionVar = {
+      user: {
+        email: '',
+        name: ''
+      }
+    };
+  } else {
+    sessionVar = {
+      user: {
+        email: session!.user!.email,
+        name: session!.user!.name
+      }
+    };
+  }
+
   const fetchedTours = await fetchTourData(params.id);
   const { similarTours, currTour } = fetchedTours;
+
   return (
     <>
-      <TourDescriptionSection similarTours={similarTours} tour={currTour} params={params} />
+      {/*@ts-ignore*/}
+      <TourDescriptionSection userName={sessionVar.user.name} userEmail={sessionVar.user.email} session={sessionVar}
+                              similarTours={similarTours}
+                              tour={currTour} params={params} />
     </>
   );
 }

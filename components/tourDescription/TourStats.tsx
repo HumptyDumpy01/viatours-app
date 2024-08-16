@@ -3,7 +3,6 @@
 import './TourStats.scss';
 import Stars from '@/components/UI/Layout/Stars';
 import IconIon from '@/components/UI/IonIcon/IconIon';
-import { useSession } from 'next-auth/react';
 import { usePathname, useRouter } from 'next/navigation';
 import { Skeleton } from '@mui/material';
 import { useEffect, useState } from 'react';
@@ -31,12 +30,12 @@ type TourStatsType = {
     views: number;
     title: string;
   }
+  session: any;
   // children: ReactNode;
 }
 
-export default function TourStats({ info }: TourStatsType) {
+export default function TourStats({ info, session }: TourStatsType) {
 
-  const { data: session, status } = useSession();
   const router = useRouter();
 
 
@@ -54,9 +53,9 @@ export default function TourStats({ info }: TourStatsType) {
   const [isUserAddedTourToWishlist, setIsUserAddedTourToWishlist] = useState<boolean | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  const isStatusLoading = status === 'loading';
 
   useEffect(() => {
+    console.log(`Session coming from tourStats:`, session);
     if (session && session.user?.email) {
       setIsLoading(true);
       //  create a function to check if the user has added this tour to the wishlist already,
@@ -81,10 +80,10 @@ export default function TourStats({ info }: TourStatsType) {
       setIsLoading(false);
     }
 
-  }, [session]);
+  }, [session, tourId]);
 
   function handleAddToWishlist() {
-    if (!session) {
+    if (!session.user?.email) {
       // redirect to sign in page, with the new tab
       router.push('/login');
       // this would open the sign-in page in a new tab
@@ -173,7 +172,7 @@ export default function TourStats({ info }: TourStatsType) {
             <EmailIcon size={25} round />
           </EmailShareButton>
         </div>
-        {(!isStatusLoading && !isLoading) && (
+        {(session && !isLoading) && (
           <button className={`paragraph--wishlist ${isUserAddedTourToWishlist ? `highlighted` : ``}`}
                   onClick={handleAddToWishlist}>
             {/*<ion-icon name="bookmark-outline" className="icon icon--bookmark"></ion-icon>*/}
@@ -181,7 +180,7 @@ export default function TourStats({ info }: TourStatsType) {
             {isUserAddedTourToWishlist ? `Wishlisted` : `Wishlist`}
           </button>
         )}
-        {(isStatusLoading || isLoading) && (
+        {(!session || isLoading) && (
           <>
             <Skeleton variant="text" width={115} height={29} />
           </>

@@ -21,8 +21,6 @@ import TopTrendingWrapper from '@/components/homepage/top-trending/TopTrendingWr
 import '@/components/UI/Form/SidebarForm.scss';
 import React from 'react';
 import SidebarForm from '@/components/UI/Form/SidebarForm';
-import { getServerSession } from 'next-auth';
-import { authConfig } from '@/lib/auth';
 import TourStatsContainer from '@/components/tourDescription/TourOverview/TourStatsContainer';
 import TourCommentsContainer from '@/components/tourDescription/TourComments/TourCommentsContainer';
 
@@ -32,21 +30,21 @@ type TourDescriptionType = {
   }
   tour: TourInterface;
   similarTours: TourInterface[];
+  session: any;
+  userEmail: string;
+  userName: string;
   // children: ReactNode;
 }
 
-export default async function TourDescriptionSection({ params, tour, similarTours }: TourDescriptionType) {
-
-  const session = await getServerSession(authConfig) as {
-    user: {
-      email: string;
-      name: string;
-      image: string;
-    }
-  };
-
-  const userEmail = session?.user.email ? session.user.email : null;
-  const userName = session?.user.name ? session.user.name : null;
+export default async function
+  TourDescriptionSection({
+                           params,
+                           tour,
+                           similarTours,
+                           session,
+                           userEmail,
+                           userName
+                         }: TourDescriptionType) {
 
   // console.log(`Session, executed in TourDescriptionSection:`, session);
 
@@ -58,6 +56,7 @@ export default async function TourDescriptionSection({ params, tour, similarTour
         <h1 className="description__heading margin-bottom-small">{tour.title}</h1>
         <div className="description__stats-wrapper">
           <TourStatsContainer
+            session={session}
             info={{
               title: tour.title,
               rating: tour.rating.overall,
