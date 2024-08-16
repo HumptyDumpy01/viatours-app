@@ -19,10 +19,10 @@ type TourCommentsContainerType = {
   // children: ReactNode;
 }
 
-export default function TourCommentsContainer({ currTourComments }: TourCommentsType) {
+export default function TourCommentsContainer({ currTourComments, session }: TourCommentsType) {
   return (
     <SessionProvider>
-      <TourComments currTourComments={currTourComments} />
+      <TourComments session={session} currTourComments={currTourComments} />
     </SessionProvider>
   );
 }

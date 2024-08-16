@@ -1,7 +1,7 @@
 'use client';
 
 import './TourComments.scss';
-import Comment from '@/components/UI/Comment/Comment';
+import Comment, { SessionType } from '@/components/UI/Comment/Comment';
 import IconIon from '@/components/UI/IonIcon/IconIon';
 import { useState } from 'react';
 
@@ -17,9 +17,10 @@ export type TourCommentsType = {
     likes: [];
     dislikes: [];
   }[];
+  session: SessionType;
 };
 
-export default function TourComments({ currTourComments }: TourCommentsType) {
+export default function TourComments({ currTourComments, session }: TourCommentsType) {
 
   /* IMPORTANT: THIS PAGINATION INSTRUCTION IS VALID WHEN YOU HAVE JUST ONE BUTTON
   *   FOR EACH PAGE, AFTER CLICKING IT, SHOWS "N" AMOUNT OF ITEMS, WHERE PREVIOUS ITEMS
@@ -50,6 +51,7 @@ export default function TourComments({ currTourComments }: TourCommentsType) {
     <section className="comments">
       {currentComments.map((comment) => (
         <Comment
+          session={session}
           key={comment._id}
           id={comment._id}
           user={comment.user}

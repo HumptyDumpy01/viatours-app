@@ -7,8 +7,15 @@ import IconIon from '@/components/UI/IonIcon/IconIon';
 import GallerySlider from '@/components/UI/Gallery/GallerySlider';
 import { useEffect, useState } from 'react';
 import { CldImage } from 'next-cloudinary';
-import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+
+export type SessionType = {
+  user: {
+    email: string | ``;
+    name: string | ``;
+    image?: string | `` | null
+  }
+}
 
 type CommentType = {
   user: string;
@@ -22,6 +29,7 @@ type CommentType = {
   dislikes: number;
   likesArray: string[];
   dislikesArray: string[];
+  session: SessionType;
   // abuseReports: number;
   // children: ReactNode;
 }
@@ -38,7 +46,8 @@ export default function
             likes,
             dislikes,
             likesArray,
-            dislikesArray
+            dislikesArray,
+            session
             // abuseReports
           }: CommentType) {
 
@@ -52,7 +61,6 @@ export default function
   const [commentLikes, setCommentLikes] = useState(likes);
   const [commentDislikes, setCommentDislikes] = useState(dislikes);
 
-  const { data: session, status } = useSession();
   const router = useRouter();
 
   // console.log(`likesArray: `, likesArray);
@@ -141,7 +149,7 @@ export default function
 
   function handleLikeComment() {
 
-    if (!session) {
+    if (!session || !session.user?.email) {
       router.push(`/login`);
       return;
     }
@@ -175,7 +183,7 @@ export default function
   function handleDislikeComment() {
 
     // if the user is not authenticated, redirect to the login page
-    if (!session) {
+    if (!session || !session.user?.email) {
       router.push(`/login`);
       return;
     }

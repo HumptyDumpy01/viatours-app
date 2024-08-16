@@ -1366,6 +1366,7 @@ export async function handleCommentAction(commentId: string, userEmail: string, 
             acknowledged: false
           };
         } else {
+          revalidatePath(`/`, `layout`);
           return {
             acknowledged: removedLike.acknowledged,
             status: `REMOVED`
@@ -1387,6 +1388,7 @@ export async function handleCommentAction(commentId: string, userEmail: string, 
             acknowledged: false
           };
         } else {
+          revalidatePath(`/`, `layout`);
           return {
             acknowledged: pushedLike.acknowledged,
             status: `LIKED`
@@ -1412,6 +1414,7 @@ export async function handleCommentAction(commentId: string, userEmail: string, 
             acknowledged: false
           };
         } else {
+          revalidatePath(`/`, `layout`);
           return {
             acknowledged: response.acknowledged,
             status: `LIKED_AND_REMOVED_DISLIKE`
@@ -1438,6 +1441,7 @@ export async function handleCommentAction(commentId: string, userEmail: string, 
             acknowledged: false
           };
         } else {
+          revalidatePath(`/`, `layout`);
           return {
             acknowledged: removedDislike.acknowledged,
             status: `REMOVED_DISLIKE`
@@ -1461,6 +1465,7 @@ export async function handleCommentAction(commentId: string, userEmail: string, 
             acknowledged: false
           };
         } else {
+          revalidatePath(`/`, `layout`);
           return {
             acknowledged: addedDislike.acknowledged,
             status: `ADDED_DISLIKE`
@@ -1488,6 +1493,7 @@ export async function handleCommentAction(commentId: string, userEmail: string, 
             acknowledged: false
           };
         } else {
+          revalidatePath(`/`, `layout`);
           return {
             acknowledged: response.acknowledged,
             status: `ADDED_DISLIKE_AND_REMOVED_LIKE`

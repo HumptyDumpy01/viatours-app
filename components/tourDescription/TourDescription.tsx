@@ -119,7 +119,7 @@ export default async function
           {/*<GoogleMap locations={tour.tour_map} />*/}
           <QuestionAnswer />
           <CustomerReviews rating={tour.rating} />
-          <TourCommentsContainer currTourComments={tour.tourComments} />
+          <TourCommentsContainer session={session} currTourComments={tour.tourComments} />
           <LeaveReply
             tourTitle={tour.title}
             session={session}
