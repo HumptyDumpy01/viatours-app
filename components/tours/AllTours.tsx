@@ -87,7 +87,7 @@ export default function AllTours({ searchParams }: AllToursInterface) {
     } catch (e) {
       throw new Error(`Failed to filter by URl params: ${e}`);
     }
-  }, []);
+  }, [filter, filterType, filterSearch]);
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     try {

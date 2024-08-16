@@ -7,6 +7,7 @@ import Figure from './Figure';
 import Pagination from '@/components/UI/Pagnation/Pagination';
 import FiguresHeader from '@/components/tours/figures/FiguresHeader';
 import NoItemsFound from '@/components/UI/Layout/NoItems/NoItemsFound';
+import { AnimatePresence, motion } from 'framer-motion';
 
 
 interface FiguresInterface {
@@ -60,12 +61,18 @@ export default function Figures({ tours, loading, clearFilters }: FiguresInterfa
           <SkeletonCardHorizontal />
         </div>
       )}*/}
-      {(!loading && currentTours.length === 0) && (
-        <>
-          <FiguresHeader summarizedResults={tours.length} />
-          <NoItemsFound clearFilters={handleClearFilters} />
-        </>
-      )}
+      <AnimatePresence>
+        {(tours.length === 0) && (
+          <motion.div
+            initial={{ opacity: 0, y: 200 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 200 }}
+          >
+            <FiguresHeader summarizedResults={tours.length} />
+            <NoItemsFound clearFilters={handleClearFilters} />
+          </motion.div>
+        )}
+      </AnimatePresence>
       {(currentTours.length > 0 && !loading) && (
         <>
           <FiguresHeader summarizedResults={tours.length} />
