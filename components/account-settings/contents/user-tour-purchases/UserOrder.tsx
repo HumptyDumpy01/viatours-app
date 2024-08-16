@@ -38,6 +38,7 @@ export default function UserOrder({ order, counter }: UserOrderType) {
       setViewportIsLessThan593px(true);
     } else {
       setViewportIsLessThan593px(false);
+      setOpenCard(false);
     }
   });
 
