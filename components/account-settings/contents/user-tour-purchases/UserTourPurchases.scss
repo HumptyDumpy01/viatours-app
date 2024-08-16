@@ -1,4 +1,14 @@
-.tour-purchases {
+.tour-purchases-skeleton {
+
+  @media only screen and (max-width: 37.0625em) {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.tour-purchases,
+.tour-purchases-skeleton {
+
   .tour-purchases__heading-wrapper {
     margin-bottom: 3.4rem;
     @media only screen and (max-width: 37.9375em) {
@@ -53,38 +63,6 @@
   }
 
   &__card {
-    border-radius: 12px;
-    border: 1px solid var(--clr-grey-3);
-    grid-template-columns: 24.5rem 28.3rem auto;
-    @media only screen and (max-width: 51em) {
-      grid-template-columns: repeat(2, 1fr);
-      width: 90%;
-      margin: 0 auto;
-    }
-    @media only screen and (max-width: 37em) {
-      display: flex;
-      flex-direction: column;
-      width: 35rem;
-      //height: 140%;
-      border: none;
-      justify-items: center;
-    }
-    //gap: 2.6rem;
-    position: relative;
-    overflow: hidden;
-    transition: all .3s cubic-bezier(0.41, 0.094, 0.212, 0.935);
-    background-color: var(--clr-white);
-
-    /*@media (hover: hover) {
-      &:hover, &:active {
-        transform: translateY(-.3rem);
-        box-shadow: 0 1rem 2rem rgba(0, 0, 0, .1);
-        z-index: 9999999999;
-      }
-
-    }*/
-
-    // add before and after pseudo elements to add two circular shapes
     &::before {
       content: '';
       position: absolute;
@@ -117,6 +95,37 @@
         display: none;
       }
     }
+  }
+
+  &__card-skeleton {
+    width: 120%;
+    //height: 36rem;
+    //padding-right: 1.9rem;
+  }
+
+  &__card,
+  &__card-skeleton {
+    border-radius: 12px;
+    border: 1px solid var(--clr-grey-3);
+    grid-template-columns: 24.5rem 28.3rem auto;
+    @media only screen and (max-width: 51em) {
+      grid-template-columns: repeat(2, 1fr);
+      width: 90%;
+      margin: 0 auto;
+    }
+    @media only screen and (max-width: 37em) {
+      display: flex;
+      flex-direction: column;
+      width: 35rem;
+      //height: 140%;
+      border: none;
+      justify-items: center;
+    }
+    //gap: 2.6rem;
+    position: relative;
+    overflow: hidden;
+    transition: all .3s cubic-bezier(0.41, 0.094, 0.212, 0.935);
+    background-color: var(--clr-white);
 
     &-tour {
       padding: 1rem;
@@ -168,7 +177,15 @@
         //border: 1px solid var(--clr-grey-3);
       }
 
-      &-img {
+      &-img-skeleton {
+        @media only screen and (max-width: 37.0625em) {
+          width: 32rem !important;
+          height: 20rem !important;
+        }
+      }
+
+      &-img,
+      &-img-skeleton {
         width: 23rem;
         height: 16rem;
         border-radius: 12px;

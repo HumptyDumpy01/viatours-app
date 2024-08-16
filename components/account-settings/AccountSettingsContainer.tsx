@@ -6,17 +6,20 @@ import AccountSettingsSidebar from '@/components/account-settings/AccountSetting
 import React, { useEffect, useState } from 'react';
 import AccountSettingsSidebarSkeleton from '@/components/skeletons/other/Sidebar/AccountSettingsSkeleton';
 import { UserNotificationsType } from '@/lib/mongodb';
-import UserProfileHeadingSkeleton from '@/components/account-settings/skeletons/UserProflleHeadingSkeleton';
-import UserSkeleton from '@/components/account-settings/skeletons/UserSkeleton';
-import UserDataSkeleton from '@/components/account-settings/skeletons/UserDataSkeleton';
-import UserProfileAdditionalSkeleton from '@/components/account-settings/skeletons/UserProfileAdditionalSkeleton';
+import UserProfileHeadingSkeleton from '@/components/account-settings/skeletons/profile/UserProflleHeadingSkeleton';
+import UserSkeleton from '@/components/account-settings/skeletons/profile/UserSkeleton';
+import UserDataSkeleton from '@/components/account-settings/skeletons/profile/UserDataSkeleton';
+import UserProfileAdditionalSkeleton
+  from '@/components/account-settings/skeletons/profile/UserProfileAdditionalSkeleton';
 import UserNotifications from '@/components/account-settings/contents/user-notifications/UserNotifications';
-import UserNotificationSkeleton from '@/components/account-settings/skeletons/UserNotificationSkeleton';
+import UserNotificationSkeleton from '@/components/account-settings/skeletons/notifications/UserNotificationSkeleton';
 import UserWishlist from '@/components/account-settings/contents/user-wishlist/UserWishlist';
 import { UserWishlistItemType } from '@/components/account-settings/contents/user-wishlist/UserWishlistItem';
 import { Timestamp } from 'mongodb';
-import UserWishlistItemsSkeletons from '@/components/account-settings/skeletons/UserWishlistSkeletons';
+import UserWishlistItemsSkeletons from '@/components/account-settings/skeletons/wishlist/UserWishlistSkeletons';
 import UserTourPurchases from '@/components/account-settings/contents/user-tour-purchases/UserTourPurchases';
+import UserTourPurchasesSkeleton
+  from '@/components/account-settings/skeletons/tour-purchases/UserTourPurchasesSkeleton';
 
 type AccountSettingsContainerType = {
   page: 'profile' | `notifications` | `wishlist` | `tour-purchases` | `delete-account` | `saved-articles`;
@@ -160,6 +163,11 @@ export default function AccountSettingsContainer({ page }: AccountSettingsContai
                   {page === `wishlist` && (
                     <>
                       <UserWishlistItemsSkeletons />
+                    </>
+                  )}
+                  {page === `tour-purchases` && (
+                    <>
+                      <UserTourPurchasesSkeleton />
                     </>
                   )}
                 </div>

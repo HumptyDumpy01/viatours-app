@@ -4,7 +4,7 @@
   // children: ReactNode;
 }*/
 
-import UserWishlistSkeleton from '@/components/account-settings/skeletons/UserWishlistSkeleton';
+import UserWishlistSkeleton from '@/components/account-settings/skeletons/wishlist/UserWishlistSkeleton';
 
 export default function UserWishlistItemsSkeletons(/*{  }: UserWishlistItemsType*/) {
   return (

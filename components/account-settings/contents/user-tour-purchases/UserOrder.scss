@@ -186,9 +186,7 @@
   }
 }
 
-
 .tour-purchases__card-details-2 {
-
   &__status {
     gap: .4rem;
     margin-bottom: 1.4rem;
@@ -202,17 +200,30 @@
       margin-left: 5rem;
     }
 
-    &-title {
+    &-title,
+    &-title-skeleton {
       font-size: 3.2rem;
       color: var(--clr-blue-lighter);
     }
 
+    &-title-skeleton {
+      margin-left: auto;
+      margin-right: 3.5rem;
+    }
 
-    &-info {
+
+    &-info,
+    &-info-skeleton {
       font-weight: 300;
       font-size: 1.522rem;
       color: var(--clr-blue-lighter);
     }
+
+    &-info-skeleton {
+      margin-left: auto;
+      margin-right: 4rem;
+    }
+
   }
 
 
@@ -236,10 +247,15 @@
       font-weight: 500;
     }
 
-    &-info {
+    &-info,
+    &-info-skeleton {
       font-size: 4.795rem;
       color: var(--clr-white);
       font-weight: 100;
+    }
+
+    &-info-skeleton {
+      margin-right: 1rem;
     }
   }
 }
