@@ -12,7 +12,6 @@ type UserTourPurchasesType = {
   // children: ReactNode;
 }
 
-
 export const container = {
   hidden: { opacity: 0 },
   show: {
@@ -33,13 +32,12 @@ export default function UserTourPurchases({ userOrders }: UserTourPurchasesType)
 
   const [filteredOrderItems, setFilteredOrderItems] = useState<UserOrdersType[]>(userOrders);
   const [originalOrderItems, setOriginalOrderItems] = useState<UserOrdersType[]>([...userOrders]);
-  const [userOrderItems, setUserOrderItems] = useState<UserOrdersType[]>(userOrders);
+  const [userOrderItems, setUserOrderItems] = useState<UserOrdersType[]>([]);
   const orderItemsPerPage = 4;
   const [currentPage, setCurrentPage] = useState(1);
 
   const indexOfLastWishlistItem = currentPage * orderItemsPerPage;
   const indexOfFirstNotification = indexOfLastWishlistItem - orderItemsPerPage;
-
 
   useEffect(() => {
     setUserOrderItems(filteredOrderItems.slice(indexOfFirstNotification, indexOfLastWishlistItem));
@@ -52,7 +50,6 @@ export default function UserTourPurchases({ userOrders }: UserTourPurchasesType)
 
     if (value === `newest`) {
       sortedUserOrders = sortedUserOrders.sort((a, b) => {
-
         return new Date(b.extraDetails.createdAt).getTime() - new Date(a.extraDetails.createdAt).getTime();
       });
     }
@@ -82,11 +79,9 @@ export default function UserTourPurchases({ userOrders }: UserTourPurchasesType)
       case 'pending':
         sortedUserOrders = sortedUserOrders.filter((order) => order.extraDetails.state.status === value);
         break;
-      // other cases for sorting by date or price can be added here
     }
     setFilteredOrderItems(sortedUserOrders);
     setCurrentPage(1);
-
   }
 
   return (
@@ -124,10 +119,10 @@ export default function UserTourPurchases({ userOrders }: UserTourPurchasesType)
         initial="hidden"
         animate="show"
         className="tour-purchases__cards-wrapper">
-        {filteredOrderItems.length > 0 && filteredOrderItems.map(function(order, index) {
+        {userOrderItems.length > 0 && userOrderItems.map(function(order, index) {
           const startingIndex = (currentPage - 1) * orderItemsPerPage;
           return (
-            <AnimatePresence>
+            <AnimatePresence key={order._id}>
               <UserOrder counter={startingIndex + index + 1} key={order._id} order={order} />
             </AnimatePresence>
           );

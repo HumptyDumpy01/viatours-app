@@ -9,7 +9,7 @@ import classes from './loading.module.scss';
 /*type TestType = {
   // children: ReactNode;
 }*/
-import React from 'react';
+import React, { useRef } from 'react';
 import SkeletonPageNav from '@/components/skeletons/Navigation/SkeletonPageNav';
 import SkeletonBadge from '@/components/skeletons/Badge/SkeletonBadge';
 import SkeletonHeading from '@/components/skeletons/Heading/SkeletonHeading';
@@ -24,9 +24,18 @@ import SkeletonSidebarForm from '@/components/skeletons/other/Sidebar/SkeletonSi
 export default function TourDescriptionLoadingPage(/*{  }: TestType*/) {
   // scroll to the top of the page,
   // so that the user sees the loading state
+  const scroll = useRef();
+
+  /* IMPORTANT: DISABLED SCROLLING TO THE TOP WHEN PAGE LOADS */
   React.useEffect(() => {
-    window.scrollTo(0, 0);
+    return () => {
+      if (typeof window !== 'undefined') {
+        window.scrollTo(0, 0);
+      }
+    };
+
   }, []);
+  // scroll to the top of the page abruptly
 
   return (
     <div className={`container ${classes[`skeleton-container`]}`} style={{ paddingTop: `1rem` }}>

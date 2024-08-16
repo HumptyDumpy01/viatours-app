@@ -9,6 +9,7 @@ import bcrypt from 'bcrypt';
 import { comment } from 'postcss';
 import { notFound, redirect } from 'next/navigation';
 import { FormDataType } from '@/components/account-settings/contents/user-profile/UserProfile';
+import { UserOrdersType } from '@/components/account-settings/AccountSettingsContainer';
 
 // Extend the global interface
 // it resolves issues with the global variable missing type
@@ -1846,6 +1847,153 @@ export async function deleteUserData(as: `notifications` | `wishlist` | `savedAr
 
   }
 
+}
+
+///////////////////////////////////////
+/* IMPORTANT: USER ORDERS OPERATIONS */
+
+export type ToggleOrderRequestType = {
+  type: `Refund` | `Cancellation`;
+  orderId: string;
+  userEmail: string;
+  userPhone: string;
+}
+
+export type OrderRefundsType = {
+  orderId: string;
+  status: `pending` | `approved` | `rejected`;
+  userEmail: string;
+  userPhone: string;
+  userInitials: string;
+};
+
+export async function toggleOrderRequest(type: `Refund` | `Cancellation`,
+                                         orderId: string) {
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+
+  // Check if the order exists
+  const order = await db.collection(`orders`)
+    .findOne({ _id: new ObjectId(orderId) }) as UserOrdersType | null;
+
+
+  if (!order) {
+    return {
+      error: true,
+      message: `The order with the ID ${orderId} does not exist.`,
+      status: 404
+    };
+  }
+
+  if (type === `Refund`) {
+
+    // Check if the extraDetails.refund.available is true
+    // or if extraDetails.refund.requested is true
+    if (!order.extraDetails.refund.available || order.extraDetails.refund.requested) {
+      return {
+        error: true,
+        message: `The refund is not available for this order.`,
+        status: 400
+      };
+    }
+
+    // Update the order with the refund request
+    // by making extraDetails.refund.available false and
+    // extraDetails.refund.requested true
+    const response = await db.collection(`orders`).updateOne({ _id: new ObjectId(orderId) }, {
+      $set: {
+        'extraDetails.refund.available': false,
+        'extraDetails.refund.requested': true
+      }
+    });
+
+    if (!response.acknowledged) {
+      return {
+        error: true,
+        message: `Failed to request a refund for the order.`,
+        status: 500
+      };
+    } else {
+      revalidatePath(`/account-settings`, `layout`);
+
+      // TODO?: push notification to the user
+
+      // TODO?: send an email to the user
+
+      // TODO: push a document to the orderRefunds collection
+      const response = await db.collection(`orderRefunds`).insertOne({
+        orderId: order._id,
+        status: `pending`,
+        // @ts-ignore
+        userEmail: order.contactDetails.email,
+        // @ts-ignore
+        userPhone: order.contactDetails.phone,
+        // @ts-ignore
+        userInitials: `${order.contactDetails.firstName} ${order.contactDetails.lastName}`
+      });
+
+      return {
+        error: false,
+        message: `The refund request was successfully sent.`,
+        status: 200
+      };
+    }
+  }
+
+  if (type === `Cancellation`) {
+
+    // TODO: Check if the extraDetails.cancellation.available is true
+    //  or if extraDetails.cancellation.requested is true
+
+    if (!order.extraDetails.cancellation.available || order.extraDetails.cancellation.requested) {
+      return {
+        error: true,
+        message: `The cancellation is not available for this order.`,
+        status: 400
+      };
+    }
+
+    const response = await db.collection(`orders`).updateOne({ _id: new ObjectId(orderId) }, {
+      $set: {
+        'extraDetails.cancellation.available': false,
+        'extraDetails.cancellation.requested': true
+      }
+    });
+
+    if (!response.acknowledged) {
+      return {
+        error: true,
+        message: `Failed to request a cancellation for the order.`,
+        status: 500
+      };
+    } else {
+      revalidatePath(`/account-settings`, `layout`);
+
+      // TODO?: push notification to the user
+
+      // TODO?: send an email to the user
+
+      // TODO: push a document to the orderRefunds collection
+      const response = await db.collection(`orderCancellations`).insertOne({
+        orderId: order._id,
+        status: `pending`,
+        // @ts-ignore
+        userEmail: order.contactDetails.email,
+        // @ts-ignore
+        userPhone: order.contactDetails.phone,
+        // @ts-ignore
+        userInitials: `${order.contactDetails.firstName} ${order.contactDetails.lastName}`
+      });
+
+      return {
+        error: false,
+        message: `The cancellation request was successfully sent.`,
+        status: 200
+      };
+    }
+
+
+  }
 }
 
 ///////////////////////////////////////

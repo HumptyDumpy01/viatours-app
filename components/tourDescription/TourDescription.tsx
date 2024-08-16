@@ -48,7 +48,7 @@ export default async function TourDescriptionSection({ params, tour, similarTour
   const userEmail = session?.user.email ? session.user.email : null;
   const userName = session?.user.name ? session.user.name : null;
 
-  console.log(`Session, executed in TourDescriptionSection:`, session);
+  // console.log(`Session, executed in TourDescriptionSection:`, session);
 
   return (
     <>

@@ -3,11 +3,13 @@
 import './UserOrder.scss';
 import { UserOrdersType } from '@/components/account-settings/AccountSettingsContainer';
 import { formatDate } from '@/lib/helpers/formatDate';
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import UserOrderCardFront from '@/components/account-settings/contents/user-tour-purchases/UserOrderCardFront';
 import UserOrderCardBack from '@/components/account-settings/contents/user-tour-purchases/UserOrderCardBack';
 import { item } from '@/components/account-settings/contents/user-tour-purchases/UserTourPurchases';
+import Lottie from 'lottie-react';
+import loadingSpinner from '@/animations/loading-spinner.json';
 
 type UserOrderType = {
   order: UserOrdersType;
@@ -22,6 +24,13 @@ export default function UserOrder({ order, counter }: UserOrderType) {
   const [orderId, setOrderId] = useState(order._id.slice(0, 6) + `...`);
   const timer1 = useRef<NodeJS.Timeout | null>(null);
   const timer2 = useRef<NodeJS.Timeout | null>(null);
+  const [isSubmittingReqRefund, setIsSubmittingReqRefund] = useState<boolean>(false);
+  const [isSubmittingReqCancel, setIsSubmittingReqCancel] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>(``);
+  const timerErrorMessage = useRef<NodeJS.Timeout | null>(null);
+
+  const [userRequestedRefund, setUserRequestedRefund] = useState(order.extraDetails.refund.requested);
+  const [userRequestedCancellation, setUserRequestedCancellation] = useState(order.extraDetails.cancellation.requested);
 
   useEffect(() => {
     if (window.innerWidth < 593) {
@@ -41,6 +50,86 @@ export default function UserOrder({ order, counter }: UserOrderType) {
       setOpenCard(false);
     }
   });
+
+  async function handleSubmit(type: `Refund` | `Cancellation`) {
+    const response = await fetch(`/api/toggle-order-request`, {
+      method: `POST`,
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        type: type,
+        orderId: order._id
+      })
+    });
+    const resData = await response.json();
+
+    if (!resData.acknowledged) {
+      setErrorMessage(type === `Refund` ? `Error! Failed to request a refund`
+        : `Error! Failed to request a cancellation`);
+
+      if (type === `Refund`) {
+        setIsSubmittingReqRefund(false);
+      }
+
+      if (type === `Cancellation`) {
+        setIsSubmittingReqCancel(false);
+      }
+
+      timerErrorMessage.current = setTimeout(() => {
+        setErrorMessage(``);
+      }, 3000);
+      return;
+    } else {
+
+      if (type === `Refund`) {
+        setIsSubmittingReqRefund(false);
+        setUserRequestedRefund(true);
+      }
+
+      if (type === `Cancellation`) {
+        setIsSubmittingReqCancel(false);
+        setUserRequestedCancellation(true);
+      }
+
+    }
+  }
+
+  async function handleSubmitRefundReq() {
+    console.log(`Refund requested`);
+
+    if (order.extraDetails.refund.requested || !order.extraDetails.refund.available) {
+      setErrorMessage(`Error! Refund is unavailable for this order`);
+      return;
+    }
+
+    if (!order._id) {
+      setErrorMessage(`Error! Order ID is missing`);
+      return;
+    }
+
+    setIsSubmittingReqRefund(true);
+
+    await handleSubmit(`Refund`);
+
+  }
+
+  async function handleSubmitCancellationReq() {
+
+    if (order.extraDetails.cancellation.requested
+      || !order.extraDetails.cancellation.available) {
+      setErrorMessage(`Error! Cancellation is unavailable for this order`);
+      return;
+    }
+
+    if (!order._id) {
+      setErrorMessage(`Error! Order ID is missing`);
+      return;
+    }
+    setIsSubmittingReqCancel(true);
+
+    await handleSubmit(`Cancellation`);
+  }
 
   function handleOpenCard(state: boolean) {
     setOpenCard(state);
@@ -168,19 +257,45 @@ export default function UserOrder({ order, counter }: UserOrderType) {
             </div>
           </div>
           <div className="tour-purchases__card-details-1__btns grid">
-            <motion.button
-              whileHover={{ scale: 1.2, rotate: 5 }}
-              whileTap={{ scale: 0.9 }}
-              transition={{ type: 'spring', stiffness: 500 }}
-              className="tour-purchases__card-details-1__btns-request-a-refund disabled-card-details-btn">Request
-              a Refund
-            </motion.button>
-            <motion.button
-              whileHover={{ scale: 1.2, rotate: 5 }}
-              whileTap={{ scale: 0.9 }}
-              transition={{ type: 'spring', stiffness: 500 }}
-              className="tour-purchases__card-details-1__btns-cancel">Cancel
-            </motion.button>
+            {errorMessage.length > 0 && (
+              <p className={`paragraph paragraph-error`}>{errorMessage}</p>
+            )}
+            <div className={`flex gap-15px justify-items-center`}>
+              <motion.button
+                disabled={isSubmittingReqRefund || userRequestedRefund}
+                onClick={order.extraDetails.refund.available ? handleSubmitRefundReq : undefined}
+                whileHover={{ scale: 1.2, rotate: 5, backfaceVisibility: `hidden` }}
+                whileTap={{ scale: 0.9 }}
+                transition={{ type: 'spring', stiffness: 500 }}
+                className={`tour-purchases__card-details-1__btns-request-a-refund
+               ${(!order.extraDetails.refund.available || isSubmittingReqRefund || userRequestedRefund)
+                  ? `disabled-card-details-btn` : ``}`}>
+                {userRequestedRefund ? `Refund Requested` : `Request a Refund`}
+
+              </motion.button>
+              {isSubmittingReqRefund && (
+                <div className={`loading-spinner-pending-request`}>
+                  <Lottie animationData={loadingSpinner} />
+                </div>
+              )}
+            </div>
+            <div className={`flex gap-15px justify-items-center`}>
+              <motion.button
+                disabled={isSubmittingReqCancel || userRequestedCancellation}
+                onClick={order.extraDetails.cancellation.available ? handleSubmitCancellationReq : undefined}
+                whileHover={{ scale: 1.2, rotate: 5, backfaceVisibility: `hidden` }}
+                whileTap={{ scale: 0.9 }}
+                transition={{ type: 'spring', stiffness: 500 }}
+                className={`tour-purchases__card-details-1__btns-cancel
+               ${(!order.extraDetails.cancellation.available || isSubmittingReqCancel || userRequestedCancellation) ? `disabled-card-details-btn` : ``}`}>
+                {userRequestedCancellation ? `Cancellation Requested` : `Cancel`}
+              </motion.button>
+              {isSubmittingReqCancel && (
+                <div className={`loading-spinner-pending-request`}>
+                  <Lottie animationData={loadingSpinner} />
+                </div>
+              )}
+            </div>
           </div>
         </div>
         {/*THIRD COLUMN*/}

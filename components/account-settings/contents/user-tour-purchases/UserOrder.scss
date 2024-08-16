@@ -140,7 +140,11 @@
 
   &__btns {
     margin-top: 2.2rem;
-    gap: 1.2rem;
+    gap: .6rem;
+
+    &__btn {
+      height: 2rem !important;
+    }
 
     &-request-a-refund {
       cursor: pointer;
@@ -152,6 +156,7 @@
       font-weight: 700;
       font-size: 1.6rem;
       width: 18rem;
+      height: 5rem;
       transition: all .4s;
 
       &:hover, &:active {
@@ -168,7 +173,8 @@
       font-weight: 700;
       font-size: 1.6rem;
       border-radius: 6px;
-      width: 10rem;
+      //width: 10rem;
+      height: 5rem;
       transition: all .4s;
       cursor: pointer;
 
@@ -303,4 +309,13 @@
 
 .tour-purchases__card-details-1--back.pointer-events-inherit {
   pointer-events: inherit;
+}
+
+.tour-purchases__card-details-1__btns-request-a-refund.disabled-card-details-btn,
+.tour-purchases__card-details-1__btns-cancel.disabled-card-details-btn {
+  pointer-events: none;
+  cursor: not-allowed;
+  background-color: var(--clr-grey-3);
+  color: var(--clr-grey);
+  border: 1px solid var(--clr-grey-3);
 }
