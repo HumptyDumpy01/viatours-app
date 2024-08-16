@@ -3,6 +3,7 @@
 import { UserOrdersType } from '@/components/account-settings/AccountSettingsContainer';
 import { formatDate } from '@/lib/helpers/formatDate';
 import { motion } from 'framer-motion';
+import { useState } from 'react';
 
 
 type UserOrderCardBackType = {
@@ -12,6 +13,19 @@ type UserOrderCardBackType = {
 }
 
 export default function UserOrderCardBack({ handleOpenCard, order }: UserOrderCardBackType) {
+  const [copyLabel, setCopyLabel] = useState<string>(`Copy`);
+
+  function copyOrderId() {
+    // get access to the clipboard and copy the  text you want to copy
+    navigator.clipboard.writeText(order._id);
+    // set the copied text to the state
+    setCopyLabel(`Copied!`);
+    // set the copied text back to the original text after 3 seconds
+    setTimeout(() => {
+      setCopyLabel(`Copy`);
+    }, 3000);
+  }
+
   return (
     <motion.div
       initial={{ scale: .8, y: -400 }}
@@ -98,8 +112,11 @@ export default function UserOrderCardBack({ handleOpenCard, order }: UserOrderCa
         <div className={`flex margin-top-normal`}>
           <p className="tour-purchases__card-details-1__date-title">Order ID:&nbsp;</p>
           <p
-            className="tour-purchases__card-details-1__date-info">{order._id.slice(0, 10) + `..`}</p>
-          <p className={`tour-purchases__card-details-1__date-copy`}>Copy</p>
+            className="tour-purchases__card-details-1__date-info">{order._id.slice(0, 6) + `...`}</p>
+          <motion.p
+            onClick={copyOrderId}
+            className={`tour-purchases__card-details-1__date-copy`}>{copyLabel}
+          </motion.p>
         </div>
       </div>
       <div className="tour-purchases__card-details-1__btns grid">

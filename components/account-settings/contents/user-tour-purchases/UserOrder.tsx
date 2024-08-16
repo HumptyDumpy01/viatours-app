@@ -3,7 +3,7 @@
 import './UserOrder.scss';
 import { UserOrdersType } from '@/components/account-settings/AccountSettingsContainer';
 import { formatDate } from '@/lib/helpers/formatDate';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import UserOrderCardFront from '@/components/account-settings/contents/user-tour-purchases/UserOrderCardFront';
 import UserOrderCardBack from '@/components/account-settings/contents/user-tour-purchases/UserOrderCardBack';
@@ -19,6 +19,9 @@ export default function UserOrder({ order, counter }: UserOrderType) {
 
   const [openCard, setOpenCard] = useState<boolean>(false);
   const [viewportIsLessThan593px, setViewportIsLessThan593px] = useState<boolean>(false);
+  const [orderId, setOrderId] = useState(order._id.slice(0, 6) + `...`);
+  const timer1 = useRef<NodeJS.Timeout | null>(null);
+  const timer2 = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     if (window.innerWidth < 593) {
@@ -40,6 +43,40 @@ export default function UserOrder({ order, counter }: UserOrderType) {
 
   function handleOpenCard(state: boolean) {
     setOpenCard(state);
+  }
+
+  function handleShowFullOrderId(type: `mouseEnter` | `mouseLeave` | `click`) {
+    if (type === `mouseEnter`) {
+      setOrderId(`Click to copy me!`);
+    }
+
+    if (timer1.current) {
+      clearTimeout(timer1.current);
+    }
+
+    if (type === `mouseLeave`) {
+      timer1.current = setTimeout(() => {
+        setOrderId(order._id.slice(0, 6) + `...`);
+      }, 1000);
+    }
+
+  }
+
+  function copyOrderId() {
+
+    // get access to the clipboard and copy the  text you want to copy
+    navigator.clipboard.writeText(order._id);
+    // set the copied text to the state
+    setOrderId(`Copied!`);
+    // set the copied text back to the original text after 3 seconds
+
+    if (timer2.current) {
+      clearTimeout(timer2.current);
+    }
+
+    timer2.current = setTimeout(() => {
+      setOrderId(order._id.slice(0, 6) + `...`);
+    }, 3000);
   }
 
   return (
@@ -156,7 +193,13 @@ export default function UserOrder({ order, counter }: UserOrderType) {
           <div
             className="tour-purchases__card-details-2__status margin-bottom flex flex-direction-column">
             <p className="tour-purchases__card-details-2__status-title uppercase">Order</p>
-            <p className="tour-purchases__card-details-2__status-info uppercase">{order._id.slice(0, 6) + `..`}</p>
+            <motion.p
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              onMouseLeave={() => handleShowFullOrderId(`mouseLeave`)}
+              onMouseEnter={() => handleShowFullOrderId(`mouseEnter`)}
+              onClick={copyOrderId}
+              className="tour-purchases__card-details-2__status-info uppercase">{orderId}</motion.p>
           </div>
           <div className="tour-purchases__card-details-2__total">
             <p className="tour-purchases__card-details-2__total-title uppercase">total</p>
