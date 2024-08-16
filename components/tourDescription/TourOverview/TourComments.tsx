@@ -21,11 +21,11 @@ export type TourCommentsType = {
 
 export default function TourComments({ currTourComments }: TourCommentsType) {
 
-  /* IMPORTANT: THIS PAGINATION INSTRUCTION IF VALID WHEN YOU HAVE JUST ONE BUTTON
+  /* IMPORTANT: THIS PAGINATION INSTRUCTION IS VALID WHEN YOU HAVE JUST ONE BUTTON
   *   FOR EACH PAGE, AFTER CLICKING IT, SHOWS "N" AMOUNT OF ITEMS, WHERE PREVIOUS ITEMS
   *   ARE SHOWN TOO */
 
-  // the amount of comments to show per page
+  // the number of comments to show per page
   const commentsPerPage = 3;
   const [currentPage, setCurrentPage] = useState<number>(1);
 

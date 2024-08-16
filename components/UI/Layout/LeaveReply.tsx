@@ -159,7 +159,7 @@ export default function LeaveReply({ tourId, tourTitle, userEmail, userName, ses
     // INFO: The second condition: if user is authenticated and the email he enters is IN MY DB ALREADY.
 
     if (session && userEmail && userExists.length > 0 && userExists[0].email === results.email) {
-      console.log(`The user is authenticated and the email is found in the session object.`);
+      // console.log(`The user is authenticated and the email is found in the session object.`);
 
       // find this user by his email, and add a notification object to array.
       const pushNotification = await fetch(`/api/push-notification`, {

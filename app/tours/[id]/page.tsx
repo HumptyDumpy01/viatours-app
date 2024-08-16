@@ -6,6 +6,23 @@ import { getTourById, getTours } from '@/lib/mongodb';
 import { TourInterface } from '@/data/DUMMY_TOURS';
 
 
+export async function generateMetadata({ params }: TourDescriptionInterface) {
+  const fetchedTours = await getTour(params.id);
+  const { currTour } = fetchedTours;
+  // const { similarTours } = currTour;
+
+  if (!currTour) {
+    notFound();
+  }
+  return {
+    title: `${currTour.title}`,
+    description: `${currTour.overview}. The Tour to ${currTour.city} is ${currTour.duration} long and costs ${currTour.price.adult} per person,
+    ${currTour.price.youth} per youth, and ${currTour.price.children} per children. 
+    This particular tour is rated ${currTour.rating.overall} stars by our customers, and also includes: ${currTour.whatsIncluded.green.join(`, `)}. We did not 
+    for forget about the ${currTour.whatsIncluded.orange.join(`, `)} and more! Book now!`
+  };
+}
+
 interface TourDescriptionInterface {
   params: {
     id: string;
@@ -22,23 +39,6 @@ async function getTour(id: string): Promise<{ currTour: TourInterface, similarTo
   return {
     currTour,
     similarTours
-  };
-}
-
-export async function generateMetadata({ params }: TourDescriptionInterface) {
-  const fetchedTours = await getTour(params.id);
-  const { currTour } = fetchedTours;
-  // const { similarTours } = currTour;
-
-  if (!currTour) {
-    notFound();
-  }
-  return {
-    title: `${currTour.title}`,
-    description: `${currTour.overview}. The Tour to ${currTour.city} is ${currTour.duration} long and costs ${currTour.price.adult} per person,
-    ${currTour.price.youth} per youth, and ${currTour.price.children} per children. 
-    This particular tour is rated ${currTour.rating.overall} stars by our customers, and also includes: ${currTour.whatsIncluded.green.join(`, `)}. We did not 
-    for forget about the ${currTour.whatsIncluded.orange.join(`, `)} and more! Book now!`
   };
 }
 
