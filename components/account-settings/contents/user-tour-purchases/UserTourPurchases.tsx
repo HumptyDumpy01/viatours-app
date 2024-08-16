@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import SortBy from '@/components/UI/SortBy/SortBy';
 import { UserOrdersType } from '@/components/account-settings/AccountSettingsContainer';
 import UserOrder from '@/components/account-settings/contents/user-tour-purchases/UserOrder';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import Pagination from '@/components/UI/Pagnation/Pagination';
 
 type UserTourPurchasesType = {
@@ -94,6 +94,7 @@ export default function UserTourPurchases({ userOrders }: UserTourPurchasesType)
       initial={{ opacity: 0, y: 200 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ type: 'spring', stiffness: 100 }}
+      exit={{ opacity: 0, y: 200 }}
       viewport={{ once: false }}
       className="tour-purchases">
       <div className="tour-purchases__heading-wrapper flex flex-space-between">
@@ -126,12 +127,18 @@ export default function UserTourPurchases({ userOrders }: UserTourPurchasesType)
         {filteredOrderItems.length > 0 && filteredOrderItems.map(function(order, index) {
           const startingIndex = (currentPage - 1) * orderItemsPerPage;
           return (
-            <UserOrder counter={startingIndex + index + 1} key={order._id} order={order} />
+            <AnimatePresence>
+              <UserOrder counter={startingIndex + index + 1} key={order._id} order={order} />
+            </AnimatePresence>
           );
         })} {userOrderItems.length === 0 && (
-        <div className="tour-purchases__no-orders">
+        <motion.div
+          initial={{ opacity: 0, y: 200 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ type: 'spring', stiffness: 100 }}
+          className="tour-purchases__no-orders">
           <p>No tour purchases yet! Feel free to explore our tours and book your next adventure.</p>
-        </div>
+        </motion.div>
       )}
       </motion.div>
       <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} totalItems={filteredOrderItems.length}

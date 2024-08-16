@@ -43,15 +43,18 @@ export default function UserOrder({ order, counter }: UserOrderType) {
   }
 
   return (
-    <>
+    <AnimatePresence>
       <motion.div
         variants={item}
+        initial={{ opacity: 0, y: 100 }}
+        animate={{ opacity: 1, y: 0 }}
         whileHover={{
           scale: 1.05,
           zIndex: 9999999999,
           backfaceVisibility: `hidden`,
           boxShadow: `${!viewportIsLessThan593px ? `0 0 20px 10px rgba(235, 102, 43, 0.2)` : `none`}`
         }}
+        exit={{ opacity: 0, y: 100 }}
         transition={{ type: 'spring', stiffness: 100 }}
         whileTap={{ scale: 0.9 }}
         className="tour-purchases__card grid">
@@ -163,7 +166,6 @@ export default function UserOrder({ order, counter }: UserOrderType) {
         </div>
 
       </motion.div>
-
-    </>
+    </AnimatePresence>
   );
 }

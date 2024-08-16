@@ -116,10 +116,10 @@ export default function AccountSettingsContainer({ page }: AccountSettingsContai
         setIsLoading(false);
 
         /* TEMPORARY */
-        console.log(`User Data: `, userData?.wishlist);
+        // console.log(`User Data: `, userData?.wishlist);
 
         setUserData(data.result[0]);
-        console.log(`User Data: `, userData);
+        // console.log(`User Data: `, userData);
 
       }).catch((err) => {
         setIsLoading(false);
