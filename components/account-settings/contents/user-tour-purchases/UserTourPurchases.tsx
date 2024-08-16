@@ -45,7 +45,10 @@ export default function UserTourPurchases({ userOrders }: UserTourPurchasesType)
     setUserOrderItems(filteredOrderItems.slice(indexOfFirstNotification, indexOfLastWishlistItem));
   }, [currentPage, filteredOrderItems]);
 
-  function handleSortUserOrders() {
+  function handleSortUserOrders(event: React.ChangeEvent<HTMLSelectElement>) {
+    const value = event.target.value as 'rating' | 'descending' | 'ascending';
+    let sortedUserOrders = [...originalOrderItems];
+
   }
 
   return (
@@ -85,7 +88,6 @@ export default function UserTourPurchases({ userOrders }: UserTourPurchasesType)
             <p>No tour purchases yet! Feel free to explore our tours and book your next adventure.</p>
           </div>
         )}
-
       </motion.div>
       <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} totalItems={filteredOrderItems.length}
                   itemsPerPage={orderItemsPerPage} />

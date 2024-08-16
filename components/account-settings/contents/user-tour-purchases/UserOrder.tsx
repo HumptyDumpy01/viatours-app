@@ -156,7 +156,8 @@ export default function UserOrder({ order }: UserOrderType) {
           </div>
           <div className="tour-purchases__card-details-2__total">
             <p className="tour-purchases__card-details-2__total-title uppercase">total</p>
-            <p className="tour-purchases__card-details-2__total-info uppercase font-weight-bold">1200$</p>
+            <p
+              className="tour-purchases__card-details-2__total-info uppercase font-weight-bold">${order.totalPrice}</p>
           </div>
         </div>
 

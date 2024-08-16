@@ -111,7 +111,7 @@ export default function UserOrderCardBack({ handleOpenCard, order }: UserOrderCa
       </div>
       <div className="tour-purchases__card-details-2__total-responsive">
         <p className="tour-purchases__card-details-2__total-responsive-title uppercase">total</p>
-        <p className="tour-purchases__card-details-2__total-responsive-info uppercase">$1200$</p>
+        <p className="tour-purchases__card-details-2__total-responsive-info uppercase">${order.totalPrice}</p>
       </div>
     </motion.div>
   );

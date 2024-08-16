@@ -793,6 +793,7 @@ export async function getUser(filter: {}, options?: {}, unwind: boolean = false)
               tourId: { $ifNull: ['$userOrders.tourId', null] },
               date: { $ifNull: ['$userOrders.booking.date', null] },
               tickets: { $ifNull: ['$userOrders.booking.tickets', null] },
+              price: { $ifNull: ['$userOrders.booking.totalPrice', null] },
               extraDetails: { $ifNull: ['$userOrders.extraDetails', null] }
             }
           }
@@ -824,6 +825,7 @@ export async function getUser(filter: {}, options?: {}, unwind: boolean = false)
             $push: {
               _id: '$orders._id',
               date: '$orders.date',
+              totalPrice: '$orders.price',
               tickets: '$orders.tickets',
               extraDetails: '$orders.extraDetails',
               tour: {

@@ -32,6 +32,7 @@ export type UserOrdersType = {
     youthTickets: number;
     childrenTickets: number;
   },
+  totalPrice: number;
   extraDetails: {
     refund: {
       available: boolean;
