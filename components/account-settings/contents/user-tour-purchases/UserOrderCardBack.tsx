@@ -90,8 +90,17 @@ export default function UserOrderCardBack({ handleOpenCard, order }: UserOrderCa
         </div>
       </div>
       <div className="flex flex-direction-column margin-top-3rem date-responsive">
-        <p className="tour-purchases__card-details-1__date-title">Date:</p>
-        <p className="tour-purchases__card-details-1__date-info">{formatDate(order.date)}</p>
+        <div className={`flex`}>
+          <p className="tour-purchases__card-details-1__date-title">Date:&nbsp;</p>
+          <p
+            className="tour-purchases__card-details-1__date-info">{formatDate(order.extraDetails.createdAt).slice(0, 24) + `...`}</p>
+        </div>
+        <div className={`flex margin-top-normal`}>
+          <p className="tour-purchases__card-details-1__date-title">Order ID:&nbsp;</p>
+          <p
+            className="tour-purchases__card-details-1__date-info">{order._id.slice(0, 10) + `..`}</p>
+          <p className={`tour-purchases__card-details-1__date-copy`}>Copy</p>
+        </div>
       </div>
       <div className="tour-purchases__card-details-1__btns grid">
         <motion.button

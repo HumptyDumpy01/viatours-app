@@ -47,7 +47,7 @@ export type UserOrdersType = {
     promoApplied: boolean;
     tourDiscount: number | null;
     state: {
-      status: `pending` | `scheduled` | `cancelled` | `refunded` | `booked` | `ongoing` | `finished`;
+      status: `pending` | `scheduled` | `cancelled` | `refunded` | `booked` | `ongoing` | `completed`;
       confirmed: boolean;
       paid: boolean;
       refunded: boolean;

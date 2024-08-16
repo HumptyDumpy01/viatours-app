@@ -46,7 +46,8 @@ export default function UserTourPurchases({ userOrders }: UserTourPurchasesType)
   }, [currentPage, filteredOrderItems]);
 
   function handleSortUserOrders(event: React.ChangeEvent<HTMLSelectElement>) {
-    const value = event.target.value as 'newest' | 'oldest' | 'price:descending' | 'price:ascending';
+    const value = event.target.value as 'newest' | 'oldest' | 'price:descending' |
+      'price:ascending' | `pending` | `scheduled` | `cancelled` | `refunded` | `booked` | `ongoing` | `completed`;
     let sortedUserOrders = [...originalOrderItems];
 
     if (value === `newest`) {
@@ -69,6 +70,19 @@ export default function UserTourPurchases({ userOrders }: UserTourPurchasesType)
       sortedUserOrders = sortedUserOrders.sort((a, b) => {
         return a.totalPrice - b.totalPrice;
       });
+    }
+
+    switch (value) {
+      case 'scheduled':
+      case 'refunded':
+      case 'ongoing':
+      case 'booked':
+      case 'cancelled':
+      case 'completed':
+      case 'pending':
+        sortedUserOrders = sortedUserOrders.filter((order) => order.extraDetails.state.status === value);
+        break;
+      // other cases for sorting by date or price can be added here
     }
     setFilteredOrderItems(sortedUserOrders);
     setCurrentPage(1);
@@ -93,7 +107,14 @@ export default function UserTourPurchases({ userOrders }: UserTourPurchasesType)
           [{ value: `newest`, label: `Newest` },
             { value: `oldest`, label: `Oldest` },
             { value: `price:descending`, label: `Price: High to Low` },
-            { value: `price:ascending`, label: `Price: Low to High` }
+            { value: `price:ascending`, label: `Price: Low to High` },
+            { value: `booked`, label: `Booked` },
+            { value: `cancelled`, label: `Cancelled` },
+            { value: `completed`, label: `Completed` },
+            { value: `pending`, label: `Pending` },
+            { value: `scheduled`, label: `Scheduled` },
+            { value: `ongoing`, label: `Ongoing` },
+            { value: `refunded`, label: `Refunded` }
           ]} handleOnChange={handleSortUserOrders} disabled={userOrders.length === 0} />
       </div>
 

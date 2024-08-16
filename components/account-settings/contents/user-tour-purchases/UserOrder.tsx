@@ -30,13 +30,13 @@ export default function UserOrder({ order, counter }: UserOrderType) {
     }
   }, []);
 
-  /*window.addEventListener('resize', () => {
-    if (window.innerWidth < 593 && !viewportIsLessThan593px) {
+  window.addEventListener('resize', () => {
+    if (window.innerWidth < 593) {
       setViewportIsLessThan593px(true);
     } else {
       setViewportIsLessThan593px(false);
     }
-  });*/
+  });
 
   function handleOpenCard(state: boolean) {
     setOpenCard(state);
@@ -80,7 +80,7 @@ export default function UserOrder({ order, counter }: UserOrderType) {
               className="tour-purchases__card-details-1__date-value uppercase">{counter < 9 ? String('0' + counter) : counter}</p>
             <div className="flex flex-direction-column">
               <p className="tour-purchases__card-details-1__date-title">Date:</p>
-              <p className="tour-purchases__card-details-1__date-info">{formatDate(order.date)}</p>
+              <p className="tour-purchases__card-details-1__date-info">{formatDate(order.extraDetails.createdAt)}</p>
             </div>
           </div>
           <div className="tour-purchases__card-details-1__amount-of-tickets flex gap-sm flex-align-center">

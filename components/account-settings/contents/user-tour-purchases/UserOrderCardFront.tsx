@@ -20,14 +20,6 @@ export default function
                        handleOpenCard,
                        viewportIsLessThan593px
                      }: UserOrderCardFrontType) {
-
-  window.addEventListener(`resize`, () => {
-    if (window.innerWidth > 593) {
-      handleOpenCard(false
-      );
-    }
-  });
-
   return (
     <motion.div
       // initial={{ transform: `${openCard ? `rotateY(180deg)` : `rotateY(0deg)`}`, opacity: 0 }}

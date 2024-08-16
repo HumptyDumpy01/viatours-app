@@ -72,10 +72,18 @@
       color: var(--clr-blue-lighter);
     }
 
-    &-title {
+    &-title,
+    &-copy {
       font-weight: 500;
       color: var(--clr-blue-lighter);
       margin-bottom: .3rem;
+    }
+
+    &-copy {
+      font-size: 1.9rem;
+      color: var(--clr-blue-lighter);
+      font-weight: 600;
+      margin-left: 1rem;
     }
 
     &-info {
