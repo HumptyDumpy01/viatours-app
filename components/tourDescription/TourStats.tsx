@@ -6,6 +6,7 @@ import IconIon from '@/components/UI/IonIcon/IconIon';
 import { usePathname, useRouter } from 'next/navigation';
 import { Skeleton } from '@mui/material';
 import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 
 import {
   EmailIcon,
@@ -158,32 +159,54 @@ export default function TourStats({ info, session }: TourStatsType) {
         {/*  Share*/}
         {/*</button>*/}
         <div className={`description__stats-share-btns`}>
-          {/*@ts-ignore*/}
-          <FacebookShareButton url={shareURL} quote={shareTitle}>
-            <FacebookIcon size={25} round />
-          </FacebookShareButton>
-          <TwitterShareButton url={shareURL} title={shareTitle}>
-            <XIcon size={25} round />
-          </TwitterShareButton>
-          <WhatsappShareButton url={shareURL} title={shareTitle}>
-            <WhatsappIcon size={25} round />
-          </WhatsappShareButton>
-          <EmailShareButton url={shareURL} subject={shareTitle} body="Check out this tour!">
-            <EmailIcon size={25} round />
-          </EmailShareButton>
+          <motion.div
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+          >
+            {/*@ts-ignore*/}
+            <FacebookShareButton url={shareURL} quote={shareTitle}>
+              <FacebookIcon size={25} round />
+            </FacebookShareButton>
+          </motion.div>
+          <motion.div
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+          >
+            <TwitterShareButton url={shareURL} title={shareTitle}>
+              <XIcon size={25} round />
+            </TwitterShareButton>
+          </motion.div>
+          <motion.div
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+          >
+            <WhatsappShareButton url={shareURL} title={shareTitle}>
+              <WhatsappIcon size={25} round />
+            </WhatsappShareButton>
+          </motion.div>
+          <motion.div
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+          >
+            <EmailShareButton url={shareURL} subject={shareTitle} body="Check out this tour!">
+              <EmailIcon size={25} round />
+            </EmailShareButton>
+          </motion.div>
         </div>
         {(session && !isLoading) && (
-          <button className={`paragraph--wishlist ${isUserAddedTourToWishlist ? `highlighted` : ``}`}
-                  onClick={handleAddToWishlist}>
+          <button
+            className={`paragraph--wishlist ${isUserAddedTourToWishlist ? `highlighted` : ``}`}
+            onClick={handleAddToWishlist}>
             {/*<ion-icon name="bookmark-outline" className="icon icon--bookmark"></ion-icon>*/}
             <IconIon type={`bookmarkOutline`} className="icon icon--bookmark"></IconIon>
             {isUserAddedTourToWishlist ? `Wishlisted` : `Wishlist`}
           </button>
         )}
         {(!session || isLoading) && (
-          <>
+          <div
+          >
             <Skeleton variant="text" width={115} height={29} />
-          </>
+          </div>
         )}
       </div>
     </>

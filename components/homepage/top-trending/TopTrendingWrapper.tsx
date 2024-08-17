@@ -2,6 +2,7 @@
 
 import React, { useRef } from 'react';
 import './TopTrending.scss';
+import { motion } from 'framer-motion';
 
 interface TopTrendingWrapperInterface {
   children: React.ReactNode;
@@ -25,8 +26,16 @@ export default function TopTrendingWrapper({ children }: TopTrendingWrapperInter
           {children}
         </div>
       </div>
-      <div className="top-trending-toggle-left" onClick={handleScrollLeft}>&larr;</div>
-      <div className="top-trending-toggle-right" onClick={handleScrollRight}>&rarr;</div>
+      <motion.div
+        whileHover={{ scale: 1.5 }}
+        whileTap={{ scale: 0.9 }}
+        transition={{ type: 'spring', stiffness: 300 }}
+        className="top-trending-toggle-left" onClick={handleScrollLeft}>&larr;</motion.div>
+      <motion.div
+        whileHover={{ scale: 1.5 }}
+        whileTap={{ scale: 0.9 }}
+        transition={{ type: 'spring', stiffness: 300 }}
+        className="top-trending-toggle-right" onClick={handleScrollRight}>&rarr;</motion.div>
     </div>
   );
 };

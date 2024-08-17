@@ -1,13 +1,20 @@
-// 'use client';
+'use client';
+
 import './QuestionAnswer.scss';
 import AccordionQA from '@/components/UI/Accordion/AccordionQA';
+import { motion } from 'framer-motion';
 /*type QuestionAnswerType = {
   // children: ReactNode;
 }*/
 
 export default function QuestionAnswer(/*{  }: QuestionAnswerType*/) {
   return (
-    <section className="faq">
+    <motion.section
+      initial={{ opacity: 0, y: 300 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+      viewport={{ once: true }}
+      className="faq">
       <h2 className="secondary-heading margin-bottom-small">FAQ</h2>
       <div className="faq__container">
         <AccordionQA
@@ -40,6 +47,6 @@ export default function QuestionAnswer(/*{  }: QuestionAnswerType*/) {
                 team for more information. `}
         />
       </div>
-    </section>
+    </motion.section>
   );
 }

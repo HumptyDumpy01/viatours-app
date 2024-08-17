@@ -6,6 +6,7 @@ import IconIon from '@/components/UI/IonIcon/IconIon';
 import { useState } from 'react';
 import CommentSkeleton from '@/components/tourDescription/skeletons/CommentSkeleton';
 import { useCartSelector } from '@/store/hooks';
+import { motion } from 'framer-motion';
 
 export type TourCommentsType = {
   currTourComments: [] | {
@@ -51,7 +52,12 @@ export default function TourComments({ currTourComments, session }: TourComments
   };
 
   return (
-    <section className="comments">
+    <motion.section
+      initial={{ opacity: 0, y: 300 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+      viewport={{ once: true }}
+      className="comments">
       {addCommentSkeleton && (
         <CommentSkeleton />
       )}
@@ -75,10 +81,14 @@ export default function TourComments({ currTourComments, session }: TourComments
       ))}
       {/* Only show the button if there are more comments to display */}
       {totalCommentsToShow < currTourComments.length && (
-        <button onClick={handleMoreReviews} className="btn btn--show-more margin-top-md">See more reviews
+        <motion.button
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+          onClick={handleMoreReviews} className="btn btn--show-more margin-top-md">See more reviews
           <IconIon type={`arrowForwardOutline`} className="icon icon--right-arrow"></IconIon>
-        </button>
+        </motion.button>
       )}
-    </section>
+    </motion.section>
   );
 }

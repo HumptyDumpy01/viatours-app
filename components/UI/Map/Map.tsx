@@ -3,8 +3,10 @@ import './Map.scss';
 import MapComponent from '@/components/UI/Map/MapComponent';
 
 type Location = {
-  key: string;
-  location: google.maps.LatLngLiteral;
+  googleMap: {
+    key: string;
+    location: google.maps.LatLngLiteral;
+  };
 };
 
 interface GoogleMapProps {

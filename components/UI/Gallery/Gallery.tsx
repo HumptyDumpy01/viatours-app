@@ -6,6 +6,8 @@ import watermarkImage from '@/assets/images/viatours-watermark-logo.svg';
 import React, { useState } from 'react';
 import GallerySlider from '@/components/UI/Gallery/GallerySlider';
 import { CldImage } from 'next-cloudinary';
+import { motion } from 'framer-motion';
+import { container, item } from '@/components/account-settings/contents/user-tour-purchases/UserTourPurchases';
 
 export type GalleryType = {
   info: {
@@ -43,9 +45,17 @@ export default function Gallery({ info }: GalleryType) {
   return (
     <>
       <div className="description__gallery">
-        <div className="description__gallery-images grid">
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+          variants={container}
+          className="description__gallery-images grid"
+        >
 
-          <div className="description__gallery-img-1">
+          <motion.div
+            variants={item}
+            className="description__gallery-img-1">
 
             <CldImage
               width={500}
@@ -62,10 +72,14 @@ export default function Gallery({ info }: GalleryType) {
             {/*<img onClick={openSlider}*/}
             {/*  // @ts-ignore*/}
             {/*     src={`${DOMAIN}${mainImage}`} alt={info.title} />*/}
-          </div>
-          <div className="description__gallery-images-container-1 grid grid-two-cols">
+          </motion.div>
+          <motion.div
+            variants={item}
+            className="description__gallery-images-container-1 grid grid-two-cols">
             {restOfImages.map((image, index) => (
-              <div key={index} className={`description__gallery-img-${index + 2}`}>
+              <motion.div
+                variants={item}
+                key={index} className={`description__gallery-img-${index + 2}`}>
 
                 <CldImage
                   width={500}
@@ -84,10 +98,10 @@ export default function Gallery({ info }: GalleryType) {
                 {/*<img onClick={openSlider}*/}
                 {/*  // @ts-ignore*/}
                 {/*     src={`${DOMAIN}${image}`} alt={info.title} className="description__gallery-img-2" />*/}
-              </div>
+              </motion.div>
             ))}
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
         <span onClick={openSlider}
               className="description__gallery--see-all">See all photos</span>
       </div>

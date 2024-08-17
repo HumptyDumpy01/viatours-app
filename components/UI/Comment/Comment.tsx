@@ -8,6 +8,7 @@ import GallerySlider from '@/components/UI/Gallery/GallerySlider';
 import { useEffect, useState } from 'react';
 import { CldImage } from 'next-cloudinary';
 import { useRouter } from 'next/navigation';
+import { motion } from 'framer-motion';
 
 export type SessionType = {
   user: {
@@ -211,7 +212,12 @@ export default function
   }
 
   return (
-    <>
+    <motion.div
+      initial={{ opacity: 0, y: 300 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+      viewport={{ once: true }}
+    >
       <div className={`comments-wrapper`}>
         <div className="comments__username flex flex-space-between flex-align-center">
           <div className="comments__username-logo-and-name flex flex-align-center gap-sm">
@@ -239,7 +245,10 @@ export default function
           <div className="comments__content-images">
             {images.map(function(imgSrc) {
               return (
-                <div key={`${imgSrc}`} className="comments__content-images-wrapper">
+                <motion.div
+                  whileHover={{ scale: 1.1, rotate: 15, zIndex: 2 }}
+                  whileTap={{ scale: 0.9 }}
+                  key={`${imgSrc}`} className="comments__content-images-wrapper">
                   <CldImage
                     width={130}
                     height={130}
@@ -248,7 +257,7 @@ export default function
                     alt="Tour Comment Image"
                     onClick={handleOpenSlider}
                     src={`${imgSrc}`} />
-                </div>
+                </motion.div>
               );
             })}
 
@@ -283,6 +292,6 @@ export default function
           </div>
         </div>
       </div>
-    </>
+    </motion.div>
   );
 }

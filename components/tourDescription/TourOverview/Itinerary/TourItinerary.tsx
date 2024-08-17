@@ -2,6 +2,7 @@
 
 import './TourItinerary.scss';
 import ItineraryItem from '@/components/tourDescription/TourOverview/Itinerary/ItineraryItem';
+import { motion } from 'framer-motion';
 
 type TourItineraryType = {
   itinerary: {
@@ -14,7 +15,12 @@ type TourItineraryType = {
 export default function TourItinerary({ itinerary }: TourItineraryType) {
 
   return (
-    <section className="description__tour-overview-itinerary">
+    <motion.section
+      initial={{ opacity: 0, y: 300 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+      viewport={{ once: true }}
+      className="description__tour-overview-itinerary">
       <h2 className="secondary-heading margin-bottom-small">Itinerary</h2>
       <div className="description__tour-overview-itinerary-list">
         {itinerary.map((item, index) => {
@@ -35,6 +41,6 @@ export default function TourItinerary({ itinerary }: TourItineraryType) {
           }
         })}
       </div>
-    </section>
+    </motion.section>
   );
 }

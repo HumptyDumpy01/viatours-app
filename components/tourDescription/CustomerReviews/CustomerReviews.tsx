@@ -1,6 +1,8 @@
-// 'use client';
+'use client';
+
 import './CustomerReviews.scss';
 import CustomerReviewOverallRating from '@/components/tourDescription/CustomerReviews/CustomerReviewOverallRating';
+import { motion } from 'framer-motion';
 
 type CustomerReviewsType = {
   rating: {
@@ -17,8 +19,18 @@ type CustomerReviewsType = {
 
 export default function CustomerReviews({ rating }: CustomerReviewsType) {
   return (
-    <section className="customer-reviews">
-      <h2 className="secondary-heading customer-reviews-heading">Customer Reviews</h2>
+    <motion.section
+      initial={{ opacity: 0, y: 300 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+      viewport={{ once: true }}
+      className="customer-reviews">
+      <motion.h2
+        whileHover={{ scale: 1.1, x: 20 }}
+        whileTap={{ scale: 0.9, x: -20 }}
+        transition={{ type: 'spring', stiffness: 300 }}
+        className="secondary-heading customer-reviews-heading">Customer Reviews
+      </motion.h2>
       <div className="customer-reviews__rating-wrapper grid grid-two-cols">
         <CustomerReviewOverallRating tableHead={'head'} icon={`happy-smile`} rate={rating.overall}
                                      heading={`Overall Rating`} />
@@ -36,6 +48,6 @@ export default function CustomerReviews({ rating }: CustomerReviewsType) {
         <CustomerReviewOverallRating tableHead={`end`} icon={`phone`} rate={rating.tourOperator}
                                      heading={`Tour Operator`} />
       </div>
-    </section>
+    </motion.section>
   );
 }

@@ -11,6 +11,7 @@ import Lottie from 'lottie-react';
 import loadingSpinner from '@/animations/loading-spinner.json';
 import { useCartDispatch } from '@/store/hooks';
 import { commentFormSliceActions } from '@/store/commentFormSlice';
+import { motion } from 'framer-motion';
 
 type LeaveReplyType = {
   tourId: string;
@@ -243,8 +244,18 @@ export default function LeaveReply({ tourId, tourTitle, userEmail, userName, ses
   }
 
   return (
-    <section className="leave-a-reply">
-      <h2 className="secondary-heading margin-bottom-small">Leave a reply</h2>
+    <motion.section
+      initial={{ opacity: 0, y: 300 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+      viewport={{ once: true }}
+      className="leave-a-reply">
+      <motion.h2
+        whileHover={{ scale: 1.1, x: 20 }}
+        whileTap={{ scale: 0.9, x: -20 }}
+        transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+        className="secondary-heading margin-bottom-small">Leave a reply
+      </motion.h2>
       {formError.map(function(item) {
         return (
           <p key={item} className="paragraph paragraph-error">{item}</p>
@@ -254,8 +265,6 @@ export default function LeaveReply({ tourId, tourTitle, userEmail, userName, ses
       <p className="paragraph leave-a-reply-paragraph">Your email address will not be published. All fields, <b>except
         the image picking,</b> are
         required, though.</p>
-      <div>
-      </div>
       <div className="leave-a-reply-form">
         <form onSubmit={handleSubmit} className="leave-a-reply__form">
           <div className="leave-a-reply__form-rate grid">
@@ -275,9 +284,12 @@ export default function LeaveReply({ tourId, tourTitle, userEmail, userName, ses
           <div className={`choose-files-btn-wrapper`}>
             <button type="button" onClick={openFilePicker} className={`choose-files-btn`}>Select Images</button>
             {Array.from({ length: 3 }).map((_, index) => (
-              <div key={index} className={`user-img ${selectedFiles[index] ? '' : 'none'}`}
-                   style={selectedFiles[index] ? { backgroundImage: `url(${URL.createObjectURL(selectedFiles[index])})` } : {}}>
-              </div>
+              <motion.div
+                whileHover={{ scale: 1.1, rotate: 360 }}
+                whileTap={{ scale: 0.9 }}
+                key={index} className={`user-img ${selectedFiles[index] ? '' : 'none'}`}
+                style={selectedFiles[index] ? { backgroundImage: `url(${URL.createObjectURL(selectedFiles[index])})` } : {}}>
+              </motion.div>
             ))}
           </div>
           <div className={`btn--submit-container`}>
@@ -294,6 +306,6 @@ export default function LeaveReply({ tourId, tourTitle, userEmail, userName, ses
           </div>
         </form>
       </div>
-    </section>
+    </motion.section>
   );
 }

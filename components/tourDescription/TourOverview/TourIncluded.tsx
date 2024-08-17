@@ -1,4 +1,4 @@
-// 'use client';
+'use client';
 
 type TourIncludedType = {
   what_included: {
@@ -9,10 +9,16 @@ type TourIncludedType = {
 }
 
 import IconIon from '@/components/UI/IonIcon/IconIon';
+import { motion } from 'framer-motion';
 
 export default function TourIncluded({ what_included }: TourIncludedType) {
   return (
-    <section className="description__tour-overview-included-wrapper">
+    <motion.section
+      initial={{ opacity: 0, y: 300 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      viewport={{ once: true }}
+      className="description__tour-overview-included-wrapper">
       <h2 className="secondary-heading margin-bottom-small">What&apos;s Included</h2>
       <div className="description__tour-overview-included-wrapper--1 grid">
         <ul className="description__tour-overview-included">
@@ -36,6 +42,6 @@ export default function TourIncluded({ what_included }: TourIncludedType) {
           </ul>
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }

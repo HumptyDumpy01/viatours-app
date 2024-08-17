@@ -370,6 +370,7 @@ li {
   }
 
   &--show-more {
+    margin-top: 4rem;
     display: flex;
     align-items: center;
     gap: .4rem;
@@ -962,7 +963,7 @@ button {
   align-items: center;
   justify-content: center;
   transition: all .7s;
-  z-index: 99;
+  z-index: 999;
   box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.1);
 
   @media only screen and (max-width: 50.3125em) {

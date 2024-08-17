@@ -116,7 +116,7 @@ export default async function
 
           <TourItinerary itinerary={tour.itinerary} />
           <h2 className={`subheading`}>Here comes GoogleMap! Enable It when testing or deploying.</h2>
-          {/*<GoogleMap locations={tour.tour_map} />*/}
+          {/*<GoogleMap locations={tour.tourMap} />*/}
           <QuestionAnswer />
           <CustomerReviews rating={tour.rating} />
           <TourCommentsContainer session={session} currTourComments={tour.tourComments} />
@@ -131,7 +131,8 @@ export default async function
       <div>
         <TopTrendingHeading heading={`You might also like...`} href={`/tours?query=${tour.tags[0]}`} />
       </div>
-      <section className="top-trending container-cta">
+      <section
+        className="top-trending container-cta">
         <TopTrendingWrapper>
           <TopTrendingSlider tours={similarTours} />
         </TopTrendingWrapper>
