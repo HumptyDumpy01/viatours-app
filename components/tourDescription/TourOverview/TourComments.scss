@@ -1,5 +1,9 @@
 .comments {
 
+  &-wrapper {
+    margin-top: 4rem;
+  }
+
   &__username {
 
     @media only screen and (max-width: 25.5em) {
