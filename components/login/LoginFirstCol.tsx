@@ -6,6 +6,7 @@ import Image from 'next/image';
 import SliderImg1 from '@/assets/images/login/slider-img-1.png';
 import SliderImg2 from '@/assets/images/login/slider-img-2.png';
 import SliderImg3 from '@/assets/images/login/slider-img-3.png';
+import { motion } from 'framer-motion';
 
 export default function LoginFirstCol() {
   // to define the active slide, the default value is 0
@@ -26,10 +27,15 @@ export default function LoginFirstCol() {
 
   return (
     <>
-      <div className="sign-in__first-col">
+      <motion.div
+        initial={{ opacity: 0, x: -200 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ type: `spring`, stiffness: 260, damping: 20 }}
+        className="sign-in__first-col">
         {/*Define a container for the images. Check the styles below.
           Then Apply a dynamic translateX on this slider container by using this approach.*/}
-        <div className="img-container" style={{ transform: `translateX(-${activeSlide * 100}%)` }}>
+        <div
+          className="img-container" style={{ transform: `translateX(-${activeSlide * 100}%)` }}>
           {/*Loop over array of images and inject each image.*/}
           {images.map((img, index) => (
             <Image key={index} src={img} alt="people walking on the street"
@@ -43,11 +49,14 @@ export default function LoginFirstCol() {
           {/*Loop over the images and create a button for each image.*/}
           {/*Apply the active class to the button if the index is equal to the active slide.*/}
           {images.map((_, index) => (
-            <button key={index} className={`img-slider-dot ${index === activeSlide ? 'img-slider-dot--active' : ''}`}
-                    data-slide={index} onClick={() => setActiveSlide(index)}></button>
+            <motion.button
+              whileHover={{ scale: 1.2 }}
+              whileTap={{ scale: 0.9 }}
+              key={index} className={`img-slider-dot ${index === activeSlide ? 'img-slider-dot--active' : ''}`}
+              data-slide={index} onClick={() => setActiveSlide(index)}></motion.button>
           ))}
         </div>
-      </div>
+      </motion.div>
     </>
   );
 }
