@@ -1,6 +1,12 @@
 .comments {
 
   &__username {
+
+    @media only screen and (max-width: 25.5em) {
+      display: grid;
+      gap: 1.6rem;
+    }
+
     &-logo {
       font-weight: 600;
       color: var(--clr-white);
@@ -47,6 +53,9 @@
     &-rating-and-title {
       margin-bottom: 2.2rem;
       color: var(--clr-dark-blue);
+      @media only screen and (max-width: 33.375em) {
+        display: grid;
+      }
     }
 
     &-images {
@@ -81,6 +90,10 @@
           transition: all .3s;
           width: 13rem;
           height: 13rem;
+          @media only screen and (max-width: 24.875em) {
+            width: 11.2rem;
+            height: 11.2rem;
+          }
 
           // each image should fit all the container
           object-fit: cover;
@@ -92,6 +105,13 @@
             filter: brightness(.9) contrast(120%) grayscale(7%);
           }
         }
+      }
+
+      &-wrapper-skeleton {
+        object-fit: cover;
+        width: 11.2rem;
+        height: 19rem;
+        border-radius: 12px;
       }
     }
 

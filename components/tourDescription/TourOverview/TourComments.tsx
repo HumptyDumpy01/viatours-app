@@ -4,6 +4,7 @@ import './TourComments.scss';
 import Comment, { SessionType } from '@/components/UI/Comment/Comment';
 import IconIon from '@/components/UI/IonIcon/IconIon';
 import { useState } from 'react';
+import CommentSkeleton from '@/components/tourDescription/skeletons/CommentSkeleton';
 
 export type TourCommentsType = {
   currTourComments: [] | {
@@ -49,6 +50,7 @@ export default function TourComments({ currTourComments, session }: TourComments
 
   return (
     <section className="comments">
+      <CommentSkeleton />
       {currentComments.map((comment) => (
         <Comment
           session={session}
