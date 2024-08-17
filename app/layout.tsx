@@ -8,7 +8,6 @@ import StoreProvider from '@/components/UI/Provider/StoreProvider';
 // import ToastContainer from '@/components/UI/Toast/ToastContainer';
 import GoToTheTopBtn from '@/components/MainLayout/Button/GoToTheTopBtn';
 
-// Create a client
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {

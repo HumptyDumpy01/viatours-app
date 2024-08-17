@@ -11,6 +11,7 @@ import { notFound } from 'next/navigation';
 import { getTourById } from '@/lib/mongodb';
 import CheckoutLoadingPage from '@/app/checkout/loading';
 import { SessionProvider } from 'next-auth/react';
+import { motion } from 'framer-motion';
 
 export default function CheckoutDetailsContainer(/*{  }: CheckoutDetailsContainerType*/) {
 
@@ -52,9 +53,14 @@ export default function CheckoutDetailsContainer(/*{  }: CheckoutDetailsContaine
 
   return (
     <SessionProvider>
-      <div className="book-now grid container">
+      <motion.div
+        initial={{ opacity: 0, y: 200 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: 200 }}
+        transition={{ type: 'spring', stiffness: 100, damping: 20 }}
+        className="book-now grid container">
         <CheckoutDetails tour={tour} order={order} />
-      </div>
+      </motion.div>
     </SessionProvider>
   );
 }

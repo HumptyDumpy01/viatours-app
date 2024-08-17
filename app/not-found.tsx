@@ -5,6 +5,7 @@ import Link from 'next/link';
 import familyDrivingAnimated from '@/animations/family-driving.json';
 import Lottie from 'lottie-react';
 import { useRouter } from 'next/navigation';
+import { motion } from 'framer-motion';
 
 /*type NotFoundPageType = {
   // children: ReactNode;
@@ -36,10 +37,18 @@ export default function NotFoundPage(/*{  }: NotFoundPageType*/) {
             pixelated unicorn. Happy
             browsing!</p>
           <div className="four-o-four__content__btn-container flex flex-align-center gap-22px">
-            <Link href={`/`} className="btn four-o-four__content__btn four-o-four__content__btn--1">Go Home</Link>
-            <button onClick={handleNavigateBack}
-                    className="btn four-o-four__content__btn four-o-four__content__btn--2">Go Back
-            </button>
+            <motion.div
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+            >
+              <Link href={`/`} className="btn four-o-four__content__btn four-o-four__content__btn--1">Go Home</Link>
+            </motion.div>
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={handleNavigateBack}
+              className="btn four-o-four__content__btn four-o-four__content__btn--2">Go Back
+            </motion.button>
           </div>
         </div>
 

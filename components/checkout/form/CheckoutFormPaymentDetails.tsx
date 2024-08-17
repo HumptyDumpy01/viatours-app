@@ -1,11 +1,11 @@
 'use client';
-import convertToCurrency from '@/lib/convertToCurrency';
 import React, { useEffect, useState } from 'react';
 import { PaymentElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import classes from './CheckoutFormPaymentDetails.module.scss';
 import { useCartSelector } from '@/store/hooks';
 import { OrderInterface } from '@/components/checkout/checkout-details/CheckoutDetails';
 import { DOMAIN } from '@/helpers/generics';
+import convertToCurrency from '@/lib/convertToCurrency';
 
 type CheckoutFormPaymentDetailsType = {
   order: OrderInterface;
@@ -27,6 +27,7 @@ export default function CheckoutFormPaymentDetails({ order }: CheckoutFormPaymen
   }
 
   useEffect(() => {
+    /* TEMPORARY: DISABLED IT FOR TESTING PURPOSES AND APPLYING ANIMATIONS FOR CHECKOUT PAGE.*/
     fetch('/api/create-payment-intent', {
       method: 'POST',
       headers: {

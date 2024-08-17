@@ -11,6 +11,8 @@ import { checkoutSliceActions } from '@/store/checkoutSlice';
 import LoadingCheckoutDetails from '@/app/checkout-details/loading';
 import { getUser } from '@/lib/mongodb';
 import SessionProviderContainer from '@/components/UI/Provider/SessionProviderContainer';
+import { AnimatePresence, motion } from 'framer-motion';
+import { Skeleton } from '@mui/material';
 
 type ThanksForPurchaseType = {
   searchParams: {
@@ -60,6 +62,7 @@ export default function ThanksForPurchase({ searchParams }: ThanksForPurchaseTyp
     }
   }>();
   const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<boolean>(false);
 
   // if no params are passed
   if (!orderId) {
@@ -83,6 +86,7 @@ export default function ThanksForPurchase({ searchParams }: ThanksForPurchaseTyp
 
       if (!fetchedOrderData) {
         setLoading(false);
+        setError(true);
         notFound();
       }
       setOrderData(fetchedOrderData);
@@ -100,6 +104,7 @@ export default function ThanksForPurchase({ searchParams }: ThanksForPurchaseTyp
 
         if (!updateStatus) {
           setLoading(false);
+          setError(true);
           throw new Error(`Failed to update order status.`);
         }
 
@@ -181,7 +186,13 @@ export default function ThanksForPurchase({ searchParams }: ThanksForPurchaseTyp
       }
     }
 
-    handleOrder();
+    handleOrder().catch(err => {
+      if (err) {
+        console.error(err);
+        setError(true);
+        setLoading(false);
+      }
+    });
 
     setLoading(false);
 
@@ -200,22 +211,35 @@ export default function ThanksForPurchase({ searchParams }: ThanksForPurchaseTyp
             <CheckoutDetailsFirstCol />
           </SessionProviderContainer>
         </div>
-        {(orderData && !loading) && (
-          <>
-            <CheckoutDetailsSecondCol
-              promoApplied={orderData.order.extraDetails.promoApplied}
-              tourDiscount={orderData.order.extraDetails.tourDiscount}
-              totalTickets={orderData.order.booking.tickets.overall}
-              adultTickets={orderData.order.booking.tickets.adultTickets}
-              youthTickets={orderData.order.booking.tickets.youthTickets}
-              childrenTickets={orderData.order.booking.tickets.childrenTickets}
-              totalPrice={orderData.order.booking.totalPrice}
-              tourTitle={orderData.order.tourTitle}
-              orderId={orderData.order._id}
-              orderDate={new Date(orderData.order.extraDetails.createdAt).toLocaleString()}
-            />
-          </>
-        )}
+        <AnimatePresence>
+          {(orderData && !loading && !error) && (
+            <motion.div
+              initial={{ opacity: 0, x: 200 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0 }}
+              transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+            >
+              <CheckoutDetailsSecondCol
+                promoApplied={orderData.order.extraDetails.promoApplied}
+                tourDiscount={orderData.order.extraDetails.tourDiscount}
+                totalTickets={orderData.order.booking.tickets.overall}
+                adultTickets={orderData.order.booking.tickets.adultTickets}
+                youthTickets={orderData.order.booking.tickets.youthTickets}
+                childrenTickets={orderData.order.booking.tickets.childrenTickets}
+                totalPrice={orderData.order.booking.totalPrice}
+                tourTitle={orderData.order.tourTitle}
+                orderId={orderData.order._id}
+                orderDate={new Date(orderData.order.extraDetails.createdAt).toLocaleString()}
+              />
+            </motion.div>
+          )}
+          {(loading && !orderData && !error) && (
+            <div style={{ marginBottom: `3rem` }}>
+              <Skeleton variant="rectangular" animation={`wave`}
+                        sx={{ width: '84%', height: '60rem', borderRadius: `12px` }} />
+            </div>
+          )}
+        </AnimatePresence>
       </div>
     </section>
   );
