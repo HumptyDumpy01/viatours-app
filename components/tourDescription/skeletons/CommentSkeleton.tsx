@@ -13,7 +13,7 @@ export default function CommentSkeleton(/*{  }: CommentSkeletonType*/) {
         <div className="comments__username flex flex-space-between flex-align-center">
           <div className="comments__username-logo-and-name flex flex-align-center gap-sm">
             <div>
-              <Skeleton variant="circular" width={`4.8rem`} height={`4.8rem`} />
+              <Skeleton animation={`wave`} variant="circular" width={`4.8rem`} height={`4.8rem`} />
             </div>
             <p className="comments__username-name">
               <Skeleton variant="text" width={'10rem'} height={`3rem`} />
@@ -39,24 +39,20 @@ export default function CommentSkeleton(/*{  }: CommentSkeletonType*/) {
             </h3>
           </div>
           <p className="comments__content-paragraph">
-            <Skeleton variant="text" width={`100%`} height={`3rem`} />
-            <Skeleton variant="text" width={`100%`} height={`3rem`} />
-            <Skeleton variant="text" width={`100%`} height={`3rem`} />
+            <Skeleton animation={`wave`} variant="text" width={`100%`} height={`3rem`} />
+            <Skeleton animation={`wave`} variant="text" width={`100%`} height={`3rem`} />
+            <Skeleton animation={`wave`} variant="text" width={`100%`} height={`3rem`} />
           </p>
           <div className={`flex gap-13px`}>
-            <Skeleton className="comments__content-images-wrapper-skeleton" />
-            <div>
-              <Skeleton className="comments__content-images-wrapper-skeleton" />
-            </div>
-            <div>
-              <Skeleton className="comments__content-images-wrapper-skeleton" />
-            </div>
+            <Skeleton animation={`wave`} className="comments__content-images-wrapper-skeleton" />
+            <Skeleton animation={`wave`} className="comments__content-images-wrapper-skeleton" />
+            <Skeleton animation={`wave`} className="comments__content-images-wrapper-skeleton" />
           </div>
           <div className="comments__content-reaction">
             <button className={`comments__content-reaction-btn`}>
               <span
                 className={`comments__content-reaction-btn--helpful`}>
-                <Skeleton variant="text" width={`3rem`} height={`2rem`} />
+                <Skeleton animation={`wave`} variant="text" width={`3rem`} height={`2rem`} />
               </span>
               <Skeleton variant="circular" width={15} height={15} />
               <Skeleton variant="text" width={`6rem`} height={`2rem`} />
@@ -64,7 +60,7 @@ export default function CommentSkeleton(/*{  }: CommentSkeletonType*/) {
             <button className={`comments__content-reaction-btn`}>
               <span
                 className={`comments__content-reaction-btn--helpful`}>
-                <Skeleton variant="text" width={`3rem`} height={`2rem`} />
+                <Skeleton animation={`wave`} variant="text" width={`3rem`} height={`2rem`} />
               </span>
               <Skeleton variant="circular" width={15} height={15} />
               <Skeleton variant="text" width={`6rem`} height={`2rem`} />
