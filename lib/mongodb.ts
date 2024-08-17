@@ -9,7 +9,6 @@ import bcrypt from 'bcrypt';
 import { comment } from 'postcss';
 import { notFound, redirect } from 'next/navigation';
 import { FormDataType } from '@/components/account-settings/contents/user-profile/UserProfile';
-import { UserOrdersType } from '@/components/account-settings/AccountSettingsContainer';
 
 // Extend the global interface
 // it resolves issues with the global variable missing type
@@ -1875,6 +1874,29 @@ export type OrderRefundsType = {
   userInitials: string;
 };
 
+type OrderRetrievalType = {
+  _id: string;
+  contactDetails: {
+    email: string;
+    phone: string;
+    firstName: string;
+    lastName: string;
+    getEmailsWithOffers: boolean;
+  };
+  tourId: string;
+  tourTitle: string;
+  extraDetails: {
+    refund: {
+      available: boolean;
+      requested: boolean;
+    };
+    cancellation: {
+      available: boolean;
+      requested: boolean;
+    };
+  }
+};
+
 export async function toggleOrderRequest(type: `Refund` | `Cancellation`,
                                          orderId: string) {
   const client = await clientPromise;
@@ -1882,7 +1904,7 @@ export async function toggleOrderRequest(type: `Refund` | `Cancellation`,
 
   // Check if the order exists
   const order = await db.collection(`orders`)
-    .findOne({ _id: new ObjectId(orderId) }) as UserOrdersType | null;
+    .findOne({ _id: new ObjectId(orderId) }) as OrderRetrievalType | null;
 
 
   if (!order) {
@@ -1924,7 +1946,6 @@ export async function toggleOrderRequest(type: `Refund` | `Cancellation`,
     } else {
       revalidatePath(`/account-settings`, `layout`);
 
-      // TODO?: push notification to the user
 
       // push a document to the orderRefunds collection
       const response = await db.collection(`orderRefunds`).insertOne({
@@ -1937,6 +1958,32 @@ export async function toggleOrderRequest(type: `Refund` | `Cancellation`,
         // @ts-ignore
         userInitials: `${order.contactDetails.firstName} ${order.contactDetails.lastName}`
       });
+
+      // push notification to the user
+      const user = await getUser({ email: order.contactDetails.email }, { _id: 0 }) as UserType[] | [];
+
+      if (user && user.length > 0) {
+
+        console.log(`Order coming from server function:`, order);
+
+        const transformedTourTitle = order.tourTitle.length > 40 ? order.tourTitle.slice(0, 40) + `...` : order.tourTitle;
+        // silently push a notification to the user
+        const response = await db.collection(`users`).updateOne({ email: order.contactDetails.email }, {
+          // @ts-ignore
+          $push: {
+            notifications: {
+              type: `orange`,
+              icon: `map`,
+              addedAt: new Date(),
+              timestamp: Timestamp.fromNumber(Date.now()),
+              text: `You requested a refund for 
+              <a target="_blank" class="highlighted text-decoration-none" href="tours/${order.tourId}">${transformedTourTitle}</a> tour.`
+            }
+          }
+
+        });
+        revalidatePath(`/account-settings`, `layout`);
+      }
 
       return {
         error: false,
@@ -1975,9 +2022,6 @@ export async function toggleOrderRequest(type: `Refund` | `Cancellation`,
     } else {
       revalidatePath(`/account-settings`, `layout`);
 
-      // TODO?: push notification to the user
-
-
       // push a document to the orderRefunds collection
       const response = await db.collection(`orderCancellations`).insertOne({
         orderId: order._id,
@@ -1989,6 +2033,43 @@ export async function toggleOrderRequest(type: `Refund` | `Cancellation`,
         // @ts-ignore
         userInitials: `${order.contactDetails.firstName} ${order.contactDetails.lastName}`
       });
+
+
+      // push notification to the user
+
+      // User can exist or not, even if he made an order.
+      // I have access to contactDetails in the order document, and
+      // the point is, the user cannot use someone else's email I have in
+      // my db to make an order when he's not authenticated.
+
+      // So, we can assume that if the user exists, then he used his email to make an order and was
+      // authenticated directly. If the user does not exist, then he was not authenticated and
+      // used the email to make an order which is not in the db.
+
+      const user = await getUser({ email: order.contactDetails.email }, { _id: 0 }) as UserType[] | [];
+
+      if (user && user.length > 0) {
+
+        console.log(`Order coming from server function:`, order);
+
+        const transformedTourTitle = order.tourTitle.length > 40 ? order.tourTitle.slice(0, 40) + `...` : order.tourTitle;
+        // silently push a notification to the user
+        const response = await db.collection(`users`).updateOne({ email: order.contactDetails.email }, {
+          // @ts-ignore
+          $push: {
+            notifications: {
+              type: `orange`,
+              icon: `map`,
+              addedAt: new Date(),
+              timestamp: Timestamp.fromNumber(Date.now()),
+              text: `You requested a cancellation for 
+              <a class="highlighted text-decoration-none" href="tours/${order.tourId}">${transformedTourTitle}</a> tour.`
+            }
+          }
+
+        });
+        revalidatePath(`/account-settings`, `layout`);
+      }
 
       return {
         error: false,
