@@ -52,7 +52,7 @@ export default async function
     <>
       <TourDescriptionNavigation title={tour.title} params={params} />
       <section className="description container">
-        <DescriptionTag />
+        <DescriptionTag type={tour.type} />
         <h1 className="description__heading margin-bottom-small">{tour.title}</h1>
         <div className="description__stats-wrapper">
           <TourStatsContainer

@@ -20,10 +20,25 @@
   }
 
   &__tag {
+    overflow: auto;
+    max-width: 100%;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    scrollbar-color: transparent transparent;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
     gap: 2rem;
     margin-bottom: 3rem;
 
     &--text {
+      min-width: 16rem;
+      height: 5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       background-color: var(--clr-primary);
       padding: 1.2rem 1.8rem;
       border-radius: 10rem;
@@ -35,6 +50,7 @@
       }
 
       &-2 {
+        min-width: 18rem;
         color: var(--clr-dark-blue);
         background-color: var(--clr-light-white-2);
       }

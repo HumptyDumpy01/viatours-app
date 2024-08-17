@@ -793,6 +793,7 @@ export async function getUser(filter: {}, options?: {}, unwind: boolean = false)
               _id: { $ifNull: ['$userOrders._id', null] },
               tourId: { $ifNull: ['$userOrders.tourId', null] },
               date: { $ifNull: ['$userOrders.booking.date', null] },
+              contactDetails: { $ifNull: ['$userOrders.contactDetails', null] },
               tickets: { $ifNull: ['$userOrders.booking.tickets', null] },
               price: { $ifNull: ['$userOrders.booking.totalPrice', null] },
               extraDetails: { $ifNull: ['$userOrders.extraDetails', null] }
@@ -828,6 +829,7 @@ export async function getUser(filter: {}, options?: {}, unwind: boolean = false)
               date: '$orders.date',
               totalPrice: '$orders.price',
               tickets: '$orders.tickets',
+              contactDetails: { $ifNull: ['$orders.contactDetails', null] },
               extraDetails: '$orders.extraDetails',
               tour: {
                 _id: { $arrayElemAt: ['$orderTours._id', 0] },
@@ -1924,9 +1926,7 @@ export async function toggleOrderRequest(type: `Refund` | `Cancellation`,
 
       // TODO?: push notification to the user
 
-      // TODO?: send an email to the user
-
-      // TODO: push a document to the orderRefunds collection
+      // push a document to the orderRefunds collection
       const response = await db.collection(`orderRefunds`).insertOne({
         orderId: order._id,
         status: `pending`,
@@ -1948,8 +1948,8 @@ export async function toggleOrderRequest(type: `Refund` | `Cancellation`,
 
   if (type === `Cancellation`) {
 
-    // TODO: Check if the extraDetails.cancellation.available is true
-    //  or if extraDetails.cancellation.requested is true
+    //  Check if the extraDetails.cancellation.available is true
+    // or if extraDetails.cancellation.requested is true
 
     if (!order.extraDetails.cancellation.available || order.extraDetails.cancellation.requested) {
       return {
@@ -1977,9 +1977,8 @@ export async function toggleOrderRequest(type: `Refund` | `Cancellation`,
 
       // TODO?: push notification to the user
 
-      // TODO?: send an email to the user
 
-      // TODO: push a document to the orderRefunds collection
+      // push a document to the orderRefunds collection
       const response = await db.collection(`orderCancellations`).insertOne({
         orderId: order._id,
         status: `pending`,

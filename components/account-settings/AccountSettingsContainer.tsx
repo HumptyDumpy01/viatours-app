@@ -29,6 +29,14 @@ type AccountSettingsContainerType = {
 export type UserOrdersType = {
   _id: string;
   date: string;
+  contactDetails: {
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone: number
+    getEmailsWithOffers?: boolean;
+  };
+
   tickets: {
     overall: number;
     adultTickets: number;
