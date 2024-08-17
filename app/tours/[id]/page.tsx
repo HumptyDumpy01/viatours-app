@@ -3,8 +3,8 @@
 /* IMPORTANT: DO NOT MODIFY */
 
 // IMPORTANT: FOR PRODUCTION
-
 /*
+
 import TourDescriptionSection from '@/components/tourDescription/TourDescription';
 import { notFound } from 'next/navigation';
 import { TourInterface } from '@/data/DUMMY_TOURS';
