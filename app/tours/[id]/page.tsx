@@ -98,7 +98,7 @@ export default async function TourDescription({ params }: TourDescriptionInterfa
 */
 
 
-/* IMPORTANT: FOR DEVELOPMENT(BUGGY, BUT IT IS NOT THAT IMPORTANT. BUILD VERSION WORKS FLAWLESSLY.) */
+/* IMPORTANT: FOR DEVELOPMENT */
 
 import TourDescriptionSection from '@/components/tourDescription/TourDescription';
 import { notFound } from 'next/navigation';
