@@ -24,14 +24,9 @@ import SkeletonSidebarForm from '@/components/skeletons/other/Sidebar/SkeletonSi
 export default function TourDescriptionLoadingPage(/*{  }: TestType*/) {
 
   /* IMPORTANT: DISABLED SCROLLING TO THE TOP WHEN PAGE LOADS */
-  /*React.useEffect(() => {
-    return () => {
-      if (typeof window !== 'undefined') {
-        window.scrollTo(0, 0);
-      }
-    };
-
-  }, []);*/
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   // scroll to the top of the page abruptly
 
   return (

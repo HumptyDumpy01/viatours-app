@@ -8,7 +8,7 @@ import { notFound } from 'next/navigation';
 import { TourInterface } from '@/data/DUMMY_TOURS';
 import { getServerSession } from 'next-auth';
 import { authConfig } from '@/lib/auth';
-import TourDescriptionLoadingPage from './loading';
+import TourDescriptionLoadingPage from './loading-page';
 
 interface TourDescriptionInterface {
   params: {
