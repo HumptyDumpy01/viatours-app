@@ -9,6 +9,7 @@ import SkeletonCardHorizontal from '@/components/skeletons/Card/SkeletonCardHori
 import '@/components/UI/Input/Input.scss';
 import '@/components/UI/Input/SearchInput.scss';
 import { AllToursInterface } from '@/app/tours/page';
+import { motion } from 'framer-motion';
 
 export default function AllTours({ searchParams }: AllToursInterface) {
   const [tours, setTours] = useState([]);
@@ -215,7 +216,11 @@ export default function AllTours({ searchParams }: AllToursInterface) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <motion.form
+      initial={{ opacity: 0, y: 200 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ type: 'spring', stiffness: 100, damping: 20 }}
+      onSubmit={handleSubmit}>
       <div className={`all-tours__content-header`}>
         <ToursHeader />
         <div className="flex gap-sm">
@@ -224,7 +229,11 @@ export default function AllTours({ searchParams }: AllToursInterface) {
                    className={`all-tours__search-tour-input`}
                    placeholder={`Country, City, or Tour Name`} />
           </label>
-          <button className={`all-tours__search-tour-btn`} style={{ fontFamily: `Inter` }}>Search</button>
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            className={`all-tours__search-tour-btn`} style={{ fontFamily: `Inter` }}>Search
+          </motion.button>
         </div>
       </div>
       <div className="all-tours__content grid">
@@ -240,6 +249,6 @@ export default function AllTours({ searchParams }: AllToursInterface) {
           {!loading && <Figures loading={loading} clearFilters={handleClearFilter} tours={tours} />}
         </div>
       </div>
-    </form>
+    </motion.form>
   );
 }

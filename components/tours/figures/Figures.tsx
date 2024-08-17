@@ -67,6 +67,7 @@ export default function Figures({ tours, loading, clearFilters }: FiguresInterfa
             initial={{ opacity: 0, y: 200 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 200 }}
+            transition={{ type: 'spring', stiffness: 100, damping: 20 }}
           >
             <FiguresHeader summarizedResults={tours.length} />
             <NoItemsFound clearFilters={handleClearFilters} />
@@ -74,9 +75,14 @@ export default function Figures({ tours, loading, clearFilters }: FiguresInterfa
         )}
       </AnimatePresence>
       {(currentTours.length > 0 && !loading) && (
-        <>
+        <AnimatePresence>
           <FiguresHeader summarizedResults={tours.length} />
-          <div className="all-tours__content__figures__figure-container">
+          <motion.div
+            initial={{ opacity: 0, y: 200 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 200 }}
+            transition={{ type: 'spring', stiffness: 100, damping: 20 }}
+            className="all-tours__content__figures__figure-container">
             {currentTours.map((tour) => (
               <Figure
                 key={tour._id}
@@ -95,7 +101,7 @@ export default function Figures({ tours, loading, clearFilters }: FiguresInterfa
                   onSale: tour.onSale
                 }]} />
             ))}
-          </div>
+          </motion.div>
 
           <Pagination
             // handleSetLoading={() => setLoading(true)}
@@ -104,7 +110,7 @@ export default function Figures({ tours, loading, clearFilters }: FiguresInterfa
             totalItems={tours.length}
             itemsPerPage={toursPerPage}
           />
-        </>
+        </AnimatePresence>
       )}
     </>
   );

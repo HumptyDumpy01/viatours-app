@@ -33,7 +33,8 @@ export default function Figure({ href, imgSrc, imgAlt, info }: TourCardInterface
     <>
       <div className="all-tours__content__figures__figure-wrapper">
         <div className="all-tours__content__figures__figure grid">
-          <div className="all-tours__content__figures__figure-img-container">
+          <div
+            className="all-tours__content__figures__figure-img-container">
             <CldImage
               width={280}
               height={280}

@@ -11,6 +11,8 @@ import { useCartDispatch, useCartSelector } from '@/store/hooks';
 import { HeroSliceActions } from '@/store/heroSlice';
 import DatePicker from '@/components/UI/DatePicker/DatePicker';
 import { TourInterface } from '@/data/DUMMY_TOURS';
+import { motion } from 'framer-motion';
+
 
 interface FilterInterface {
   tours: TourInterface[];
@@ -56,7 +58,12 @@ export default function Filter({ tours }: FilterInterface) {
   }
 
   return (
-    <>
+    <motion.div
+      initial={{ opacity: 0, x: -300 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: -300 }}
+      transition={{ type: 'spring', stiffness: 100, damping: 20 }}
+    >
       <div className="all-tours__content__filter">
         <div onClick={handleOpenFilter}>
           <IconIon type="closeOutline" className="icon icon--close-filter" />
@@ -79,10 +86,19 @@ export default function Filter({ tours }: FilterInterface) {
           }} />
 
           <div className="all-tours__content__filter-datepicker__btns flex flex-justify-center">
-            <button type={`button`} onClick={handleUncheckAllCheckboxes}
-                    className="link all-tours__content__filter-datepicker-reset">Reset
-            </button>
-            <button className="link all-tours__content__filter-datepicker-apply">Apply</button>
+            <motion.button
+              whileHover={{ scale: 1.1, rotate: 2 }}
+              whileTap={{ scale: 0.9 }}
+              transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+              type={`button`} onClick={handleUncheckAllCheckboxes}
+              className="link all-tours__content__filter-datepicker-reset">Reset
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.1, rotate: 2 }}
+              whileTap={{ scale: 0.9 }}
+              transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+              className="link all-tours__content__filter-datepicker-apply">Apply
+            </motion.button>
           </div>
         </div>
         <AccordionWithSeeMoreBtn visibleContent={
@@ -141,6 +157,6 @@ export default function Filter({ tours }: FilterInterface) {
         )}
       </div>
 
-    </>
+    </motion.div>
   );
 }
