@@ -9,6 +9,8 @@ import { getUser, submitTourComment } from '@/lib/mongodb';
 import { uploadImage } from '@/lib/cloudinary';
 import Lottie from 'lottie-react';
 import loadingSpinner from '@/animations/loading-spinner.json';
+import { useCartDispatch } from '@/store/hooks';
+import { commentFormSliceActions } from '@/store/commentFormSlice';
 
 type LeaveReplyType = {
   tourId: string;
@@ -16,7 +18,11 @@ type LeaveReplyType = {
   userEmail: string | null;
   tourTitle: string;
   session: {
-    user: {}
+    user: {
+      email: string | ``;
+      name: string | ``;
+      image: string | null | ``;
+    }
   };
 }
 
@@ -35,6 +41,8 @@ export default function LeaveReply({ tourId, tourTitle, userEmail, userName, ses
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [formError, setFormError] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState<boolean | null>(null);
+
+  const dispatch = useCartDispatch();
 
   const openFilePicker = () => {
     fileInputRef.current?.click();
@@ -69,7 +77,7 @@ export default function LeaveReply({ tourId, tourTitle, userEmail, userName, ses
 
     // INFO: The first, default condition: if user is not authenticated and the email he enters
     //  is not in my db.
-    if (!session) {
+    if (!session.user.email) {
       if (userExists.length > 0) {
         setFormError([`The user with the email ${results.email} already exists. Please sign in to proceed.`]);
         setIsSubmitting(false);
@@ -82,8 +90,17 @@ export default function LeaveReply({ tourId, tourTitle, userEmail, userName, ses
       setFormError(errors);
       scrollToLeaveReplyForm();
       setIsSubmitting(false);
+      dispatch(commentFormSliceActions.toggleOptimisticallyAddedComment(false));
       return;
     }
+
+    dispatch(commentFormSliceActions.toggleOptimisticallyAddedComment(true));
+
+    const customerReviewsHeading = document.querySelector('.customer-reviews-heading')! as HTMLHeadingElement;
+
+    setTimeout(function() {
+      customerReviewsHeading.scrollIntoView({ behavior: 'smooth' });
+    }, 80);
 
     // Upload images to Cloudinary
     const imageUrls = await Promise.all(selectedFiles.map(uploadImage));
@@ -92,6 +109,7 @@ export default function LeaveReply({ tourId, tourTitle, userEmail, userName, ses
       setFormError(['Failed to upload the images. You can only upload up to 3 or can omit image upload.']);
       scrollToLeaveReplyForm();
       setIsSubmitting(false);
+      dispatch(commentFormSliceActions.toggleOptimisticallyAddedComment(false));
       return;
     }
 
@@ -130,6 +148,9 @@ export default function LeaveReply({ tourId, tourTitle, userEmail, userName, ses
         setSelectedFiles([]);
         currObject.reset();
 
+        // removing the optimistically added comment skeleton
+        dispatch(commentFormSliceActions.toggleOptimisticallyAddedComment(false));
+
         const customerReviewsHeading = document.querySelector('.customer-reviews-heading');
         if (customerReviewsHeading) {
           e.preventDefault();
@@ -141,24 +162,28 @@ export default function LeaveReply({ tourId, tourTitle, userEmail, userName, ses
 
       if (submitForm?.error) {
         setFormError([submitForm.error]);
+        dispatch(commentFormSliceActions.toggleOptimisticallyAddedComment(false));
         setIsSubmitting(false);
       }
     }
 
-    if (!session) {
+    if (!session.user.email) {
       await addComment().catch(err => {
+        dispatch(commentFormSliceActions.toggleOptimisticallyAddedComment(false));
+
         throw new Error(`Failed to add a comment(Cond:default). Error: ${err}`);
       });
     }
 
-    if (session && !userEmail) {
+    if (session.user.email && !userEmail) {
       setIsSubmitting(false);
+      dispatch(commentFormSliceActions.toggleOptimisticallyAddedComment(false));
       throw new Error(`The user is authenticated, but the email is not found in the session object.`);
     }
 
     // INFO: The second condition: if user is authenticated and the email he enters is IN MY DB ALREADY.
 
-    if (session && userEmail && userExists.length > 0 && userExists[0].email === results.email) {
+    if (session.user.email && userEmail && userExists.length > 0 && userExists[0].email === results.email) {
       // console.log(`The user is authenticated and the email is found in the session object.`);
 
       // find this user by his email, and add a notification object to array.
@@ -184,6 +209,7 @@ export default function LeaveReply({ tourId, tourTitle, userEmail, userName, ses
 
       // add a new comment to the database
       await addComment().catch(err => {
+        dispatch(commentFormSliceActions.toggleOptimisticallyAddedComment(false));
         throw new Error(`Failed to add a comment(Cond:2). Error: ${err}`);
       });
 

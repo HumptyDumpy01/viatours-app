@@ -5,6 +5,7 @@ import Comment, { SessionType } from '@/components/UI/Comment/Comment';
 import IconIon from '@/components/UI/IonIcon/IconIon';
 import { useState } from 'react';
 import CommentSkeleton from '@/components/tourDescription/skeletons/CommentSkeleton';
+import { useCartSelector } from '@/store/hooks';
 
 export type TourCommentsType = {
   currTourComments: [] | {
@@ -26,6 +27,7 @@ export default function TourComments({ currTourComments, session }: TourComments
   /* IMPORTANT: THIS PAGINATION INSTRUCTION IS VALID WHEN YOU HAVE JUST ONE BUTTON
   *   FOR EACH PAGE, AFTER CLICKING IT, SHOWS "N" AMOUNT OF ITEMS, WHERE PREVIOUS ITEMS
   *   ARE SHOWN TOO */
+  const addCommentSkeleton = useCartSelector((state) => state.commentForm.optimisticallyAddedComment);
 
   // the number of comments to show per page
   const commentsPerPage = 3;
@@ -50,7 +52,9 @@ export default function TourComments({ currTourComments, session }: TourComments
 
   return (
     <section className="comments">
-      <CommentSkeleton />
+      {addCommentSkeleton && (
+        <CommentSkeleton />
+      )}
       {currentComments.map((comment) => (
         <Comment
           session={session}
