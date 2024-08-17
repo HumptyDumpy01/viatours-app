@@ -4,6 +4,9 @@ import '@/app/register/page.scss';
 import Input from '@/components/UI/Input/Input';
 import React, { FormEvent, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { motion } from 'framer-motion';
+import { container } from '@/components/account-settings/contents/user-tour-purchases/UserTourPurchases';
+import { item } from '@/components/tourDescription/TourOverview/TourHighlights';
 /*type RegisterFormType = {
   // children: ReactNode;
 }*/
@@ -113,8 +116,7 @@ export default function RegisterForm(/*{  }: RegisterFormType*/) {
       router.push(`login?registered=success`);
     }
 
-
-    console.log(`Executing results: `, results);
+    // console.log(`Executing results: `, results);
 
     setIsSubmitting(false);
   }
@@ -149,20 +151,45 @@ export default function RegisterForm(/*{  }: RegisterFormType*/) {
           <p key={item} className="paragraph paragraph-error">{item}</p>
         );
       })}
-      <form onSubmit={handleSubmit} className="register__form flex flex-direction-column">
-        <Input disabled={!!isSubmitting} iconVisible type={`default`} name={`initials`}
-               placeholder={`Enter your Initials: e.g. John Doe`} />
-        <Input disabled={!!isSubmitting} type={`email`} iconVisible placeholder={`Enter your Email:`} name={`email`}
-               questionMarkVisible />
-        <Input disabled={!!isSubmitting} type={`password`} iconVisible placeholder={`Enter your Password`}
-               name={`password`} />
-        <Input disabled={!!isSubmitting} type={`confirmPassword`} iconVisible placeholder={`Confirm your password`}
-               name={`confirmPassword`} />
+      <motion.form
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true }}
+        variants={container}
+        onSubmit={handleSubmit} className="register__form flex flex-direction-column">
+        <motion.div
+          variants={item}
+        >
+          <Input disabled={!!isSubmitting} iconVisible type={`default`} name={`initials`}
+                 placeholder={`Enter your Initials: e.g. John Doe`} />
 
-        <button className={`btn register__submit-button ${isSubmitting ? `register__submit-button-pending` : ``}`}
-                disabled={!!isSubmitting}>{isSubmitting ? `Processing` : `Register`}
-        </button>
-      </form>
+        </motion.div>
+        <motion.div
+          variants={item}
+        >
+          <Input disabled={!!isSubmitting} type={`email`} iconVisible placeholder={`Enter your Email:`} name={`email`}
+                 questionMarkVisible />
+        </motion.div>
+        <motion.div
+          variants={item}
+        >
+          <Input disabled={!!isSubmitting} type={`password`} iconVisible placeholder={`Enter your Password`}
+                 name={`password`} />
+        </motion.div>
+        <motion.div
+          variants={item}
+        >
+          <Input disabled={!!isSubmitting} type={`confirmPassword`} iconVisible placeholder={`Confirm your password`}
+                 name={`confirmPassword`} />
+        </motion.div>
+        <motion.button
+          variants={item}
+          whileTap={{ scale: 0.95 }}
+          transition={{ type: 'spring', stiffness: 300 }}
+          className={`btn register__submit-button ${isSubmitting ? `register__submit-button-pending` : ``}`}
+          disabled={!!isSubmitting}>{isSubmitting ? `Processing` : `Register`}
+        </motion.button>
+      </motion.form>
     </>
   );
 }

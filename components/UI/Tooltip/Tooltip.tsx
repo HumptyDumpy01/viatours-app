@@ -23,9 +23,8 @@ export default function ToolTip({ isOpen }: ToolTipType) {
             </svg>
             <h3 className="tooltip__title">We need a valid email!</h3>
           </div>
-          <p className="tooltip__text">We’ll send the verification code to this email you provided here. It should
-            be
-            valid!</p>
+          <p className="tooltip__text">Please, provide us with the valid email! We&apos;ll send information about
+            your account, order details and more.</p>
           <Image src={viatoursLogo} alt="logo" className="tooltip__logo" />
         </div>
       </div>

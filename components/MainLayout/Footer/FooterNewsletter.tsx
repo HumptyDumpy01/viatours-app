@@ -53,7 +53,7 @@ export default function FooterNewsletter(/*{  }: FooterNewsletterInterface*/) {
     const results = Object.fromEntries(formData.entries()) as {
       email: string;
     };
-    console.log(`Executing results: `, results);
+    // console.log(`Executing results: `, results);
 
     if (results.email.trim() === '' || !results.email.trim().includes(`@`)) {
       setData(prevState => ({

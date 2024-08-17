@@ -1,30 +1,48 @@
-// 'use client';
+'use client';
 import '@/app/register/page.scss';
 import img1 from '@/assets/images/register/img-1.png';
 import img2 from '@/assets/images/register/img-2.png';
 import img3 from '@/assets/images/register/img-3.png';
 import img3Placeholder from '@/assets/images/register/img-3.png';
 import img2Placeholder from '@/assets/images/register/img-2.webp';
+import { motion } from 'framer-motion';
+
 
 import Image from 'next/image';
+import { container, item } from '@/components/account-settings/contents/user-tour-purchases/UserTourPurchases';
 /*type RegisterFirstColType = {
   // children: ReactNode;
 }*/
 
 export default function RegisterFirstCol(/*{  }: RegisterFirstColType*/) {
   return (
-    <div className="register__first-col">
-      <div className="register__first-col__img-1-wrapper overflow-hidden">
-        <Image
-          src={img1}
-          priority
-          placeholder={`blur`}
-          blurDataURL={img3Placeholder.src}
-          className="register__first-col__img-1"
-          alt="Beautiful sea and the looks of an island with ships"
-        />
+    <motion.div
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true }}
+      variants={container}
+      className="register__first-col">
+      <div
+        className="register__first-col__img-1-wrapper overflow-hidden">
+        <motion.div
+          variants={item}
+          whileHover={{ scale: 1.1, rotate: 5 }}
+          whileTap={{ scale: 1.2 }}
+        >
+          <Image
+            src={img1}
+            priority
+            placeholder={`blur`}
+            blurDataURL={img3Placeholder.src}
+            className="register__first-col__img-1"
+            alt="Beautiful sea and the looks of an island with ships"
+          />
+        </motion.div>
       </div>
-      <div className="register__first-col__img-2-wrapper overflow-hidden">
+      <motion.div
+        variants={item}
+        whileHover={{ scale: 1.02, rotate: 1 }}
+        className="register__first-col__img-2-wrapper overflow-hidden">
         <Image
           priority
           src={img2}
@@ -84,16 +102,22 @@ export default function RegisterFirstCol(/*{  }: RegisterFirstColType*/) {
             </clipPath>
           </defs>
         </svg>
-      </div>
+      </motion.div>
       <div className="register__first-col__img-3-wrapper overflow-hidden">
-        <Image
-          priority
-          src={img3}
-          className="register__first-col__img-3"
-          placeholder={`blur`}
-          blurDataURL={img3Placeholder.src}
-          alt="Travellers walking in the mountains" />
+        <motion.div
+          variants={item}
+          whileHover={{ scale: 1.1, rotate: 2 }}
+          whileTap={{ scale: 1.2 }}
+        >
+          <Image
+            priority
+            src={img3}
+            className="register__first-col__img-3"
+            placeholder={`blur`}
+            blurDataURL={img3Placeholder.src}
+            alt="Travellers walking in the mountains" />
+        </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 }

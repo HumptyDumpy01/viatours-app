@@ -116,7 +116,8 @@ export default function Input(props: InputType) {
         <input disabled={props.disabled} type={props.type === `confirmPassword` ? `password` :
           showPassword ? `text` : props.type} name={props.name} id={props.name}
                placeholder={props.placeholder}
-               className={`register__input ${props.disabled ? `register__input-pending` : ``}`} required />
+               className={`register__input ${props.disabled ? `register__input-pending` : ``}`} required
+        />
       }
 
       {props.type === `email` && (
