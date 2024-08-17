@@ -41,7 +41,16 @@
     transition: all .7s;
     @media only screen and (max-width: 58.375em) {
       position: absolute;
-      top: 10%;
+      top: 4%;
+      background-color: var(--clr-white);
+      left: 3%;
+      z-index: 100;
+      transform: translateX(-150%);
+      opacity: .96;
+    }
+    @media only screen and (max-width: 31.25em) {
+      position: absolute;
+      top: 4%;
       background-color: var(--clr-white);
       left: 3%;
       z-index: 100;
