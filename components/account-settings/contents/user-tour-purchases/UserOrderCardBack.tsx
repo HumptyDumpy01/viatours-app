@@ -3,16 +3,33 @@
 import { UserOrdersType } from '@/components/account-settings/AccountSettingsContainer';
 import { formatDate } from '@/lib/helpers/formatDate';
 import { motion } from 'framer-motion';
-import { useState } from 'react';
+import loadingSpinner from '@/animations/loading-spinner.json';
+import React, { useState } from 'react';
+import Lottie from 'lottie-react';
 
 
 type UserOrderCardBackType = {
   handleOpenCard: (openCard: boolean) => void;
   order: UserOrdersType;
+  isSubmittingReqCancel: boolean;
+  userRequestedCancellation: boolean;
+  handleSubmitCancellationReq: () => void;
+
+  isSubmittingReqRefund: boolean;
+  userRequestedRefund: boolean;
+  handleSubmitRefundReq: () => void;
+
   // children: ReactNode;
 }
 
-export default function UserOrderCardBack({ handleOpenCard, order }: UserOrderCardBackType) {
+export default function
+  UserOrderCardBack({
+                      handleOpenCard,
+                      order,
+                      userRequestedCancellation,
+                      isSubmittingReqCancel,
+                      handleSubmitCancellationReq, handleSubmitRefundReq, userRequestedRefund, isSubmittingReqRefund
+                    }: UserOrderCardBackType) {
   const [copyLabel, setCopyLabel] = useState<string>(`Copy`);
 
   function copyOrderId() {
@@ -24,6 +41,10 @@ export default function UserOrderCardBack({ handleOpenCard, order }: UserOrderCa
     setTimeout(() => {
       setCopyLabel(`Copy`);
     }, 3000);
+  }
+
+  function submitCancellationReq() {
+    handleSubmitCancellationReq();
   }
 
   return (
@@ -119,21 +140,44 @@ export default function UserOrderCardBack({ handleOpenCard, order }: UserOrderCa
           </motion.p>
         </div>
       </div>
-      <div className="tour-purchases__card-details-1__btns grid">
-        <motion.button
-          whileHover={{ scale: 1.2, rotate: 5 }}
-          whileTap={{ scale: 0.9 }}
-          transition={{ type: 'spring', stiffness: 500 }}
-          className="tour-purchases__card-details-1__btns-request-a-refund btn-responsive disabled-card-details-btn">
-          Request
-          a Refund
-        </motion.button>
-        <motion.button
-          whileHover={{ scale: 1.2, rotate: 5 }}
-          whileTap={{ scale: 0.9 }}
-          transition={{ type: 'spring', stiffness: 500 }}
-          className="tour-purchases__card-details-1__btns-cancel btn-responsive">Cancel
-        </motion.button>
+
+      <div className={`flex flex-direction-column margin-top-normal`}>
+        <div className={`flex gap-15px justify-items-center`}>
+          <motion.button
+            disabled={isSubmittingReqRefund || userRequestedRefund}
+            onClick={order.extraDetails.refund.available ? handleSubmitRefundReq : undefined}
+            whileHover={{ scale: 1.2, rotate: 5, backfaceVisibility: `hidden` }}
+            whileTap={{ scale: 0.9 }}
+            transition={{ type: 'spring', stiffness: 500 }}
+            className={`tour-purchases__card-details-1__btns-request-a-refund
+               ${(!order.extraDetails.refund.available || isSubmittingReqRefund || userRequestedRefund)
+              ? `disabled-card-details-btn` : ``}`}>
+            {userRequestedRefund ? `Refund Requested` : `Request a Refund`}
+
+          </motion.button>
+          {isSubmittingReqRefund && (
+            <div className={`loading-spinner-pending-request`}>
+              <Lottie animationData={loadingSpinner} />
+            </div>
+          )}
+        </div>
+        <div className="tour-purchases__card-details-1__btns grid">
+          <motion.button
+            disabled={isSubmittingReqCancel || userRequestedCancellation}
+            onClick={order.extraDetails.cancellation.available ? submitCancellationReq : undefined}
+            whileHover={{ scale: 1.2, rotate: 5, backfaceVisibility: `hidden` }}
+            whileTap={{ scale: 0.9 }}
+            transition={{ type: 'spring', stiffness: 500 }}
+            className={`tour-purchases__card-details-1__btns-cancel
+               ${(!order.extraDetails.cancellation.available || isSubmittingReqCancel || userRequestedCancellation) ? `disabled-card-details-btn` : ``}`}>
+            {userRequestedCancellation ? `Cancellation Requested` : `Cancel`}
+          </motion.button>
+          {isSubmittingReqCancel && (
+            <div className={`loading-spinner-pending-request`}>
+              <Lottie animationData={loadingSpinner} />
+            </div>
+          )}
+        </div>
       </div>
       <div className="tour-purchases__card-details-2__total-responsive">
         <p className="tour-purchases__card-details-2__total-responsive-title uppercase">total</p>

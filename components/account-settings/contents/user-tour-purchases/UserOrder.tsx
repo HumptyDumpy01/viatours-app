@@ -198,7 +198,14 @@ export default function UserOrder({ order, counter }: UserOrderType) {
           </AnimatePresence>
           <AnimatePresence>
             {openCard && (
-              <UserOrderCardBack order={order} handleOpenCard={handleOpenCard} />
+              <UserOrderCardBack
+                userRequestedRefund={userRequestedRefund}
+                handleSubmitRefundReq={handleSubmitRefundReq}
+                isSubmittingReqRefund={isSubmittingReqRefund}
+                userRequestedCancellation={userRequestedCancellation}
+                handleSubmitCancellationReq={handleSubmitCancellationReq}
+                isSubmittingReqCancel={isSubmittingReqCancel}
+                order={order} handleOpenCard={handleOpenCard} />
             )}
           </AnimatePresence>
 
