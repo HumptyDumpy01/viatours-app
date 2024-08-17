@@ -1,7 +1,6 @@
 'use client';
 
 import TourComments, { TourCommentsType } from '@/components/tourDescription/TourOverview/TourComments';
-import { SessionProvider } from 'next-auth/react';
 import React from 'react';
 
 type TourCommentsContainerType = {
@@ -21,8 +20,6 @@ type TourCommentsContainerType = {
 
 export default function TourCommentsContainer({ currTourComments, session }: TourCommentsType) {
   return (
-    <SessionProvider>
-      <TourComments session={session} currTourComments={currTourComments} />
-    </SessionProvider>
+    <TourComments session={session} currTourComments={currTourComments} />
   );
 }

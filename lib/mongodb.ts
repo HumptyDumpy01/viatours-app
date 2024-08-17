@@ -1426,7 +1426,7 @@ export async function handleCommentAction(commentId: string, userEmail: string, 
 
     if (action === `DISLIKE`) {
 
-      // if the user already disliked comment , and he did not like it before
+      // if the user already disliked the comment, and he did not like it before
       if (fetchedComment[0].dislikes.includes(userEmail) && !fetchedComment[0].likes.includes(userEmail)) {
         //  remove the dislike
         const removedDislike = await db.collection(`tourComments`).updateOne({ _id: new ObjectId(commentId) }, {
