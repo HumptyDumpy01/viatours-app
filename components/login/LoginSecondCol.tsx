@@ -22,6 +22,9 @@ export default function LoginSecondCol({ message }: LoginSecondColType) {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
+  // extract the email and password from the cookies
+  const emailCookie = document.cookie.split(`; `).find(row => row.startsWith(`email=`))?.split(`=`)[1];
+  const passwordCookie = document.cookie.split(`; `).find(row => row.startsWith(`password=`))?.split(`=`)[1];
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -29,18 +32,39 @@ export default function LoginSecondCol({ message }: LoginSecondColType) {
     const currObject = e.currentTarget;
     const formData = new FormData(currObject);
 
-    console.log('formData', formData);
+    const results = {
+      email: formData.get('email') as string,
+      password: formData.get('password') as string,
+      rememberMe: !!formData.get('rememberMe')
+    };
+
+    console.log('results', results);
 
     const signInResponse = await signIn('credentials', {
       redirect: false,
-      email: formData.get('email') as string,
-      password: formData.get('password') as string
+      email: results.email as string,
+      password: results.password as string
     });
+
+    // expire date should be current date + one month (in this case 30 days)
+    const expireDate = new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 1000);
 
     if (signInResponse && !signInResponse.error) {
       // setLoading(false);
       // router.push(`/`);
       window.location.href = `/`;
+
+      if (results.rememberMe) {
+        // clear cookies
+        document.cookie = `email=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+        document.cookie = `password=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+
+        // store email and password entered onto cookies and apply expire date
+        document.cookie = `email=${results.email}; expires=${expireDate.toUTCString()}; path=/;`;
+        document.cookie = `password=${results.password}; expires=${expireDate.toUTCString()}; path=/;`;
+      }
+
+
     } else {
       console.error(`Sign in error: ${signInResponse?.error}`);
       setError(signInResponse?.error === `CredentialsSignin` ? `Invalid email or password!` : `Sign in failed`);
@@ -59,8 +83,9 @@ export default function LoginSecondCol({ message }: LoginSecondColType) {
         className="sign-in__second-col">
         <LoginHeading message={message} />
         <form onSubmit={handleSubmit} className="sign-in__second-col-form flex flex-direction-column">
-          <LoginInput name={`email`} placeholder={`Email`} type={`email`} />
-          <LoginInput name={`password`} placeholder={`Password`} type={`password`} />
+          <LoginInput defValue={emailCookie ? emailCookie : ``} name={`email`} placeholder={`Email`} type={`email`} />
+          <LoginInput defValue={passwordCookie ? passwordCookie : ``} name={`password`} placeholder={`Password`}
+                      type={`password`} />
           {/*inserting radio-button Remember me*/}
           <LoginRememberMe label={`Remember me`} name={`rememberMe`} linkVisibility
                            href={`/login/forgot-password`} />

@@ -7,10 +7,11 @@ type LoginInputType = {
   type: `email` | `password`;
   placeholder: string;
   name: string;
+  defValue?: string;
   // children: ReactNode;
 }
 
-export default function LoginInput({ type, name, placeholder }: LoginInputType) {
+export default function LoginInput({ type, name, placeholder, defValue }: LoginInputType) {
   const [passwordIsVisible, setPasswordIsVisible] = useState<boolean>(false);
   const [passwordInputType, setPasswordInputType] = useState<`text` | `password`>(`password`);
 
@@ -21,7 +22,8 @@ export default function LoginInput({ type, name, placeholder }: LoginInputType) 
   if (type === `email`) {
     return (
       <label htmlFor={name}>
-        <input type="email" id={name} name={name} className="sign-in__second-col-form-input-email"
+        <input defaultValue={defValue ? defValue : ``} type="email" id={name} name={name}
+               className="sign-in__second-col-form-input-email"
                placeholder={placeholder}
                required />
       </label>
@@ -31,10 +33,12 @@ export default function LoginInput({ type, name, placeholder }: LoginInputType) 
   if (type === `password`) {
     return (
       <label className="password-label">
-        <input name={name} type={passwordIsVisible ? `text` : passwordInputType}
-               className="sign-in__second-col-form-input-password"
-               placeholder={`Password`}
-               required />
+        <input
+          defaultValue={defValue ? defValue : ``}
+          name={name} type={passwordIsVisible ? `text` : passwordInputType}
+          className="sign-in__second-col-form-input-password"
+          placeholder={`Password`}
+          required />
         {!passwordIsVisible &&
           <motion.svg
             whileHover={{ scale: 1.2 }}
