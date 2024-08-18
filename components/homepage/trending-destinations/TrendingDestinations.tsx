@@ -44,10 +44,21 @@ export default function TrendingDestinations(/*{ tours }: TrendingDestinationsPr
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ filter: [`new`] })
+          body: JSON.stringify({
+            filter: [`new`],
+            limit: 22,
+            project: {
+              _id: 1,
+              title: 1,
+              city: 1,
+              country: 1,
+              images: 1
+            }
+          })
         });
         const data = await response.json();
         setTours(data.tours);
+        console.log(`fetchTours: `, data.tours);
         setLoading(false);
       } catch (error) {
         console.error(`Error fetching tours: `, error);
