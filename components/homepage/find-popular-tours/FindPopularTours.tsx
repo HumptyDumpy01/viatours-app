@@ -6,6 +6,7 @@ import './FindPopularTours.scss';
 import { TourInterface } from '@/data/DUMMY_TOURS';
 import React, { useEffect, useState } from 'react';
 import FindPopularToursSkeleton from '@/components/homepage/skeletons/FindPopularToursSkeleton';
+import { motion } from 'framer-motion';
 
 /*interface FindPopularToursInterface {
   tours: TourInterface[];
@@ -61,10 +62,17 @@ export default function FindPopularTours(/*{ tours }: FindPopularToursInterface*
   }, []);
 
   return (
-    <>
+    <motion.div
+      initial={{ opacity: 0, y: 200 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ type: 'spring', stiffness: 100 }}
+      viewport={{ once: false }}
+      className={`find-popular-tours container`}
+    >
       <FindPopularHeading />
       <div className="find-popular-tours__tours-wrapper flex">
-        <div className="find-popular-tours__figure-wrapper--1">
+        <div
+          className="find-popular-tours__figure-wrapper--1">
           {(error && !loading) && (
             <div className="find-popular-tours__error">
               <p className="subheading">There was an error fetching the tours. Please try again later.</p>
@@ -75,27 +83,25 @@ export default function FindPopularTours(/*{ tours }: FindPopularToursInterface*
           )}
           {(!loading && !error) && (tours as TourInterface[]).map(function(tour) {
             return (
-              <>
-                <TourCard
-                  key={tour._id}
-                  href={`/tours/${tour._id}`}
-                  imgSrc={tour.images[0]}
-                  imgAlt={tour.title}
-                  info={[{
-                    country: tour.country,
-                    city: tour.city,
-                    heading: tour.title,
-                    rating: tour.rating.overall,
-                    ratingCount: tour.reviews,
-                    duration: tour.duration,
-                    price: tour.price.children
-                  }]}
-                />
-              </>
+              <TourCard
+                key={tour._id}
+                href={`/tours/${tour._id}`}
+                imgSrc={tour.images[0]}
+                imgAlt={tour.title}
+                info={[{
+                  country: tour.country,
+                  city: tour.city,
+                  heading: tour.title,
+                  rating: tour.rating.overall,
+                  ratingCount: tour.reviews,
+                  duration: tour.duration,
+                  price: tour.price.children
+                }]}
+              />
             );
           })}
         </div>
       </div>
-    </>
+    </motion.div>
   );
 }

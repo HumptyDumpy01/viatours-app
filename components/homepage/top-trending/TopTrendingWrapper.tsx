@@ -20,7 +20,12 @@ export default function TopTrendingWrapper({ children }: TopTrendingWrapperInter
   };
 
   return (
-    <div className="top-trending-wrapper container">
+    <motion.div
+      initial={{ opacity: 0, y: 200 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ type: 'spring', stiffness: 100 }}
+      viewport={{ once: false }}
+      className="top-trending-wrapper container">
       <div className="top-trending__items-wrapper container" ref={scrollContainerRef}>
         <div className="top-trending__items flex">
           {children}
@@ -36,6 +41,6 @@ export default function TopTrendingWrapper({ children }: TopTrendingWrapperInter
         whileTap={{ scale: 0.9 }}
         transition={{ type: 'spring', stiffness: 300 }}
         className="top-trending-toggle-right" onClick={handleScrollRight}>&rarr;</motion.div>
-    </div>
+    </motion.div>
   );
 };
