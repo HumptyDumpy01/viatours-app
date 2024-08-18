@@ -134,7 +134,7 @@ export default async function
       <section
         className="top-trending container-cta">
         <TopTrendingWrapper>
-          <TopTrendingSlider tours={similarTours} />
+          <TopTrendingSlider filter={[...tour.tags]} />
         </TopTrendingWrapper>
       </section>
 

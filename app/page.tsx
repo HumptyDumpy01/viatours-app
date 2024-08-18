@@ -47,7 +47,7 @@ export default function Home() {
       </div>
       <section className="top-trending container-cta">
         <TopTrendingWrapper>
-          <TopTrendingSlider />
+          <TopTrendingSlider filter={[`featured`]} />
         </TopTrendingWrapper>
       </section>
 

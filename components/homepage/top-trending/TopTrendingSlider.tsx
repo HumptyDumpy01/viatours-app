@@ -6,12 +6,12 @@ import TourCard from '@/components/UI/Card/TourCard';
 import { TourInterface } from '@/data/DUMMY_TOURS';
 import SkeletonCardFull from '@/components/skeletons/Card/SkeletonCardFull';
 
-/*type TopTrendingSliderType = {
-  tours: TourInterface[];
+type TopTrendingSliderType = {
+  filter: unknown;
   // children: ReactNode;
-}*/
+}
 
-export default function TopTrendingSlider(/*{ tours }: TopTrendingSliderType*/) {
+export default function TopTrendingSlider({ filter }: TopTrendingSliderType) {
 
   const [tours, setTours] = useState<TourInterface[]>([]);
   const [error, setError] = useState<boolean>(false);
@@ -26,7 +26,7 @@ export default function TopTrendingSlider(/*{ tours }: TopTrendingSliderType*/) 
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            filter: [`featured`],
+            filter: filter,
             limit: 30,
             project: {
               _id: 1,
