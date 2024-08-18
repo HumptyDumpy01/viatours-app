@@ -215,7 +215,7 @@ export default function
     <motion.div
       initial={{ opacity: 0, y: 300 }}
       whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
+      transition={{ type: `spring`, duration: 1, bounce: 0.25 }}
       viewport={{ once: true }}
     >
       <div className={`comments-wrapper`}>
