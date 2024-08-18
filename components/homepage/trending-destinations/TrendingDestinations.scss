@@ -11,27 +11,50 @@
   }
 
   &-figure-wrapper {
+    display: flex;
     column-gap: 3.8rem;
     overflow-x: auto;
-    width: 100%;
+    padding-left: 1rem;
+    max-width: 160vh;
+    @media only screen and (max-width: 82em) {
+      max-width: 140vh;
+    }
+    @media only screen and (max-width: 64.1875em) {
+      max-width: 110vh;
+    }
+    @media only screen and (max-width: 54em) {
+      max-width: 100vh;
+    }
+    @media only screen and (max-width: 47.25em) {
+      max-width: 80vh;
+    }
+    @media only screen and (max-width: 37em) {
+      max-width: 60vh;
+    }
+    @media only screen and (max-width: 25.875em) {
+      max-width: 40vh;
+    }
+
+    margin-right: 100vh;
     scrollbar-width: thin; /* Firefox */
     scrollbar-color: transparent transparent; /* Firefox */
-    //border-left: 1px solid rgba(0, 0, 0, 0.1);
+    //background-color: var(--clr-primary);
+    scroll-snap-type: x mandatory; /* Optional: for snapping effect */
 
     &-img {
       position: relative;
-      width: 12rem;
-      height: 12rem;
+      min-width: 12rem;
+      min-height: 12rem;
     }
   }
 
   &-figure {
     cursor: pointer;
     transition: all 0.3s;
-    // disabling the ability to select the text
     user-select: none;
     min-width: 12rem !important;
     border-radius: none;
+    scroll-snap-align: start; /* Optional: for snapping effect */
 
     h3 {
       margin-top: 1.6rem;
@@ -44,9 +67,7 @@
       -webkit-user-drag: none;
       animation-name: moveInBottom;
       animation-duration: 2s;
-      /*animation-iteration-count: 2;*/
       animation-timing-function: ease-out;
-
     }
 
     img {
@@ -56,26 +77,6 @@
       position: relative;
     }
 
-    /*
-    &__absolute-button {
-      position: absolute;
-      top: 21%;
-      left: 22%;
-      opacity: 0.9;
-      color: var(--clr-white);
-      border-radius: 100px;
-      width: 4rem;
-      font-weight: 500;
-      padding: 0.2rem 3.2rem;
-      font-size: 2.4rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all .3s;
-      z-index: 9999;
-    }
-    */
-
     h3 {
       margin-bottom: 1rem;
     }
@@ -84,12 +85,15 @@
       transform: translateY(-3%);
     }
   }
-
 }
 
 .trending-destinations-figure-wrapper {
   user-select: none;
   cursor: grab; /* Change cursor to indicate draggable area */
+}
+
+.trending-destinations-heading-wrapper {
+  gap: 3.8rem;
 }
 
 /* Change cursor to grabbing when actually dragging */

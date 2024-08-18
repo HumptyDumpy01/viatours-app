@@ -10,7 +10,7 @@ export default function TrendingDestinationsHeading(/*{  }: TrendingDestinations
   return (
     <>
       <span className="subheading">Newest</span>
-      <div className="trending-destinations-heading-wrapper flex flex-space-between flex-align-center">
+      <div className="trending-destinations-heading-wrapper flex flex-align-center">
         <motion.h2
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}

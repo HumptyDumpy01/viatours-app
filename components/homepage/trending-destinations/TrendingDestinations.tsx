@@ -16,12 +16,7 @@ interface TourInterface {
   images: string[];
 }
 
-/*interface TrendingDestinationsProps {
-  tours: TourInterface[];
-}*/
-
-export default function TrendingDestinations(/*{ tours }: TrendingDestinationsProps*/) {
-
+export default function TrendingDestinations() {
   const [tours, setTours] = useState<TourInterface[]>([]);
   const [error, setError] = useState<boolean>(false);
   const [loading, setLoading] = useState(true);
@@ -48,7 +43,6 @@ export default function TrendingDestinations(/*{ tours }: TrendingDestinationsPr
         });
         const data = await response.json();
         setTours(data.tours);
-        console.log(`fetchTours: `, data.tours);
         setLoading(false);
       } catch (error) {
         console.error(`Error fetching tours: `, error);
@@ -62,7 +56,6 @@ export default function TrendingDestinations(/*{ tours }: TrendingDestinationsPr
       setLoading(false);
     });
   }, []);
-
 
   const containerRef = useRef<HTMLDivElement>(null);
   let isDown = false;
@@ -105,11 +98,9 @@ export default function TrendingDestinations(/*{ tours }: TrendingDestinationsPr
       transition={{ type: 'spring', stiffness: 100 }}
       viewport={{ once: false }}
     >
-      <TrendingDestinationsHeading />
-      <div
-      >
+      <div>
+        <TrendingDestinationsHeading />
         <AnimatePresence>
-
           <div>
             {!loading && error && (
               <p className="subheading">Error fetching tours</p>
@@ -133,8 +124,7 @@ export default function TrendingDestinations(/*{ tours }: TrendingDestinationsPr
               onMouseDown={handleMouseDown}
               onMouseLeave={handleMouseLeave}
               onMouseUp={handleMouseUp}
-              onMouseMove={handleMouseMove}
-            >
+              onMouseMove={handleMouseMove}>
               {tours.map((item) => (
                 <TrendingDestination
                   key={item._id}
@@ -142,7 +132,7 @@ export default function TrendingDestinations(/*{ tours }: TrendingDestinationsPr
                   alt={item.title}
                   href={`/tours/${item._id}`}
                   text={item.city}
-                  imgSrc={item.images[0]} // Use the first image path
+                  imgSrc={item.images[0]}
                 />
               ))}
             </motion.div>
