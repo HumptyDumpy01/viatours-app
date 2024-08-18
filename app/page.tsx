@@ -10,26 +10,7 @@ import TopTrendingSlider from '@/components/homepage/top-trending/TopTrendingSli
 import CustomerReviews from '@/components/homepage/customer-reviews/CustomerReviews';
 import CTASecondary from '@/components/homepage/cta-2/CTASecondary';
 import TravelArticles from '@/components/homepage/travel-articles/TravelArticles';
-import { getTours } from '@/lib/mongodb';
-import React, { Suspense } from 'react';
-import { TourInterface } from '@/data/DUMMY_TOURS';
-import SkeletonCardFull from '@/components/skeletons/Card/SkeletonCardFull';
-
-async function GetFeaturedTours() {
-  'use server';
-  const tours = await getTours(22, { tags: `featured` }, 0, {
-    _id: 1,
-    images: 1,
-    title: 1,
-    country: 1,
-    city: 1,
-    rating: 1,
-    reviews: 1,
-    duration: 1,
-    price: 1
-  }) as TourInterface[];
-  return <TopTrendingSlider tours={tours} />;
-}
+import React from 'react';
 
 export default function Home() {
 
@@ -66,20 +47,7 @@ export default function Home() {
       </div>
       <section className="top-trending container-cta">
         <TopTrendingWrapper>
-          <Suspense fallback={
-            <>
-              <SkeletonCardFull />
-              <SkeletonCardFull />
-              <SkeletonCardFull />
-              <SkeletonCardFull />
-              <SkeletonCardFull />
-              <SkeletonCardFull />
-              <SkeletonCardFull />
-              <SkeletonCardFull />
-            </>
-          }>
-            <GetFeaturedTours />
-          </Suspense>
+          <TopTrendingSlider />
         </TopTrendingWrapper>
       </section>
 
