@@ -13,13 +13,13 @@ import TravelArticles from '@/components/homepage/travel-articles/TravelArticles
 import { getTours } from '@/lib/mongodb';
 import React, { Suspense } from 'react';
 import { TourInterface } from '@/data/DUMMY_TOURS';
-import NewestDestinationsSkeleton from '@/components/homepage/skeletons/NewestDestinationsSkeleton';
 import FindPopularToursSkeleton from '@/components/homepage/skeletons/FindPopularToursSkeleton';
 import SkeletonCardFull from '@/components/skeletons/Card/SkeletonCardFull';
 
 // import FormCompTemp from '@/app/FormCompTemp';
 
-async function GetTrendingDestinations() {
+/*async function GetTrendingDestinations() {
+  'use server';
   const tours = await getTours(22, { tags: `new` }, 0, {
     _id: 1,
     title: 1,
@@ -28,8 +28,8 @@ async function GetTrendingDestinations() {
     images: 1
   }) as TourInterface[];
 
-  return <TrendingDestinations tours={tours} />;
-}
+  return <TrendingDestinations />;
+}*/
 
 async function GetPopularTours() {
   'use server';
@@ -77,11 +77,7 @@ export default function Home() {
       </section>
 
       <section className="trending-destinations container grid" id="section-destinations">
-        <Suspense fallback={
-          <NewestDestinationsSkeleton />
-        }>
-          <GetTrendingDestinations />
-        </Suspense>
+        <TrendingDestinations />
       </section>
 
       <section className="find-popular-tours container">
