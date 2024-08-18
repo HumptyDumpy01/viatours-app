@@ -32,7 +32,7 @@ export default function PopularThingsGallery() {
     <motion.div
       initial="hidden"
       whileInView="show"
-      viewport={{ once: false }}
+      viewport={{ once: true }}
       variants={container}
       className="popular-things-to-do__tours grid grid-five-cols"
     >
