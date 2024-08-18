@@ -7,6 +7,7 @@ import { CldImage } from 'next-cloudinary';
 import React from 'react';
 import watermarkImage from '@/assets/images/Watermark-anim.gif';
 import { motion } from 'framer-motion';
+import { item } from '@/components/tourDescription/TourOverview/TourHighlights';
 
 interface TrendingDestinationInterface {
   href: string;
@@ -21,7 +22,7 @@ export default function TrendingDestination({ href, imgSrc, alt, country, text }
 
   return (
     <motion.div
-      whileInView={{ y: 0, opacity: 1 }}
+      variants={item}
       // initial={{ y: 0, opacity: 0 }}
       // viewport={{ once: false }}
       whileHover={{ scale: 1.05 }}

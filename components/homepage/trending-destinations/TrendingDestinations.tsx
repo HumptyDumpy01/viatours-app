@@ -6,6 +6,7 @@ import TrendingDestinationsHeading from '@/components/homepage/trending-destinat
 import TrendingDestination from '@/components/homepage/trending-destinations/TrendingDestination';
 import { AnimatePresence, motion } from 'framer-motion';
 import NewestDestinationsSkeleton from '@/components/homepage/skeletons/NewestDestinationsSkeleton';
+import { container } from '@/components/account-settings/contents/user-tour-purchases/UserTourPurchases';
 
 interface TourInterface {
   _id: string;
@@ -98,43 +99,56 @@ export default function TrendingDestinations(/*{ tours }: TrendingDestinationsPr
   };
 
   return (
-    <>
-      <AnimatePresence>
-        <TrendingDestinationsHeading />
-        <div>
-          {!loading && error && (
-            <p className="subheading">Error fetching tours</p>
+    <motion.div
+      initial={{ opacity: 0, y: 200 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ type: 'spring', stiffness: 100 }}
+      viewport={{ once: false }}
+    >
+      <TrendingDestinationsHeading />
+      <div
+      >
+        <AnimatePresence>
+
+          <div>
+            {!loading && error && (
+              <p className="subheading">Error fetching tours</p>
+            )}
+          </div>
+          <div className={`margin-top-huge`}>
+            {(loading && !error) && (
+              <>
+                <NewestDestinationsSkeleton />
+              </>
+            )}
+          </div>
+          {(!loading && tours.length > 0 && !error) && (
+            <motion.div
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true }}
+              variants={container}
+              className="trending-destinations-figure-wrapper margin-top-huge container-trending-destinations flex"
+              ref={containerRef}
+              onMouseDown={handleMouseDown}
+              onMouseLeave={handleMouseLeave}
+              onMouseUp={handleMouseUp}
+              onMouseMove={handleMouseMove}
+            >
+              {tours.map((item) => (
+                <TrendingDestination
+                  key={item._id}
+                  country={item.country}
+                  alt={item.title}
+                  href={`/tours/${item._id}`}
+                  text={item.city}
+                  imgSrc={item.images[0]} // Use the first image path
+                />
+              ))}
+            </motion.div>
           )}
-        </div>
-        <div>
-          {(loading && !error) && (
-            <>
-              <NewestDestinationsSkeleton />
-            </>
-          )}
-        </div>
-        {(!loading && tours.length > 0 && !error) && (
-          <motion.div
-            className="trending-destinations-figure-wrapper container-trending-destinations flex"
-            ref={containerRef}
-            onMouseDown={handleMouseDown}
-            onMouseLeave={handleMouseLeave}
-            onMouseUp={handleMouseUp}
-            onMouseMove={handleMouseMove}
-          >
-            {tours.map((item) => (
-              <TrendingDestination
-                key={item._id}
-                country={item.country}
-                alt={item.title}
-                href={`/tours/${item._id}`}
-                text={item.city}
-                imgSrc={item.images[0]} // Use the first image path
-              />
-            ))}
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </>
+        </AnimatePresence>
+      </div>
+    </motion.div>
   );
 }

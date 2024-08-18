@@ -16,7 +16,7 @@
     width: 100%;
     scrollbar-width: thin; /* Firefox */
     scrollbar-color: transparent transparent; /* Firefox */
-    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    //border-left: 1px solid rgba(0, 0, 0, 0.1);
 
     &-img {
       position: relative;
@@ -30,6 +30,7 @@
     transition: all 0.3s;
     // disabling the ability to select the text
     user-select: none;
+    min-width: 12rem !important;
     border-radius: none;
 
     h3 {
