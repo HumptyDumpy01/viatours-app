@@ -168,7 +168,7 @@ export default function UserNotifications({ notifications, userEmail }: UserNoti
         animate="show"
         className="account-settings__content__element-wrapper grid">
         {userNotifications.length > 0 && userNotifications.map(notification => (
-          <UserNotification key={notification.text} {...notification} />
+          <UserNotification key={notification.addedAt.toString()} {...notification} />
         ))}
         {userNotifications.length === 0 && (
           <motion.div
