@@ -25,17 +25,6 @@ export default function TrendingDestinations(/*{ tours }: TrendingDestinationsPr
   const [error, setError] = useState<boolean>(false);
   const [loading, setLoading] = useState(true);
 
-
-  /*
-  const tours = await getTours(22, { tags: `new` }, 0, {
-    _id: 1,
-    title: 1,
-    city: 1,
-    country: 1,
-    images: 1
-  }) as TourInterface[];
-  */
-
   useEffect(() => {
     async function fetchTours() {
       try {
@@ -67,7 +56,9 @@ export default function TrendingDestinations(/*{ tours }: TrendingDestinationsPr
     }
 
     fetchTours().catch(err => {
-
+      console.error(`Error fetching tours: `, err);
+      setError(true);
+      setLoading(false);
     });
   }, []);
 

@@ -13,39 +13,7 @@ import TravelArticles from '@/components/homepage/travel-articles/TravelArticles
 import { getTours } from '@/lib/mongodb';
 import React, { Suspense } from 'react';
 import { TourInterface } from '@/data/DUMMY_TOURS';
-import FindPopularToursSkeleton from '@/components/homepage/skeletons/FindPopularToursSkeleton';
 import SkeletonCardFull from '@/components/skeletons/Card/SkeletonCardFull';
-
-// import FormCompTemp from '@/app/FormCompTemp';
-
-/*async function GetTrendingDestinations() {
-  'use server';
-  const tours = await getTours(22, { tags: `new` }, 0, {
-    _id: 1,
-    title: 1,
-    city: 1,
-    country: 1,
-    images: 1
-  }) as TourInterface[];
-
-  return <TrendingDestinations />;
-}*/
-
-async function GetPopularTours() {
-  'use server';
-  const tours = await getTours(4, { tags: `popular` }, 0, {
-    _id: 1,
-    images: 1,
-    title: 1,
-    country: 1,
-    city: 1,
-    rating: 1,
-    reviews: 1,
-    duration: 1,
-    price: 1
-  }) as TourInterface[];
-  return <FindPopularTours tours={tours} />;
-}
 
 async function GetFeaturedTours() {
   'use server';
@@ -81,12 +49,7 @@ export default function Home() {
       </section>
 
       <section className="find-popular-tours container">
-        <Suspense fallback={
-          <FindPopularToursSkeleton />
-        }>
-          <GetPopularTours />
-        </Suspense>
-
+        <FindPopularTours />
       </section>
 
       <section className="cta container-cta grid">
