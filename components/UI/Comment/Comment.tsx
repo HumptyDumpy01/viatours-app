@@ -198,7 +198,6 @@ export default function
       setOpen(true);
       setToastLabel(`Please login to perform this action!`);
       setToastSeverity(`error`);
-
       return;
     }
 
@@ -224,6 +223,10 @@ export default function
     }
   }
 
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 300 }}
@@ -231,7 +234,7 @@ export default function
       transition={{ type: `spring`, duration: 1, bounce: 0.25 }}
       viewport={{ once: true }}
     >
-      <CustomizedSnackbar open={open} handleClose={handleCloseSlider} label={toastLabel} severity={toastSeverity} />
+      <CustomizedSnackbar open={open} handleClose={handleClose} label={toastLabel} severity={toastSeverity} />
       <div className={`comments-wrapper`}>
         <div className="comments__username flex flex-space-between flex-align-center">
           <div className="comments__username-logo-and-name flex flex-align-center gap-sm">

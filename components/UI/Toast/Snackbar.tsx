@@ -9,17 +9,16 @@ type CustomizedSnackbarType = {
   label: string;
   severity: 'error' | 'warning' | 'info' | 'success' | string;
   variant?: 'filled' | 'outlined' | 'standard';
-  autoHideDuration?: number;
 };
 
-export default function CustomizedSnackbar({
-                                             open,
-                                             handleClose,
-                                             label,
-                                             severity,
-                                             variant,
-                                             autoHideDuration
-                                           }: CustomizedSnackbarType) {
+export default function
+  CustomizedSnackbar({
+                       open,
+                       handleClose,
+                       label,
+                       severity,
+                       variant
+                     }: CustomizedSnackbarType) {
   const toasterElement = document.getElementById('toaster');
 
   if (!toasterElement) {
@@ -27,7 +26,11 @@ export default function CustomizedSnackbar({
   }
 
   return createPortal(
-    <Snackbar open={open} autoHideDuration={autoHideDuration || 6000} onClose={handleClose}>
+    <Snackbar
+      open={open}
+      autoHideDuration={6000}
+      onClose={handleClose}
+    >
       <Alert
         onClose={handleClose}
         // @ts-ignore

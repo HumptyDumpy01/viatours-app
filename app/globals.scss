@@ -1183,24 +1183,24 @@ b {
   justify-items: center;
 }
 
-.css-1pxa9xg-MuiAlert-message {
-  font-size: 1.6rem;
+.css-1pxa9xg-MuiAlert-message, .MuiAlert-message.css-1xsto0d {
+  font-size: 16px !important;
 
 }
 
 .MuiSvgIcon-root.MuiSvgIcon-fontSizeSmall.css-ptiqhd-MuiSvgIcon-root {
-  font-size: 1.6rem;
+  font-size: 16px !important;
 }
 
 .MuiTypography-root.MuiTypography-h6 {
-  font-size: 2rem;
+  font-size: 20px !important;
 }
 
 .MuiDialogContentText-root {
-  font-size: 1.6rem;
+  font-size: 16px !important;
 }
 
 .MuiButtonBase-root.MuiButton-root {
-  font-size: 1.6rem;
-  font-weight: 600;
+  font-size: 16px !important;
+  font-weight: 600 !important;
 }
