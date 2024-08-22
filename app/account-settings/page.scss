@@ -39,7 +39,33 @@
           bottom: 0;
           background-color: var(--clr-grey-3);
           border: none;
-          color: var(--clr-grey4);
+          color: var(--clr-grey);
+          cursor: not-allowed;
+        }
+      }
+    }
+
+    &-change-email {
+      //display: flex;
+      gap: 2rem;
+      position: relative;
+
+      &-btn {
+        height: 6rem;
+        align-self: start;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+
+        &-disabled {
+          height: 6rem;
+          align-self: start;
+          position: absolute;
+          left: 0;
+          bottom: 0;
+          background-color: var(--clr-grey-3);
+          border: none;
+          color: var(--clr-grey);
           cursor: not-allowed;
         }
       }

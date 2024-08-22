@@ -220,8 +220,8 @@ export default function
   }
 
   function handleCancelChanges() {
-    // TODO: Roll back to the previous state
-    //  Input data should be rolled back.
+    // Roll back to the previous state
+    // Input data should be rolled back.
     setReadOnly(true);
     setFormError([]);
   }

@@ -1,10 +1,12 @@
 'use client';
 
 import UserInput from '@/components/account-settings/contents/user-profile/UserInput';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useTransition } from 'react';
 import { useCartSelector } from '@/store/hooks';
 import { motion } from 'framer-motion';
 import { container, item } from '@/components/account-settings/contents/user-tour-purchases/UserTourPurchases';
+import CustomizedSnackbar from '@/components/UI/Toast/Snackbar';
+import { SnackbarCloseReason } from '@mui/material/Snackbar/useSnackbar.types';
 
 type UserDataType = {
   userName: string;
@@ -32,6 +34,18 @@ export default function
   const [passwordLabel, setPasswordLabel] = useState<string>(`Change Password`);
   const [passwordHtmlFor, setPasswordHtmlFor] = useState<`` | `password`>(``);
   const isFormSubmitted = useCartSelector((state) => state.userProfile.formSubmitted);
+  const [validEmailLabel, setValidEmailLabel] = useState<string>(`Set a new Email`);
+  const [validCodeLabel, setValidCodeLabel] = useState<string>(`Verify email`);
+
+  const [newEmail, setNewEmail] = useState<string>(``);
+  const [verificationCode, setVerificationCode] = useState<number | undefined>(undefined);
+  const [isPending, startTransition] = useTransition();
+
+  const [open, setOpen] = useState(false);
+  const [toastLabel, setToastLabel] = useState<string>(``);
+  const [toastSeverity, setToastSeverity] = useState<string>(`info`);
+
+  const [changeEmailStages, setChangeEmailStages] = useState<1 | 2 | 3>(1);
 
   useEffect(() => {
     if (isFormSubmitted) {
@@ -48,7 +62,7 @@ export default function
     }
     setIsSubmitting(true);
 
-    // TODO: check if the password user entered right now corresponds to the old password in db.
+    // check if the password user entered right now corresponds to the old password in db.
     const response = await fetch(`/api/compare-user-pass`, {
       method: `POST`,
       headers: {
@@ -79,6 +93,61 @@ export default function
 
   }
 
+  // open second stage
+  function handleConfirmEmailEnabled() {
+    setChangeEmailStages(2);
+  }
+
+  /* IMPORTANT: SECOND STAGE */
+  function handleValidateEmailEntered() {
+    if (newEmail.trim() === ``) {
+      return;
+    }
+    if (!newEmail.trim().includes(`@`) || !newEmail.trim().includes(`.`)) {
+      setValidEmailLabel(`Invalid email!`);
+      return;
+    }
+
+    // TODO: DO ALL THE STUFF NEEDED FOR EMAIL VERIFICATION
+    ///////////////////////////////////////
+
+    setChangeEmailStages(3);
+  }
+
+  /* IMPORTANT: THIRD STAGE */
+  function handleValidateVerificationCode() {
+    if (verificationCode === undefined) {
+      return;
+    }
+    if (verificationCode.toString().length !== 6 || isNaN(verificationCode)) {
+      setValidCodeLabel(`Invalid code!`);
+      return;
+    }
+
+    // TODO: DO ALL THE STUFF NEEDED FOR EMAIL VERIFICATION
+    ///////////////////////////////////////
+
+    setChangeEmailStages(1);
+    // show snackbar
+    setOpen(true);
+    setToastLabel(`Email changed successfully!`);
+    setToastSeverity(`success`);
+
+    // TODO
+    /* IMPORTANT: DO NOT FORGET TO ENSURE THAT CURRENT SESSION IS ALSO UP TO DATE.
+    *   THIS IS CRUCIAL FOR OVERALL FORM TO WORK. */
+  }
+
+  const handleClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: SnackbarCloseReason
+  ) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
 
   console.log(`Executing confirmOldPasswordVal: `, confirmOldPasswordVal);
 
@@ -88,6 +157,7 @@ export default function
       initial="hidden"
       animate="show"
       className="account-settings__content__inputs grid grid-two-cols">
+      <CustomizedSnackbar open={open} handleClose={handleClose} label={toastLabel} severity={toastSeverity} />
       <UserInput
         readonly={readonly}
         label={`First Name *`}
@@ -106,17 +176,72 @@ export default function
         required={true}
         defaultVal={userLastName ? userLastName : ``}
       />
-      {registeredManually && (
-        <UserInput
-          readonly={true}
-          label={`Email`}
-          placeholder={`example@gmail.com`}
-          required={true}
-          htmlFor={`email`}
-          type={`email`}
-          defaultVal={userEmail}
-        />
+      {/* ////////////////////////////////// */}
+
+      {/* IMPORTANT:  WHEN EMAIL UPDATED SUCCESSFULLY, ROLL BACK TO 1 STAGE AND
+           SHOW SNACKBAR*/}
+
+      {(registeredManually && changeEmailStages === 1) && (
+        <motion.div
+          variants={container}
+          className={`account-settings-change-email`}>
+          <p className={`account-settings__content__input-label ${readonly ? `disabled-input-label` : ``}`}>
+            Want to change email?
+          </p>
+          <motion.button
+            variants={item}
+            onClick={handleConfirmEmailEnabled} type={`button`}
+            className={`btn btn--submit account-settings-change-email-btn${(readonly || isSubmitting) ? `-disabled` : ``}`}>Change
+            Email
+          </motion.button>
+        </motion.div>
       )}
+
+      {(registeredManually && changeEmailStages === 2) && (
+        <motion.div
+          variants={container}
+          className={`account-settings-change-password`}>
+          <UserInput
+            readonly={readonly}
+            label={validEmailLabel}
+            placeholder={`john.doe@gmail.com`}
+            required
+            onChange={(e) => setNewEmail(e.target.value)}
+            disabled={isPending}
+            htmlFor={``}
+            type={`text`}
+            defaultVal={``}
+          />
+          <motion.button
+            variants={item}
+            onClick={handleValidateEmailEntered} disabled={isPending} type={`button`}
+            className={`btn btn--submit account-settings-change-password-btn${(readonly || isPending) ? `-disabled` : ``}`}>&rarr;</motion.button>
+        </motion.div>
+      )}
+
+      {(registeredManually && changeEmailStages === 3) && (
+        <motion.div
+          variants={container}
+          className={`account-settings-change-password`}>
+          <UserInput
+            readonly={readonly}
+            label={validCodeLabel}
+            placeholder={`6-digit code`}
+            required
+            onChange={(e) => setVerificationCode(e.target.value! as unknown as number)}
+            disabled={isPending}
+            htmlFor={``}
+            type={`password`}
+            defaultVal={``}
+          />
+          <motion.button
+            variants={item}
+            onClick={handleValidateVerificationCode} disabled={isPending} type={`button`}
+            className={`btn btn--submit account-settings-change-password-btn${(readonly || isPending) ? `-disabled` : ``}`}>&rarr;</motion.button>
+        </motion.div>
+      )}
+
+      {/* ////////////////////////////////// */}
       {userPassword === null && (
         <UserInput
           readonly={readonly}
