@@ -752,6 +752,7 @@ export async function getUser(filter: {}, options?: {}, unwind: boolean = false)
           orders: { $first: '$orders' },
           notifications: { $first: '$notifications' },
           savedArticles: { $first: '$savedArticles' },
+          registeredManually: { $first: '$registeredManually' },
           wishlist: {
             $push: {
               _id: { $ifNull: ['$wishlistedTours._id', null] },  // Push null-safe values
@@ -786,6 +787,7 @@ export async function getUser(filter: {}, options?: {}, unwind: boolean = false)
           phone: { $first: '$phone' },
           notifications: { $first: '$notifications' },
           savedArticles: { $first: '$savedArticles' },
+          registeredManually: { $first: '$registeredManually' },
           wishlist: { $last: '$wishlist' },
           orders: {
             $push: {
@@ -821,6 +823,7 @@ export async function getUser(filter: {}, options?: {}, unwind: boolean = false)
           phone: { $first: '$phone' },
           notifications: { $first: '$notifications' },
           savedArticles: { $first: '$savedArticles' },
+          registeredManually: { $first: '$registeredManually' },
           wishlist: { $last: '$wishlist' },
           orders: {
             $push: {
@@ -2083,3 +2086,9 @@ export async function toggleOrderRequest(type: `Refund` | `Cancellation`,
 }
 
 ///////////////////////////////////////
+
+/* IMPORTANT: TOKENS */
+
+
+///////////////////////////////////////
+

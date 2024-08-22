@@ -27,6 +27,7 @@ type UserProfileType = {
   userInitials: string;
   userEmail: string;
   userName: string;
+  registeredManually: boolean;
   userLastName: string | null;
   userPassword: string | null;
   userPhone: string | null;
@@ -43,7 +44,8 @@ export default function
                 userName,
                 userLastName,
                 image,
-                userEmailFromSession
+                userEmailFromSession,
+                registeredManually
               }: UserProfileType) {
 
   const [readOnly, setReadOnly] = useState<boolean>(true);
@@ -275,6 +277,7 @@ export default function
 
         </motion.div>
         <UserData
+          registeredManually={registeredManually}
           userEmail={userEmail}
           userName={userName}
           userLastName={userLastName}

@@ -29,6 +29,7 @@ type AccountSettingsContainerType = {
 export type UserOrdersType = {
   _id: string;
   date: string;
+  registeredManually: boolean;
   contactDetails: {
     firstName: string;
     lastName: string;
@@ -82,6 +83,7 @@ export type UnwoundUserData = {
   email: string;
   firstName: string;
   image: string | null;
+  registeredManually: boolean;
   // can be null because e.g. Google Auth/GitHub doesn't provide a last name
   lastName: string | null;
   // can be null because  by registering with Google Auth/GitHub, the user doesn't provide a password
@@ -190,6 +192,7 @@ export default function AccountSettingsContainer({ page }: AccountSettingsContai
               <div className="account-settings__content">
                 {page === `profile` && (
                   <UserProfile
+                    registeredManually={userData.registeredManually}
                     userEmailFromSession={String(session.user!.email)}
                     image={userData.image}
                     userPassword={userData.password}

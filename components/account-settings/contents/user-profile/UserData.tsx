@@ -12,6 +12,7 @@ type UserDataType = {
   userPassword: string | null;
   userPhone: string | null;
   userEmail: string;
+  registeredManually: boolean;
   readonly: boolean;
   // children: ReactNode;
 }
@@ -23,7 +24,8 @@ export default function
              userPassword,
              userPhone,
              userEmail,
-             readonly
+             readonly,
+             registeredManually
            }: UserDataType) {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [confirmOldPasswordVal, setConfirmOldPasswordVal] = useState<string>(``);
@@ -104,15 +106,17 @@ export default function
         required={true}
         defaultVal={userLastName ? userLastName : ``}
       />
-      <UserInput
-        readonly={true}
-        label={`Email`}
-        placeholder={`example@gmail.com`}
-        required={true}
-        htmlFor={`email`}
-        type={`email`}
-        defaultVal={userEmail}
-      />
+      {registeredManually && (
+        <UserInput
+          readonly={true}
+          label={`Email`}
+          placeholder={`example@gmail.com`}
+          required={true}
+          htmlFor={`email`}
+          type={`email`}
+          defaultVal={userEmail}
+        />
+      )}
       {userPassword === null && (
         <UserInput
           readonly={readonly}
