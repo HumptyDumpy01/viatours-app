@@ -5,7 +5,7 @@ import Stars from '@/components/UI/Layout/Stars';
 import IconIon from '@/components/UI/IonIcon/IconIon';
 import { usePathname, useRouter } from 'next/navigation';
 import { Skeleton } from '@mui/material';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 
 import {
@@ -19,6 +19,8 @@ import {
   XIcon
 } from 'react-share';
 import { DOMAIN } from '@/helpers/generics';
+import { SnackbarCloseReason } from '@mui/material/Snackbar/useSnackbar.types';
+import CustomizedSnackbar from '@/components/UI/Toast/Snackbar';
 
 
 type TourStatsType = {
@@ -38,8 +40,7 @@ type TourStatsType = {
 export default function TourStats({ info, session }: TourStatsType) {
 
   const router = useRouter();
-
-
+  const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
   // create a full url path using router
@@ -53,7 +54,24 @@ export default function TourStats({ info, session }: TourStatsType) {
 
   const [isUserAddedTourToWishlist, setIsUserAddedTourToWishlist] = useState<boolean | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [toastLabel, setToastLabel] = useState<string>(`Hello there!`);
+  const [toastSeverity, setToastSeverity] = useState<string>(`info`);
 
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: SnackbarCloseReason
+  ) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
 
   useEffect(() => {
     console.log(`Session coming from tourStats:`, session);
@@ -86,7 +104,12 @@ export default function TourStats({ info, session }: TourStatsType) {
   function handleAddToWishlist() {
     if (!session.user?.email) {
       // redirect to sign in page, with the new tab
-      router.push('/login');
+      // router.push('/login');
+      setToastLabel(`Please sign in to add the tour to the wishlist!`);
+      setToastSeverity(`warning`);
+      setOpen(true);
+
+
       // this would open the sign-in page in a new tab
       // window.open('/login', '_blank');
     } else {
@@ -125,6 +148,8 @@ export default function TourStats({ info, session }: TourStatsType) {
 
   return (
     <>
+      {/*@ts-ignore*/}
+      <CustomizedSnackbar open={open} label={toastLabel} severity={toastSeverity} handleClose={handleClose} />
       <div className="description__stats flex">
 
         <div className={`description__stats-first-col`}>

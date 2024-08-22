@@ -25,7 +25,8 @@ export default function RootLayout({ children }: Readonly<{
     <body className={inter.className}>
     <StoreProvider>
       <GoToTheTopBtn />
-      {/*<ToastContainer />*/}
+      <div id={`toaster`}>
+      </div>
       <Header />
       {children}
       <section className="footer">
