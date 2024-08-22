@@ -32,6 +32,7 @@ type UserProfileType = {
   userPassword: string | null;
   userPhone: string | null;
   image: string | null;
+  updateSession: () => void;
   // children: ReactNode;
 }
 
@@ -45,7 +46,8 @@ export default function
                 userLastName,
                 image,
                 userEmailFromSession,
-                registeredManually
+                registeredManually,
+                updateSession
               }: UserProfileType) {
 
   const [readOnly, setReadOnly] = useState<boolean>(true);
@@ -108,6 +110,8 @@ export default function
   // @ts-ignore
   async function updateUserData(results, transformedResults, method: `UPDATE_WITHOUT_PASSWORD` | `UPDATE_WITH_PASSWORD`) {
 
+    // BUG: THE SESSION IS OUTDATED, WHEN I UPDATE EMAIL OR NAME OR LAST NAME.
+
     dispatch(userProfileSliceActions.toggleFormSubmitted(true));
     setReadOnly(true);
     setUserInitialsState(`${results.firstName} ${results.lastName}`);
@@ -159,13 +163,14 @@ export default function
   }
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    updateSession();
     e.preventDefault();
     setIsSubmitting(true);
     const currObject = e.currentTarget;
     const formData = new FormData(currObject);
     const results = Object.fromEntries(formData.entries());
 
-    console.log(`Executing results: `, results);
+    // console.log(`Executing results: `, results);
 
 
     const transformedResults = {
@@ -196,6 +201,8 @@ export default function
     }
 
     if (results.password && !results.confirmOldPassword) {
+
+      console.log(`Executing userEmailFromSession: `, userEmailFromSession);
 
       const transformedResults = {
         email: userEmailFromSession,
@@ -277,6 +284,7 @@ export default function
 
         </motion.div>
         <UserData
+          updateSession={updateSession}
           registeredManually={registeredManually}
           userEmail={userEmail}
           userName={userName}

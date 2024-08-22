@@ -103,11 +103,12 @@ export default function AccountSettingsContainer({ page }: AccountSettingsContai
   const [userData, setUserData] = useState<UnwoundUserData>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   // get access to session data
-  const { data: session, status } = useSession();
+  const { data: session, status, update } = useSession();
 
   useEffect(() => {
     if (session && session.user?.email) {
       // console.log(`Session data coming from AccountSettings:`, session);
+
 
       // use useEffect here, get access to user email via session data and
       // fetch it from the server to get the user data.
@@ -123,16 +124,10 @@ export default function AccountSettingsContainer({ page }: AccountSettingsContai
         })
 
       }).then(res => res.json()).then(data => {
-        // console.log(`Fetched User Data: `, data.result[0]);
 
-        console.log(`First result: `, data);
         setIsLoading(false);
 
-        /* TEMPORARY */
-        // console.log(`User Data: `, userData?.wishlist);
-
         setUserData(data.result[0]);
-        // console.log(`User Data: `, userData);
 
       }).catch((err) => {
         setIsLoading(false);
@@ -192,6 +187,7 @@ export default function AccountSettingsContainer({ page }: AccountSettingsContai
               <div className="account-settings__content">
                 {page === `profile` && (
                   <UserProfile
+                    updateSession={update}
                     registeredManually={userData.registeredManually}
                     userEmailFromSession={String(session.user!.email)}
                     image={userData.image}

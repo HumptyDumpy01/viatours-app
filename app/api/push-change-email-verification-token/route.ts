@@ -6,7 +6,7 @@ export async function POST(request: NextRequest) {
 
     const { userEmail, sessionEmail } = await request.json();
 
-    if (!userEmail || !sessionEmail) {
+    if (!userEmail || !sessionEmail || !userEmail.includes(`@`)) {
       return NextResponse.json({ error: true, message: 'Emails are required' }, { status: 400 });
     }
 
@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
     if (response.error) {
       return NextResponse.json({ error: true, message: response.message }, { status: 400 });
     }
-   
+
     return NextResponse.json({ error: false, message: 'Email verification token has been sent' });
 
   } catch (e) {

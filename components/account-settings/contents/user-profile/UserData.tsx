@@ -16,6 +16,7 @@ type UserDataType = {
   userEmail: string;
   registeredManually: boolean;
   readonly: boolean;
+  updateSession: () => void;
   // children: ReactNode;
 }
 
@@ -27,7 +28,7 @@ export default function
              userPhone,
              userEmail,
              readonly,
-             registeredManually
+             registeredManually, updateSession
            }: UserDataType) {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [confirmOldPasswordVal, setConfirmOldPasswordVal] = useState<string>(``);
@@ -108,34 +109,37 @@ export default function
       return;
     }
 
-    // TODO: DO ALL THE STUFF NEEDED FOR EMAIL VERIFICATION
+    // do all the operations which needed for email verification
     ///////////////////////////////////////
-    const response = await fetch(`/api/push-change-email-verification-token`, {
-      method: `POST`,
-      headers: {
-        'Content-Type': `application/json`
-      },
-      body: JSON.stringify({
-        userEmail: newEmail,
-        sessionEmail: userEmail
-      })
+    startTransition(async () => {
+
+      const response = await fetch(`/api/push-change-email-verification-token`, {
+        method: `POST`,
+        headers: {
+          'Content-Type': `application/json`
+        },
+        body: JSON.stringify({
+          userEmail: newEmail,
+          sessionEmail: userEmail
+        })
+      });
+
+      const responseData = await response.json();
+
+      if (responseData.error) {
+        console.error(responseData.message || `Failed to send verification code.`);
+
+        setValidEmailLabel(responseData.message || `Failed to send verification code.`);
+        return;
+      }
+
+      setChangeEmailStages(3);
     });
-
-    const responseData = await response.json();
-
-    if (responseData.error) {
-      console.error(responseData.message || `Failed to send verification code.`);
-
-      setValidEmailLabel(responseData.message || `Failed to send verification code.`);
-      return;
-    }
-
-    setChangeEmailStages(3);
 
   }
 
   /* IMPORTANT: THIRD STAGE */
-  function handleValidateVerificationCode() {
+  async function handleValidateVerificationCode() {
     if (verificationCode === undefined) {
       return;
     }
@@ -144,18 +148,44 @@ export default function
       return;
     }
 
-    // TODO: DO ALL THE STUFF NEEDED FOR EMAIL VERIFICATION
-    ///////////////////////////////////////
+    // TODO: DO ALL THE STUFF NEEDED FOR TOKEN VERIFICATION AND
+    //  THEREFORE EMAIL CHANGE
+    startTransition(async () => {
 
-    setChangeEmailStages(1);
-    // show snackbar
-    setOpen(true);
-    setToastLabel(`Email changed successfully!`);
-    setToastSeverity(`success`);
+      const response = await fetch(`/api/validate-change-email-operation`, {
+        method: `POST`,
+        headers: {
+          'Content-Type': `application/json`
+        },
+        body: JSON.stringify({
+          userToken: verificationCode,
+          sessionEmail: userEmail,
+          userEmail: newEmail
+        })
+      });
+      const responseData = await response.json();
 
-    // TODO
-    /* IMPORTANT: DO NOT FORGET TO ENSURE THAT CURRENT SESSION IS ALSO UP TO DATE.
-    *   THIS IS CRUCIAL FOR OVERALL FORM TO WORK. */
+      if (responseData.error) {
+        console.error(responseData.message || `Failed to change email!`);
+        setValidCodeLabel(responseData.message || `Failed to change email!`);
+        return;
+      }
+
+      ///////////////////////////////////////
+
+      setChangeEmailStages(1);
+      // show snackbar
+      setOpen(true);
+      setToastLabel(`Email changed successfully!`);
+      setToastSeverity(`success`);
+
+      // BUG DOES NOT WORK. THE SESSION IS OUTDATED
+
+      /* IMPORTANT: DO NOT FORGET TO ENSURE THAT CURRENT SESSION IS ALSO UP TO DATE.
+      *   THIS IS CRUCIAL FOR OVERALL FORM TO WORK. */
+      updateSession();
+    });
+
   }
 
   const handleClose = (

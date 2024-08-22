@@ -2123,11 +2123,18 @@ export async function pushChangeEmailVerificationToken(userEmail: string, sessio
     };
   }
 
+  const sessionExists = await db.collection(`changeEmailTokens`).findOne({ email: sessionEmail });
+
+  if (sessionExists) {
+    await db.collection(`changeEmailTokens`).deleteOne({ email: sessionEmail });
+  }
+
   const token = await generateVerificationToken();
+  const encryptedToken = await bcrypt.hash(token, 12);
 
   const response = await db.collection(`changeEmailTokens`).insertOne({
     email: sessionEmail,
-    token: token,
+    token: encryptedToken,
     createdAt: new Date()
   });
 
@@ -2149,6 +2156,92 @@ export async function pushChangeEmailVerificationToken(userEmail: string, sessio
 
 }
 
+export type validateChangeEmailOperationType = {
+  userToken: string;
+  sessionEmail: string;
+  userEmail: string;
+};
+
+export async function validateChangeEmailOperation(userToken: string, sessionEmail: string, userEmail: string) {
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+
+
+  /* INFO: if error, then return error:  true, message: 'short message'
+  *   if success: error: false, message: `short message`  */
+
+  const tokenExists = await db.collection(`changeEmailTokens`).findOne({
+    email: sessionEmail
+  });
+
+  if (!tokenExists) {
+    return {
+      error: true,
+      message: `Error. Token expired/doesn't exist.`
+    };
+  }
+
+  const tokenMatch = await bcrypt.compare(userToken, tokenExists.token);
+
+  if (tokenMatch) {
+    await changeUserEmail(tokenExists.email, userEmail);
+
+    return {
+      error: false,
+      message: `Tokens do match.`
+    };
+  } else {
+    return {
+      error: true,
+      message: `Invalid Token.`
+    };
+  }
+
+}
+
+type ChangeUserEmailType = {
+  sessionEmail: string;
+  userEmail: string;
+}
+
+export async function changeUserEmail(sessionEmail: string, userEmail: string) {
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+
+  const userExists = await db.collection(`users`).findOne({ email: sessionEmail });
+
+  if (!userExists) {
+    return {
+      error: true,
+      message: `Error. User does not exist.`
+    };
+  }
+
+  const response = await db.collection(`users`).updateOne({ email: sessionEmail }, {
+    $set: {
+      email: userEmail
+    }
+  });
+
+  if (response.acknowledged) {
+
+    revalidatePath(`/account-settings`, `layout`);
+
+    // delete the token from the collection
+    await db.collection(`changeEmailTokens`).deleteOne({ email: sessionEmail });
+
+    return {
+      error: false,
+      message: `The email was successfully updated.`
+    };
+  } else {
+    return {
+      error: true,
+      message: `Failed to update the email.`
+    };
+  }
+
+}
 
 ///////////////////////////////////////
 
