@@ -71,19 +71,20 @@ export default function Filter({ tours }: FilterInterface) {
         <div className="all-tours__content__filter-header">
           <span>When you are travelling?</span>
           {/*<InputTiny readonly onClick={handleOpenCalendar} id={`date`} name={`date`} placeholder={`e.g. February 05`} />*/}
-          <DatePicker sx={{
-            '.MuiInputBase-input': {
-              backgroundColor: `#fff`,
-              padding: '1rem 2rem',
-              borderRadius: '5rem',
-              border: `none`,
-              fontWeight: 500,
-              color: `#f36f00`
-            },
-            '.MuiOutlinedInput-notchedOutline': {
-              border: `none`
-            }
-          }} />
+          <DatePicker
+            sx={{
+              '.MuiInputBase-input': {
+                backgroundColor: `#fff`,
+                padding: '1rem 2rem',
+                borderRadius: '5rem',
+                border: `none`,
+                fontWeight: 500,
+                color: `#f36f00`
+              },
+              '.MuiOutlinedInput-notchedOutline': {
+                border: `none`
+              }
+            }} />
 
           <div className="all-tours__content__filter-datepicker__btns flex flex-justify-center">
             <motion.button
