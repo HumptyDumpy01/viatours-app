@@ -99,7 +99,7 @@ export default function
   }
 
   /* IMPORTANT: SECOND STAGE */
-  function handleValidateEmailEntered() {
+  async function handleValidateEmailEntered() {
     if (newEmail.trim() === ``) {
       return;
     }
@@ -110,8 +110,28 @@ export default function
 
     // TODO: DO ALL THE STUFF NEEDED FOR EMAIL VERIFICATION
     ///////////////////////////////////////
+    const response = await fetch(`/api/push-change-email-verification-token`, {
+      method: `POST`,
+      headers: {
+        'Content-Type': `application/json`
+      },
+      body: JSON.stringify({
+        userEmail: newEmail,
+        sessionEmail: userEmail
+      })
+    });
+
+    const responseData = await response.json();
+
+    if (responseData.error) {
+      console.error(responseData.message || `Failed to send verification code.`);
+
+      setValidEmailLabel(responseData.message || `Failed to send verification code.`);
+      return;
+    }
 
     setChangeEmailStages(3);
+
   }
 
   /* IMPORTANT: THIRD STAGE */
@@ -189,6 +209,7 @@ export default function
             Want to change email?
           </p>
           <motion.button
+            disabled={readonly}
             variants={item}
             onClick={handleConfirmEmailEnabled} type={`button`}
             className={`btn btn--submit account-settings-change-email-btn${(readonly || isSubmitting) ? `-disabled` : ``}`}>Change

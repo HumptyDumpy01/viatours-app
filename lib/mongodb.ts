@@ -9,6 +9,8 @@ import bcrypt from 'bcrypt';
 import { comment } from 'postcss';
 import { notFound, redirect } from 'next/navigation';
 import { FormDataType } from '@/components/account-settings/contents/user-profile/UserProfile';
+import { generateVerificationToken } from '@/lib/tokens';
+import { sendVerificationCode } from '@/lib/mail';
 
 // Extend the global interface
 // it resolves issues with the global variable missing type
@@ -2088,6 +2090,64 @@ export async function toggleOrderRequest(type: `Refund` | `Cancellation`,
 ///////////////////////////////////////
 
 /* IMPORTANT: TOKENS */
+
+type pushChangeEmailVerificationTokenType = {
+  userEmail: string;
+  sessionEmail: string;
+}
+
+export async function pushChangeEmailVerificationToken(userEmail: string, sessionEmail: string) {
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+
+  /* INFO: if error, then return error:  true, message: 'short message'
+  *   if success: error: false, message: `short message`  */
+
+  // if, by any means, a user enters an email he wants to update already exists in my
+  // db, the operation will be stopped.
+  const userExists = await db.collection(`users`).findOne({ email: userEmail });
+
+  if (userExists) {
+    return {
+      error: true,
+      message: `Error. User already exists.`
+    };
+  }
+
+  const sessionUserExists = await db.collection(`users`).findOne({ email: sessionEmail });
+
+  if (!sessionUserExists) {
+    return {
+      error: true,
+      message: `Error. User does not exist.`
+    };
+  }
+
+  const token = await generateVerificationToken();
+
+  const response = await db.collection(`changeEmailTokens`).insertOne({
+    email: sessionEmail,
+    token: token,
+    createdAt: new Date()
+  });
+
+  if (!response.acknowledged) {
+    return {
+      error: true,
+      message: `Failed to insert a token.`
+    };
+  } else {
+
+    await sendVerificationCode(userEmail, token, `emailVerification`);
+
+    return {
+      error: false,
+      message: `The token was successfully inserted.`
+    };
+  }
+
+
+}
 
 
 ///////////////////////////////////////
