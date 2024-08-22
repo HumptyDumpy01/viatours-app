@@ -57,11 +57,6 @@ export default function TourStats({ info, session }: TourStatsType) {
   const [toastLabel, setToastLabel] = useState<string>(`Hello there!`);
   const [toastSeverity, setToastSeverity] = useState<string>(`info`);
 
-
-  const handleClick = () => {
-    setOpen(true);
-  };
-
   const handleClose = (
     event?: React.SyntheticEvent | Event,
     reason?: SnackbarCloseReason

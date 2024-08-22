@@ -7,7 +7,7 @@ type CustomizedSnackbarType = {
   open: boolean;
   handleClose: () => void;
   label: string;
-  severity: 'error' | 'warning' | 'info' | 'success';
+  severity: 'error' | 'warning' | 'info' | 'success' | string;
   variant?: 'filled' | 'outlined' | 'standard';
   autoHideDuration?: number;
 };
@@ -27,9 +27,10 @@ export default function CustomizedSnackbar({
   }
 
   return createPortal(
-    <Snackbar  open={open} autoHideDuration={autoHideDuration || 6000} onClose={handleClose}>
+    <Snackbar open={open} autoHideDuration={autoHideDuration || 6000} onClose={handleClose}>
       <Alert
         onClose={handleClose}
+        // @ts-ignore
         severity={severity}
         variant={variant || 'filled'}
         sx={{ width: '100%' }}

@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import { CldImage } from 'next-cloudinary';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
+import CustomizedSnackbar from '@/components/UI/Toast/Snackbar';
 
 export type SessionType = {
   user: {
@@ -61,6 +62,10 @@ export default function
   // test double states that would be replaced as soon as I tackle the data base.
   const [commentLikes, setCommentLikes] = useState(likes);
   const [commentDislikes, setCommentDislikes] = useState(dislikes);
+
+  const [open, setOpen] = useState(false);
+  const [toastLabel, setToastLabel] = useState<string>(`Hello there!`);
+  const [toastSeverity, setToastSeverity] = useState<string>(`info`);
 
   const router = useRouter();
 
@@ -151,7 +156,11 @@ export default function
   function handleLikeComment() {
 
     if (!session || !session.user?.email) {
-      router.push(`/login`);
+      // router.push(`/login`);
+      setOpen(true);
+      setToastLabel(`Please login to perform this action!`);
+      setToastSeverity(`error`);
+
       return;
     }
 
@@ -185,7 +194,11 @@ export default function
 
     // if the user is not authenticated, redirect to the login page
     if (!session || !session.user?.email) {
-      router.push(`/login`);
+      // router.push(`/login`);
+      setOpen(true);
+      setToastLabel(`Please login to perform this action!`);
+      setToastSeverity(`error`);
+
       return;
     }
 
@@ -218,6 +231,7 @@ export default function
       transition={{ type: `spring`, duration: 1, bounce: 0.25 }}
       viewport={{ once: true }}
     >
+      <CustomizedSnackbar open={open} handleClose={handleCloseSlider} label={toastLabel} severity={toastSeverity} />
       <div className={`comments-wrapper`}>
         <div className="comments__username flex flex-space-between flex-align-center">
           <div className="comments__username-logo-and-name flex flex-align-center gap-sm">

@@ -1,8 +1,10 @@
 'use client';
 
 import './Popup.scss';
-import { useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { SnackbarCloseReason } from '@mui/material/Snackbar/useSnackbar.types';
+import CustomizableDialog from '@/components/UI/Dialog/CustomizableDialog';
 
 type PopupType = {
   userEmail: string;
@@ -30,6 +32,20 @@ export default function
   const [disableBtn, setDisableBtn] = useState<boolean>(false);
   const timeout = useRef<NodeJS.Timeout | null>(null);
   const [userSignedUpOnNewsletterState, setUserSignedUpOnNewsletterState] = useState<boolean>(signedInToNewsletter);
+  const [deleteItemsConfirm, setDeleteItemsConfirm] = useState<boolean>(false);
+
+  const [open, setOpen] = useState(false);
+
+  const handleClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: SnackbarCloseReason
+  ) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
 
   async function handleNewsletter(method: `ADD` | `REMOVE`) {
 
@@ -94,19 +110,36 @@ export default function
 
   }
 
-  async function handleDeleteAllNotifications() {
-    const isConfirmed = confirm(`Are you sure you want to delete all items? We won't be able to recover them.`);
+  async function handleDeleteAllItems() {
+    // const isConfirmed = confirm(`Are you sure you want to delete all items? We won't be able to recover them.`);
+    setOpen(true);
+    const isConfirmed = deleteItemsConfirm;
+
 
     if (!isConfirmed) {
+      // setOpen(false);
       return;
     }
-
     deleteAllItems();
 
   }
 
+  function handleConfirm() {
+    setDeleteItemsConfirm(true);
+    setOpen(false);
+    deleteAllItems();
+  }
+
   return (
     <>
+      <CustomizableDialog
+        handleConfirm={handleConfirm}
+        dialogContentText={`All items would be deleted permanently. We won't be able to restore them.`}
+        dialogContentTitle={`You are about to delete all items. Are you sure?`}
+        btnSubmitLabel={`Delete all`}
+        btnCancelLabel={`Cancel`}
+        open={open} handleClose={handleClose}
+      />
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -165,7 +198,7 @@ export default function
                   )}
                   <motion.button
                     disabled={disableClearItems}
-                    onClick={handleDeleteAllNotifications}
+                    onClick={handleDeleteAllItems}
                     whileHover={{ x: 5 }}
                     whileTap={{ scale: 0.9 }}
                     transition={{ type: `spring`, stiffness: 260, damping: 20 }}
@@ -185,5 +218,6 @@ export default function
         </AnimatePresence>
       </motion.div>
     </>
-  );
+  )
+    ;
 }

@@ -9,6 +9,8 @@ import Pagination from '@/components/UI/Pagnation/Pagination';
 import React, { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { container } from '@/components/account-settings/contents/user-tour-purchases/UserTourPurchases';
+import CustomizedSnackbar from '@/components/UI/Toast/Snackbar';
+import { SnackbarCloseReason } from '@mui/material/Snackbar/useSnackbar.types';
 
 type UserNotificationsTypeComponent = {
   notifications: UserNotificationsType[];
@@ -24,6 +26,11 @@ export default function UserNotifications({ notifications, userEmail }: UserNoti
   const [userSignedUpToNewsletter, setUserSignedUpToNewsletter] = useState<boolean | undefined>(undefined);
   const [disableClearNotifications, setDisableClearNotifications] = useState<boolean>(false);
   const [userDeletedNotifications, setUserDeletedNotifications] = useState<boolean>(false);
+
+
+  const [open, setOpen] = useState(false);
+  const [toastLabel, setToastLabel] = useState<string>(`Hello there!`);
+  const [toastSeverity, setToastSeverity] = useState<string>(`info`);
 
   const indexOfLastNotification = currentPage * notificationsPerPage;
   const indexOfFirstNotification = indexOfLastNotification - notificationsPerPage;
@@ -99,6 +106,9 @@ export default function UserNotifications({ notifications, userEmail }: UserNoti
     setUserNotifications([]);
     setFilteredNotifications([]);
     setUserDeletedNotifications(true);
+    setOpen(true);
+    setToastLabel(`All notifications have been deleted.`);
+    setToastSeverity(`success`);
 
     // create a server function and api route to fetch user email from session
     // and delete all notifications from the database.
@@ -126,6 +136,17 @@ export default function UserNotifications({ notifications, userEmail }: UserNoti
     }
   }
 
+  const handleClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: SnackbarCloseReason
+  ) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 200 }}
@@ -133,6 +154,7 @@ export default function UserNotifications({ notifications, userEmail }: UserNoti
       transition={{ type: `spring`, stiffness: 100 }}
       viewport={{ once: false }}
       className={`account-settings__content__title-wrapper-container`}>
+      <CustomizedSnackbar open={open} handleClose={handleClose} label={toastLabel} severity={toastSeverity} />
       <div className="account-settings__content__title-wrapper flex">
         <div className="flex flex-align-center gap-15px">
           <motion.h2

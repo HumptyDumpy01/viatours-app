@@ -9,6 +9,8 @@ import SidebarCheckbox from '@/components/UI/Form/SidebarComponents/SidebarCheck
 import SidebarTotal from '@/components/UI/Form/SidebarComponents/SidebarTotal';
 import React, { FormEvent, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import CustomizedSnackbar from '@/components/UI/Toast/Snackbar';
+import { SnackbarCloseReason } from '@mui/material/Snackbar/useSnackbar.types';
 
 type SidebarFormType = {
   price: {
@@ -50,6 +52,26 @@ export default function
 
   const [servicePerBookingActive, setServicePerBookingActive] = useState<boolean>(false);
   const [servicePerPersonActive, setServicePerPersonActive] = useState<boolean>(false);
+
+  const [open, setOpen] = useState(false);
+  const [toastLabel, setToastLabel] = useState<string>(`Hello there!`);
+  const [toastSeverity, setToastSeverity] = useState<string>(`info`);
+
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: SnackbarCloseReason
+  ) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
 
   useEffect(() => {
 
@@ -216,17 +238,28 @@ export default function
     if (results[`adultTickets`] === `0`
       && results[`youthTickets`] === `0`
       && results[`childrenTickets`] === `0`) {
-      alert(`Please select at least one ticket!`);
+      // alert(`Please select at least one ticket!`);
+      setToastLabel(`Please select at least one ticket!`);
+      setToastSeverity(`error`);
+      handleClick();
+
       setIsSubmitting(false);
       return;
     }
     if (results[`date`] === ``) {
-      alert(`Please select a date!`);
+      // alert(`Please select a date!`);
+      setToastLabel(`Please select a date!`);
+      setToastSeverity(`error`);
+      handleClick();
+
       setIsSubmitting(false);
       return;
     }
     if (results[`time`] === ``) {
-      alert(`Please select a time!`);
+      // alert(`Please select a time!`);
+      setToastLabel(`Please select a time!`);
+      setToastSeverity(`error`);
+      handleClick();
 
       setIsSubmitting(false);
       return;
@@ -255,60 +288,66 @@ export default function
 
 
   return (
-    <form onSubmit={handleSubmit} className="description__tour-overview-sidebar__form">
-      <div className="description__tour-overview-sidebar">
-        <div onClick={closeSidebar}>
-          <IconIon type={`closeOutline`} className="icon icon--close-sidebar"></IconIon>
-        </div>
-
-        <p className="description__tour-overview-sidebar__p flex">From <span>${price.children}</span></p>
-        <div className="description__tour-overview-sidebar-wrapper">
-          <SidebarPickDate />
-          <SidebarPickTime time={time} />
-        </div>
-        <div className="description__tour-overview-sidebar__tickets grid">
-          <h3
-            className="tertiary-heading margin-top-sm description__tour-overview-sidebar__tickets-heading">Tickets</h3>
-          <SidebarCountButton totalTickets={adultTickets} addTicket={handleAddTicket} removeTicket={handleRemoveTicket}
-                              name={`adultTickets`}
-                              label={`Adult (18+)`} price={price.adult} />
-          <SidebarCountButton totalTickets={youthTickets} addTicket={handleAddTicket} removeTicket={handleRemoveTicket}
-                              name={`youthTickets`}
-                              label={`Youth (13-17+)`} price={price.youth} />
-          <SidebarCountButton totalTickets={childrenTickets} addTicket={handleAddTicket}
-                              removeTicket={handleRemoveTicket}
-                              name={`childrenTickets`} label={`Children (1-12+)`} price={price.children} />
-        </div>
-        <div className="description__tour-overview-sidebar__tickets grid">
-          <h3 className="tertiary-heading margin-top-sm description__tour-overview-sidebar__tickets-heading">Add
-            Extra</h3>
-          <div className="flex flex-column border-bottom">
-            {/*<!--          // insert a checkbox input here, with the Add Service per booking text--> */}
-            <SidebarCheckbox disabled={totalPrice === 0} onClick={toggleServicePerBooking}
-                             name={`servicePerBooking`}
-                             label={`Add Service per booking `}
-                             servicePrice={priceForExtra.servicePerBooking}
-            />
-            <SidebarCheckbox disabled={youthTickets === 0 && adultTickets === 0 && childrenTickets === 0 ||
-              youthTickets === 0 && adultTickets === 0 && childrenTickets > 0}
-                             onClick={toggleServicePerPerson}
-                             name={`servicePerPerson`}
-                             label={`Add Service per person `}
-                             servicePrice={priceForExtra.servicePerPerson}
-            />
-
-            <p className="paragraph paragraph--descr flex">Adult: <span>${priceForExtra.adult}</span> -
-              Youth: <span>${priceForExtra.youth}</span>
-            </p>
+    <>
+      {/*@ts-ignore*/}
+      <CustomizedSnackbar open={open} handleClose={handleClose} label={toastLabel} severity={toastSeverity} />
+      <form onSubmit={handleSubmit} className="description__tour-overview-sidebar__form">
+        <div className="description__tour-overview-sidebar">
+          <div onClick={closeSidebar}>
+            <IconIon type={`closeOutline`} className="icon icon--close-sidebar"></IconIon>
           </div>
-          <div>
-            <SidebarTotal total={Number(totalPrice.toFixed(2))} />
-            <button className="btn btn--book-now" id="book-now-btn-sidebar">{isSubmitting ? `Loading...` : `Book Now`}
-              <IconIon type={`arrowForwardOutline`} className="icon icon--right-arrow"></IconIon>
-            </button>
+
+          <p className="description__tour-overview-sidebar__p flex">From <span>${price.children}</span></p>
+          <div className="description__tour-overview-sidebar-wrapper">
+            <SidebarPickDate />
+            <SidebarPickTime time={time} />
+          </div>
+          <div className="description__tour-overview-sidebar__tickets grid">
+            <h3
+              className="tertiary-heading margin-top-sm description__tour-overview-sidebar__tickets-heading">Tickets</h3>
+            <SidebarCountButton totalTickets={adultTickets} addTicket={handleAddTicket}
+                                removeTicket={handleRemoveTicket}
+                                name={`adultTickets`}
+                                label={`Adult (18+)`} price={price.adult} />
+            <SidebarCountButton totalTickets={youthTickets} addTicket={handleAddTicket}
+                                removeTicket={handleRemoveTicket}
+                                name={`youthTickets`}
+                                label={`Youth (13-17+)`} price={price.youth} />
+            <SidebarCountButton totalTickets={childrenTickets} addTicket={handleAddTicket}
+                                removeTicket={handleRemoveTicket}
+                                name={`childrenTickets`} label={`Children (1-12+)`} price={price.children} />
+          </div>
+          <div className="description__tour-overview-sidebar__tickets grid">
+            <h3 className="tertiary-heading margin-top-sm description__tour-overview-sidebar__tickets-heading">Add
+              Extra</h3>
+            <div className="flex flex-column border-bottom">
+              {/*<!--          // insert a checkbox input here, with the Add Service per booking text--> */}
+              <SidebarCheckbox disabled={totalPrice === 0} onClick={toggleServicePerBooking}
+                               name={`servicePerBooking`}
+                               label={`Add Service per booking `}
+                               servicePrice={priceForExtra.servicePerBooking}
+              />
+              <SidebarCheckbox disabled={youthTickets === 0 && adultTickets === 0 && childrenTickets === 0 ||
+                youthTickets === 0 && adultTickets === 0 && childrenTickets > 0}
+                               onClick={toggleServicePerPerson}
+                               name={`servicePerPerson`}
+                               label={`Add Service per person `}
+                               servicePrice={priceForExtra.servicePerPerson}
+              />
+
+              <p className="paragraph paragraph--descr flex">Adult: <span>${priceForExtra.adult}</span> -
+                Youth: <span>${priceForExtra.youth}</span>
+              </p>
+            </div>
+            <div>
+              <SidebarTotal total={Number(totalPrice.toFixed(2))} />
+              <button className="btn btn--book-now" id="book-now-btn-sidebar">{isSubmitting ? `Loading...` : `Book Now`}
+                <IconIon type={`arrowForwardOutline`} className="icon icon--right-arrow"></IconIon>
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </>
   );
 }

@@ -7,6 +7,8 @@ import SortBy from '@/components/UI/SortBy/SortBy';
 import UserWishlistItems from '@/components/account-settings/contents/user-wishlist/UserWishlistItems';
 import { UserWishlistItemType } from '@/components/account-settings/contents/user-wishlist/UserWishlistItem';
 import Pagination from '@/components/UI/Pagnation/Pagination';
+import CustomizedSnackbar from '@/components/UI/Toast/Snackbar';
+import { SnackbarCloseReason } from '@mui/material/Snackbar/useSnackbar.types';
 
 type UserWishlistType = {
   userEmail: string;
@@ -21,6 +23,10 @@ export default function UserWishlist({ userEmail, wishlistItems }: UserWishlistT
   const [currentPage, setCurrentPage] = useState(1);
   const [disableClearWishlist, setDisableClearWishlist] = useState<boolean>(false);
 
+  const [open, setOpen] = useState(false);
+  const [toastLabel, setToastLabel] = useState<string>(`Hello there!`);
+  const [toastSeverity, setToastSeverity] = useState<string>(`info`);
+
   const indexOfLastWishlistItem = currentPage * wishlistItemsPerPage;
   const indexOfFirstNotification = indexOfLastWishlistItem - wishlistItemsPerPage;
 
@@ -31,6 +37,9 @@ export default function UserWishlist({ userEmail, wishlistItems }: UserWishlistT
     // OPTIMISTIC UI UPDATE
     setFilteredWishlistItems([]);
     setUserWishlistItems([]);
+    setOpen(true);
+    setToastLabel(`All wishlist items have been deleted.`);
+    setToastSeverity(`success`);
 
     const response = await fetch(`/api/delete-user-data`, {
       method: `POST`,
@@ -119,6 +128,18 @@ export default function UserWishlist({ userEmail, wishlistItems }: UserWishlistT
     }
   }
 
+  const handleClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: SnackbarCloseReason
+  ) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 200 }}
@@ -126,6 +147,7 @@ export default function UserWishlist({ userEmail, wishlistItems }: UserWishlistT
       transition={{ type: `spring`, stiffness: 100 }}
       viewport={{ once: false }}
     >
+      <CustomizedSnackbar open={open} handleClose={handleClose} label={toastLabel} severity={toastSeverity} />
       <div className={`account-settings__content__title-wrapper-container`}>
         <div className="account-settings__content__title-wrapper flex">
           <div className="flex flex-align-center gap-15px">
