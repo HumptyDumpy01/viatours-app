@@ -1,12 +1,13 @@
 'use client';
 
 import UserInput from '@/components/account-settings/contents/user-profile/UserInput';
-import React, { useEffect, useState, useTransition } from 'react';
+import React, { useEffect, useRef, useState, useTransition } from 'react';
 import { useCartSelector } from '@/store/hooks';
 import { motion } from 'framer-motion';
 import { container, item } from '@/components/account-settings/contents/user-tour-purchases/UserTourPurchases';
 import CustomizedSnackbar from '@/components/UI/Toast/Snackbar';
 import { SnackbarCloseReason } from '@mui/material/Snackbar/useSnackbar.types';
+import { signOut } from 'next-auth/react';
 
 type UserDataType = {
   userName: string;
@@ -45,6 +46,8 @@ export default function
   const [open, setOpen] = useState(false);
   const [toastLabel, setToastLabel] = useState<string>(``);
   const [toastSeverity, setToastSeverity] = useState<string>(`info`);
+
+  const timer = useRef<NodeJS.Timeout | null>(null);
 
   const [changeEmailStages, setChangeEmailStages] = useState<1 | 2 | 3>(1);
 
@@ -148,8 +151,8 @@ export default function
       return;
     }
 
-    // TODO: DO ALL THE STUFF NEEDED FOR TOKEN VERIFICATION AND
-    //  THEREFORE EMAIL CHANGE
+    // DO ALL THE STUFF NEED FOR TOKEN VERIFICATION AND
+    // THEREFORE EMAIL CHANGE
     startTransition(async () => {
 
       const response = await fetch(`/api/validate-change-email-operation`, {
@@ -179,11 +182,21 @@ export default function
       setToastLabel(`Email changed successfully!`);
       setToastSeverity(`success`);
 
-      // BUG DOES NOT WORK. THE SESSION IS OUTDATED
 
       /* IMPORTANT: DO NOT FORGET TO ENSURE THAT CURRENT SESSION IS ALSO UP TO DATE.
       *   THIS IS CRUCIAL FOR OVERALL FORM TO WORK. */
+
+      // This updateSession is not working. It is not updating the session.
       updateSession();
+
+      // I need to sign out the user manually for the application to work.
+      timer.current = setTimeout(() => {
+        // sign out the user
+        setOpen(false);
+        signOut();
+        return () => clearTimeout(timer.current as NodeJS.Timeout);
+      }, 2000);
+
     });
 
   }
