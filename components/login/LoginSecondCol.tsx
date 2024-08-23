@@ -135,7 +135,7 @@ export default function LoginSecondCol({ message }: LoginSecondColType) {
       });
     }
 
-    setLoading(false);
+    // setLoading(false);
   }
 
   async function verifyUserTwoAuthToken() {
@@ -145,33 +145,35 @@ export default function LoginSecondCol({ message }: LoginSecondColType) {
       return;
     }
 
-    // TODO: use api endpoint to verify the user's two-factor auth token
-    //  if the token is valid, sign in the user,
-    //  if not, show error message
-    const response = await fetch(`api/validate-two-factor-auth-code`, {
-      method: `POST`,
-      headers: {
-        'Content-Type': `application/json`
-      },
-      body: JSON.stringify({ userEmail: userEmail, userToken: userTwoAuthCode })
+    // use api endpoint to verify the user's two-factor auth token
+    // if the token is valid, sign in the user,
+    // if not, show error message
+    startTransition(async () => {
+      const response = await fetch(`api/validate-two-factor-auth-code`, {
+        method: `POST`,
+        headers: {
+          'Content-Type': `application/json`
+        },
+        body: JSON.stringify({ userEmail: userEmail, userToken: userTwoAuthCode })
+      });
+      const responseData = await response.json();
+
+      if (responseData.error) {
+        setError(responseData.message);
+        return;
+      }
+
+      const results = {
+        email: userEmail,
+        password: userPassword,
+        rememberMe: !!rememberMeState
+      };
+
+      await handleSignIn(results);
+
+      console.log(`Verifying user's two-factor auth token...`);
+      console.log(userTwoAuthCode);
     });
-    const responseData = await response.json();
-
-    if (responseData.error) {
-      setError(responseData.message);
-      return;
-    }
-
-    const results = {
-      email: userEmail,
-      password: userPassword,
-      rememberMe: !!rememberMeState
-    };
-
-    await handleSignIn(results);
-
-    console.log(`Verifying user's two-factor auth token...`);
-    console.log(userTwoAuthCode);
   }
 
 
@@ -201,11 +203,13 @@ export default function LoginSecondCol({ message }: LoginSecondColType) {
                 disabled={loading}
                 whileTap={{ scale: 0.9 }}
                 transition={{ type: `spring`, stiffness: 260, damping: 20 }}
-                className={`btn btn--book-now ${loading ? `register__submit-button-pending` : ``}`}>
+                className={`btn btn--book-now ${loading ? `sign-in__submit-button-pending` : ``}`}>
                 {loading ? `Processing...` : `Sign in`}
               </motion.button>
             </>
           )}
+        </form>
+        <form className={`sign-in__second-col-form flex flex-direction-column`}>
           {loginStages === 2 && (
             <>
               <div>
@@ -219,9 +223,8 @@ export default function LoginSecondCol({ message }: LoginSecondColType) {
                           type={`password`} />
               <button
                 onClick={verifyUserTwoAuthToken}
-                type={`button`}
                 disabled={isPending}
-                className={`btn btn--book-now ${isPending ? `register__submit-button-pending` : ``}`}>
+                className={`btn btn--book-now ${isPending ? `sign-in__submit-button-pending` : ``}`}>
                 {isPending ? `Processing...` : `Verify`}
               </button>
             </>

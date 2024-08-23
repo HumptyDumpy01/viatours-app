@@ -9,10 +9,11 @@ type LoginInputType = {
   name: string;
   defValue?: string;
   onChange?: (e: any) => void;
+  disabled?: boolean;
   // children: ReactNode;
 }
 
-export default function LoginInput({ type, name, placeholder, defValue, onChange }: LoginInputType) {
+export default function LoginInput({ type, name, placeholder, defValue, onChange, disabled }: LoginInputType) {
   const [passwordIsVisible, setPasswordIsVisible] = useState<boolean>(false);
   const [passwordInputType, setPasswordInputType] = useState<`text` | `password`>(`password`);
 
@@ -23,7 +24,7 @@ export default function LoginInput({ type, name, placeholder, defValue, onChange
   if (type === `email`) {
     return (
       <label htmlFor={name}>
-        <input defaultValue={defValue ? defValue : ``} type="email" id={name} name={name}
+        <input disabled={disabled} defaultValue={defValue ? defValue : ``} type="email" id={name} name={name}
                className="sign-in__second-col-form-input-email"
                placeholder={placeholder}
                required />
@@ -36,6 +37,7 @@ export default function LoginInput({ type, name, placeholder, defValue, onChange
       <label className="password-label">
         <input
           onChange={onChange}
+          disabled={disabled}
           defaultValue={defValue ? defValue : ``}
           name={name} type={passwordIsVisible ? `text` : passwordInputType}
           className="sign-in__second-col-form-input-password"

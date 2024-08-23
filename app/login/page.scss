@@ -6,6 +6,28 @@
     margin-bottom: 3.2rem;
   }
 
+  &__submit-button {
+    padding: 1.6rem 3.2rem;
+    //background: var(--clr-primary);
+    color: var(--clr-white);
+    font-size: 1.6rem;
+    transition: all 0.3s;
+    font-weight: 600;
+    height: 5.5rem;
+
+    &-pending {
+      background: var(--clr-grey-3);
+      border: 1px solid var(--clr-grey-3);
+      color: var(--clr-grey-1);
+      cursor: not-allowed;
+      /*        background: var(--clr-white);
+              border: 1px solid var(--clr-primary);
+              color: var(--clr-primary);*/
+    }
+
+
+  }
+
   // replaced this code for actual div elements with the images of needed form of shape
   /*  // adding a circle shape to the sign-in page
     @include respond(bp-968px) {
