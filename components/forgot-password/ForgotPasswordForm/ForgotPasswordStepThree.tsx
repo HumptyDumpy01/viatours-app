@@ -67,6 +67,7 @@ export default function ForgotPasswordStepThree(/*{  }: ForgotPasswordStepThreeT
       }
 
       setErrorMessage(``);
+      dispatch(forgotPasswordSliceActions.setUserEmail(``));
       dispatch(forgotPasswordSliceActions.setForgotPasswordStage(4));
     });
   }

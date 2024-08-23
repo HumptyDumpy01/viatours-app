@@ -26,6 +26,7 @@
   --clr-black: #000;
   --linear-orange-and-light-orange: #EB662B, #F28555;
   --clr-strawberry-red: #fa1e2d;
+  --clr-strawberry-red-darker: #d90f1b;
 
   // font
   --font-inter: 'Inter', serif;
@@ -1120,7 +1121,7 @@ b {
   margin-bottom: .4rem;
 }
 
-.link-log-in {
+.link-marked.link-log-in {
   color: var(--clr-white);
 }
 
@@ -1206,7 +1207,7 @@ b {
 
 .MuiButtonBase-root.MuiButton-root {
   font-size: 16px !important;
-  font-weight: 600 !important;
+  font-weight: 500 !important;
 }
 
 .MuiInputBase-input {

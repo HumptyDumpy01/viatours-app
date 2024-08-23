@@ -1,0 +1,241 @@
+.account-settings-wrapper {
+  margin-top: 4rem;
+  padding: 4.3rem 4rem;
+  padding-right: 0;
+  background-color: #FCFCFC;
+
+
+  @media only screen and (max-width: 54.3125em) {
+    background-color: var(--clr-white);
+    margin-top: 5.4rem;
+    padding-top: 0;
+  }
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  border-bottom-left-radius: 12px;
+
+  .account-settings {
+    &__heading {
+      font-weight: 700;
+    }
+
+    @media only screen and (max-width: 54.4375em) {
+      height: auto;
+    }
+
+    grid-template-columns: 22.2rem auto;
+    background-color: var(--clr-white);
+    margin-top: 3.6rem;
+    padding-bottom: 4.3rem;
+    width: 100%;
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+    @media only screen and (max-width: 54.3125em) {
+      grid-template-columns: 1fr;
+    }
+
+    &__element {
+      &-title {
+        border-radius: 2px !important;
+        cursor: pointer;
+        transition: all .3s cubic-bezier(0.041, 0.094, 0.212, 0.935);
+        border: none;
+        width: 100%;
+        background-color: var(--clr-white);
+        font-weight: 600;
+        padding: 1.7rem;
+        font-size: 1.7rem;
+        text-align: center;
+        color: var(--clr-blue-lighter);
+
+        &:hover, &:active {
+          color: var(--clr-white);
+          background-color: var(--clr-primary);
+        }
+      }
+    }
+
+    &__sidebar {
+
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      scrollbar-color: transparent transparent;
+      padding-top: 2.7rem;
+      border-right: 1px solid var(--clr-grey-3);
+      @media only screen and (max-width: 54.3125em) {
+        display: flex;
+        align-items: center;
+        padding-top: 0;
+        max-width: 100%;
+        height: 5.8rem;
+      }
+
+      &__element {
+        transition: all .4s;
+        @media only screen and (max-width: 54.3125em) {
+          min-width: 20rem;
+          margin-top: .3rem;
+        }
+
+        @media only screen and (max-width: 32.4375em) {
+          min-width: 20rem !important;
+        }
+
+        &:hover, &:active {
+          background-color: var(--clr-primary);
+
+          .account-settings__element-title {
+            color: var(--clr-white);
+          }
+        }
+      }
+    }
+
+    // STYLES FOR ACCOUNT SETTINGS CONTENT
+    &__content {
+      width: 74.8rem;
+      margin-top: 6.7rem;
+      margin-left: 8rem;
+      @media only screen and (max-width: 54.3125em) {
+        margin: 3.3rem auto 0 auto;
+        width: 80%;
+      }
+      @media only screen and (max-width: 40.5625em) {
+        margin: 3.3rem;
+        max-width: 90%;
+      }
+    }
+  }
+}
+
+.delete-account.account-settings__element-title {
+  color: var(--clr-primary);
+}
+
+.account-settings__sidebar__element.delete-account {
+  margin-top: 2.7rem;
+  @media only screen and (max-width: 54.3125em) {
+    margin-top: 0;
+  }
+}
+
+.fix-alpha-badge {
+  position: relative;
+
+}
+
+.alpha-badge {
+  position: absolute;
+  top: 1.5rem;
+  right: 4.2rem;
+  pointer-events: none;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  padding: .2rem .3rem;
+  color: var(--clr-white);
+  background-color: var(--clr-error);
+}
+
+.delete-account-container {
+  width: 49.8rem;
+  @media only screen and (max-width: 27.8125em) {
+    width: 100%;
+  }
+
+  .delete-account {
+    &__heading {
+      font-weight: 600;
+      margin-bottom: 2.4rem;
+      font-size: 3rem;
+    }
+
+    &__button {
+      background-color: var(--clr-primary);
+      color: var(--clr-white);
+      padding: 1.6rem 2.4rem;
+      box-shadow: 0 0 0 1px var(--clr-primary);
+      font-size: 1.7rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all .3s;
+
+      &:hover, &:active {
+        background-color: var(--clr-white);
+        color: var(--clr-primary);
+      }
+    }
+
+    &__button.confirm-code {
+      background-color: var(--clr-strawberry-red);
+
+      &:hover, &:active {
+        background-color: var(--clr-strawberry-red-darker);
+        color: var(--clr-white);
+      }
+    }
+
+    &__text {
+      font-size: 1.7rem;
+      color: var(--clr-blue-lighter);
+      line-height: 2.4rem;
+    }
+
+    &__label {
+      font-size: 2.1rem;
+      font-weight: 600;
+      color: var(--clr-blue-lighter);
+      margin-bottom: 2.7rem;
+    }
+
+    &__input {
+      height: 5.8rem;
+      width: 30.2rem;
+      padding: 1.6rem 2.4rem;
+      border: none;
+      background-color: var(--clr-grey-3);
+      border-radius: 12px;
+      font-size: 1.477rem;
+      transition: all .3s;
+
+      @media only screen and (max-width: 26.25em) {
+        width: 100%;
+      }
+
+      &-wrapper,
+      &-form {
+        gap: 1.6rem;
+        margin-bottom: 1rem;
+        @media only screen and (max-width: 26.25em) {
+          display: grid;
+          flex-direction: column;
+        }
+      }
+
+      &:focus {
+        box-shadow: 0 0 0 2px var(--clr-primary);
+        background-color: var(--clr-white);
+      }
+    }
+
+    &__resend-code {
+      background-color: #fff;
+      text-align: left;
+      width: 7rem;
+      margin-top: 1.6rem;
+      color: var(--clr-blue-lighter);
+      margin-bottom: .9rem;
+      display: none;
+    }
+
+    &__confirmation-terms {
+      color: #717171;
+      font-size: 1.3rem;
+      font-weight: 400;
+      line-height: 2.4rem;
+      letter-spacing: -0.14px;
+    }
+  }
+}
