@@ -99,8 +99,8 @@ export const authConfig: NextAuthOptions = {
             savedArticles: [],
             extra: {
               signedOnNewsletter: false
-            },
-            emailVerified: true
+            }
+            // emailVerified: true
           };
 
           await createUserWhenAuthViaProvider(newUser);
