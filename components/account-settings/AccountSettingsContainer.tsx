@@ -84,6 +84,7 @@ export type UnwoundUserData = {
   firstName: string;
   image: string | null;
   registeredManually: boolean;
+  twoFactorAuthEnabled: boolean;
   // can be null because e.g. Google Auth/GitHub doesn't provide a last name
   lastName: string | null;
   // can be null because  by registering with Google Auth/GitHub, the user doesn't provide a password
@@ -190,6 +191,7 @@ export default function AccountSettingsContainer({ page }: AccountSettingsContai
                     updateSession={update}
                     registeredManually={userData.registeredManually}
                     userEmailFromSession={String(session.user!.email)}
+                    twoFactorAuthEnabled={userData.twoFactorAuthEnabled}
                     image={userData.image}
                     userPassword={userData.password}
                     userLastName={userData.lastName}

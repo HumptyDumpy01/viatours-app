@@ -191,9 +191,11 @@ export default function RegisterForm(/*{  }: RegisterFormType*/) {
         setFormError([responseData.message]);
         return;
       } else {
-        // TODO: register the user
+        // register the user
         await registerUser(finalResultsObject);
         setFormError([``]);
+
+        dispatch(registerSliceActions.resetResults());
       }
 
     });

@@ -33,6 +33,7 @@ type UserProfileType = {
   userPhone: string | null;
   image: string | null;
   updateSession: () => void;
+  twoFactorAuthEnabled: boolean;
   // children: ReactNode;
 }
 
@@ -47,7 +48,8 @@ export default function
                 image,
                 userEmailFromSession,
                 registeredManually,
-                updateSession
+                updateSession,
+                twoFactorAuthEnabled
               }: UserProfileType) {
 
   const [readOnly, setReadOnly] = useState<boolean>(true);
@@ -109,8 +111,6 @@ export default function
 
   // @ts-ignore
   async function updateUserData(results, transformedResults, method: `UPDATE_WITHOUT_PASSWORD` | `UPDATE_WITH_PASSWORD`) {
-
-    // BUG: THE SESSION IS OUTDATED, WHEN I UPDATE EMAIL OR NAME OR LAST NAME.
 
     dispatch(userProfileSliceActions.toggleFormSubmitted(true));
     setReadOnly(true);
@@ -281,9 +281,9 @@ export default function
                 className="paragraph paragraph-success">{messageSuccess}</motion.p>
             )}
           </AnimatePresence>
-
         </motion.div>
         <UserData
+          twoFactorAuthEnabled={twoFactorAuthEnabled}
           updateSession={updateSession}
           registeredManually={registeredManually}
           userEmail={userEmail}

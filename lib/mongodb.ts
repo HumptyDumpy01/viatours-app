@@ -755,6 +755,7 @@ export async function getUser(filter: {}, options?: {}, unwind: boolean = false)
           notifications: { $first: '$notifications' },
           savedArticles: { $first: '$savedArticles' },
           registeredManually: { $first: '$registeredManually' },
+          twoFactorAuthEnabled: { $first: '$twoFactorAuthEnabled' },
           wishlist: {
             $push: {
               _id: { $ifNull: ['$wishlistedTours._id', null] },  // Push null-safe values
@@ -790,6 +791,7 @@ export async function getUser(filter: {}, options?: {}, unwind: boolean = false)
           notifications: { $first: '$notifications' },
           savedArticles: { $first: '$savedArticles' },
           registeredManually: { $first: '$registeredManually' },
+          twoFactorAuthEnabled: { $first: '$twoFactorAuthEnabled' },
           wishlist: { $last: '$wishlist' },
           orders: {
             $push: {
@@ -826,6 +828,7 @@ export async function getUser(filter: {}, options?: {}, unwind: boolean = false)
           notifications: { $first: '$notifications' },
           savedArticles: { $first: '$savedArticles' },
           registeredManually: { $first: '$registeredManually' },
+          twoFactorAuthEnabled: { $first: '$twoFactorAuthEnabled' },
           wishlist: { $last: '$wishlist' },
           orders: {
             $push: {
@@ -916,6 +919,7 @@ export type UserType = {
   extra: {
     signedOnNewsletter: boolean;
   }
+  twoFactorAuthEnabled: boolean;
 }
 
 export type UserNotificationsType = {
@@ -973,7 +977,8 @@ export async function createUser(formData: createUserType, createViaProvider?: b
       savedArticles: [],
       extra: {
         signedOnNewsletter: false
-      }
+      },
+      twoFactorAuthEnabled: false
     };
 
     // un-hash password

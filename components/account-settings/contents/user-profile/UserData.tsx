@@ -8,6 +8,7 @@ import { container, item } from '@/components/account-settings/contents/user-tou
 import CustomizedSnackbar from '@/components/UI/Toast/Snackbar';
 import { SnackbarCloseReason } from '@mui/material/Snackbar/useSnackbar.types';
 import { signOut } from 'next-auth/react';
+import Switch from '@mui/material/Switch';
 
 type UserDataType = {
   userName: string;
@@ -18,6 +19,7 @@ type UserDataType = {
   registeredManually: boolean;
   readonly: boolean;
   updateSession: () => void;
+  twoFactorAuthEnabled: boolean;
   // children: ReactNode;
 }
 
@@ -29,7 +31,7 @@ export default function
              userPhone,
              userEmail,
              readonly,
-             registeredManually, updateSession
+             registeredManually, updateSession, twoFactorAuthEnabled
            }: UserDataType) {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [confirmOldPasswordVal, setConfirmOldPasswordVal] = useState<string>(``);
@@ -47,6 +49,9 @@ export default function
   const [toastLabel, setToastLabel] = useState<string>(``);
   const [toastSeverity, setToastSeverity] = useState<string>(`info`);
 
+  const [disableTwoAuthSwitch, setDisableTwoAuthSwitch] = useState<boolean>(false);
+
+  const disableTwoAuthTimer = useRef<NodeJS.Timeout | null>(null);
   const timer = useRef<NodeJS.Timeout | null>(null);
 
   const [changeEmailStages, setChangeEmailStages] = useState<1 | 2 | 3>(1);
@@ -212,7 +217,18 @@ export default function
     setOpen(false);
   };
 
-  console.log(`Executing confirmOldPasswordVal: `, confirmOldPasswordVal);
+  // console.log(`Executing confirmOldPasswordVal: `, confirmOldPasswordVal);
+
+  async function toggleTwoFactorAuth(twoFactorAuthEnabled: boolean) {
+    console.log(`Two factor auth status: `, twoFactorAuthEnabled);
+    setDisableTwoAuthSwitch(true);
+
+    disableTwoAuthTimer.current = setTimeout(function() {
+      setDisableTwoAuthSwitch(false);
+      return () => clearTimeout(disableTwoAuthTimer.current as NodeJS.Timeout);
+    }, 5000);
+
+  }
 
   return (
     <motion.div
@@ -380,6 +396,21 @@ export default function
           type={`tel`}
           defaultVal={userPhone ? userPhone : undefined}
         />
+      )}
+      {registeredManually && (
+        <>
+          <motion.div
+            variants={container}
+            className={`account-settings-change-email`}>
+            <p className={`account-settings__content__input-label ${readonly ? `disabled-input-label` : ``}`}>
+              Two-Factor Authentication
+            </p>
+            <Switch disabled={disableTwoAuthSwitch || readonly}
+                    onChange={() => toggleTwoFactorAuth(twoFactorAuthEnabled)}
+                    defaultChecked={twoFactorAuthEnabled} />
+
+          </motion.div>
+        </>
       )}
 
     </motion.div>

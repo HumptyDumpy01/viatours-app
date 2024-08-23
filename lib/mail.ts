@@ -45,7 +45,7 @@ export async function sendVerificationCode(email: string, token: string, type: `
       subject: 'Viatours Two-factor Authentication',
       html: `
       <div style="font-family: 'Montserrat', sans-serif;">
-      <h1>Two Factor Authentication</h1>
+      <h1>Two-Factor Authentication</h1>
       <p>Your 2FA code to sign in to Viatours is: <strong>${token}</strong></p>
       <p>This code will expire in 10 minutes.</p>
       <br>
