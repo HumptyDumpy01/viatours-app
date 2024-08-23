@@ -2,9 +2,10 @@
 
 import '@/app/login/forgot-password/page.scss';
 import './ForgotPasswordStepThree.scss';
-import Link from 'next/link';
 import ForgotPasswordHeading from '@/components/forgot-password/ForgotPasswordHeading';
-import { useState } from 'react';
+import { FormEvent, useState, useTransition } from 'react';
+import { useCartDispatch, useCartSelector } from '@/store/hooks';
+import { forgotPasswordSliceActions } from '@/store/forgotPasswordSlice';
 /*type ForgotPasswordStepThreeType = {
   // children: ReactNode;
 }*/
@@ -12,9 +13,64 @@ import { useState } from 'react';
 export default function ForgotPasswordStepThree(/*{  }: ForgotPasswordStepThreeType*/) {
   const [passwordIsVisible, setPasswordIsVisible] = useState<boolean>(false);
 
+  const [errorMessage, setErrorMessage] = useState<string>(``);
+  const [isPending, startTransition] = useTransition();
+  const userEmail = useCartSelector((state) => state.forgotPassword.userEmail);
+
+  const dispatch = useCartDispatch();
+
   function handleTogglePasswordVisibility() {
     setPasswordIsVisible(prevState => !prevState);
   }
+
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const currObject = e.currentTarget;
+    const formData = new FormData(currObject);
+    const results = Object.fromEntries(formData.entries()) as { newPassword: string, confirmNewPassword: string };
+
+    // Validate the password and confirm if passwords match
+    if (!results.newPassword || results.newPassword.trim() === ``) {
+      setErrorMessage(`Please enter a valid password`);
+      return;
+    }
+    if (results.newPassword !== results.confirmNewPassword) {
+      setErrorMessage(`Passwords do not match`);
+      return;
+    }
+
+    if (results.newPassword.length < 6) {
+      setErrorMessage(`Password must be at least 6 characters long`);
+      return;
+    }
+
+    // create an api endpoint to change the user password.
+    // pass user email from slice and the new password
+    // if successful, change the forgotPasswordStage to 4
+    // if not, return an error message
+    startTransition(async () => {
+      const response = await fetch(`/api/change-user-password`, {
+        method: `POST`,
+        headers: {
+          'Content-Type': `application/json`
+        },
+        body: JSON.stringify({
+          userEmail,
+          password: results.newPassword,
+          confirmPassword: results.confirmNewPassword
+        })
+      }).then((res) => res.json());
+
+      if (response.error) {
+        setErrorMessage(response.message);
+        return;
+      }
+
+      setErrorMessage(``);
+      dispatch(forgotPasswordSliceActions.setForgotPasswordStage(4));
+    });
+  }
+
 
   return (
     <>
@@ -23,11 +79,16 @@ export default function ForgotPasswordStepThree(/*{  }: ForgotPasswordStepThreeT
         heading={`Set a new password`}
         text={`Remember, a strong password includes a mix of uppercase and lowercase letters, numbers, and special characters. Avoid using easily guessable information like birthdays or common words.`}
       />
-      <form className="forgot-password__form flex-direction-column align-items-start flex gap-1rem">
+      <div className={`flex`}>
+        {errorMessage && <p className="paragraph paragraph-error">{errorMessage}</p>}
+      </div>
+      <form onSubmit={handleSubmit}
+            className="forgot-password__form flex-direction-column align-items-start flex gap-1rem">
         {/*THIRD STEP*/}
         <div className="new-password-wrapper">
           <label htmlFor="new-password"></label>
-          <input type={passwordIsVisible ? `text` : `password`} id="new-password"
+          <input name={`newPassword`} disabled={isPending} type={passwordIsVisible ? `text` : `password`}
+                 id="new-password"
                  className="forgot-password__input forgot-password__input-password"
                  placeholder="Your new password"
                  required />
@@ -56,7 +117,7 @@ export default function ForgotPasswordStepThree(/*{  }: ForgotPasswordStepThreeT
         </div>
         <div className="new-password-confirmation-wrapper">
           <label htmlFor="new-password-confirmation"></label>
-          <input type={`password`} id="new-password-confirmation"
+          <input name={`confirmNewPassword`} disabled={isPending} type={`password`} id="new-password-confirmation"
                  className="forgot-password__input forgot-password__input-password"
                  placeholder="Confirm your new password"
                  required />
@@ -68,11 +129,10 @@ export default function ForgotPasswordStepThree(/*{  }: ForgotPasswordStepThreeT
               fill="#EB662B" />
           </svg>
         </div>
-        {/*<button className="btn btn--forgot-btn-1" id="btn-confirm">Confirm</button>*/
-        }
-        {/* TEMPORARY: THIS LINK SIMPLY REDIRECTS USER TO DONE URL. */
-        }
-        <Link href={`/login/forgot-password/done`} className="btn btn--forgot-btn-1">Done</Link>
+        <button disabled={isPending} className={`btn btn--forgot-btn-1 ${isPending ? `btn--submit-disabled` : ``}`}
+                id="btn-confirm">{isPending ? `Applying...` : `Apply`}
+        </button>
+        {/*<Link href={`/login/forgot-password/done`} className="btn btn--forgot-btn-1">Done</Link>*/}
       </form>
     </>
   );

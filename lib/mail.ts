@@ -54,5 +54,21 @@ export async function sendVerificationCode(email: string, token: string, type: `
     `
     });
   }
+  if (type === `resetPassword`) {
+    const response = await resend.emails.send({
+      from: 'onboarding@resend.dev',
+      to: email,
+      subject: 'Viatours Reset Password',
+      html: `
+      <div style="font-family: 'Montserrat', sans-serif;">
+      <h1>Reset Password Request</h1>
+      <p>Your code to reset Viatours password is: <strong>${token}</strong></p>
+      <p>This code will expire in 10 minutes.</p>
+      <br>
+      <p>If you didn't request this code, you can safely ignore this email.</p>
+      </div>
+    `
+    });
+  }
 
 }

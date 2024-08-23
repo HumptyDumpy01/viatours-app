@@ -1,18 +1,73 @@
 'use client';
 
-import Link from 'next/link';
 import ForgotPasswordHeading from '@/components/forgot-password/ForgotPasswordHeading';
+import { FormEvent, useState, useTransition } from 'react';
+import { useCartDispatch } from '@/store/hooks';
+import { forgotPasswordSliceActions } from '@/store/forgotPasswordSlice';
 
 export default function ForgotPasswordStepOne() {
-  /* IMPORTANT: Outsource your entire form(!) with the useFormState as a standalone component.
-      add a prop, e.g. action, and pass this prop to your useFormState as the first arg.
-      Then add this form to your PostForm file, where you handle server action. Pass your server action
-      to this newly created component.   */
+  const [errorMessage, setErrorMessage] = useState<string>(``);
+  const [isPending, startTransition] = useTransition();
+  const dispatch = useCartDispatch();
 
-  // Thus you would be able to use the error messages to inject them onto your form.
-  // const [state, formAction] = useFormState(YOUR_SERVER_ACTION, { errors: null });
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
 
-  // TODO: MAKE THIS FORM HANDLING THAT INCLUDES ALL 4 STEPS ON A SERVER SIDE.
+    const currObject = e.currentTarget;
+    const formData = new FormData(currObject);
+    const results = Object.fromEntries(formData.entries()) as { email: string };
+
+    if (results.email.trim() === `` || !results || !results.email.includes(`@`)) {
+      setErrorMessage(`Please enter a valid email address`);
+      return;
+    }
+
+    startTransition(async () => {
+      // Create an API endpoint to check if the email exists in the database,
+      // if not, return an error message, if exists, then return true
+      const user = await fetch(`/api/fetch-user`, {
+        method: `POST`,
+        headers: {
+          'Content-Type': `application/json`
+        },
+        body: JSON.stringify({ userEmail: results.email, options: { email: 1, password: 1 } })
+      });
+      const userData = await user.json();
+
+      if (!userData.resp) {
+        setErrorMessage(`User does not exist. Please enter a valid email address!`);
+        return;
+      }
+
+      // This means the user logged in via the provider, and he did not set the password manually.
+      // In this case, he should not be able to reset the password.
+      if (userData.result[0].password === null) {
+        setErrorMessage(`Users logged in via provider cannot manually reset their password, till they set a password 
+        via account settings.`);
+        return;
+      }
+
+      console.log(`userData`, userData.result[0].password);
+
+      // console.log(`userData`, userData.result[0].email);
+
+      // send a verification code to the email address
+      const response = fetch(`/api/generate-recovery-code-token`, {
+        method: `POST`,
+        headers: {
+          'Content-Type': `application/json`
+        },
+        body: JSON.stringify({ userEmail: userData.result[0].email || userData.email })
+      });
+
+      //  and change the forgotPasswordStage to 2
+      setErrorMessage(``);
+      dispatch(forgotPasswordSliceActions.setUserEmail(userData.result[0].email || userData.email));
+      dispatch(forgotPasswordSliceActions.setForgotPasswordStage(2));
+    });
+
+  }
+
 
   return (
     <>
@@ -22,16 +77,23 @@ export default function ForgotPasswordStepOne() {
         text={`No worries! We’ve got you covered. Simply enter your registered email address
         below, and we’ll send a secure verification code to help you reset your password.`}
       />
-      <form className="forgot-password__form flex gap-1rem">
+      <div className={`flex`}>
+        {errorMessage && <p className="paragraph paragraph-error">{errorMessage}</p>}
+      </div>
+      <form onSubmit={handleSubmit} className="forgot-password__form flex gap-1rem">
         <div className="input-wrapper">
+
           <label htmlFor="email"></label>
-          <input type="email" id="email" name={`email`} className="forgot-password__input forgot-password__input-email"
+          <input disabled={isPending} type="email" id="email" name={`email`}
+                 className="forgot-password__input forgot-password__input-email"
                  placeholder="Enter your email address"
                  required />
         </div>
-        {/*<button className="btn btn--forgot-btn-1">Send</button>*/}
-        {/* TEMPORARY: THIS LINK SIMPLY REDIRECTS USER TO STEP 2. */}
-        <Link href={`/login/forgot-password/confirm-password`} className="btn btn--forgot-btn-1">Send</Link>
+        <button disabled={isPending}
+                className={`btn btn--forgot-btn-1 ${isPending ? `btn--submit-disabled` : ``}`}>
+          {isPending ? `Sending...` : `Send`}
+        </button>
+        {/*<Link href={`/login/forgot-password/confirm-password`} className="btn btn--forgot-btn-1">Send</Link>*/}
       </form>
     </>
   );

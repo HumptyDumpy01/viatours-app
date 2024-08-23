@@ -2524,3 +2524,161 @@ export async function validate2FAToken(userEmail: string, userToken: string) {
 
 ///////////////////////////////////////
 
+/* IMPORTANT: PASSWORD RECOVERY */
+export async function generateRecoveryCodeToken(userEmail: string) {
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+
+  const userExists = await db.collection(`users`).findOne({ email: userEmail });
+
+  if (!userExists) {
+    return {
+      error: true,
+      message: `Error. User does not exist.`
+    };
+  }
+
+  const userPasswordIsNull = userExists.password === null;
+
+  if (userPasswordIsNull) {
+    return {
+      error: true,
+      message: `Users logged in via provider cannot manually reset their password, till they set a password 
+        via account settings.`
+    };
+  }
+
+  const tokenAlreadyExists = await db.collection(`recoverPasswordTokens`).findOne({ email: userEmail });
+
+  if (tokenAlreadyExists) {
+    await db.collection(`recoverPasswordTokens`).deleteOne({ email: userEmail });
+  }
+
+  const token = await generateVerificationToken();
+
+  const encryptedToken = await bcrypt.hash(token, 12);
+
+  const response = await db.collection(`recoverPasswordTokens`).insertOne({
+    email: userEmail,
+    token: encryptedToken,
+    createdAt: new Date()
+  });
+
+  if (response.acknowledged) {
+
+    await sendVerificationCode(userEmail, token, `resetPassword`);
+
+    return {
+      error: false,
+      message: `The token was successfully inserted.`
+    };
+
+  } else {
+    return {
+      error: true,
+      message: `Failed to insert the token.`
+    };
+  }
+
+
+}
+
+export async function verifyRecoverPasswordToken(userEmail: string, userToken: string) {
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+
+  const userExists = await db.collection(`users`).findOne({ email: userEmail });
+
+  if (!userExists) {
+    return {
+      error: true,
+      message: `Error. User does not exist.`
+    };
+  }
+
+  const tokenObject = await db.collection(`recoverPasswordTokens`).findOne({ email: userEmail });
+
+  if (!tokenObject) {
+    return {
+      error: true,
+      message: `Error. Token expired/doesn't exist.`
+    };
+  }
+  const tokensMatch = await bcrypt.compare(userToken, tokenObject.token);
+
+  if (!tokensMatch) {
+    return {
+      error: true,
+      message: `Invalid Token.`
+    };
+  }
+
+  return {
+    error: false,
+    message: `Tokens do match.`
+  };
+
+
+}
+
+export async function changeUserPassword(userEmail: string, password: string, confirmPassword: string) {
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+
+  const userExists = await db.collection(`users`).findOne({ email: userEmail });
+
+  if (!userExists) {
+    return {
+      error: true,
+      message: `Error. User does not exist.`
+    };
+  }
+
+  if (password !== confirmPassword) {
+    return {
+      error: true,
+      message: `Passwords do not match.`
+    };
+  }
+  if (password.length < 6 || password.length > 100) {
+    return {
+      error: true,
+      message: `The password must be between 6 and 100 characters long.`
+    };
+  }
+
+  const hashedPassword = await bcrypt.hash(password, 12);
+
+  const response = await db.collection(`users`).updateOne({ email: userEmail }, {
+    $set: {
+      password: hashedPassword
+    },
+    // @ts-ignore
+    $push: {
+      notifications: {
+        type: `green`,
+        icon: `key`,
+        addedAt: new Date(),
+        timestamp: Timestamp.fromNumber(Date.now()),
+        text: `You successfully reset your password.`
+      }
+    }
+  });
+
+  if (response.acknowledged) {
+
+    return {
+      error: false,
+      message: `The password was successfully updated.`
+    };
+  } else {
+    return {
+      error: true,
+      message: `Failed to update the password.`
+    };
+  }
+
+}
+
+///////////////////////////////////////
+

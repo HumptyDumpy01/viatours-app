@@ -7,6 +7,7 @@ import checkoutSlice from '@/store/checkoutSlice';
 import userProfileSlice from '@/store/userProfileSlice';
 import commentFormSlice from '@/store/commentFormSlice';
 import registerSlice from '@/store/registerSlice';
+import forgotPasswordSlice from '@/store/forgotPasswordSlice';
 
 const store = configureStore({
   reducer: {
@@ -20,7 +21,8 @@ const store = configureStore({
     checkout: checkoutSlice,
     userProfile: userProfileSlice,
     commentForm: commentFormSlice,
-    register: registerSlice
+    register: registerSlice,
+    forgotPassword: forgotPasswordSlice
   }
 });
 
