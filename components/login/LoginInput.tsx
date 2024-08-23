@@ -8,10 +8,11 @@ type LoginInputType = {
   placeholder: string;
   name: string;
   defValue?: string;
+  onChange?: (e: any) => void;
   // children: ReactNode;
 }
 
-export default function LoginInput({ type, name, placeholder, defValue }: LoginInputType) {
+export default function LoginInput({ type, name, placeholder, defValue, onChange }: LoginInputType) {
   const [passwordIsVisible, setPasswordIsVisible] = useState<boolean>(false);
   const [passwordInputType, setPasswordInputType] = useState<`text` | `password`>(`password`);
 
@@ -34,10 +35,11 @@ export default function LoginInput({ type, name, placeholder, defValue }: LoginI
     return (
       <label className="password-label">
         <input
+          onChange={onChange}
           defaultValue={defValue ? defValue : ``}
           name={name} type={passwordIsVisible ? `text` : passwordInputType}
           className="sign-in__second-col-form-input-password"
-          placeholder={`Password`}
+          placeholder={placeholder}
           required />
         {!passwordIsVisible &&
           <motion.svg

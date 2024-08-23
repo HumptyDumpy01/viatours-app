@@ -2398,5 +2398,129 @@ export async function toggleTwoFactorAuth(userEmail: string, value: boolean) {
 
 }
 
+export async function isTwoFactorAuthEnabled(userEmail: string, userPassword: string) {
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+
+  const user = await db.collection(`users`).findOne({ email: userEmail }) as UserType | null;
+
+  if (!user) {
+    return {
+      error: true,
+      message: `Error. User does not exist.`
+    };
+  }
+  const passwordMatch = await bcrypt.compare(userPassword, user.password!);
+
+  if (!passwordMatch) {
+    return {
+      error: true,
+      message: `Invalid credentials.`
+    };
+  }
+
+  if (userEmail === user.email && passwordMatch && user.registeredManually && user.twoFactorAuthEnabled) {
+    return {
+      error: false,
+      twoFactorAuthEnabled: user.twoFactorAuthEnabled,
+      message: `Two-factor authentication is enabled.`
+    };
+  } else {
+    return {
+      error: false,
+      twoFactorAuthEnabled: user.twoFactorAuthEnabled,
+      message: `Two-factor authentication is disabled.`
+    };
+  }
+
+}
+
+export async function send2FACodeVerification(userEmail: string) {
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+
+  const user = await db.collection(`users`).findOne({ email: userEmail }) as UserType | null;
+
+  if (!user || !user.registeredManually || !user.twoFactorAuthEnabled) {
+    return {
+      error: true,
+      message: `Error. User does not exist or not allowed to use 2FA Auth.`
+    };
+  }
+
+  const token = await generateVerificationToken();
+
+  const encryptedToken = await bcrypt.hash(token, 12);
+
+  const tokenAlreadyExists = await db.collection(`twoFactorAuthTokens`).findOne({ email: userEmail });
+
+  // delete token silently if it already exists
+  if (tokenAlreadyExists) {
+    await db.collection(`twoFactorAuthTokens`).deleteOne({ email: userEmail });
+  }
+
+  const response = await db.collection(`twoFactorAuthTokens`).insertOne({
+    email: userEmail,
+    token: encryptedToken,
+    createdAt: new Date()
+  });
+
+  await sendVerificationCode(userEmail, token, `twoFactorAuth`);
+
+  if (response.acknowledged) {
+    return {
+      error: false,
+      message: `The token was successfully inserted.`
+    };
+  } else {
+    return {
+      error: true,
+      message: `Failed to insert the token.`
+    };
+  }
+}
+
+export async function validate2FAToken(userEmail: string, userToken: string) {
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+
+  const user = await db.collection(`users`).findOne({ email: userEmail }) as UserType | null;
+
+  if (!user) {
+    return {
+      error: true,
+      message: `Error! User does not exist.`
+    };
+  }
+
+  const tokenObject = await db.collection(`twoFactorAuthTokens`).findOne({ email: userEmail });
+
+  if (!tokenObject) {
+    return {
+      error: true,
+      message: `Error! Token expired/doesn't exist.`
+    };
+  }
+  const tokenMatch = await bcrypt.compare(userToken, tokenObject.token);
+
+  if (!tokenMatch) {
+    return {
+      error: true,
+      message: `Invalid Token.`
+    };
+  }
+
+  await db.collection(`twoFactorAuthTokens`).deleteOne({
+    email: userEmail
+  });
+
+  return {
+    error: false,
+    message: `Tokens do match.`
+  };
+
+
+}
+
 ///////////////////////////////////////
 
