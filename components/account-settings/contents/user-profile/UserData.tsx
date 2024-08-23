@@ -49,6 +49,7 @@ export default function
   const [toastLabel, setToastLabel] = useState<string>(``);
   const [toastSeverity, setToastSeverity] = useState<string>(`info`);
 
+  const [twoFactorAuthEnabledVal, setTwoFactorAuthEnabledVal] = useState<boolean>(twoFactorAuthEnabled);
   const [disableTwoAuthSwitch, setDisableTwoAuthSwitch] = useState<boolean>(false);
 
   const disableTwoAuthTimer = useRef<NodeJS.Timeout | null>(null);
@@ -224,6 +225,8 @@ export default function
     if (!registeredManually) {
       return;
     }
+
+    setTwoFactorAuthEnabledVal(!twoFactorAuthEnabled);
     console.log(`Two factor auth status: `, twoFactorAuthEnabled);
     setDisableTwoAuthSwitch(true);
 
@@ -231,11 +234,33 @@ export default function
     setToastLabel(`Two-factor authentication successfully ${twoFactorAuthEnabled ? `disabled` : `enabled`}`);
     setToastSeverity(twoFactorAuthEnabled ? `info` : `success`);
 
+    // TODO: Create backend api to toggle two-factor auth
 
     disableTwoAuthTimer.current = setTimeout(function() {
       setDisableTwoAuthSwitch(false);
       return () => clearTimeout(disableTwoAuthTimer.current as NodeJS.Timeout);
     }, 5000);
+
+    const response = await fetch(`/api/toggle-two-factor-auth`, {
+      method: `POST`,
+      headers: {
+        'Content-Type': `application/json`
+      },
+      body: JSON.stringify({
+        userEmail: userEmail,
+        value: !twoFactorAuthEnabledVal
+      })
+    });
+
+    const responseData = await response.json();
+
+    if (responseData.error) {
+      setOpen(true);
+      setToastLabel(`Failed to toggle two-factor auth. Error: ${responseData.message}`);
+      setToastSeverity(`error`);
+      console.error(`Failed to toggle two-factor auth. Error: `, responseData.message);
+      return;
+    }
 
   }
 
@@ -412,8 +437,8 @@ export default function
               Two-Factor Authentication
             </p>
             <Switch disabled={disableTwoAuthSwitch || readonly}
-                    onChange={() => toggleTwoFactorAuth(twoFactorAuthEnabled)}
-                    defaultChecked={twoFactorAuthEnabled} />
+                    onChange={() => toggleTwoFactorAuth(twoFactorAuthEnabledVal)}
+                    defaultChecked={twoFactorAuthEnabledVal} />
 
           </motion.div>
         </>

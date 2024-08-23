@@ -2343,3 +2343,60 @@ export async function validateRegisterEmailToken(userToken: string, email: strin
 
 ///////////////////////////////////////
 
+/* IMPORTANT: TWO-FACTOR AUTH */
+export async function toggleTwoFactorAuth(userEmail: string, value: boolean) {
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+
+  const userExists = await db.collection(`users`).findOne({ email: userEmail });
+
+  if (!userExists) {
+    return {
+      error: true,
+      message: `Error. User does not exist.`
+    };
+  }
+
+  if (!userExists.registeredManually) {
+    return {
+      error: true,
+      message: `Users logged in via provider cannot enable two-factor authentication.`
+    };
+  }
+
+  const response = await db.collection(`users`).updateOne({ email: userEmail }, {
+    $set: {
+      twoFactorAuthEnabled: value
+    }
+  });
+
+  if (!response.acknowledged) {
+    return {
+      error: true,
+      message: `Failed to update the user.`
+    };
+  } else {
+    /* PUSH NOTIFICATION */
+    await db.collection(`users`).updateOne({ email: userEmail }, {
+      // @ts-ignore
+      $push: {
+        notifications: {
+          type: value ? `green` : `red`,
+          icon: `key`,
+          addedAt: new Date(),
+          timestamp: Timestamp.fromNumber(Date.now()),
+          text: `Two-factor authentication is ${value ? `enabled.` : `disabled.`}`
+        }
+      }
+    });
+
+    return {
+      error: false,
+      message: `The user was successfully updated.`
+    };
+  }
+
+}
+
+///////////////////////////////////////
+
