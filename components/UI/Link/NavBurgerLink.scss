@@ -14,3 +14,9 @@
   font-weight: 600;
   color: var(--clr-primary);
 }
+
+.account-settings__element-title.delete-account.delete-account-active {
+  font-weight: 600;
+  background-color: var(--clr-strawberry-red);
+  color: var(--clr-white);
+}

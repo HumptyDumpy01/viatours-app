@@ -44,7 +44,7 @@ export default function AccountSettingsSidebar({ activeUrl, notificationsCount }
       </div>
       <div className="account-settings__sidebar__element delete-account">
         <button onClick={() => router.push(`/account-settings?page=delete-account`)}
-                className={`btn account-settings__element-title delete-account ${activeUrl === `delete-account` ? `active` : ``} `}>Delete
+                className={`btn account-settings__element-title delete-account ${activeUrl === `delete-account` ? `delete-account-active` : ``} `}>Delete
           Account
         </button>
         <div className="account-settings__line"></div>
