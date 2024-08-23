@@ -220,8 +220,17 @@ export default function
   // console.log(`Executing confirmOldPasswordVal: `, confirmOldPasswordVal);
 
   async function toggleTwoFactorAuth(twoFactorAuthEnabled: boolean) {
+
+    if (!registeredManually) {
+      return;
+    }
     console.log(`Two factor auth status: `, twoFactorAuthEnabled);
     setDisableTwoAuthSwitch(true);
+
+    setOpen(true);
+    setToastLabel(`Two-factor authentication successfully ${twoFactorAuthEnabled ? `disabled` : `enabled`}`);
+    setToastSeverity(twoFactorAuthEnabled ? `info` : `success`);
+
 
     disableTwoAuthTimer.current = setTimeout(function() {
       setDisableTwoAuthSwitch(false);
@@ -256,9 +265,6 @@ export default function
         defaultVal={userLastName ? userLastName : ``}
       />
       {/* ////////////////////////////////// */}
-
-      {/* IMPORTANT:  WHEN EMAIL UPDATED SUCCESSFULLY, ROLL BACK TO 1 STAGE AND
-           SHOW SNACKBAR*/}
 
       {(registeredManually && changeEmailStages === 1) && (
         <motion.div

@@ -27,7 +27,7 @@ export default function NavigationResponsive(/*{  }: NavigationBurgerInterface*/
 
   let userName = '';
   if (session) {
-    console.log(`Executing session: `, session);
+    // console.log(`Executing session: `, session);
     const name = session.user?.name?.split(' ');
     userName = name?.length === 1 ? name[0].charAt(0).toUpperCase() : `${name![0].charAt(0) + `.`}${name![1].charAt(0)}`.toUpperCase();
   }
