@@ -6,6 +6,7 @@ import tourSlice from '@/store/tourSlice';
 import checkoutSlice from '@/store/checkoutSlice';
 import userProfileSlice from '@/store/userProfileSlice';
 import commentFormSlice from '@/store/commentFormSlice';
+import registerSlice from '@/store/registerSlice';
 
 const store = configureStore({
   reducer: {
@@ -18,7 +19,8 @@ const store = configureStore({
     tour: tourSlice,
     checkout: checkoutSlice,
     userProfile: userProfileSlice,
-    commentForm: commentFormSlice
+    commentForm: commentFormSlice,
+    register: registerSlice
   }
 });
 

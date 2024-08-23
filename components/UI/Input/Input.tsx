@@ -11,6 +11,7 @@ type EmailInputType = {
   name: string;
   questionMarkVisible: boolean;
   disabled: boolean;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 // children: ReactNode;
 
 }
@@ -21,6 +22,7 @@ type ConfirmPasswordInputType = {
   placeholder: string;
   name: string;
   disabled: boolean;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   // children: ReactNode;
 
 }
@@ -30,6 +32,7 @@ type InputType = {
   iconVisible: boolean;
   placeholder: string;
   name: string;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   disabled: boolean;
   // children: ReactNode;
 } | EmailInputType | ConfirmPasswordInputType;
@@ -113,8 +116,9 @@ export default function Input(props: InputType) {
       {(
           props.type !== `email` &&
           props.type !== `default`) &&
-        <input disabled={props.disabled} type={props.type === `confirmPassword` ? `password` :
-          showPassword ? `text` : props.type} name={props.name} id={props.name}
+        <input onChange={props.onChange ? props.onChange : undefined} disabled={props.disabled}
+               type={props.type === `confirmPassword` ? `password` :
+                 showPassword ? `text` : props.type} name={props.name} id={props.name}
                placeholder={props.placeholder}
                className={`register__input ${props.disabled ? `register__input-pending` : ``}`} required
         />

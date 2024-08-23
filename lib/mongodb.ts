@@ -2255,5 +2255,86 @@ export async function changeUserEmail(sessionEmail: string, userEmail: string) {
 
 }
 
+export async function sendRegisterEmailVerification(email: string) {
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+
+  const userExists = await db.collection(`users`).findOne({ email: email });
+
+  if (userExists) {
+    return {
+      error: true,
+      message: `Error. User already exists.`
+    };
+  }
+
+  const token = await generateVerificationToken();
+  const encryptedToken = await bcrypt.hash(token, 12);
+
+  const tokenExists = await db.collection(`registerEmailTokens`).findOne({ email: email });
+
+  if (tokenExists) {
+    const response = await db.collection(`registerEmailTokens`).deleteOne({ email: email });
+
+    if (!response.acknowledged) {
+      return {
+        error: true,
+        message: `Failed to delete the token.`
+      };
+    }
+
+  }
+
+  const response = await db.collection(`registerEmailTokens`).insertOne({
+    email: email,
+    token: encryptedToken,
+    createdAt: new Date()
+  });
+
+  if (!response.acknowledged) {
+    return {
+      error: true,
+      message: `Failed to insert the token.`
+    };
+  } else {
+    await sendVerificationCode(email, token, `registerEmailVerification`);
+    return {
+      error: false,
+      message: `The token was successfully inserted.`
+    };
+  }
+
+}
+
+export async function validateRegisterEmailToken(userToken: string, email: string) {
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+
+  const tokenObject = await db.collection(`registerEmailTokens`).findOne({ email: email });
+
+  if (!tokenObject) {
+    return {
+      error: true, message: `Error. Token expired/doesn't exist.`
+    };
+  }
+
+  const tokenMatch = await bcrypt.compare(userToken, tokenObject.token);
+
+  if (!tokenMatch) {
+    return {
+      error: true,
+      message: `Invalid Token.`
+    };
+  }
+  // delete the token from the collection
+  await db.collection(`registerEmailTokens`).deleteOne({ email: email });
+
+  return {
+    error: false,
+    message: `Tokens do match.`
+  };
+
+}
+
 ///////////////////////////////////////
 

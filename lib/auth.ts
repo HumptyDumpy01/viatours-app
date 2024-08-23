@@ -1,8 +1,7 @@
-import { getServerSession, NextAuthOptions } from 'next-auth';
+import { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GitHubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
-import { redirect } from 'next/navigation';
 import bcrypt from 'bcrypt';
 import { createUserWhenAuthViaProvider, getUser, UserType } from '@/lib/mongodb';
 import { Timestamp } from 'mongodb';
@@ -100,7 +99,8 @@ export const authConfig: NextAuthOptions = {
             savedArticles: [],
             extra: {
               signedOnNewsletter: false
-            }
+            },
+            emailVerified: true
           };
 
           await createUserWhenAuthViaProvider(newUser);
@@ -141,15 +141,3 @@ export const authConfig: NextAuthOptions = {
     }
   }
 };
-
-export async function loginIsRequiredServer() {
-  const session = await getServerSession(authConfig) as {
-    user: {
-      email: string;
-      image: string;
-    }
-  };
-  if (!session) {
-    redirect('/');
-  }
-}
