@@ -2220,8 +2220,33 @@ export async function changeUserEmail(sessionEmail: string, userEmail: string) {
   const response = await db.collection(`users`).updateOne({ email: sessionEmail }, {
     $set: {
       email: userEmail
+    },
+    // @ts-ignore
+    $push: {
+      notifications: {
+        type: `orange`,
+        icon: `letter`,
+        addedAt: new Date(),
+        timestamp: Timestamp.fromNumber(Date.now()),
+        text: `You successfully changed your email to ${userEmail}.`
+
+      }
     }
   });
+  //  Push notification to the user
+  /*await db.collection(`users`).updateOne({ email: userEmail }, {
+    // @ts-ignore
+    $push: {
+      notifications: {
+        type: `green`,
+        icon: `letter`,
+        addedAt: new Date(),
+        timestamp: Timestamp.fromNumber(Date.now()),
+        text: `You successfully changed your email to ${userEmail}.`
+      }
+    }
+  });*/
+
 
   if (response.acknowledged) {
 
@@ -2229,6 +2254,7 @@ export async function changeUserEmail(sessionEmail: string, userEmail: string) {
 
     // delete the token from the collection
     await db.collection(`changeEmailTokens`).deleteOne({ email: sessionEmail });
+
 
     return {
       error: false,
