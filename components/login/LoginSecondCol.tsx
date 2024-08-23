@@ -23,8 +23,8 @@ export default function LoginSecondCol({ message }: LoginSecondColType) {
   const [error, setError] = useState<string | null>(null);
 
   // extract the email and password from the cookies
-  const emailCookie = document.cookie.split(`; `).find(row => row.startsWith(`email=`))?.split(`=`)[1];
-  const passwordCookie = document.cookie.split(`; `).find(row => row.startsWith(`password=`))?.split(`=`)[1];
+  const emailCookie = document?.cookie?.split(`; `).find(row => row.startsWith(`email=`))?.split(`=`)[1] || undefined;
+  const passwordCookie = document?.cookie?.split(`; `).find(row => row.startsWith(`password=`))?.split(`=`)[1] || undefined;
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
