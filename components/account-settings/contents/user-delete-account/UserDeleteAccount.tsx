@@ -2,11 +2,11 @@
 
 import './UserDeleteAccount.scss';
 import { motion } from 'framer-motion';
-import { useState } from 'react';
 import UserDeleteAccountFirstStep
   from '@/components/account-settings/contents/user-delete-account/UserDeleteAccountFirstStep';
 import UserDeleteAccountSecondStep
   from '@/components/account-settings/contents/user-delete-account/UserDeleteAccountSecondStep';
+import { useCartSelector } from '@/store/hooks';
 
 type UserDeleteAccountType = {
   userEmail: string;
@@ -14,7 +14,7 @@ type UserDeleteAccountType = {
 }
 
 export default function UserDeleteAccount({ userEmail }: UserDeleteAccountType) {
-  const [deleteAccountStage, setDeleteAccountStage] = useState<1 | 2>(1);
+  const deleteAccountStage = useCartSelector((state) => state.deleteAccount.deleteAccountStage);
 
   return (
     <>
@@ -25,7 +25,7 @@ export default function UserDeleteAccount({ userEmail }: UserDeleteAccountType) 
         transition={{ type: `spring`, stiffness: 100, damping: 10, duration: 0.5 }}
         className="delete-account-container">
         {deleteAccountStage === 1 && (
-          <UserDeleteAccountFirstStep />
+          <UserDeleteAccountFirstStep userEmail={userEmail} />
         )}
         {deleteAccountStage === 2 && (
           <UserDeleteAccountSecondStep userEmail={userEmail} />

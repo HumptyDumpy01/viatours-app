@@ -2682,3 +2682,159 @@ export async function changeUserPassword(userEmail: string, password: string, co
 
 ///////////////////////////////////////
 
+/* IMPORTANT: ACCOUNT DELETION */
+
+export async function isPasswordCorrect(userEmail: string, userPassword: string) {
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+
+  const user = await db.collection(`users`).findOne({ email: userEmail }) as UserType | null;
+
+  if (!user) {
+    return {
+      error: true,
+      message: `Error. User does not exist.`
+    };
+  }
+
+  const passwordMatch = await bcrypt.compare(userPassword, user.password!);
+
+  if (passwordMatch) {
+    return {
+      error: false,
+      message: `Correct password.`
+    };
+  } else {
+    return {
+      error: true,
+      message: `Incorrect password!`
+    };
+  }
+
+}
+
+export async function createDeleteAccountToken(userEmail: string) {
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+
+  const user = await db.collection(`users`).findOne({ email: userEmail });
+
+  if (!user) {
+    return {
+      error: true,
+      message: `Error. User does not exist.`
+    };
+  }
+
+  const tokenExists = await db.collection(`deleteAccountTokens`).findOne({ email: userEmail });
+
+  if (tokenExists) {
+    await db.collection(`deleteAccountTokens`).deleteOne({ email: userEmail });
+  }
+
+  const token = await generateVerificationToken();
+
+  const encryptedToken = await bcrypt.hash(token, 12);
+
+  const response = await db.collection(`deleteAccountTokens`).insertOne({
+    email: userEmail,
+    token: encryptedToken,
+    createdAt: new Date()
+  });
+
+  if (response.acknowledged) {
+    await sendVerificationCode(userEmail, token, `deleteAccount`);
+
+    return {
+      error: false,
+      message: `The token was successfully inserted.`
+    };
+  } else {
+    return {
+      error: true,
+      message: `Failed to insert the token.`
+    };
+  }
+
+}
+
+export async function validateDeleteAccountToken(userEmail: string, userToken: string) {
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+
+  const user = await db.collection(`users`).findOne({ email: userEmail });
+
+  if (!user) {
+    return {
+      error: true,
+      message: `Error. User does not exist.`
+    };
+  }
+
+  const tokenObject = await db.collection(`deleteAccountTokens`).findOne({ email: userEmail });
+
+  if (!tokenObject) {
+    return {
+      error: true,
+      message: `Error. Token expired/doesn't exist.`
+    };
+  }
+
+  const tokensMatch = await bcrypt.compare(userToken, tokenObject.token);
+
+  if (!tokensMatch) {
+    return {
+      error: true,
+      message: `Invalid Token.`
+    };
+  } else {
+    return {
+      error: false,
+      message: `Tokens do match.`
+    };
+  }
+}
+
+export async function deleteUserAccount(userEmail: string) {
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+
+  const user = await db.collection(`users`).findOne({ email: userEmail });
+
+  if (!user) {
+    return {
+      error: true,
+      message: `Error. User does not exist.`
+    };
+  }
+
+  const tokenExists = await db.collection(`deleteAccountTokens`).findOne({ email: userEmail });
+
+  if (!tokenExists) {
+    return {
+      error: true,
+      message: `Error. Token has expired.`
+    };
+  } else {
+    await db.collection(`deleteAccountTokens`).deleteOne({ email: userEmail });
+  }
+
+  const response = await db.collection(`users`).deleteOne({ email: userEmail });
+
+  if (response.acknowledged) {
+
+    return {
+      error: false,
+      message: `The user was successfully deleted.`
+    };
+  } else {
+    return {
+      error: true,
+      message: `Failed to delete the user.`
+    };
+  }
+
+}
+
+///////////////////////////////////////
+

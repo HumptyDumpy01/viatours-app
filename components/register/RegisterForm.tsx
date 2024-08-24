@@ -75,10 +75,10 @@ export default function RegisterForm(/*{  }: RegisterFormType*/) {
     const formData = new FormData(currObject);
     const results = Object.fromEntries(formData.entries()) as RegisterFormType;
 
-    console.log(`Executing results: `, results);
+    // console.log(`Executing results: `, results);
 
     const trimmedResults = {
-      initials: results.initials.trim(),
+      initials: results.initials.toString().trim(),
       email: results.email.trim(),
       password: results.password.trim(),
       confirmPassword: results.confirmPassword
