@@ -1,0 +1,79 @@
+.travel-articles__the-newest__card {
+  position: relative;
+  margin-right: .3rem;
+
+  &:hover, &:active {
+    transform: translateY(-0.5rem);
+
+    //.travel-articles__the-newest__card-info {
+    //  animation-name: moveInBottom;
+    //  animation-duration: .7s;
+    //  //animation-delay: 0.2s;
+    //  /*animation-iteration-count: 2;*/
+    //  animation-timing-function: ease-out;
+    //
+    //}
+  }
+
+  width: 40.9rem;
+  transition: all 0.3s;
+
+  &:not(:last-child) {
+    margin-right: 2.4rem;
+  }
+
+  &-tag {
+    min-width: 6.2rem;
+    min-height: 3.6rem;
+    position: absolute;
+    top: 1.5rem;
+    left: 1.5rem;
+    background: var(--clr-white);
+    color: var(--clr-blue-lighter);
+    border-radius: 100rem;
+    font-weight: 500;
+    backdrop-filter: blur(10px);
+    opacity: 0.9;
+    padding: 1rem 1rem;
+    text-align: center;
+    font-size: 1.465rem;
+  }
+
+  &-container {
+    padding-top: 1.5rem;
+    overflow-x: auto;
+    // hiding the scrollbar
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    margin-bottom: 6.4rem;
+  }
+
+  &-heading {
+    color: var(--clr-blue-lighter);
+    font-size: 1.7297rem;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  &-img {
+    height: 24.6rem;
+    margin-bottom: 3.4rem;
+    object-fit: cover;
+    border-radius: 12px;
+  }
+
+  &-info {
+    font-size: 1.3891rem;
+    margin-bottom: 1.5rem;
+    color: var(--clr-blue-lighter);
+
+    &__date {
+      padding-right: 1rem;
+      border-right: 1px solid var(--clr-silver);
+    }
+
+    &__author {
+      padding-left: 1rem;
+    }
+  }
+}
