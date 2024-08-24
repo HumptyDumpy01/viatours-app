@@ -26,7 +26,7 @@ export async function sendVerificationCode(email: string, token: string, type:
   }
   if (type === `registerEmailVerification`) {
     const response = await resend.emails.send({
-      from: 'onboarding@resend.dev',
+      from: 'mail@resend.dev',
       to: email,
       subject: 'Viatours Email Verification',
       html: `

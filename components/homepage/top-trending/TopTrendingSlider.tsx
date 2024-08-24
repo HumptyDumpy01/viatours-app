@@ -94,23 +94,21 @@ export default function TopTrendingSlider({ filter }: TopTrendingSliderType) {
       )}
       {(!loading && tours.length > 0 && !error) && tours.map(function(item) {
         return (
-          <>
-            <TourCard
-              key={item._id}
-              href={`/tours/${item._id}`}
-              imgSrc={item.images[0]}
-              imgAlt={item.title}
-              info={[{
-                country: item.country,
-                city: item.city,
-                heading: item.title,
-                rating: item.rating.overall,
-                ratingCount: item.reviews,
-                duration: item.duration,
-                price: item.price.children
-              }]}
-            />
-          </>
+          <TourCard
+            key={item._id}
+            href={`/tours/${item._id}`}
+            imgSrc={item.images[0]}
+            imgAlt={item.title}
+            info={[{
+              country: item.country,
+              city: item.city,
+              heading: item.title,
+              rating: item.rating.overall,
+              ratingCount: item.reviews,
+              duration: item.duration,
+              price: item.price.children
+            }]}
+          />
         );
       })}
 
