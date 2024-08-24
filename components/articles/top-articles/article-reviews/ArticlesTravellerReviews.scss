@@ -1,0 +1,187 @@
+.traveller-reviews {
+  &-container {
+    padding-top: 11.9rem;
+    padding-bottom: 10.5rem;
+    background-color: rgba(235, 102, 43, .05);
+    @media only screen and (max-width: 57.125em) {
+      padding-left: 2.4rem;
+    }
+    @media only screen and (max-width: 37.5em) {
+      padding-top: 9.6rem;
+      padding-bottom: 8.4rem;
+    }
+  }
+
+  &__heading {
+    margin-top: -3rem;
+    @media only screen and (max-width: 23.5625em) {
+      font-size: 2.6rem;
+    }
+
+    &-container {
+      position: relative;
+      @media only screen and (max-width: 57.125em) {
+        display: flex;
+        justify-content: center;
+      }
+    }
+
+  }
+
+
+  &__review {
+    border-radius: 12px;
+    background-color: #fff;
+    //width: 40.9rem;
+    height: 31.5rem;
+    padding: 3rem;
+    @media only screen and (max-width: 57.125em) {
+      width: 34rem;
+    }
+
+    &-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3rem;
+      margin-top: 4rem;
+      @media only screen and (max-width: 57.125em) {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      @media only screen and (max-width: 40.75em) {
+        grid-template-columns: 1fr;
+        justify-items: center;
+      }
+
+      .first-element {
+        @media only screen and (max-width: 57.125em) {
+          justify-self: end;
+        }
+        @media only screen and (max-width: 40.75em) {
+          justify-self: center;
+        }
+      }
+
+      .third-element {
+        @media only screen and (max-width: 57.125em) {
+          justify-self: end;
+        }
+
+        @media only screen and (max-width: 40.75em) {
+          justify-self: center;
+        }
+      }
+    }
+
+    &-heading {
+      font-size: 1.786rem;
+      color: var(--clr-primary);
+      font-weight: 500;
+      margin-bottom: 3.353rem;
+    }
+
+    &-text {
+      color: var(--clr-blue-lighter);
+      font-size: 1.477rem;
+      font-weight: 500;
+      line-height: 1.6;
+      padding-bottom: 3.9rem;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    &-author {
+      margin-top: 2rem;
+
+      &__img {
+        width: 6rem;
+        height: 6rem;
+      }
+
+      &__info {
+        color: var(--clr-blue-lighter);
+        gap: 1rem;
+
+        &__name {
+          font-weight: 500;
+          font-size: 1.465rem;
+          color: var(--clr-dark-blue);
+        }
+
+        &__employment {
+          font-size: 1.367rem;
+        }
+      }
+    }
+
+    transition: all 0.4s;
+
+    h3, h4, p, span, q {
+      transition: all 0.4s;
+    }
+
+    overflow: hidden;
+
+    &:hover, &:active {
+      //background-color: var(--clr-blue-lighter);
+      // give it some beautiful background linear gradient effect, like my blue lighter color 1E2050FF
+
+      //background-image: linear-gradient(120deg, #1E2050FF, #381d05);
+      background-image: linear-gradient(120deg, #1E2050FF, #232770);
+
+      transform: translateY(-0.5rem);
+
+      h3, h4, p, span, q {
+        color: #fff !important;
+      }
+
+      q {
+        animation-name: moveInLeft;
+        animation-duration: 1.5s;
+        //animation-delay: 0.2s;
+        /*animation-iteration-count: 2;*/
+        animation-timing-function: ease-out;
+
+      }
+
+      h3 {
+        animation-name: moveInTop;
+        animation-duration: 1s;
+        //animation-delay: 0.2s;
+        /*animation-iteration-count: 2;*/
+        animation-timing-function: ease-out;
+
+      }
+
+      .traveller-reviews__review-author {
+        animation-name: moveInBottom;
+        animation-duration: 1s;
+        //animation-delay: 0.2s;
+        /*animation-iteration-count: 2;*/
+        animation-timing-function: ease-out;
+
+      }
+    }
+  }
+
+  &__bottom {
+    &-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      margin-top: 6.6rem;
+      @media only screen and (max-width: 41.875em) {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+    }
+
+    &-rating {
+      color: var(--clr-dark-blue);
+      font-weight: 700;
+      font-size: 2.813rem;
+      margin-bottom: 1.4rem;
+    }
+
+    &-count {
+      font-size: 1.441rem;
+    }
+  }
+}

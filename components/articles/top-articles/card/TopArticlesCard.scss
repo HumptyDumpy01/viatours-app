@@ -1,0 +1,124 @@
+.travel-articles__the-top-articles__card {
+  width: 34.5rem;
+  height: 25rem;
+  transition: all 0.3s;
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: 12px;
+
+  &:hover, &:active {
+    img {
+      transform: scale(1.04);
+    }
+  }
+
+
+  &-wrapper {
+    padding-top: .4rem;
+    margin-top: -.4rem;
+    gap: 2.3rem;
+    width: 110rem;
+    overflow-x: hidden;
+    @media only screen and (max-width: 57.9375em) {
+      overflow-x: auto;
+    }
+
+    @media (hover: none) {
+      overflow-x: auto;
+    }
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding-bottom: 13.6rem;
+    margin-left: 2.4rem;
+  }
+
+  &-img {
+    width: 34.5rem;
+    height: 25rem;
+    object-fit: cover;
+    // adding filter to the image
+    //filter: brightness(0.8);
+    transition: all 0.3s;
+    position: relative;
+    backface-visibility: hidden !important;
+    // adding before pseudo element to the image
+    &::before {
+      content: '';
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      //background: linear-gradient(180deg, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0) 100%);
+      background-color: rgba(0, 0, 0, 0.3);
+      z-index: 1;
+      backface-visibility: hidden !important;
+    }
+  }
+
+  &-info {
+    z-index: 9999;
+    position: absolute;
+    bottom: 2.3rem;
+    left: 3.1rem;
+
+    &__location-and-time {
+      gap: 1.2rem;
+      margin-bottom: 1.2rem;
+      color: var(--clr-white);
+    }
+
+    &__location {
+      font-weight: 500;
+      font-size: 1.4rem;
+      color: var(--clr-white);
+    }
+
+    &__time {
+      font-weight: 500;
+      font-size: 1.4rem;
+    }
+
+    &__author {
+      &__p {
+        font-size: 1.4rem;
+        font-weight: 500;
+        color: var(--clr-white);
+      }
+    }
+  }
+
+
+  &-heading {
+    font-size: 1.7rem;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--clr-white);
+    margin-bottom: 1rem;
+  }
+}
+
+.travel-articles__the-top-articles__card {
+  position: relative;
+}
+
+.travel-articles__the-top-articles-tag {
+  min-width: 6.2rem;
+  min-height: 3.6rem;
+  position: absolute;
+  top: 2.6rem;
+  left: 1.5rem;
+  background: var(--clr-white);
+  color: var(--clr-blue-lighter);
+  border-radius: 100rem;
+  font-weight: 500;
+  //backdrop-filter: blur(10px);
+  //opacity: 0.9;
+  padding: 1rem 1.6rem;
+  text-align: center;
+  font-size: 1.4rem;
+  z-index: 9999;
+}
+
+

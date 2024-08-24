@@ -4,8 +4,14 @@ import ArticlesHero from '@/components/articles/hero/ArticlesHero';
 import ArticlesContainer from '@/components/articles/container/ArticlesContainer';
 import ArticlesNavigation from '@/components/articles/header/ArticlesNavigation';
 import ArticlesHeader from '@/components/articles/header/ArticlesHeader';
-import ArticlesCardContainer from '@/components/articles/card/ArticlesCardContainer';
 import NewestArticlesContainer from '@/components/articles/newest/NewestArticlesContainer';
+import TopArticlesContainer from '@/components/articles/top-articles/TopArticlesContainer';
+import ArticlesTravellerReviews from '@/components/articles/top-articles/article-reviews/ArticlesTravellerReviews';
+import ArticlesTravellerHeading from '@/components/articles/top-articles/article-reviews/ArticlesTravellerHeading';
+import ArticlesReviewsCardContainer
+  from '@/components/articles/top-articles/article-reviews/card/ArticlesReviewsCardContainer';
+import SearchArticleContainer from '@/components/articles/search-article/SearchArticleContainer';
+import HotArticlesCTA from '@/components/articles/cta/HotArticlesCTA';
 /*interface ArticlesPageInterface {
   // children: ReactNode;
 }*/
@@ -19,10 +25,15 @@ export default function ArticlesPage(/*{  }: ArticlesPageInterface*/) {
         <div className="travel-articles container">
           <ArticlesNavigation />
           <ArticlesHeader />
-        </div>
-        <ArticlesCardContainer>
           <NewestArticlesContainer />
-        </ArticlesCardContainer>
+          <TopArticlesContainer />
+        </div>
+        <ArticlesTravellerReviews>
+          <ArticlesTravellerHeading />
+          <ArticlesReviewsCardContainer />
+        </ArticlesTravellerReviews>
+        <SearchArticleContainer />
+        <HotArticlesCTA />
       </ArticlesContainer>
     </>
   );

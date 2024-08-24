@@ -5,6 +5,10 @@
   &:hover, &:active {
     transform: translateY(-0.5rem);
 
+    a {
+      text-decoration: none !important;
+    }
+
     //.travel-articles__the-newest__card-info {
     //  animation-name: moveInBottom;
     //  animation-duration: .7s;
