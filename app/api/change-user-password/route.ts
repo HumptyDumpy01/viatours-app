@@ -16,6 +16,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: false, message: 'Password changed successfully' });
 
   } catch (e) {
-    return null;
+    return NextResponse.json({ error: true, message: 'An unexpected error occurred' });
   }
 }

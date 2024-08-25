@@ -18,6 +18,6 @@ export async function POST(request: NextRequest) {
 
     // create a serer function in e.g. mongodb.ts and then call it here
   } catch (e) {
-    return null;
+    return NextResponse.json({ error: true, message: 'An unexpected error occurred' });
   }
 }

@@ -10,7 +10,7 @@ export async function sendVerificationCode(email: string, token: string, type:
 
   if (type === `emailVerification`) {
     const response = await resend.emails.send({
-      from: 'onboarding@resend.dev',
+      from: 'onboarding@viatours.net',
       to: email,
       subject: 'Changing Viatours Email Verification',
       html: `
@@ -26,7 +26,7 @@ export async function sendVerificationCode(email: string, token: string, type:
   }
   if (type === `registerEmailVerification`) {
     const response = await resend.emails.send({
-      from: 'mail@resend.dev',
+      from: 'onboarding@viatours.net',
       to: email,
       subject: 'Viatours Email Verification',
       html: `
@@ -42,7 +42,7 @@ export async function sendVerificationCode(email: string, token: string, type:
   }
   if (type === `twoFactorAuth`) {
     const response = await resend.emails.send({
-      from: 'onboarding@resend.dev',
+      from: 'onboarding@viatours.net',
       to: email,
       subject: 'Viatours Two-factor Authentication',
       html: `
@@ -58,7 +58,7 @@ export async function sendVerificationCode(email: string, token: string, type:
   }
   if (type === `resetPassword`) {
     const response = await resend.emails.send({
-      from: 'onboarding@resend.dev',
+      from: 'onboarding@viatours.net',
       to: email,
       subject: 'Viatours Reset Password',
       html: `
@@ -77,7 +77,7 @@ export async function sendVerificationCode(email: string, token: string, type:
 
   if (type === `deleteAccount`) {
     const response = await resend.emails.send({
-      from: 'onboarding@resend.dev',
+      from: 'onboarding@viatours.net',
       to: email,
       subject: 'Viatours Delete Account',
       html: `

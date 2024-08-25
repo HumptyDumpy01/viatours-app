@@ -7,10 +7,7 @@ export async function POST(request: NextRequest) {
     const { userEmail, userToken } = await request.json() as { userEmail: string, userToken: string };
 
     if (!userEmail || !userToken || !userEmail.includes(`@`) || userToken.length !== 6) {
-      return {
-        error: true,
-        message: `Invalid request`
-      };
+      return NextResponse.json({ error: true, message: 'Enter a valid data!' });
     }
     const response = await validateDeleteAccountToken(userEmail, userToken);
 
@@ -28,6 +25,6 @@ export async function POST(request: NextRequest) {
 
     // create a serer function in e.g. mongodb.ts and then call it here
   } catch (e) {
-    return null;
+    return NextResponse.json({ error: true, message: 'An unexpected error occurred' });
   }
 }

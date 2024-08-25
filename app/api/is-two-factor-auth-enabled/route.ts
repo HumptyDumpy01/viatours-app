@@ -22,6 +22,6 @@ export async function POST(request: NextRequest) {
     });
 
   } catch (e) {
-    return null;
+    return NextResponse.json({ error: true, message: 'An unexpected error occurred' });
   }
 }
