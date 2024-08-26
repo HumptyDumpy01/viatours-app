@@ -20,7 +20,6 @@ import sliderImg2 from '@/assets/images/article-descr/slider/slider-img-2.png';
 import sliderImg3 from '@/assets/images/article-descr/slider/slider-img-3.png';
 import sliderImg4 from '@/assets/images/article-descr/slider/slider-img-4.png';
 import sliderImg5 from '@/assets/images/article-descr/slider/slider-img-5.png';
-import Image from 'next/image';
 
 interface ArticleDescriptionInterface {
   params: {
@@ -29,23 +28,48 @@ interface ArticleDescriptionInterface {
   // children: ReactNode;
 }
 
+/* TEMPORARY */
+// @ts-ignore
+const articleContent = [
+  {
+    part: `head`,
+    content: [
+      {
+        type: `quote`,
+        text: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`,
+        author: `Saepul Saro`
+      },
+      {
+        type: `paragraph`,
+        text: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat`,
+        textColor: `grey`
+      }
+    ]
+  }
+];
+
 export default function ArticleDescription({ params }: ArticleDescriptionInterface) {
   const id = params.id;
   return (
     <>
       <section className="tour-article-descr-container">
         <div className="tour-article-descr container">
-          <ArticleDescrPageNav />
-          <ArticleDescrTags />
-          <ArticleDescrHeading />
-          <ArticleDescrStats />
-          <ArticleDescrExtraInfo />
+          <ArticleDescrPageNav tags={[]} title={`Wonders of the World: Colosseum`} />
+          <ArticleDescrTags tags={[]} />
+          <ArticleDescrHeading heading={`Exploring the Wonders of the World at Colosseum`}
+                               subHeading={`WONDERS OF THE WORLD: COLOSSEUM`} />
+          <ArticleDescrStats rating={4.5} location={`Colosseum, Rome, Italy`} views={1009} />
+          <ArticleDescrExtraInfo author={`Nika Jackson`} role={`Travel writer`} readTime={`2 minutes`} />
           <ArticleDescrSlider
             images={[sliderImg1.src, sliderImg2.src, sliderImg3.src, sliderImg4.src, sliderImg5.src]} />
         </div>
       </section>
       <ArticleDescrContent>
-        <ArticleDescText />
+        <ArticleDescText
+          author={`Nika Jackson`}
+          dateOfPublication={`Feb 02, 2024, 13:56`}
+          // @ts-ignore
+          content={articleContent} />
         <ArticleDescrSecondColumn />
       </ArticleDescrContent>
       <ArticleDescrCharity />

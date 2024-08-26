@@ -1,25 +1,29 @@
 // 'use client';
 
-/*type ArticleDescrStatsType = {
+type ArticleDescrStatsType = {
+  rating: number;
+  location: string;
+  views: number;
   // children: ReactNode;
-}*/
+}
 
 import Stars from '@/components/UI/Layout/Stars';
 
-export default function ArticleDescrStats(/*{  }: ArticleDescrStatsType*/) {
+export default function ArticleDescrStats({ rating, views, location }: ArticleDescrStatsType) {
   return (
     <>
       <div className="tour-article-descr__rating-container">
         <div className="tour-article-descr__rating flex">
           <div className={`margin-right-very-small flex`}>
-            <Stars rating={4.5} />
+            <Stars rating={rating} />
           </div>
           <div className="">
             <div className="flex flex-align-center gap-24px">
               <p className="flex flex-align-center tour-article-descr__location">
-                Colosseum, Rome, Italy
+                {location}
               </p>
-              <p className="flex flex-align-center tour-article-descr__views">1K+ viewed</p>
+              <p
+                className="flex flex-align-center tour-article-descr__views">{views > 1000 ? `${(views / 1000).toFixed()}k+` : views} viewed</p>
             </div>
           </div>
         </div>

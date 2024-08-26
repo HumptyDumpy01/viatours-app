@@ -1,8 +1,10 @@
 // 'use client';
 
-/*type NewestArticlesContainerType = {
+type NewestArticlesContainerType = {
+  /* TODO: IMPLEMENT A BETTER SCHEMA LATER */
+  newestArticles: []
   // children: ReactNode;
-}*/
+}
 
 import ArticlesContainerCardsHeading from '@/components/articles/card/ArticlesContainerCardsHeading';
 import ArticlesCard from '@/components/articles/card/ArticlesCard';
@@ -12,7 +14,7 @@ import theNewest3 from '@/assets/images/articles/the-newest/the-newest-3.png';
 import theNewest4 from '@/assets/images/articles/the-newest/the-newest-4.png';
 import theNewest5 from '@/assets/images/articles/the-newest/the-newest-5.png';
 
-export default function NewestArticlesContainer(/*{  }: NewestArticlesContainerType*/) {
+export default function NewestArticlesContainer({ newestArticles }: NewestArticlesContainerType) {
   return (
     <>
       <div className="travel-articles__the-newest">

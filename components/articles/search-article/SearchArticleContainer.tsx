@@ -17,11 +17,14 @@ import searchImage6 from '@/assets/images/articles/search-any-article/tour-image
 // import searchImage11 from '@/assets/images/articles/search-any-article/tour-image-11.png';
 import Pagination from '@/components/UI/Pagnation/Pagination';
 
-/*type SearchArticleContainerType = {
+type SearchArticleContainerType = {
+  /* TODO: IMPLEMENT A BETTER SCHEMA LATER */
+  results: []
   // children: ReactNode;
-}*/
+}
 
-export default function SearchArticleContainer(/*{  }: SearchArticleContainerType*/) {
+export default function SearchArticleContainer({ results }: SearchArticleContainerType) {
+
   return (
     <section className="search-article-container container">
       <div className="search-article">

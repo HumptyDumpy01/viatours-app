@@ -1,15 +1,19 @@
 // 'use client';
 
-/*type ArticleDescrHeadingType = {
-  // children: ReactNode;
-}*/
+import { ReactNode } from 'react';
 
-export default function ArticleDescrHeading(/*{  }: ArticleDescrHeadingType*/) {
+type ArticleDescrHeadingType = {
+  subHeading: string;
+  heading: ReactNode;
+  // children: ReactNode;
+}
+
+export default function ArticleDescrHeading({ subHeading, heading }: ArticleDescrHeadingType) {
   return (
     <>
       <div className="tour-article-descr__title-container">
-        <span className="tour-article-descr__title-subheading subheading">WONDERS OF THE WORLD: COLOSSEUM</span>
-        <h1 className="tour-article-descr__title">Exploring the Wonders of the World at <br /> Colosseum</h1>
+        <span className="tour-article-descr__title-subheading subheading">{subHeading}</span>
+        <h1 className="tour-article-descr__title">{heading}</h1>
       </div>
     </>
   );

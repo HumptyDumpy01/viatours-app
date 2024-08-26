@@ -25,14 +25,14 @@ export default function ArticlesPage(/*{  }: ArticlesPageInterface*/) {
         <div className="travel-articles container">
           <ArticlesNavigation />
           <ArticlesHeader />
-          <NewestArticlesContainer />
-          <TopArticlesContainer />
+          <NewestArticlesContainer newestArticles={[]} />
+          <TopArticlesContainer topArticles={[]} />
         </div>
         <ArticlesTravellerReviews>
           <ArticlesTravellerHeading />
           <ArticlesReviewsCardContainer />
         </ArticlesTravellerReviews>
-        <SearchArticleContainer />
+        <SearchArticleContainer results={[]} />
         <HotArticlesCTA />
       </ArticlesContainer>
     </>
