@@ -1,5 +1,6 @@
 // 'use client';
 import './ArticlesCard.scss';
+import Link from 'next/link';
 
 type ArticlesCardType = {
   image: any;
@@ -9,7 +10,7 @@ type ArticlesCardType = {
 export default function ArticlesCard({ image }: ArticlesCardType) {
   return (
     <figure className="travel-articles__the-newest__card grid">
-      <a href="#" className="link travel-articles__card-hover">
+      <Link href={`/articles/1`} className="link travel-articles__card-hover">
         <span className="inline-block travel-articles__the-newest__card-tag">Trips</span>
         <img src={image.src}
              alt="dummy image for the newest topic card"
@@ -22,7 +23,7 @@ export default function ArticlesCard({ image }: ArticlesCardType) {
           Kenya vs Tanzania Safari: The Better African
           Safari Experience
         </h3>
-      </a>
+      </Link>
     </figure>
   );
 }

@@ -213,7 +213,7 @@
 
   ///////////////////////
   &__slider {
-    overflow: hidden;
+    //overflow: hidden;
     position: relative;
     height: 49.6rem;
     border-radius: 12px;
@@ -232,10 +232,30 @@
       transition: transform .3s ease-out;
       border-radius: 12px;
       object-fit: cover;
-
     }
   }
 
   ///////////////////////
 
+}
+
+
+.tour-article-descr__slider-container {
+  overflow: hidden;
+  position: relative;
+  height: 49.6rem;
+  border-radius: 12px;
+}
+
+.tour-article-descr__slider {
+  //display: flex;
+  transition: transform 0.3s ease-out;
+}
+
+.tour-article-descr__slider-img {
+  flex-shrink: 0;
+  width: 100%;
+  height: 49.6rem;
+  object-fit: cover;
+  border-radius: 12px;
 }

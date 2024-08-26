@@ -3,15 +3,16 @@ import './ArticleDescrBtn.scss';
 
 type ArticleDescrBtnType = {
   mode: `left` | `right`;
+  onClick: () => void;
   // children: ReactNode;
 }
 
-export default function ArticleDescrBtn({ mode }: ArticleDescrBtnType) {
+export default function ArticleDescrBtn({ mode, onClick }: ArticleDescrBtnType) {
   return (
     <>
       {mode === `left` && (
         <>
-          <div className="fix-btns-article-descr">
+          <div className="fix-btns-article-descr" onClick={onClick}>
             <div className="btn-left-article-descr">
               <svg className="btn-left-icon" xmlns="http://www.w3.org/2000/svg" width="19" height="17"
                    viewBox="0 0 16 14"
@@ -26,7 +27,7 @@ export default function ArticleDescrBtn({ mode }: ArticleDescrBtnType) {
       )}
       {mode === `right` && (
         <>
-          <div className="fix-btns-right-article-descr margin-left-auto">
+          <div className="fix-btns-right-article-descr margin-left-auto" onClick={onClick}>
             <div className="btn-right-article-descr">
               <svg className="btn-right-icon" xmlns="http://www.w3.org/2000/svg" width="19" height="17"
                    viewBox="0 0 16 14"

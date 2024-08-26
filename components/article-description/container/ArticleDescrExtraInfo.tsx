@@ -19,8 +19,10 @@ export default function ArticleDescrExtraInfo(/*{  }: ArticleDescrExtraInfoType*
         </Link>
         <div className="tour-article-descr__extra-info__actions flex flex-align-center">
           <p className="tour-article-descr__extra-info__actions-min-read">2 minutes read</p>
-          <button type="button" className="btn tour-article-descr__extra-info__actions-share">Share</button>
-          <button type="button" className="btn tour-article-descr__extra-info__actions-save">Save</button>
+          <button type="button" className="btn tour-article-descr__extra-info__actions-share background-white">Share
+          </button>
+          <button type="button" className="btn tour-article-descr__extra-info__actions-save background-white">Save
+          </button>
         </div>
       </div>
     </>
