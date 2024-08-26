@@ -101,6 +101,17 @@
       }
     }
 
+    &-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      margin-bottom: 3.5rem;
+      @media only screen and (max-width: 67.1875em) {
+        flex-direction: row;
+        overflow-x: auto;
+      }
+    }
+
     &__heading {
       color: var(--clr-blue-lighter);
       font-weight: 700;

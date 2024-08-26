@@ -19,7 +19,7 @@ export default function ArticleDescrSecondColumn(/*{  }: ArticleDescrSecondColum
       <div className="tour-articles-descr__content-2">
         <h3 className="tour-articles-descr__content-2__heading">Top Stories</h3>
 
-        <div className="travel-articles__the-top-articles__card-wrapper">
+        <div className="tour-articles-descr__content-2-cards">
           <ArticleContentCard imgUrl={topStoriesImg1.src} />
           <ArticleContentCard imgUrl={topStoriesImg2.src} />
           <ArticleContentCard imgUrl={topStoriesImg3.src} />
