@@ -2,6 +2,9 @@
   position: relative;
   margin-right: .3rem;
 
+  &-div {
+  }
+
   &:hover, &:active {
     transform: translateY(-0.5rem);
 
@@ -46,9 +49,14 @@
   &-container {
     padding-top: 1.5rem;
     overflow-x: auto;
-    // hiding the scrollbar
-    scrollbar-width: none;
-    -ms-overflow-style: none;
+    // styling for scrollbar
+    scrollbar-width: thin;
+
+    @media (hover: hover) {
+      // hide scrollbar for non-touch devices
+      scrollbar-width: none;
+    }
+
     margin-bottom: 6.4rem;
   }
 
@@ -61,6 +69,7 @@
 
   &-img {
     height: 24.6rem;
+    width: 37.9rem;
     margin-bottom: 3.4rem;
     object-fit: cover;
     border-radius: 12px;

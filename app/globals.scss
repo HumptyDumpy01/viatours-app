@@ -1300,3 +1300,8 @@ b {
 .background-white {
   background-color: var(--clr-white);
 }
+
+.when-scrolling-horizontally {
+  pointer-events: none !important;
+  user-select: none !important;
+}
