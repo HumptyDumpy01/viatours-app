@@ -1276,3 +1276,19 @@ b {
   font-style: italic;
 }
 
+.overflow-x-auto {
+  overflow-x: auto;
+
+  // hide scrollbar
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+}
+
+.padding-top-5rem {
+  padding-top: 5rem;
+}

@@ -20,6 +20,8 @@ import ArticleDescrSecondColumn from '@/components/article-description/content/A
 import ArticleDescrCharity from '@/components/article-description/article-descr-charity/ArticleDescrCharity';
 import ArticleDescrAd from '@/components/article-description/article-descr-ad/ArticleDescrAd';
 import ArticleDescrComments from '@/components/article-description/comments/ArticleDescrComments';
+import YouMightAlsoLike from '@/components/article-description/you-might-also-like/YouMightAlsoLike';
+import ArticleDescrLeaveReply from '@/components/article-description/leave-reply/ArticleDescrLeaveReply';
 
 interface ArticleDescriptionInterface {
   params: {
@@ -57,6 +59,8 @@ export default function ArticleDescription({ params }: ArticleDescriptionInterfa
       <ArticleDescrCharity />
       <ArticleDescrAd />
       <ArticleDescrComments />
+      <ArticleDescrLeaveReply />
+      <YouMightAlsoLike />
     </>
   );
 }

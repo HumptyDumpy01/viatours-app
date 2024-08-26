@@ -1,0 +1,30 @@
+.you-might-also-like-article-descr {
+
+  @media only screen and (max-width: 85.875em) {
+    overflow-x: auto;
+  }
+
+  .travel-articles__card-hover.link {
+    text-decoration: none;
+
+    a, h3,
+    .travel-articles__the-newest__card-info__date,
+    .travel-articles__the-newest__card-info__author {
+      color: var(--clr-white);
+    }
+
+  }
+
+  &__heading {
+    color: var(--clr-white);
+    //padding-bottom: 4.5rem;
+    margin-left: 2.4rem;
+  }
+
+  &-container {
+    background-color: var(--clr-dark-blue);
+    padding-top: 8.5rem;
+    padding-bottom: 8.5rem;
+    margin-bottom: 6rem;
+  }
+}
