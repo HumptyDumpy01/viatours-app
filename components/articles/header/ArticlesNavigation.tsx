@@ -4,12 +4,14 @@
   // children: ReactNode;
 }*/
 
+import Link from 'next/link';
+
 export default function ArticlesNavigation(/*{  }: ArticlesNavigationType*/) {
   return (
     <>
       <div className="travel-articles__navigation">
-        <a href="#" className="inline-block">Home &gt;</a>
-        <a href="#" className="inline-block highlighted">Travel Articles</a>
+        <Link href={`/`} className="inline-block">Home &gt;</Link>
+        <Link href={`/articles`} className="inline-block highlighted">Travel Articles</Link>
       </div>
     </>
   );

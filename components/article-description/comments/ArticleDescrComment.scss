@@ -1,0 +1,106 @@
+.comments__comment {
+  max-width: 90.3rem;
+
+  &:not(:last-child) {
+    margin-bottom: 5.2rem;
+  }
+
+  &-container {
+  }
+
+  &__user {
+    margin-bottom: 1.612rem;
+
+    &__logo {
+      width: 5.6rem;
+      height: 5.6rem;
+      background-color: var(--clr-blue-lighter);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: var(--clr-white);
+      font-weight: 600;
+    }
+
+    &__credentials {
+    }
+
+    &__name {
+      color: var(--clr-dark-blue);
+      font-size: 1.7375rem;
+      font-weight: 500;
+      line-height: 3rem; /* 172.662% */
+    }
+  }
+
+  ///////////////////////
+  &__title {
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    @media only screen and (max-width: 30.4375em) {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.6rem;
+    }
+
+    &-stars {
+      margin-right: 1.2rem;
+    }
+
+    &__text {
+      color: var(--clr-dark-blue);
+      font-size: 1.8625rem;
+      font-weight: 600;
+    }
+
+  }
+
+  &__text {
+    color: var(--clr-blue-lighter);
+    font-size: 1.4648rem;
+    line-height: 2.813rem; /* 192.034% */
+    &-container {
+      margin-bottom: 2.8rem;
+    }
+  }
+
+  ///////////////////////
+  &__date {
+    color: var(--clr-grey);
+    font-size: 1.2648rem;
+    font-weight: 400;
+    @media only screen and (max-width: 28.6875em) {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    &-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2.6rem;
+      @media only screen and (max-width: 28.6875em) {
+        display: grid;
+        grid-template-columns: 17rem auto;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+  }
+
+  &__report-abuse {
+    @media only screen and (max-width: 28.6875em) {
+      grid-column: 2;
+    }
+
+    &__text {
+      background-color: var(--clr-white);
+      color: var(--clr-blue-lighter);
+      font-size: 1.2648rem;
+      line-height: 2.813rem; /* 234.417% */
+      cursor: pointer;
+    }
+  }
+}

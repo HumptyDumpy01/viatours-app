@@ -1,0 +1,117 @@
+.fix-btns-article-descr {
+  position: relative;
+}
+
+.btn-left-article-descr {
+  position: absolute;
+  top: 24.4rem;
+  left: -4rem;
+
+  @media only screen and (max-width: 66.4375em) {
+    left: 1rem;
+  }
+
+  &:hover, &:active {
+    .btn-left-icon {
+      animation-name: moveInRight;
+      animation-duration: .3s;
+      //animation-delay: 0.2s;
+      /*animation-iteration-count: 2;*/
+      animation-timing-function: ease-out;
+
+    }
+  }
+}
+
+.btn-right-article-descr,
+.btn-left-article-descr {
+  transform: translateY(-50%);
+  box-shadow: 0 0.4rem 0.8rem rgba(0, 0, 0, 0.1);
+  background-color: var(--clr-white);
+  color: var(--clr-white);
+  border-radius: 100rem;
+  height: 7.2rem;
+  width: 7.2rem;
+  @media only screen and (max-width: 66.4375em) {
+    height: 6.2rem;
+    width: 6.2rem;
+  }
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.465rem;
+  z-index: 10;
+  transition: all 0.3s;
+  cursor: pointer;
+
+  &:hover, &:active {
+    box-shadow: 0 0.4rem 0.8rem rgba(0, 0, 0, 0.2);
+  }
+}
+
+.fix-btns-right-article-descr {
+  position: relative;
+}
+
+.btn-right-icon,
+.btn-left-icon {
+  @media only screen and (max-width: 37.5em) {
+    width: 1.8rem;
+    height: 1.8rem;
+  }
+}
+
+.btn-right-article-descr {
+  position: absolute;
+  top: 24.4rem;
+  right: -4rem;
+  @media only screen and (max-width: 66.4375em) {
+    right: 1rem;
+  }
+  transform: translateY(-50%);
+
+  &:hover, &:active {
+    .btn-right-icon {
+      animation-name: moveInLeft;
+      animation-duration: .3s;
+      //animation-delay: 0.2s;
+      /*animation-iteration-count: 2;*/
+      animation-timing-function: ease-out;
+    }
+  }
+}
+
+.comments__comment__see-more {
+  letter-spacing: .04rem;
+  border-radius: 12px;
+  border: 1px solid var(--clr-primary);
+  color: var(--clr-primary);
+  background-color: var(--clr-white);
+  cursor: pointer;
+  font-size: 1.9375rem;
+  font-weight: 600;
+  gap: 1.4rem;
+  padding: 1.9rem 3.1rem;
+  margin-bottom: 5.6rem;
+  transition: all 0.3s;
+
+
+  &:hover, &:active {
+    background-color: var(--clr-primary);
+    color: var(--clr-white);
+    box-shadow: 0 0.4rem 0.8rem rgba(0, 0, 0, 0.1);
+
+    svg {
+      transition: all 0.4s;
+    }
+
+    .comments__comment__see-more-path {
+      stroke: var(--clr-white);
+    }
+
+    &-icon {
+    }
+  }
+
+}

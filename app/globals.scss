@@ -18,6 +18,7 @@
   --clr-light-white: #FEF7F4;
   --clr-light-white-2: #F5F5F5;
   --clr-grey-3: #EFEEEE;
+  --clr-grey-6: #3E3E4B;
   --clr-silver: #E7E6E6;
   --clr-grey: #989898;
   --clr-darker-grey: #757575;
@@ -27,6 +28,16 @@
   --linear-orange-and-light-orange: #EB662B, #F28555;
   --clr-strawberry-red: #fa1e2d;
   --clr-strawberry-red-darker: #d90f1b;
+
+
+  --clr-blue-3: #171949;
+  --clr-grey4: #AFAFAF;
+  --clr-grey-5: #f1f1f1;
+  --clr-error: #e83f3f;
+  --clr-error-darker: #d13939;
+  --clr-success: #20CD85;
+  --clr-info: #333;
+  --clr-warning: #FF9900;
 
   // font
   --font-inter: 'Inter', serif;
@@ -629,6 +640,18 @@ img {
   gap: .5rem;
 }
 
+.gap-14px {
+  gap: 1.4rem;
+}
+
+.gap-24px {
+  gap: 2.4rem;
+}
+
+.gap-18px {
+  gap: 1.8rem;
+}
+
 .gap-25px {
   gap: 2.5rem;
 }
@@ -1196,6 +1219,19 @@ b {
   margin-bottom: 2.4rem !important;
 }
 
+.margin-bottom-med {
+  margin-bottom: 3.5rem;
+}
+
+.margin-bottom-big {
+  margin-bottom: 5.5rem;
+}
+
+.margin-top-7rem {
+  margin-top: 7rem;
+
+}
+
 .justify-items-center {
   justify-items: center;
 }
@@ -1235,3 +1271,8 @@ b {
 .MuiOutlinedInput-notchedOutline {
   border: none !important;
 }
+
+.italic {
+  font-style: italic;
+}
+
