@@ -24,6 +24,10 @@ export default function HeroArticlesForm(/*{  }: HeroArticlesFormType*/) {
 
     results.tag = activeTag;
 
+    const inputSearchContainer = document.querySelector(`.search-article__search-input-container`)! as HTMLDivElement;
+    // scroll to search results
+    inputSearchContainer.scrollIntoView({ behavior: `smooth`, block: `start` });
+
     // output
     console.log(results);
   }
