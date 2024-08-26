@@ -52,7 +52,7 @@
     // styling for scrollbar
     scrollbar-width: thin;
 
-    @media (hover: hover) {
+    @media (hover: none) {
       // hide scrollbar for non-touch devices
       scrollbar-width: none;
     }

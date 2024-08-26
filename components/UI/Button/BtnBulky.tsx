@@ -2,14 +2,16 @@
 
 type BtnLeftType = {
   mode: `left` | `right`;
+  onClick: (mode: `left` | `right`) => void;
   // children: ReactNode;
 }
 
-export default function BtnBulky({ mode }: BtnLeftType) {
+export default function BtnBulky({ mode, onClick }: BtnLeftType) {
+
   return (
     <>
       {mode === `left` && (
-        <div className="fix-btns">
+        <div className="fix-btns" onClick={() => onClick(`left`)}>
           <div className="btn-top-articles-left">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="14" viewBox="0 0 16 14" fill="none">
               <path
@@ -20,7 +22,7 @@ export default function BtnBulky({ mode }: BtnLeftType) {
         </div>
       )}
       {mode === `right` && (
-        <div className="fix-btns-right margin-left-auto">
+        <div className="fix-btns-right margin-left-auto" onClick={() => onClick(`right`)}>
           <div className="btn-top-articles-right">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="14" viewBox="0 0 16 14" fill="none">
               <path

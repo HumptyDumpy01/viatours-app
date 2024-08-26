@@ -18,17 +18,15 @@ import TopArticlesCard from '@/components/articles/top-articles/card/TopArticles
 export default function TopArticlesCardContainer(/*{  }: TopArticlesCardContainerType*/) {
   return (
     <>
-      <div className="travel-articles__the-top-articles__card-wrapper flex">
-        <TopArticlesCard imageUrl={topArticleImg1} />
-        <TopArticlesCard imageUrl={topArticleImg2} />
-        <TopArticlesCard imageUrl={topArticleImg3} />
-        <TopArticlesCard imageUrl={topArticleImg4} />
-        <TopArticlesCard imageUrl={topArticleImg5} />
-        <TopArticlesCard imageUrl={topArticleImg6} />
-        <TopArticlesCard imageUrl={topArticleImg7} />
-        <TopArticlesCard imageUrl={topArticleImg8} />
-        <TopArticlesCard imageUrl={topArticleImg9} />
-      </div>
+      <TopArticlesCard imageUrl={topArticleImg1} />
+      <TopArticlesCard imageUrl={topArticleImg2} />
+      <TopArticlesCard imageUrl={topArticleImg3} />
+      <TopArticlesCard imageUrl={topArticleImg4} />
+      <TopArticlesCard imageUrl={topArticleImg5} />
+      <TopArticlesCard imageUrl={topArticleImg6} />
+      <TopArticlesCard imageUrl={topArticleImg7} />
+      <TopArticlesCard imageUrl={topArticleImg8} />
+      <TopArticlesCard imageUrl={topArticleImg9} />
     </>
   );
 }
