@@ -48,6 +48,12 @@
     position: relative;
     margin-bottom: 7.2rem;
 
+
+    @media only screen and (max-width: 53.5625em) {
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
     .cta__img {
       width: 104rem;
       height: 96rem;
