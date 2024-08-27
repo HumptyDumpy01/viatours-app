@@ -103,6 +103,11 @@ const articleContent = [
 
 export default function ArticleDescription({ params }: ArticleDescriptionInterface) {
   const id = params.id;
+
+  // TODO: fetch the articles from the server
+
+  // TODO: fetch the session from the server
+
   return (
     <>
       <section className="tour-article-descr-container">
@@ -127,9 +132,9 @@ export default function ArticleDescription({ params }: ArticleDescriptionInterfa
       </ArticleDescrContent>
       <ArticleDescrCharity />
       <ArticleDescrAd />
-      <ArticleDescrComments />
+      <ArticleDescrComments comments={[{}]} />
       <ArticleDescrLeaveReply />
-      <YouMightAlsoLike />
+      <YouMightAlsoLike tags={[]} />
     </>
   );
 }

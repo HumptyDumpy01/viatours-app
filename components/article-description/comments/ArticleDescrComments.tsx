@@ -4,11 +4,12 @@ import './ArticleDescrComments.scss';
 import SortBy from '@/components/UI/SortBy/SortBy';
 import ArticleDescrComment from '@/components/article-description/comments/ArticleDescrComment';
 
-/*type ArticleDescrCommentsType = {
+type ArticleDescrCommentsType = {
+  comments: {}[];
   // children: ReactNode;
-}*/
+}
 
-export default function ArticleDescrComments(/*{  }: ArticleDescrCommentsType*/) {
+export default function ArticleDescrComments({ comments }: ArticleDescrCommentsType) {
   return (
     <section className="comments-container">
       <div className="comments container">

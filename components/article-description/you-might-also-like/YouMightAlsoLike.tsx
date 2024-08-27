@@ -13,11 +13,13 @@ import tourImage8 from '@/assets/images/articles/search-any-article/tour-image-8
 import './YouMightAlsoLike.scss';
 import ArticlesCard from '@/components/articles/card/ArticlesCard';
 
-/*type YouMightAlsoLikeType = {
+type YouMightAlsoLikeType = {
+  tags: string[];
   // children: ReactNode;
-}*/
+}
 
-export default function YouMightAlsoLike(/*{  }: YouMightAlsoLikeType*/) {
+export default function YouMightAlsoLike({ tags }: YouMightAlsoLikeType) {
+  /* TODO: FETCH SIMILAR ARTICLES */
   return (
     <section className="you-might-also-like-article-descr-container">
       <div className="you-might-also-like-article-descr container">

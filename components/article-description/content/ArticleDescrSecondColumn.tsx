@@ -9,20 +9,39 @@ import topCreatorImg3 from '@/assets/images/article-descr/top-creators/top-creat
 
 import ArticleContentCard from '@/components/article-description/content/ArticleContentCard';
 import ArticleContentTopCreatorCard from '@/components/article-description/content/ArticleContentTopCreatorCard';
-/*type ArticleDescrSecondColumnType = {
-  // children: ReactNode;
-}*/
 
-export default function ArticleDescrSecondColumn(/*{  }: ArticleDescrSecondColumnType*/) {
+type ArticleDescrSecondColumnType = {
+  topStories: {
+    readTime: string;
+    country: string;
+    title: string;
+    tag: string[];
+    imgUrl: string;
+  }[];
+  // children: ReactNode;
+}
+
+export default function ArticleDescrSecondColumn(/*{ articles }: any*/) {
+
+  // TODO: Fetch top stories and top creators from the database
+
   return (
     <>
       <div className="tour-articles-descr__content-2">
         <h3 className="tour-articles-descr__content-2__heading">Top Stories</h3>
 
         <div className="tour-articles-descr__content-2-cards">
-          <ArticleContentCard imgUrl={topStoriesImg1.src} />
-          <ArticleContentCard imgUrl={topStoriesImg2.src} />
-          <ArticleContentCard imgUrl={topStoriesImg3.src} />
+          <ArticleContentCard readTime={`3 minutes`} country={`India`} title={`Wonders of the World: Taj Mahal`}
+                              tag={[`Culture`]}
+                              imgUrl={topStoriesImg1.src} />
+
+          <ArticleContentCard readTime={`3 minutes`} country={`India`} title={`Wonders of the World: Taj Mahal`}
+                              tag={[`Culture`]}
+                              imgUrl={topStoriesImg2.src} />
+
+          <ArticleContentCard readTime={`3 minutes`} country={`India`} title={`Wonders of the World: Taj Mahal`}
+                              tag={[`Culture`]}
+                              imgUrl={topStoriesImg3.src} />
         </div>
 
         <div className="tour-articles-descr__content-2__top-creators">
