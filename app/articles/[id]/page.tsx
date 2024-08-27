@@ -104,7 +104,7 @@ const articleContent = [
 export default function ArticleDescription({ params }: ArticleDescriptionInterface) {
   const id = params.id;
 
-  // TODO: fetch the articles from the server
+  // TODO: fetch the article from the server based on url id
 
   // TODO: fetch the session from the server
 

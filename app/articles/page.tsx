@@ -16,6 +16,9 @@ import HotArticlesCTA from '@/components/articles/cta/HotArticlesCTA';
   // children: ReactNode;
 }*/
 export default function ArticlesPage(/*{  }: ArticlesPageInterface*/) {
+
+  // TODO: Fetch articles from the server
+
   return (
     <>
       <section className="articles-hero-container">
