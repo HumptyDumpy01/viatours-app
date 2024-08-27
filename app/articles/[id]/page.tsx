@@ -45,6 +45,59 @@ const articleContent = [
         textColor: `grey`
       }
     ]
+  },
+  {
+    part: `body`,
+    content: [
+      {
+        type: `heading-paragraph`,
+        // INFO: the first item in the array is the heading, the rest are paragraphs
+        text: [`First thing you need to consider`,
+          `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt.`]
+      },
+      {
+        type: `heading-paragraph`,
+        text: [`Do not forget about the weather`,
+          `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.`,
+          `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla`]
+      },
+      {
+        type: `highlight`,
+        text: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.`,
+        marginTop: ``,
+        marginBottom: `margin-bottom-38px`
+      },
+      {
+        type: `paragraph`,
+        text: `Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla`,
+        marginTop: ``,
+        marginBottom: `margin-bottom-big`
+      },
+      {
+        type: `heading-list`,
+        heading: `At any cost take this with you`,
+        items: [
+          `Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla`,
+          `Duis aute irure dolor in reprehenderit in voluptate`,
+          `Duis aute irure dolor in reprehenderit in voluptate duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla`
+        ],
+        marginTopHeading: ``,
+        marginBottomHeading: `margin-bottom-med`,
+        marginTopList: ``,
+        marginBottomList: `margin-bottom-42px`
+      },
+      {
+        type: `paragraph`,
+        text: `Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt.`,
+        marginTop: ``,
+        marginBottom: `margin-bottom-big`
+      },
+      {
+        type: `heading-paragraph`,
+        text: [`At last, enjoy every minute in Colosseum!`,
+          `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt.`]
+      }
+    ]
   }
 ];
 

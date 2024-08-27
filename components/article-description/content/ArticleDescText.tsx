@@ -23,7 +23,9 @@ export default function ArticleDescText({ content, author, dateOfPublication }: 
                       {item.type === `quote` && (
                         <>
                           <blockquote className="tour-articles-descr__content-1__quote">
-                            {item.text}
+                            <q>
+                              {item.text}
+                            </q>
                           </blockquote>
                           <p className="tour-articles-descr__content-1__author flex flex-align-center gap-14px">
                             <svg xmlns="http://www.w3.org/2000/svg" width="91" height="3" viewBox="0 0 91 3"
@@ -48,64 +50,77 @@ export default function ArticleDescText({ content, author, dateOfPublication }: 
 
               </>
             )}
+            {item.part === `body` && (
+              <>
+                {/*@ts-ignore*/}
+                {item.content.map(function(item) {
+                  return (
+                    <>
+                      {item.type === `heading-paragraph` && (
+                        <>
+                          {/*@ts-ignore*/}
+                          {item.text.map(function(item, index) {
+                            return (
+                              <>
+                                {index === 0 && (
+                                  <h2 className="tour-articles-descr__content-1__heading margin-bottom-med">
+                                    {item}
+                                  </h2>
+                                )}
+                                {index !== 0 && (
+                                  <>
+                                    <p
+                                      className="tour-articles-descr__content-1__par margin-bottom-big color-blue-3">{item}</p>
+                                  </>
+                                )}
+                              </>
+                            );
+                          })}
+
+                        </>
+                      )}
+                      {item.type === `highlight` && (
+                        <>
+                          <blockquote
+                            className={`tour-articles-descr__content-1__quote-marked color-blue-3 
+                            ${item.marginBottom ? item.marginBottom : ``}
+                            ${item.marginTop ? item.marginTop : ``}`}>{item.text}</blockquote>
+                        </>
+                      )}
+                      {item.type === `paragraph` && (
+                        <>
+                          <p className={`tour-articles-descr__content-1__par color-blue-3 
+                          ${item.marginBottom ? item.marginBottom : ``}
+                          ${item.marginTop ? item.marginTop : ``}`}>{item.text}</p>
+                        </>
+                      )}
+
+                      {item.type === `heading-list` && (
+                        <>
+                          <h2 className={`tour-articles-descr__content-1__heading 
+                          ${item.marginBottomHeading ? item.marginBottomHeading : ``}
+                          ${item.marginTopHeading ? item.marginTopHeading : ``}`}>{item.heading}</h2>
+
+                          <ol className={`tour-articles-descr__content-1__list margin-bottom-42px`}>
+                            {/*@ts-ignore*/}
+                            {item.items.map(function(item) {
+                              return (
+                                <>
+                                  <li className="tour-articles-descr__content-1__list-item">{item}</li>
+                                </>
+                              );
+                            })}
+                          </ol>
+                        </>
+                      )}
+                    </>
+                  );
+                })}
+              </>
+            )}
           </>
         );
       })}
-
-      <h2 className="tour-articles-descr__content-1__heading margin-bottom-med">
-        First thing you need to consider
-      </h2>
-      <p className="tour-articles-descr__content-1__par margin-bottom-big color-blue-3">Lorem ipsum dolor sit amet,
-        consectetur
-        adipiscing elit, sed do
-        eiusmod tempor incididunt ut labore et
-        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-        nulla
-        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt.</p>
-      <h2 className="tour-articles-descr__content-1__heading margin-bottom-med">Do not forget about the weather</h2>
-      <p className="tour-articles-descr__content-1__par color-blue-3 margin-bottom-30px">Lorem ipsum dolor sit amet,
-        consectetur adipiscing
-        elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-        exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-
-      <p className="tour-articles-descr__content-1__par color-blue-3 margin-bottom-21px">Lorem ipsum dolor sit amet,
-        consectetur adipiscing
-        elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-        exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Duis aute irure dolor in reprehenderit in
-        voluptate velit esse cillum dolore eu fugiat nulla</p>
-      <p className="tour-articles-descr__content-1__quote-marked color-blue-3 margin-bottom-38px">“Lorem ipsum dolor
-        sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.” </p>
-      <p className="tour-articles-descr__content-1__par color-blue-3 margin-bottom-big">Duis aute irure dolor in
-        reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla</p>
-      <h2 className="tour-articles-descr__content-1__heading margin-bottom-med">At any cost, always take this with
-        you</h2>
-      <ol className="tour-articles-descr__content-1__list margin-bottom-42px">
-        <li className="tour-articles-descr__content-1__list-item">Duis aute irure dolor in reprehenderit in voluptate
-          velit esse cillum dolore eu fugiat nulla
-        </li>
-        <li className="tour-articles-descr__content-1__list-item">Duis aute irure dolor in reprehenderit in voluptate
-        </li>
-        <li className="tour-articles-descr__content-1__list-item">Duis aute irure dolor in reprehenderit in voluptate
-          duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-        </li>
-      </ol>
-
-      <p className="tour-articles-descr__content-1__par color-blue-3 margin-bottom-big">Duis aute irure dolor in
-        reprehenderit in voluptate
-        velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-        culpa
-        qui officia deserunt.</p>
-
-      <h2 className="tour-articles-descr__content-1__heading margin-bottom-med">At last, enjoy every minute in
-        Colosseum!</h2>
-      <p className="tour-articles-descr__content-1__par color-blue-3 margin-bottom-big">Lorem ipsum dolor sit amet,
-        consectetur adipiscing
-        elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-        exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit
-        in
-        voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-        sunt in culpa qui officia deserunt.</p>
       <p className="tour-articles-descr__content-1__author--bottom">Author: <span
         className="inline-block author">{author}</span></p>
       <p className="tour-articles-descr__content-1__date-of-publication">Date of Publication:
