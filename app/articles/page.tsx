@@ -12,13 +12,12 @@ import ArticlesReviewsCardContainer
   from '@/components/articles/top-articles/article-reviews/card/ArticlesReviewsCardContainer';
 import SearchArticleContainer from '@/components/articles/search-article/SearchArticleContainer';
 import HotArticlesCTA from '@/components/articles/cta/HotArticlesCTA';
+
 /*interface ArticlesPageInterface {
   // children: ReactNode;
 }*/
-export default function ArticlesPage(/*{  }: ArticlesPageInterface*/) {
 
-  // TODO: Fetch articles from the server
-
+export default async function ArticlesPage(/*{  }: ArticlesPageInterface*/) {
   return (
     <>
       <section className="articles-hero-container">
@@ -35,7 +34,7 @@ export default function ArticlesPage(/*{  }: ArticlesPageInterface*/) {
           <ArticlesTravellerHeading />
           <ArticlesReviewsCardContainer />
         </ArticlesTravellerReviews>
-        <SearchArticleContainer results={[]} />
+        <SearchArticleContainer />
         <HotArticlesCTA />
       </ArticlesContainer>
     </>

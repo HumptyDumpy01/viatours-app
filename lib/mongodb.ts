@@ -2838,3 +2838,104 @@ export async function deleteUserAccount(userEmail: string) {
 
 ///////////////////////////////////////
 
+/* IMPORTANT: ARTICLES */
+
+export async function getArticles() {
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+
+  const articles = await db.collection(`articles`).aggregate([
+    {
+      $unwind: '$author'
+    },
+    {
+      $lookup: {
+        from: 'travelArticlesAuthors',
+        localField: 'author',
+        foreignField: '_id',
+        as: 'authorDetails'
+      }
+    },
+    {
+      $group: {
+        _id: '$_id',
+        title: {
+          $first: '$title'
+        },
+        createdAt: {
+          $first: '$createdAt'
+        },
+        author: {
+          $first: '$authorDetails'
+        },
+        type: {
+          $first: '$type'
+        },
+        image: {
+          $first: { $arrayElemAt: ['$images', 0] }
+        }
+      }
+    },
+    {
+      $unwind: '$author'
+    },
+    {
+      $group: {
+        _id: '$_id',
+        title: {
+          $first: '$title'
+        },
+        createdAt: {
+          $first: '$createdAt'
+        },
+        author: {
+          $first: {
+            $concat: [
+              '$author.firstName',
+              ' ',
+              '$author.lastName'
+            ]
+          }
+        },
+        type: {
+          $first: '$type'
+        },
+        image: {
+          $first: '$image'
+        }
+      }
+    }
+  ]).toArray();
+
+  if (!articles) {
+    return {
+      error: true,
+      message: `Failed to fetch articles.`,
+      status: 500
+    };
+  }
+
+  // transform the objectId to string
+  const transformedArticles = articles.map((article: any) => {
+    return {
+      _id: article._id.toString(),
+      title: article.title,
+      createdAt: article.createdAt,
+      author: article.author,
+      type: article.type,
+      image: article.image
+    };
+  });
+
+  return {
+    error: false,
+    articles: transformedArticles,
+    message: `Articles fetched successfully.`,
+    status: 200
+  };
+
+}
+
+///////////////////////////////////////
+
+

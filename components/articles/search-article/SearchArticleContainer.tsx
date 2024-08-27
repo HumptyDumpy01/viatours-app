@@ -3,27 +3,60 @@
 import './SearchArticleContainer.scss';
 import SearchArticleHeading from '@/components/articles/search-article/SearchArticleHeading';
 import SortBy from '@/components/UI/SortBy/SortBy';
-import SearchResultsCard from '@/components/articles/search-article/SearchResultsCard';
-import searchImage1 from '@/assets/images/articles/search-any-article/tour-image-1.png';
-import searchImage2 from '@/assets/images/articles/search-any-article/tour-image-2.png';
-import searchImage3 from '@/assets/images/articles/search-any-article/tour-image-3.png';
-import searchImage4 from '@/assets/images/articles/search-any-article/tour-image-4.png';
-import searchImage5 from '@/assets/images/articles/search-any-article/tour-image-5.png';
-import searchImage6 from '@/assets/images/articles/search-any-article/tour-image-6.png';
 // import searchImage7 from '@/assets/images/articles/search-any-article/tour-image-7.png';
 // import searchImage8 from '@/assets/images/articles/search-any-article/tour-image-8.png';
 // import searchImage9 from '@/assets/images/articles/search-any-article/tour-image-9.png';
 // import searchImage10 from '@/assets/images/articles/search-any-article/tour-image-10.png';
 // import searchImage11 from '@/assets/images/articles/search-any-article/tour-image-11.png';
 import Pagination from '@/components/UI/Pagnation/Pagination';
+import { useEffect, useState } from 'react';
+import SearchResultsCardSkeleton from '@/components/articles/skeletons/SearchResultsCardSkeleton';
+import SearchResultsCard from '@/components/articles/search-article/SearchResultsCard';
 
-type SearchArticleContainerType = {
-  /* TODO: IMPLEMENT A BETTER SCHEMA LATER */
+/*type SearchArticleContainerType = {
+  /!* TODO: IMPLEMENT A BETTER SCHEMA LATER *!/
   results: []
   // children: ReactNode;
-}
+}*/
 
-export default function SearchArticleContainer({ results }: SearchArticleContainerType) {
+type ArticleType = {
+  _id: string;
+  title: string;
+  createdAt: string;
+  author: string;
+  type: string[];
+  image: string;
+};
+
+export default function SearchArticleContainer(/*{ results }: SearchArticleContainerType*/) {
+  const [articles, setArticles] = useState<ArticleType[] | []>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(false);
+
+  /* TODO: FETCH ALL ARTICLES */
+  useEffect(() => {
+    const fetchArticles = async () => {
+      try {
+        const response = await fetch(`/api/fetch-articles`);
+        const data = await response.json();
+
+        if (data.error) {
+          setError(true);
+        }
+
+        setArticles(data.articles);
+      } catch (e) {
+        console.error(e);
+        setError(true);
+      }
+
+      setIsLoading(false);
+    };
+
+    fetchArticles();
+
+  }, []);
+
 
   return (
     <section className="search-article-container container">
@@ -60,17 +93,29 @@ export default function SearchArticleContainer({ results }: SearchArticleContain
       <p className="search-results">Search results:</p>
 
       <div className="search-results-container">
-        <SearchResultsCard imageUrl={searchImage1} />
-        <SearchResultsCard imageUrl={searchImage2} />
-        <SearchResultsCard imageUrl={searchImage3} />
-        <SearchResultsCard imageUrl={searchImage4} />
-        <SearchResultsCard imageUrl={searchImage5} />
-        <SearchResultsCard imageUrl={searchImage6} />
-        {/*<SearchResultsCard imageUrl={searchImage7} />*/}
-        {/*<SearchResultsCard imageUrl={searchImage8} />*/}
-        {/*<SearchResultsCard imageUrl={searchImage9} />*/}
-        {/*<SearchResultsCard imageUrl={searchImage10} />*/}
-        {/*<SearchResultsCard imageUrl={searchImage11} />*/}
+        {(isLoading && !error) && (
+          <>
+            <SearchResultsCardSkeleton />
+            <SearchResultsCardSkeleton />
+            <SearchResultsCardSkeleton />
+            <SearchResultsCardSkeleton />
+            <SearchResultsCardSkeleton />
+            <SearchResultsCardSkeleton />
+            <SearchResultsCardSkeleton />
+          </>
+        )}
+        {(!isLoading && !error && articles.length > 0) && (
+          <>
+            {articles.map(function(article) {
+              return (
+                <>
+                  <SearchResultsCard {...article} />
+                </>
+              );
+            })}
+
+          </>
+        )}
       </div>
       <Pagination currentPage={1} setCurrentPage={() => {
       }} totalItems={4} itemsPerPage={4} />
