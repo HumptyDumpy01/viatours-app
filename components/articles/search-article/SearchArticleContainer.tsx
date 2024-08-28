@@ -48,39 +48,7 @@ export default function SearchArticleContainer(/*{ results }: SearchArticleConta
   const indexOfLastArticle = currentPage * articlesPerPage;
   const indexOfFirstArticle = indexOfLastArticle - articlesPerPage;
 
-  /* FETCH ALL ARTICLES */
-  useEffect(() => {
-    setDisableSearchBtn(true);
-    const fetchArticles = async () => {
-      try {
-        const response = await fetch(`/api/fetch-articles`);
-        const data = await response.json();
-
-        if (data.error) {
-          setError(true);
-        }
-
-        setArticles(data.articles);
-        setDisableSearchBtn(false);
-      } catch (e) {
-        console.error(e);
-        setError(true);
-        setDisableSearchBtn(false);
-      }
-
-      setIsLoading(false);
-    };
-
-    fetchArticles();
-
-  }, []);
-
-
-  useEffect(() => {
-    setCurrentArticles(articles.slice(indexOfFirstArticle, indexOfLastArticle));
-  }, [currentPage, articles]);
-
-  async function handleClearFilters() {
+  async function fetchAllArticles() {
     setDisableSearchBtn(true);
     setIsLoading(true);
     try {
@@ -102,6 +70,16 @@ export default function SearchArticleContainer(/*{ results }: SearchArticleConta
       setIsLoading(false);
     }
   }
+
+  /* FETCH ALL ARTICLES */
+  useEffect(() => {
+    fetchAllArticles();
+  }, []);
+
+
+  useEffect(() => {
+    setCurrentArticles(articles.slice(indexOfFirstArticle, indexOfLastArticle));
+  }, [currentPage, articles]);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     setDisableSearchBtn(true);
@@ -135,6 +113,15 @@ export default function SearchArticleContainer(/*{ results }: SearchArticleConta
     }, 2000);
   }
 
+  function handleSortArticles(e: React.ChangeEvent<HTMLSelectElement>) {
+    const value = e.target.value as `all` | `newest` | `oldest` | `by-views` | `ascending` | `descending` | `culture` | `historic` | `nature` | `trips`;
+    console.log(`value:`, value);
+
+    /* INFO: the point is, that all, all values should only filter articles that are currently on the screen, including paginated ones, if any.
+    *   the difference is the "all" value because when it chosen, I just do need to fetch all articles again.*/
+
+  }
+
   return (
     <section className="search-article-container container">
       <div className="search-article">
@@ -159,10 +146,8 @@ export default function SearchArticleContainer(/*{ results }: SearchArticleConta
             </form>
           </div>
 
-          <SortBy handleOnChange={() => {
-          }} disabled={isLoading}
+          <SortBy handleOnChange={handleSortArticles} disabled={isLoading || disableSearchBtn}
                   options={[
-                    { value: `default`, label: `Choose` },
                     { value: `all`, label: `All` },
                     { value: `newest`, label: `From Newest` },
                     { value: `oldest`, label: `From Oldest` },
@@ -213,7 +198,7 @@ export default function SearchArticleContainer(/*{ results }: SearchArticleConta
       </div>
       {(!isLoading && currentArticles.length === 0) && (
         <div className={`flex flex-direction-column`}>
-          <NoItemsFound buttonLabel={`See All Articles`} clearFilters={handleClearFilters} />
+          <NoItemsFound buttonLabel={`See All Articles`} clearFilters={() => fetchAllArticles()} />
         </div>
       )}
       <Pagination scrollToElem={{
