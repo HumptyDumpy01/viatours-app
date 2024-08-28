@@ -114,11 +114,17 @@
     margin-bottom: 4.9rem;
 
     @media only screen and (max-width: 56.0625em) {
-      display: flex;
-      flex-direction: row;
+      grid-template-columns: repeat(2, 35.9rem);
+      align-items: center;
+      justify-content: center;
       gap: 2.6rem;
-      overflow-x: auto;
+      //overflow-x: auto;
       padding-top: 1rem;
+    }
+    @media only screen and (max-width: 39.6875em) {
+      grid-template-columns: repeat(1, 40.9rem);
+      align-items: center;
+      justify-content: center;
     }
   }
 

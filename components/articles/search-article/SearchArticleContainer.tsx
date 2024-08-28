@@ -9,9 +9,10 @@ import SortBy from '@/components/UI/SortBy/SortBy';
 // import searchImage10 from '@/assets/images/articles/search-any-article/tour-image-10.png';
 // import searchImage11 from '@/assets/images/articles/search-any-article/tour-image-11.png';
 import Pagination from '@/components/UI/Pagnation/Pagination';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SearchResultsCardSkeleton from '@/components/articles/skeletons/SearchResultsCardSkeleton';
 import SearchResultsCard from '@/components/articles/search-article/SearchResultsCard';
+import NoItemsFound from '@/components/UI/Layout/NoItems/NoItemsFound';
 
 /*type SearchArticleContainerType = {
   /!* TODO: IMPLEMENT A BETTER SCHEMA LATER *!/
@@ -73,6 +74,8 @@ export default function SearchArticleContainer(/*{ results }: SearchArticleConta
     setCurrentArticles(articles.slice(indexOfFirstArticle, indexOfLastArticle));
   }, [currentPage, articles]);
 
+  function handleClearFilters() {
+  }
 
   return (
     <section className="search-article-container container">
@@ -130,7 +133,19 @@ export default function SearchArticleContainer(/*{ results }: SearchArticleConta
             })}
           </>
         )}
+        {(!isLoading && !error && currentArticles.length === 0) && (
+          <>
+          </>
+        )}
+        {(!isLoading && error) && (
+          <p className="subheading">An error occurred while fetching the articles. Please try again later.</p>
+        )}
       </div>
+      {(!isLoading && currentArticles.length === 0) && (
+        <div className={`flex flex-direction-column`}>
+          <NoItemsFound buttonLabel={`See All Articles`} clearFilters={handleClearFilters} />
+        </div>
+      )}
       <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} totalItems={articles.length}
                   itemsPerPage={articlesPerPage} />
     </section>
