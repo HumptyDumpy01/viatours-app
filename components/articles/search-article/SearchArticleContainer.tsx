@@ -35,7 +35,16 @@ export default function SearchArticleContainer(/*{ results }: SearchArticleConta
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
 
-  /* TODO: FETCH ALL ARTICLES */
+
+  const articlesPerPage = 6;
+  // define the current page
+  const [currentPage, setCurrentPage] = useState(1);
+  const [currentArticles, setCurrentArticles] = useState<ArticleType[]>([]);
+
+  const indexOfLastArticle = currentPage * articlesPerPage;
+  const indexOfFirstArticle = indexOfLastArticle - articlesPerPage;
+
+  /* FETCH ALL ARTICLES */
   useEffect(() => {
     const fetchArticles = async () => {
       try {
@@ -60,6 +69,11 @@ export default function SearchArticleContainer(/*{ results }: SearchArticleConta
   }, []);
 
 
+  useEffect(() => {
+    setCurrentArticles(articles.slice(indexOfFirstArticle, indexOfLastArticle));
+  }, [currentPage, articles]);
+
+
   return (
     <section className="search-article-container container">
       <div className="search-article">
@@ -76,7 +90,7 @@ export default function SearchArticleContainer(/*{ results }: SearchArticleConta
           </div>
 
           <SortBy handleOnChange={() => {
-          }} disabled={false}
+          }} disabled={isLoading}
                   options={[
                     { value: `default`, label: `Choose` },
                     { value: `all`, label: `All` },
@@ -103,24 +117,22 @@ export default function SearchArticleContainer(/*{ results }: SearchArticleConta
             <SearchResultsCardSkeleton />
             <SearchResultsCardSkeleton />
             <SearchResultsCardSkeleton />
-            <SearchResultsCardSkeleton />
           </>
         )}
-        {(!isLoading && !error && articles.length > 0) && (
+        {(!isLoading && !error && currentArticles.length > 0) && (
           <>
-            {articles.map(function(article) {
+            {currentArticles.map(function(article) {
               return (
                 <>
                   <SearchResultsCard {...article} />
                 </>
               );
             })}
-
           </>
         )}
       </div>
-      <Pagination currentPage={1} setCurrentPage={() => {
-      }} totalItems={4} itemsPerPage={4} />
+      <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} totalItems={articles.length}
+                  itemsPerPage={articlesPerPage} />
     </section>
   );
 }

@@ -104,6 +104,7 @@ export default function Figures({ tours, loading, clearFilters }: FiguresInterfa
           </motion.div>
 
           <Pagination
+            scrollToTop
             // handleSetLoading={() => setLoading(true)}
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}

@@ -8,6 +8,7 @@ interface PaginationInterface {
   setCurrentPage: (page: number) => void;
   totalItems: number;
   itemsPerPage: number;
+  scrollToTop?: boolean;
   // handleSetLoading: () => void;
 }
 
@@ -15,7 +16,8 @@ const Pagination = ({
                       currentPage,
                       setCurrentPage,
                       totalItems,
-                      itemsPerPage
+                      itemsPerPage,
+                      scrollToTop
                       // handleSetLoading
                     }: PaginationInterface) => {
   const pageNumbers = [];
@@ -29,13 +31,15 @@ const Pagination = ({
     setCurrentPage(number);
 
     // handleSetLoading();
+    scrollToTop && (
+      setTimeout(() => {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth' // Smooth scroll
+        });
+      }, 0)
+    );
 
-    setTimeout(() => {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth' // Smooth scroll
-      });
-    }, 0);
   };
 
   return (

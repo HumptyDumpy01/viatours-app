@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { CldImage } from 'next-cloudinary';
 
 type TopArticlesCardType = {
+  _id: string;
   image: any;
   type: string[];
   title: string;
@@ -13,12 +14,12 @@ type TopArticlesCardType = {
   // children: ReactNode;
 }
 
-export default function TopArticlesCard({ image, readTime, author, country, type, title }: TopArticlesCardType) {
+export default function TopArticlesCard({ image, readTime, author, country, type, title, _id }: TopArticlesCardType) {
 
   const capitalizedType = type.map((type) => type.charAt(0).toUpperCase() + type.slice(1)).join(`, `);
 
   return (
-    <Link href="#" className="link travel-articles__card-hover">
+    <Link href={`/articles/${_id}`} className="link travel-articles__card-hover">
       <figure className="travel-articles__the-top-articles__card">
         <span className="inline-block travel-articles__the-top-articles-tag">{capitalizedType}</span>
         <div className="travel-articles__the-top-articles__card-img">

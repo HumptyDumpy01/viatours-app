@@ -69,7 +69,7 @@ export default function NewestArticlesContainer(/*{ newestArticles }: NewestArti
               {newestArticles.map(function(article) {
                 return (
                   <>
-                    <SearchResultsCard {...article} />
+                    <SearchResultsCard key={article._id} {...article} />
                   </>
                 );
               })}

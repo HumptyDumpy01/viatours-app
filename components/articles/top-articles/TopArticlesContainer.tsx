@@ -82,7 +82,7 @@ export default function TopArticlesContainer(/*{ topArticles }: TopArticlesConta
             <div className={`flex gap-13px`}>
               {newestArticles.map(function(article) {
                 return (
-                  <TopArticlesCard {...article} />
+                  <TopArticlesCard key={article._id} {...article} />
                 );
               })}
             </div>
