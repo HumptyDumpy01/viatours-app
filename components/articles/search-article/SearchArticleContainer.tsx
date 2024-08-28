@@ -26,6 +26,8 @@ export type ArticleType = {
   author: string;
   type: string[];
   image: string;
+  country: string;
+  readTime: string;
 };
 
 export default function SearchArticleContainer(/*{ results }: SearchArticleContainerType*/) {

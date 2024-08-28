@@ -35,8 +35,8 @@
   }
 
   &-img {
-    width: 34.5rem;
-    height: 25rem;
+    width: 34.5rem !important;
+    height: 25rem !important;
     object-fit: cover;
     // adding filter to the image
     //filter: brightness(0.8);

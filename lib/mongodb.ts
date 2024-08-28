@@ -2938,7 +2938,9 @@ export async function getArticles() {
 
 type TagsType = `new` | `featured` | `top` | `hot`
 
-export async function fetchArticlesByTags(tags: TagsType[]) {
+export async function fetchArticlesByTags(tags: TagsType[], limit?: number) {
+
+  const limitVal = limit ? limit : 9999;
 
   // if no new or featured or top or hot tags are provided, return an error
   if (!tags.includes(`hot`) && !tags.includes(`new`) && !tags.includes(`featured`) && !tags.includes(`top`)) {
@@ -2992,6 +2994,12 @@ export async function fetchArticlesByTags(tags: TagsType[]) {
         },
         image: {
           $first: { $arrayElemAt: ['$images', 0] }
+        },
+        country: {
+          $first: '$location.country'
+        },
+        readTime: {
+          $first: '$readTime'
         }
       }
     },
@@ -3024,6 +3032,12 @@ export async function fetchArticlesByTags(tags: TagsType[]) {
         },
         image: {
           $first: '$image'
+        },
+        country: {
+          $first: '$country'
+        },
+        readTime: {
+          $first: '$readTime'
         }
       }
     },
@@ -3034,7 +3048,8 @@ export async function fetchArticlesByTags(tags: TagsType[]) {
           $in: tags
         }
       }
-    }
+    },
+    { $limit: limitVal }
   ]).toArray();
 
   if (response.length === 0) {
@@ -3054,7 +3069,9 @@ export async function fetchArticlesByTags(tags: TagsType[]) {
       author: article.author,
       type: article.type,
       tags: article.tags,
-      image: article.image
+      image: article.image,
+      country: article.country,
+      readTime: article.readTime
     };
   });
 

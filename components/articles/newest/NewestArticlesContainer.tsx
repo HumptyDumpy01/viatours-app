@@ -25,7 +25,7 @@ export default function NewestArticlesContainer(/*{ newestArticles }: NewestArti
         headers: {
           'Content-Type': `application/json`
         },
-        body: JSON.stringify({ tags: [`new`] })
+        body: JSON.stringify({ tags: [`new`], limit: 22 })
       });
 
       const data = await res.json();
@@ -75,6 +75,11 @@ export default function NewestArticlesContainer(/*{ newestArticles }: NewestArti
               })}
 
             </>
+          )}
+          {!isLoading && error && (
+            <div className="travel-articles__the-newest__error">
+              <span className={`subheading`}>Failed to fetch newest articles!</span>
+            </div>
           )}
         </div>
       </div>

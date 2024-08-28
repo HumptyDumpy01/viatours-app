@@ -4,7 +4,7 @@ import { fetchArticlesByTags } from '@/lib/mongodb';
 export async function POST(request: NextRequest) {
   try {
 
-    const { tags } = await request.json();
+    const { tags, limit } = await request.json();
 
     console.log(`Executing tags: `, tags);
 
@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    const articles = await fetchArticlesByTags(tags);
+    const articles = await fetchArticlesByTags(tags, limit);
 
     if (articles.error) {
       return NextResponse.json({
