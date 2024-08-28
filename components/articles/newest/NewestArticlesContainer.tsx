@@ -20,7 +20,7 @@ export default function NewestArticlesContainer(/*{ newestArticles }: NewestArti
 
   async function fetchNewestArticles() {
     try {
-      const res = await fetch(`/api/fetch-article-by-tag`, {
+      const res = await fetch(`/api/fetch-articles-by-tag`, {
         method: `POST`,
         headers: {
           'Content-Type': `application/json`
@@ -54,7 +54,7 @@ export default function NewestArticlesContainer(/*{ newestArticles }: NewestArti
     <>
       <div className="travel-articles__the-newest">
         <span className="travel-articles__the-newest__subheading subheading">The hottest articles you ever saw!</span>
-        <ArticlesContainerCardsHeading heading={`The Newest`} buttonLabel={`See all`} />
+        <ArticlesContainerCardsHeading linkVisible={false} heading={`The Newest`} buttonLabel={`See all`} />
         <div className="travel-articles__the-newest__card-container flex">
           {(isLoading && !error) && (
             <>
@@ -68,9 +68,7 @@ export default function NewestArticlesContainer(/*{ newestArticles }: NewestArti
             <>
               {newestArticles.map(function(article) {
                 return (
-                  <>
-                    <SearchResultsCard key={article._id} {...article} />
-                  </>
+                  <SearchResultsCard key={article._id} {...article} />
                 );
               })}
 

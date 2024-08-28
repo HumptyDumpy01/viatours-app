@@ -16,7 +16,7 @@ type SearchResultsCardType = {
 
 export default function SearchResultsCard({ image, _id, author, createdAt, type, title }: SearchResultsCardType) {
 
-  console.log(`Executing image: `, image);
+  // console.log(`Executing image: `, image);
 
   // the createdAt prop I get is in ISO 8601 format, so I need to convert it to a more readable format
   // like this July 07, 2023

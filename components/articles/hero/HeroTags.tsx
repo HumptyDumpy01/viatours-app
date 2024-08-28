@@ -19,10 +19,6 @@ export default function HeroTags({ activeTag, setActiveTag }: HeroTagsType) {
 
   return (
     <div className="hero__article-tag-container">
-      <div onClick={() => toggleActiveTag(`all`)}
-           className={`hero__article-tag ${activeTag === `all` ? ` hero__article-tag--active` : ``} 
-        all flex flex-align-center font-size-16px font-weight-med`}>All
-      </div>
       <div onClick={() => toggleActiveTag(`culture`)}
            className={`hero__article-tag culture flex flex-align-center
          ${activeTag === `culture` ? ` hero__article-tag--active` : ``}`}>

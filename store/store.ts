@@ -9,6 +9,7 @@ import commentFormSlice from '@/store/commentFormSlice';
 import registerSlice from '@/store/registerSlice';
 import forgotPasswordSlice from '@/store/forgotPasswordSlice';
 import deleteAccountSlice from '@/store/deleteAccountSlice';
+import articlesSlice from '@/store/articlesSlice';
 
 const store = configureStore({
   reducer: {
@@ -24,7 +25,8 @@ const store = configureStore({
     commentForm: commentFormSlice,
     register: registerSlice,
     forgotPassword: forgotPasswordSlice,
-    deleteAccount: deleteAccountSlice
+    deleteAccount: deleteAccountSlice,
+    articles: articlesSlice
   }
 });
 

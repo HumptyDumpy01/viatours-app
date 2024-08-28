@@ -1,10 +1,11 @@
 // 'use client';
 
-/*type TopArticlesHeadingType = {
+type TopArticlesHeadingType = {
+  linkVisible?: boolean;
   // children: ReactNode;
-}*/
+}
 
-export default function TopArticlesHeading(/*{  }: TopArticlesHeadingType*/) {
+export default function TopArticlesHeading({ linkVisible = true }: TopArticlesHeadingType) {
   return (
     <>
       <div className="travel-articles__the-top-articles__heading-container">
@@ -18,7 +19,7 @@ export default function TopArticlesHeading(/*{  }: TopArticlesHeadingType*/) {
               fill="#1E2050" />
           </svg>
         </div>
-        <a href="#" className="travel-articles__the-top-articles__see-all link">See all</a>
+        {linkVisible && <a href="#" className="travel-articles__the-top-articles__see-all link">See all</a>}
       </div>
     </>
   );

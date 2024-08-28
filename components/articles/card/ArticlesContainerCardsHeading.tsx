@@ -3,10 +3,15 @@
 type ArticlesContainerCardsHeadingType = {
   heading: string;
   buttonLabel: string;
+  linkVisible?: boolean;
   // children: ReactNode;
 }
 
-export default function ArticlesContainerCardsHeading({ heading, buttonLabel }: ArticlesContainerCardsHeadingType) {
+export default function ArticlesContainerCardsHeading({
+                                                        heading,
+                                                        buttonLabel,
+                                                        linkVisible = true
+                                                      }: ArticlesContainerCardsHeadingType) {
   return (
     <div className="travel-articles__the-newest__heading-container">
       <div className="flex flex-align-center gap-13px">
@@ -21,7 +26,7 @@ export default function ArticlesContainerCardsHeading({ heading, buttonLabel }: 
             fill="#1E2050" />
         </svg>
       </div>
-      <a href="#" className="travel-articles__the-newest__see-all link">{buttonLabel}</a>
+      {linkVisible && <a href="#" className="travel-articles__the-newest__see-all link">{buttonLabel}</a>}
     </div>
   );
 }

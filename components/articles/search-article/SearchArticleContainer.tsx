@@ -15,6 +15,8 @@ import SearchResultsCard from '@/components/articles/search-article/SearchResult
 import NoItemsFound from '@/components/UI/Layout/NoItems/NoItemsFound';
 import loadingSpinner from '@/animations/loading-spinner.json';
 import Lottie from 'lottie-react';
+import { useCartDispatch, useCartSelector } from '@/store/hooks';
+import { articlesSliceActions } from '@/store/articlesSlice';
 
 /*type SearchArticleContainerType = {
   /!* TODO: IMPLEMENT A BETTER SCHEMA LATER *!/
@@ -41,6 +43,13 @@ export default function SearchArticleContainer(/*{ results }: SearchArticleConta
   const [error, setError] = useState(false);
   const timer = useRef<NodeJS.Timeout | null>(null);
 
+  const dispatch = useCartDispatch();
+
+  const heroSearchTerm = useCartSelector((state) => state.articles.searchTerm);
+  const heroTagChosen = useCartSelector((state) => state.articles.tag);
+
+  const isHeroSearchBtnClicked = useCartSelector((state) => state.articles.searchHeroBtnClicked);
+
   const articlesPerPage = 6;
   // define the current page
   const [currentPage, setCurrentPage] = useState(1);
@@ -48,6 +57,31 @@ export default function SearchArticleContainer(/*{ results }: SearchArticleConta
 
   const indexOfLastArticle = currentPage * articlesPerPage;
   const indexOfFirstArticle = indexOfLastArticle - articlesPerPage;
+
+  async function searchArticles(results: { searchTerm: string }) {
+
+    const response = await fetch(`/api/search-articles`, {
+      method: `POST`,
+      body: JSON.stringify({
+        searchTerm: results.searchTerm
+      })
+    }).then(res => res.json());
+
+    // console.log(`response:`, response);
+    if (response.error) {
+      setError(true);
+    }
+    setCurrentArticles(response.articles);
+    setArticles(response.articles);
+    // console.log(`response.articles:`, response.articles);
+    setCurrentPage(1);
+    setIsLoading(false);
+
+    timer.current = setTimeout(() => {
+      setDisableSearchBtn(false);
+    }, 2000);
+    return response;
+  }
 
   async function fetchAllArticles() {
     setDisableSearchBtn(true);
@@ -77,6 +111,64 @@ export default function SearchArticleContainer(/*{ results }: SearchArticleConta
     fetchAllArticles();
   }, []);
 
+  async function filterArticlesByTag() {
+    setDisableSearchBtn(true);
+    setIsLoading(true);
+    const fetchArticlesFilteredByType = await fetch(`/api/fetch-articles-by-type`, {
+      method: `POST`,
+      body: JSON.stringify({
+        type: [heroTagChosen]
+      })
+    }).then(res => res.json());
+
+    if (fetchArticlesFilteredByType.error) {
+      setError(true);
+      setIsLoading(false);
+      setDisableSearchBtn(false);
+      return;
+    }
+    setArticles(fetchArticlesFilteredByType.articles);
+    setCurrentArticles(fetchArticlesFilteredByType.articles);
+    setCurrentPage(1);
+    setIsLoading(false);
+
+    timer.current = setTimeout(() => {
+      setDisableSearchBtn(false);
+    }, 2000);
+
+    console.log(`fetchArticlesFilteredByType:`, fetchArticlesFilteredByType);
+    dispatch(articlesSliceActions.resetArticlesState());
+  }
+
+  useEffect(() => {
+
+    // if the user did not enter the search term,
+    // then return all articles but filtered by type (because it is mandatory anyway.)
+    if (heroSearchTerm.trim() === `searchAll`) {
+      filterArticlesByTag();
+      return;
+    }
+    // TODO: if the user entered the search term, then filter the articles by the search term and the type
+    if (heroSearchTerm.trim() !== `` && heroSearchTerm !== `searchAll`
+      && heroTagChosen !== ``) {
+      // Fetch articles based on term. Each document contains a "type" param.
+      // Use filter to filter the articles based on the type and the search term
+      // and them set the current articles to the filtered articles
+      const response = searchArticles({ searchTerm: heroSearchTerm }).then(res => {
+        return res;
+      }).then((res) => {
+        console.log(`res:`, res);
+
+        // @ts-ignore
+        const filteredArticles = res.articles.filter(article => article.type.includes(heroTagChosen));
+        setCurrentArticles(filteredArticles);
+        setArticles(filteredArticles);
+        setCurrentPage(1);
+      });
+    }
+
+
+  }, [isHeroSearchBtnClicked, heroSearchTerm, heroTagChosen]);
 
   useEffect(() => {
     setCurrentArticles(articles.slice(indexOfFirstArticle, indexOfLastArticle));
@@ -88,30 +180,9 @@ export default function SearchArticleContainer(/*{ results }: SearchArticleConta
     e.preventDefault();
     const currObject = e.currentTarget;
     const formData = new FormData(currObject);
-    const results = Object.fromEntries(formData.entries());
+    const results = Object.fromEntries(formData.entries()) as { searchTerm: string };
 
-    // implement search functionality by creating a function that will filter the articles based on the search term
-    // and then set the current articles to the filtered articles
-    const response = await fetch(`/api/search-articles`, {
-      method: `POST`,
-      body: JSON.stringify({
-        searchTerm: results.searchTerm
-      })
-    }).then(res => res.json());
-
-    // console.log(`response:`, response);
-    if (response.error) {
-      setError(true);
-    }
-    setCurrentArticles(response.articles);
-    setArticles(response.articles);
-    // console.log(`response.articles:`, response.articles);
-    setCurrentPage(1);
-    setIsLoading(false);
-
-    timer.current = setTimeout(() => {
-      setDisableSearchBtn(false);
-    }, 2000);
+    searchArticles(results);
   }
 
   function setNewValues(articlesCopy: ArticleType[], currentArticlesCopy: ArticleType[]) {
@@ -243,16 +314,15 @@ export default function SearchArticleContainer(/*{ results }: SearchArticleConta
           <>
             {currentArticles.map(function(article) {
               return (
-                <>
-                  <SearchResultsCard
-                    image={article.image}
-                    type={article.type}
-                    title={article.title}
-                    author={article.author}
-                    _id={article._id}
-                    createdAt={article.createdAt}
-                  />
-                </>
+                <SearchResultsCard
+                  key={article._id}
+                  image={article.image}
+                  type={article.type}
+                  title={article.title}
+                  author={article.author}
+                  _id={article._id}
+                  createdAt={article.createdAt}
+                />
               );
             })}
           </>

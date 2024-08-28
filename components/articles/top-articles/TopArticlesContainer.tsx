@@ -20,7 +20,7 @@ export default function TopArticlesContainer(/*{ topArticles }: TopArticlesConta
 
   async function fetchNewestArticles() {
     try {
-      const res = await fetch(`/api/fetch-article-by-tag`, {
+      const res = await fetch(`/api/fetch-articles-by-tag`, {
         method: `POST`,
         headers: {
           'Content-Type': `application/json`
@@ -67,7 +67,7 @@ export default function TopArticlesContainer(/*{ topArticles }: TopArticlesConta
   return (
     <div className="travel-articles__the-top-articles-container flex">
       <div className="travel-articles__the-top-articles">
-        <TopArticlesHeading />
+        <TopArticlesHeading linkVisible={false} />
         <BtnBulky onClick={() => handleScroll('left')} mode="left" />
         <BtnBulky onClick={() => handleScroll('right')} mode="right" />
         <div ref={topArticlesContainerRef} className="travel-articles__the-top-articles__card-wrapper">

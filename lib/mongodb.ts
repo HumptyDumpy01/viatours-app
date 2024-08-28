@@ -3097,6 +3097,152 @@ export async function fetchArticlesByTags(tags: TagsType[], limit?: number) {
   };
 }
 
+export type TypesType = `culture` | `historic` | `nature` | `trips`;
+
+export async function fetchArticlesByType(type: TypesType[], limit?: number) {
+
+  const limitVal = limit ? limit : 9999;
+
+  // if no new or featured or top or hot tags are provided, return an error
+  if (!type.includes(`culture`) && !type.includes(`historic`) && !type.includes(`nature`) && !type.includes(`trips`)) {
+    return {
+      error: true,
+      message: `Type provided are not correct. Please provide new, featured, top or hot type.`,
+      status: 400
+    };
+  }
+
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+
+  if (type.length === 0) {
+    return {
+      error: true,
+      message: `No tags provided.`,
+      status: 400
+    };
+  }
+
+  const response = await db.collection(`articles`).aggregate([
+    {
+      $unwind: '$author'
+    },
+    {
+      $lookup: {
+        from: 'travelArticlesAuthors',
+        localField: 'author',
+        foreignField: '_id',
+        as: 'authorDetails'
+      }
+    },
+    {
+      $group: {
+        _id: '$_id',
+        title: {
+          $first: '$title'
+        },
+        createdAt: {
+          $first: '$createdAt'
+        },
+        author: {
+          $first: '$authorDetails'
+        },
+        type: {
+          $first: '$type'
+        },
+        tags: {
+          $first: '$tags'
+        },
+        image: {
+          $first: { $arrayElemAt: ['$images', 0] }
+        },
+        country: {
+          $first: '$location.country'
+        },
+        readTime: {
+          $first: '$readTime'
+        },
+        views: {
+          $first: '$views'
+        }
+      }
+    },
+    {
+      $unwind: '$author'
+    },
+    {
+      $group: {
+        _id: '$_id',
+        title: {
+          $first: '$title'
+        },
+        createdAt: {
+          $first: '$createdAt'
+        },
+        author: {
+          $first: {
+            $concat: [
+              '$author.firstName',
+              ' ',
+              '$author.lastName'
+            ]
+          }
+        },
+        type: {
+          $first: '$type'
+        },
+        tags: {
+          $first: '$tags'
+        },
+        image: {
+          $first: '$image'
+        },
+        country: {
+          $first: '$country'
+        },
+        readTime: {
+          $first: '$readTime'
+        },
+        views: {
+          $first: '$views'
+        }
+      }
+    },
+    // match the newest articles,
+    {
+      $match: {
+        type: {
+          $in: type
+        }
+      }
+    },
+    { $limit: limitVal }
+  ]).toArray();
+
+  // transform the objectId to string
+  const transformedArticles = response.map((article: any) => {
+    return {
+      _id: article._id.toString(),
+      title: article.title,
+      createdAt: article.createdAt,
+      author: article.author,
+      type: article.type,
+      tags: article.tags,
+      image: article.image,
+      country: article.country,
+      readTime: article.readTime,
+      views: article.views
+    };
+  });
+
+  return {
+    error: false,
+    articles: transformedArticles,
+    message: `Articles fetched successfully.`,
+    status: 200
+  };
+}
+
 export async function searchArticles(searchTerm: string) {
   try {
     const client = await clientPromise;
@@ -3198,6 +3344,107 @@ export async function searchArticles(searchTerm: string) {
       message: `Failed to search articles. ${e}`
     };
   }
+}
+
+export async function searchForArticlesBySearchAndType(searchTerm: string, type: `all` | `culture` | `historic` | `nature` | `trips`) {
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+
+  // if the type is not of the correct type, return an error
+  if (![`all`, `culture`, `historic`, `nature`, `trips`].includes(type)) {
+    return {
+      error: true,
+      message: `Type provided is not correct. Please provide all, culture, historic, nature or trips.`
+    };
+  }
+
+  const response = await db.collection(`articles`).aggregate([
+    { $match: { $text: { $search: searchTerm }, type: { $in: type } } }, {
+      $unwind: '$author'
+    },
+    {
+      $lookup: {
+        from: 'travelArticlesAuthors',
+        localField: 'author',
+        foreignField: '_id',
+        as: 'authorDetails'
+      }
+    },
+    {
+      $group: {
+        _id: '$_id',
+        title: {
+          $first: '$title'
+        },
+        createdAt: {
+          $first: '$createdAt'
+        },
+        author: {
+          $first: '$authorDetails'
+        },
+        type: {
+          $first: '$type'
+        },
+        image: {
+          $first: { $arrayElemAt: ['$images', 0] }
+        },
+        views: {
+          $first: '$views'
+        }
+      }
+    },
+    {
+      $unwind: '$author'
+    },
+    {
+      $group: {
+        _id: '$_id',
+        title: {
+          $first: '$title'
+        },
+        createdAt: {
+          $first: '$createdAt'
+        },
+        author: {
+          $first: {
+            $concat: [
+              '$author.firstName',
+              ' ',
+              '$author.lastName'
+            ]
+          }
+        },
+        type: {
+          $first: '$type'
+        },
+        image: {
+          $first: '$image'
+        },
+        views: {
+          $first: '$views'
+        }
+      }
+    }
+  ]).toArray();
+
+  const transformedArticles = response.map((article: any) => {
+    return {
+      _id: article._id.toString(),
+      title: article.title,
+      createdAt: article.createdAt,
+      author: article.author,
+      type: article.type,
+      image: article.image,
+      views: article.views
+    };
+  });
+
+  return {
+    error: false,
+    articles: transformedArticles,
+    message: `Articles fetched successfully.`
+  };
+
 }
 
 ///////////////////////////////////////

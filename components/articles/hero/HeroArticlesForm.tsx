@@ -1,25 +1,30 @@
 'use client';
-
 /*type HeroArticlesFormType = {
   // children: ReactNode;
 }*/
 
 import HeroTags from '@/components/articles/hero/HeroTags';
 import { FormEvent, useState } from 'react';
+import { useCartDispatch } from '@/store/hooks';
+import { articlesSliceActions } from '@/store/articlesSlice';
 
 export type TagType = `all` | `culture` | `historic` | `nature` | `trips`;
 
 export default function HeroArticlesForm(/*{  }: HeroArticlesFormType*/) {
-  const [activeTag, setActiveTag] = useState<TagType>(`all`);
+  const [activeTag, setActiveTag] = useState<TagType>(`trips`);
+  const dispatch = useCartDispatch();
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const currObject = e.currentTarget;
     const formData = new FormData(currObject);
-    const results = Object.fromEntries(formData.entries());
+    const results = Object.fromEntries(formData.entries()) as { searchTerm: string, tag: string };
 
     if (activeTag.trim() === ``) {
       results.tag = `all`;
+    }
+    if (results.searchTerm.trim() === `` && activeTag !== `all`) {
+      results.searchTerm = `searchAll`;
     }
 
     results.tag = activeTag;
@@ -28,8 +33,13 @@ export default function HeroArticlesForm(/*{  }: HeroArticlesFormType*/) {
     // scroll to search results
     inputSearchContainer.scrollIntoView({ behavior: `smooth`, block: `start` });
 
-    // output
-    console.log(results);
+    // Create a route API, and before that server function that would handle one
+    // request: search for articles by tag and search term
+    dispatch(articlesSliceActions.storeSearchTerm(results.searchTerm));
+    dispatch(articlesSliceActions.storeTag(results.tag));
+    dispatch(articlesSliceActions.toggleSearchHeroBtnClicked(true));
+    // reset the search term
+    currObject.reset();
   }
 
   return (
