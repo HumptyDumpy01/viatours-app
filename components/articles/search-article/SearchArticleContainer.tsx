@@ -9,10 +9,12 @@ import SortBy from '@/components/UI/SortBy/SortBy';
 // import searchImage10 from '@/assets/images/articles/search-any-article/tour-image-10.png';
 // import searchImage11 from '@/assets/images/articles/search-any-article/tour-image-11.png';
 import Pagination from '@/components/UI/Pagnation/Pagination';
-import React, { FormEvent, useEffect, useState } from 'react';
+import React, { FormEvent, useEffect, useRef, useState } from 'react';
 import SearchResultsCardSkeleton from '@/components/articles/skeletons/SearchResultsCardSkeleton';
 import SearchResultsCard from '@/components/articles/search-article/SearchResultsCard';
 import NoItemsFound from '@/components/UI/Layout/NoItems/NoItemsFound';
+import loadingSpinner from '@/animations/loading-spinner.json';
+import Lottie from 'lottie-react';
 
 /*type SearchArticleContainerType = {
   /!* TODO: IMPLEMENT A BETTER SCHEMA LATER *!/
@@ -34,8 +36,9 @@ export type ArticleType = {
 export default function SearchArticleContainer(/*{ results }: SearchArticleContainerType*/) {
   const [articles, setArticles] = useState<ArticleType[] | []>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [disableSearchBtn, setDisableSearchBtn] = useState(false);
   const [error, setError] = useState(false);
-
+  const timer = useRef<NodeJS.Timeout | null>(null);
 
   const articlesPerPage = 6;
   // define the current page
@@ -47,6 +50,7 @@ export default function SearchArticleContainer(/*{ results }: SearchArticleConta
 
   /* FETCH ALL ARTICLES */
   useEffect(() => {
+    setDisableSearchBtn(true);
     const fetchArticles = async () => {
       try {
         const response = await fetch(`/api/fetch-articles`);
@@ -57,9 +61,11 @@ export default function SearchArticleContainer(/*{ results }: SearchArticleConta
         }
 
         setArticles(data.articles);
+        setDisableSearchBtn(false);
       } catch (e) {
         console.error(e);
         setError(true);
+        setDisableSearchBtn(false);
       }
 
       setIsLoading(false);
@@ -74,10 +80,31 @@ export default function SearchArticleContainer(/*{ results }: SearchArticleConta
     setCurrentArticles(articles.slice(indexOfFirstArticle, indexOfLastArticle));
   }, [currentPage, articles]);
 
-  function handleClearFilters() {
+  async function handleClearFilters() {
+    setDisableSearchBtn(true);
+    setIsLoading(true);
+    try {
+      const response = await fetch(`/api/fetch-articles`);
+      const data = await response.json();
+
+      if (data.error) {
+        setError(true);
+      }
+
+      setArticles(data.articles);
+      setCurrentArticles(data.articles);
+      setCurrentPage(1);
+      setIsLoading(false);
+      setDisableSearchBtn(false);
+    } catch (e) {
+      console.error(e);
+      setError(true);
+      setIsLoading(false);
+    }
   }
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    setDisableSearchBtn(true);
     setIsLoading(true);
     e.preventDefault();
     const currObject = e.currentTarget;
@@ -93,7 +120,7 @@ export default function SearchArticleContainer(/*{ results }: SearchArticleConta
       })
     }).then(res => res.json());
 
-    console.log(`response:`, response);
+    // console.log(`response:`, response);
     if (response.error) {
       setError(true);
     }
@@ -103,8 +130,10 @@ export default function SearchArticleContainer(/*{ results }: SearchArticleConta
     setCurrentPage(1);
     setIsLoading(false);
 
+    timer.current = setTimeout(() => {
+      setDisableSearchBtn(false);
+    }, 2000);
   }
-
 
   return (
     <section className="search-article-container container">
@@ -117,7 +146,16 @@ export default function SearchArticleContainer(/*{ results }: SearchArticleConta
                 <input name={`searchTerm`} type="search" className="search-article__search-input"
                        placeholder="Country, City, Title" />
               </label>
-              <button type="submit" className="btn search-article__search">Search</button>
+              <div className={`flex`}>
+                <button disabled={isLoading || disableSearchBtn} type="submit"
+                        className={`btn search-article__search ${isLoading || disableSearchBtn ? `search-article__search-disabled` : ``}`}>Search
+                </button>
+                {isLoading || disableSearchBtn && (
+                  <div className={`loading-spinner-search`}>
+                    <Lottie animationData={loadingSpinner} />
+                  </div>
+                )}
+              </div>
             </form>
           </div>
 
@@ -167,10 +205,6 @@ export default function SearchArticleContainer(/*{ results }: SearchArticleConta
                 </>
               );
             })}
-          </>
-        )}
-        {(!isLoading && !error && currentArticles.length === 0) && (
-          <>
           </>
         )}
         {(!isLoading && error) && (

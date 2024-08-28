@@ -70,6 +70,12 @@
     &:hover, &:active {
       background-color: var(--clr-primary-lighter);
     }
+
+    &-disabled {
+      background-color: var(--clr-grey);
+      cursor: not-allowed;
+      pointer-events: none;
+    }
   }
 
   &-card {
