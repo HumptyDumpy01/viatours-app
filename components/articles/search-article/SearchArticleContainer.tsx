@@ -31,6 +31,7 @@ export type ArticleType = {
   image: string;
   country: string;
   readTime: string;
+  views: number;
 };
 
 export default function SearchArticleContainer(/*{ results }: SearchArticleContainerType*/) {
@@ -113,12 +114,76 @@ export default function SearchArticleContainer(/*{ results }: SearchArticleConta
     }, 2000);
   }
 
+  function setNewValues(articlesCopy: ArticleType[], currentArticlesCopy: ArticleType[]) {
+    setArticles(articlesCopy);
+    setCurrentArticles(currentArticlesCopy);
+    setCurrentPage(1);
+  }
+
   function handleSortArticles(e: React.ChangeEvent<HTMLSelectElement>) {
     const value = e.target.value as `all` | `newest` | `oldest` | `by-views` | `ascending` | `descending` | `culture` | `historic` | `nature` | `trips`;
+    const articlesCopy = [...articles];
+    const currentArticlesCopy = [...currentArticles];
     console.log(`value:`, value);
 
     /* INFO: the point is, that all, all values should only filter articles that are currently on the screen, including paginated ones, if any.
     *   the difference is the "all" value because when it chosen, I just do need to fetch all articles again.*/
+    if (value === `all`) {
+      setCurrentPage(1);
+      fetchAllArticles();
+      return;
+    }
+
+    if (value === `newest`) {
+      articlesCopy.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+      currentArticlesCopy.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+      setNewValues(articlesCopy, currentArticlesCopy);
+    }
+
+    if (value === `oldest`) {
+      articlesCopy.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+      currentArticlesCopy.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+      setNewValues(articlesCopy, currentArticlesCopy);
+    }
+
+    if (value === `by-views`) {
+      articlesCopy.sort((a, b) => b.views - a.views);
+      currentArticlesCopy.sort((a, b) => b.views - a.views);
+      setNewValues(articlesCopy, currentArticlesCopy);
+    }
+
+    if (value === `ascending`) {
+      articlesCopy.sort((a, b) => a.title.localeCompare(b.title));
+      currentArticlesCopy.sort((a, b) => a.title.localeCompare(b.title));
+      setNewValues(articlesCopy, currentArticlesCopy);
+    }
+
+    if (value === `descending`) {
+      articlesCopy.sort((a, b) => b.title.localeCompare(a.title));
+      currentArticlesCopy.sort((a, b) => b.title.localeCompare(a.title));
+      setNewValues(articlesCopy, currentArticlesCopy);
+    }
+
+    if (value === `trips`) {
+      const filteredArticles = articlesCopy.filter(article => article.type.includes(`trips`));
+      const filteredCurrentArticles = currentArticlesCopy.filter(article => article.type.includes(`trips`));
+      setNewValues(filteredArticles, filteredCurrentArticles);
+    }
+    if (value === `culture`) {
+      const filteredArticles = articlesCopy.filter(article => article.type.includes(`culture`));
+      const filteredCurrentArticles = currentArticlesCopy.filter(article => article.type.includes(`culture`));
+      setNewValues(filteredArticles, filteredCurrentArticles);
+    }
+    if (value === `historic`) {
+      const filteredArticles = articlesCopy.filter(article => article.type.includes(`historic`));
+      const filteredCurrentArticles = currentArticlesCopy.filter(article => article.type.includes(`historic`));
+      setNewValues(filteredArticles, filteredCurrentArticles);
+    }
+    if (value === `nature`) {
+      const filteredArticles = articlesCopy.filter(article => article.type.includes(`nature`));
+      const filteredCurrentArticles = currentArticlesCopy.filter(article => article.type.includes(`nature`));
+      setNewValues(filteredArticles, filteredCurrentArticles);
+    }
 
   }
 
@@ -161,7 +226,7 @@ export default function SearchArticleContainer(/*{ results }: SearchArticleConta
                   ]} />
         </div>
       </div>
-      <p className="search-results">Search results({articles.length}):</p>
+      <p className="search-results">Search results({isLoading ? `...` : articles.length}):</p>
 
       <div className="search-results-container">
         {(isLoading && !error) && (

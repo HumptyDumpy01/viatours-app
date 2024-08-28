@@ -23,7 +23,7 @@ export default function SearchResultsCard({ image, _id, author, createdAt, type,
   const date = new Date(createdAt);
   const formattedDate = date.toDateString().split(' ').slice(1, 3).join(' ');
 
-  const capitalizedType = type[0].charAt(0).toUpperCase() + type[0].slice(1);
+  const capitalizedType = type.map((type) => type.charAt(0).toUpperCase() + type.slice(1)).join(`, `);
 
   return (
     <figure className="travel-articles__the-newest__card grid search-article-card">

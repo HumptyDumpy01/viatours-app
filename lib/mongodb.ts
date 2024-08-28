@@ -2873,6 +2873,9 @@ export async function getArticles() {
         },
         image: {
           $first: { $arrayElemAt: ['$images', 0] }
+        },
+        views: {
+          $first: '$views'
         }
       }
     },
@@ -2902,6 +2905,9 @@ export async function getArticles() {
         },
         image: {
           $first: '$image'
+        },
+        views: {
+          $first: '$views'
         }
       }
     }
@@ -2923,7 +2929,8 @@ export async function getArticles() {
       createdAt: article.createdAt,
       author: article.author,
       type: article.type,
-      image: article.image
+      image: article.image,
+      views: article.views
     };
   });
 
@@ -3000,6 +3007,9 @@ export async function fetchArticlesByTags(tags: TagsType[], limit?: number) {
         },
         readTime: {
           $first: '$readTime'
+        },
+        views: {
+          $first: '$views'
         }
       }
     },
@@ -3038,6 +3048,9 @@ export async function fetchArticlesByTags(tags: TagsType[], limit?: number) {
         },
         readTime: {
           $first: '$readTime'
+        },
+        views: {
+          $first: '$views'
         }
       }
     },
@@ -3071,7 +3084,8 @@ export async function fetchArticlesByTags(tags: TagsType[], limit?: number) {
       tags: article.tags,
       image: article.image,
       country: article.country,
-      readTime: article.readTime
+      readTime: article.readTime,
+      views: article.views
     };
   });
 
@@ -3118,6 +3132,9 @@ export async function searchArticles(searchTerm: string) {
           },
           image: {
             $first: { $arrayElemAt: ['$images', 0] }
+          },
+          views: {
+            $first: '$views'
           }
         }
       },
@@ -3147,6 +3164,9 @@ export async function searchArticles(searchTerm: string) {
           },
           image: {
             $first: '$image'
+          },
+          views: {
+            $first: '$views'
           }
         }
       }
@@ -3159,11 +3179,12 @@ export async function searchArticles(searchTerm: string) {
         createdAt: article.createdAt,
         author: article.author,
         type: article.type,
-        image: article.image
+        image: article.image,
+        views: article.views
       };
     });
 
-    console.log(`Executing transformedArticles: `, transformedArticles);
+    // console.log(`Executing transformedArticles: `, transformedArticles);
 
     return {
       error: false,
