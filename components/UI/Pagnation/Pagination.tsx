@@ -9,6 +9,10 @@ interface PaginationInterface {
   totalItems: number;
   itemsPerPage: number;
   scrollToTop?: boolean;
+  scrollToElem?: {
+    className: string;
+    offset: number;
+  };
   // handleSetLoading: () => void;
 }
 
@@ -17,12 +21,17 @@ const Pagination = ({
                       setCurrentPage,
                       totalItems,
                       itemsPerPage,
-                      scrollToTop
+                      scrollToTop,
+                      scrollToElem
                       // handleSetLoading
                     }: PaginationInterface) => {
   const pageNumbers = [];
   for (let i = 1; i <= Math.ceil(totalItems / itemsPerPage); i++) {
     pageNumbers.push(i);
+  }
+
+  if (scrollToTop && scrollToElem) {
+    throw new Error('You can only scroll to top or to an element, not both');
   }
 
   const handleClick = (number: number, event: React.MouseEvent<HTMLAnchorElement, MouseEvent>, activeLink: boolean) => {
@@ -37,6 +46,17 @@ const Pagination = ({
           top: 0,
           behavior: 'smooth' // Smooth scroll
         });
+      }, 0)
+    );
+    scrollToElem && (
+      setTimeout(() => {
+        const elem = document.querySelector(scrollToElem.className);
+        if (elem) {
+          window.scrollTo({
+            top: elem.getBoundingClientRect().top + window.scrollY - scrollToElem.offset,
+            behavior: 'smooth'
+          });
+        }
       }, 0)
     );
 

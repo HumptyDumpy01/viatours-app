@@ -109,7 +109,7 @@ export default function SearchArticleContainer(/*{ results }: SearchArticleConta
                   ]} />
         </div>
       </div>
-      <p className="search-results">Search results:</p>
+      <p className="search-results">Search results({articles.length}):</p>
 
       <div className="search-results-container">
         {(isLoading && !error) && (
@@ -146,7 +146,10 @@ export default function SearchArticleContainer(/*{ results }: SearchArticleConta
           <NoItemsFound buttonLabel={`See All Articles`} clearFilters={handleClearFilters} />
         </div>
       )}
-      <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} totalItems={articles.length}
+      <Pagination scrollToElem={{
+        className: `.search-article__header`,
+        offset: 100
+      }} currentPage={currentPage} setCurrentPage={setCurrentPage} totalItems={articles.length}
                   itemsPerPage={articlesPerPage} />
     </section>
   );
