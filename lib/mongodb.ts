@@ -2936,6 +2936,136 @@ export async function getArticles() {
 
 }
 
+type TagsType = `new` | `featured` | `top` | `hot`
+
+export async function fetchArticlesByTags(tags: TagsType[]) {
+
+  // if no new or featured or top or hot tags are provided, return an error
+  if (!tags.includes(`hot`) && !tags.includes(`new`) && !tags.includes(`featured`) && !tags.includes(`top`)) {
+    return {
+      error: true,
+      message: `Tags provided are not correct. Please provide new, featured, top or hot tags.`,
+      status: 400
+    };
+  }
+
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+
+  if (tags.length === 0) {
+    return {
+      error: true,
+      message: `No tags provided.`,
+      status: 400
+    };
+  }
+
+  const response = await db.collection(`articles`).aggregate([
+    {
+      $unwind: '$author'
+    },
+    {
+      $lookup: {
+        from: 'travelArticlesAuthors',
+        localField: 'author',
+        foreignField: '_id',
+        as: 'authorDetails'
+      }
+    },
+    {
+      $group: {
+        _id: '$_id',
+        title: {
+          $first: '$title'
+        },
+        createdAt: {
+          $first: '$createdAt'
+        },
+        author: {
+          $first: '$authorDetails'
+        },
+        type: {
+          $first: '$type'
+        },
+        tags: {
+          $first: '$tags'
+        },
+        image: {
+          $first: { $arrayElemAt: ['$images', 0] }
+        }
+      }
+    },
+    {
+      $unwind: '$author'
+    },
+    {
+      $group: {
+        _id: '$_id',
+        title: {
+          $first: '$title'
+        },
+        createdAt: {
+          $first: '$createdAt'
+        },
+        author: {
+          $first: {
+            $concat: [
+              '$author.firstName',
+              ' ',
+              '$author.lastName'
+            ]
+          }
+        },
+        type: {
+          $first: '$type'
+        },
+        tags: {
+          $first: '$tags'
+        },
+        image: {
+          $first: '$image'
+        }
+      }
+    },
+    // match the newest articles,
+    {
+      $match: {
+        tags: {
+          $in: tags
+        }
+      }
+    }
+  ]).toArray();
+
+  if (response.length === 0) {
+    return {
+      error: true,
+      message: `No articles found.`,
+      status: 404
+    };
+  }
+
+  // transform the objectId to string
+  const transformedArticles = response.map((article: any) => {
+    return {
+      _id: article._id.toString(),
+      title: article.title,
+      createdAt: article.createdAt,
+      author: article.author,
+      type: article.type,
+      tags: article.tags,
+      image: article.image
+    };
+  });
+
+  return {
+    error: false,
+    articles: transformedArticles,
+    message: `Articles fetched successfully.`,
+    status: 200
+  };
+}
+
 ///////////////////////////////////////
 
 

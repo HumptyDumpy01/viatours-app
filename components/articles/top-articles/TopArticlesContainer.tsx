@@ -16,12 +16,12 @@ import TopArticlesHeading from '@/components/articles/top-articles/TopArticlesHe
 import BtnBulky from '@/components/UI/Button/BtnBulky';
 import TopArticlesCard from '@/components/articles/top-articles/card/TopArticlesCard';
 
-type TopArticlesContainerType = {
-  /* TODO: IMPLEMENT A BETTER SCHEMA LATER */
+/*type TopArticlesContainerType = {
+  /!* TODO: IMPLEMENT A BETTER SCHEMA LATER *!/
   topArticles: [];
-}
+}*/
 
-export default function TopArticlesContainer({ topArticles }: TopArticlesContainerType) {
+export default function TopArticlesContainer(/*{ topArticles }: TopArticlesContainerType*/) {
   const topArticlesContainerRef = useRef<HTMLDivElement>(null);
 
   function handleScroll(mode: string) {

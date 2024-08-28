@@ -19,7 +19,7 @@ import SearchResultsCard from '@/components/articles/search-article/SearchResult
   // children: ReactNode;
 }*/
 
-type ArticleType = {
+export type ArticleType = {
   _id: string;
   title: string;
   createdAt: string;

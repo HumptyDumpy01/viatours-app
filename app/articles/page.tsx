@@ -27,8 +27,8 @@ export default async function ArticlesPage(/*{  }: ArticlesPageInterface*/) {
         <div className="travel-articles container">
           <ArticlesNavigation />
           <ArticlesHeader />
-          <NewestArticlesContainer newestArticles={[]} />
-          <TopArticlesContainer topArticles={[]} />
+          <NewestArticlesContainer />
+          <TopArticlesContainer />
         </div>
         <ArticlesTravellerReviews>
           <ArticlesTravellerHeading />
