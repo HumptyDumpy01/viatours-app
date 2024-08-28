@@ -55,7 +55,7 @@ export default function NewestArticlesContainer(/*{ newestArticles }: NewestArti
       <div className="travel-articles__the-newest">
         <span className="travel-articles__the-newest__subheading subheading">The hottest articles you ever saw!</span>
         <ArticlesContainerCardsHeading heading={`The Newest`} buttonLabel={`See all`} />
-        <div className="travel-articles__the-newest__card-container flex gap-15px">
+        <div className="travel-articles__the-newest__card-container flex">
           {(isLoading && !error) && (
             <>
               <SearchResultsCardSkeleton />

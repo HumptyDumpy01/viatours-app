@@ -27,7 +27,7 @@
     //}
   }
 
-  width: 30.9rem;
+  width: 33.9rem;
   transition: all 0.3s;
 
   &:not(:last-child) {
@@ -52,6 +52,7 @@
   }
 
   &-container {
+    gap: 1.5rem !important;
     padding-top: 1.5rem;
     overflow-x: auto;
     // styling for scrollbar

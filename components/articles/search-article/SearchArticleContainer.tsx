@@ -9,7 +9,7 @@ import SortBy from '@/components/UI/SortBy/SortBy';
 // import searchImage10 from '@/assets/images/articles/search-any-article/tour-image-10.png';
 // import searchImage11 from '@/assets/images/articles/search-any-article/tour-image-11.png';
 import Pagination from '@/components/UI/Pagnation/Pagination';
-import React, { useEffect, useState } from 'react';
+import React, { FormEvent, useEffect, useState } from 'react';
 import SearchResultsCardSkeleton from '@/components/articles/skeletons/SearchResultsCardSkeleton';
 import SearchResultsCard from '@/components/articles/search-article/SearchResultsCard';
 import NoItemsFound from '@/components/UI/Layout/NoItems/NoItemsFound';
@@ -77,16 +77,45 @@ export default function SearchArticleContainer(/*{ results }: SearchArticleConta
   function handleClearFilters() {
   }
 
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    setIsLoading(true);
+    e.preventDefault();
+    const currObject = e.currentTarget;
+    const formData = new FormData(currObject);
+    const results = Object.fromEntries(formData.entries());
+
+    // implement search functionality by creating a function that will filter the articles based on the search term
+    // and then set the current articles to the filtered articles
+    const response = await fetch(`/api/search-articles`, {
+      method: `POST`,
+      body: JSON.stringify({
+        searchTerm: results.searchTerm
+      })
+    }).then(res => res.json());
+
+    console.log(`response:`, response);
+    if (response.error) {
+      setError(true);
+    }
+    setCurrentArticles(response.articles);
+    setArticles(response.articles);
+    // console.log(`response.articles:`, response.articles);
+    setCurrentPage(1);
+    setIsLoading(false);
+
+  }
+
+
   return (
     <section className="search-article-container container">
       <div className="search-article">
         <SearchArticleHeading />
         <div className="search-article-container flex flex-align-center flex-space-between margin-bottom-big">
           <div className="search-article__search-input-container flex flex-align-center">
-            <form className="gap-13px flex">
+            <form onSubmit={handleSubmit} className="gap-13px flex">
               <label>
-                <input type="search" className="search-article__search-input" placeholder="Country, City, Title"
-                       required />
+                <input name={`searchTerm`} type="search" className="search-article__search-input"
+                       placeholder="Country, City, Title" />
               </label>
               <button type="submit" className="btn search-article__search">Search</button>
             </form>
@@ -127,7 +156,14 @@ export default function SearchArticleContainer(/*{ results }: SearchArticleConta
             {currentArticles.map(function(article) {
               return (
                 <>
-                  <SearchResultsCard {...article} />
+                  <SearchResultsCard
+                    image={article.image}
+                    type={article.type}
+                    title={article.title}
+                    author={article.author}
+                    _id={article._id}
+                    createdAt={article.createdAt}
+                  />
                 </>
               );
             })}
