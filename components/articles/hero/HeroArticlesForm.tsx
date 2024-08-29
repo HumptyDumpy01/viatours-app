@@ -11,7 +11,7 @@ import { articlesSliceActions } from '@/store/articlesSlice';
 export type TagType = `all` | `culture` | `historic` | `nature` | `trips`;
 
 export default function HeroArticlesForm(/*{  }: HeroArticlesFormType*/) {
-  const [activeTag, setActiveTag] = useState<TagType>(`trips`);
+  const [activeTag, setActiveTag] = useState<TagType>(`all`);
   const dispatch = useCartDispatch();
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
@@ -23,7 +23,7 @@ export default function HeroArticlesForm(/*{  }: HeroArticlesFormType*/) {
     if (activeTag.trim() === ``) {
       results.tag = `all`;
     }
-    if (results.searchTerm.trim() === `` && activeTag !== `all`) {
+    if (results.searchTerm.trim() === ``) {
       results.searchTerm = `searchAll`;
     }
 

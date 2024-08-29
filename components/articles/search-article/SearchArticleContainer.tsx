@@ -19,7 +19,6 @@ import { useCartDispatch, useCartSelector } from '@/store/hooks';
 import { articlesSliceActions } from '@/store/articlesSlice';
 
 /*type SearchArticleContainerType = {
-  /!* TODO: IMPLEMENT A BETTER SCHEMA LATER *!/
   results: []
   // children: ReactNode;
 }*/
@@ -148,7 +147,8 @@ export default function SearchArticleContainer(/*{ results }: SearchArticleConta
       filterArticlesByTag();
       return;
     }
-    // TODO: if the user entered the search term, then filter the articles by the search term and the type
+
+    // if the user entered the search term, then filter the articles by the search term and the type
     if (heroSearchTerm.trim() !== `` && heroSearchTerm !== `searchAll`
       && heroTagChosen !== ``) {
       // Fetch articles based on term. Each document contains a "type" param.
