@@ -1,31 +1,40 @@
 // 'use client';
 import './ArticlesCard.scss';
 import Link from 'next/link';
-import { StaticImageData } from 'next/image';
+import { CldImage } from 'next-cloudinary';
+import { SearchResultsCardType } from '@/components/articles/search-article/SearchResultsCard';
 
-type ArticlesCardType = {
+/*type ArticlesCardType = {
   // type: string[];
-  image: string | StaticImageData;
   // children: ReactNode;
-}
+}*/
 
-export default function ArticlesCard({ image }: ArticlesCardType) {
+export default function ArticlesCard({ title, type, image, _id, author, createdAt }: SearchResultsCardType) {
+
+  const date = new Date(createdAt);
+  const formattedDate = date.toDateString().split(' ').slice(1, 3).join(' ');
+
+  const capitalizedType = type.map((type) => type.charAt(0).toUpperCase() + type.slice(1)).join(`, `);
+
   return (
     <figure className="travel-articles__the-newest__card grid">
-      <Link href={`/articles/1`} className="link travel-articles__card-hover">
-        <span className="inline-block travel-articles__the-newest__card-tag">Trips</span>
+      <Link href={`/articles/${_id}`} className="link travel-articles__card-hover">
+        <span className="inline-block travel-articles__the-newest__card-tag">{capitalizedType}</span>
         {/*@ts-ignore*/}
-        <img src={image.src}
-             alt="dummy image for the newest topic card"
-             className="travel-articles__the-newest__card-img" />
+        <CldImage
+          width={340}
+          height={246}
+          className={`travel-articles__the-newest__card-img`}
+          crop="fill"
+          alt={title}
+          src={`${image}`}
+        />
         <div className="travel-articles__the-newest__card-info flex">
-          <span className="travel-articles__the-newest__card-info__date inline-block">April 06 2023</span>
-          <span className="travel-articles__the-newest__card-info__author inline-block">By ALI Tufan</span>
+          <span className="travel-articles__the-newest__card-info__date inline-block">{formattedDate}</span>
+          <span className="travel-articles__the-newest__card-info__author inline-block">By {author}</span>
         </div>
-        <h3 className="travel-articles__the-newest__card-heading">
-          Kenya vs Tanzania Safari: The Better African
-          Safari Experience
-        </h3>
+        <h3
+          className="travel-articles__the-newest__card-heading">{title.length > 60 ? title.slice(0, 60) + `..` : title}</h3>
       </Link>
     </figure>
   );

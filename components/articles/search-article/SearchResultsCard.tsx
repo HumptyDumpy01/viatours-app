@@ -4,7 +4,7 @@ import { CldImage } from 'next-cloudinary';
 import Link from 'next/link';
 import '@/components/articles/card/ArticlesCard.scss';
 
-type SearchResultsCardType = {
+export type SearchResultsCardType = {
   image: string;
   type: string[];
   title: string;

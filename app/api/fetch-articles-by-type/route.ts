@@ -4,7 +4,7 @@ import { fetchArticlesByType, TypesType } from '@/lib/mongodb';
 export async function POST(request: NextRequest) {
   try {
 
-    const { type } = await request.json() as { type: TypesType[] };
+    const { type, limit } = await request.json() as { type: TypesType[], limit: number };
 
     if (!type) {
       return NextResponse.json({
@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
         message: `Failed to fetch articles by type: type is missing`
       });
     }
-    const response = await fetchArticlesByType(type);
+    const response = await fetchArticlesByType(type, limit);
 
     if (response.error) {
       return NextResponse.json({

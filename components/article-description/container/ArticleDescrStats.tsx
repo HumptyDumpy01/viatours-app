@@ -3,7 +3,7 @@
 type ArticleDescrStatsType = {
   rating: number;
   location: string;
-  views: number;
+  views: string;
   // children: ReactNode;
 }
 
@@ -23,7 +23,7 @@ export default function ArticleDescrStats({ rating, views, location }: ArticleDe
                 {location}
               </p>
               <p
-                className="flex flex-align-center tour-article-descr__views">{views > 1000 ? `${(views / 1000).toFixed()}k+` : views} viewed</p>
+                className="flex flex-align-center tour-article-descr__views">{views} viewed</p>
             </div>
           </div>
         </div>

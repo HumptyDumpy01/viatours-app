@@ -302,12 +302,12 @@ export default function SearchArticleContainer(/*{ results }: SearchArticleConta
       <div className="search-results-container">
         {(isLoading && !error) && (
           <>
-            <SearchResultsCardSkeleton />
-            <SearchResultsCardSkeleton />
-            <SearchResultsCardSkeleton />
-            <SearchResultsCardSkeleton />
-            <SearchResultsCardSkeleton />
-            <SearchResultsCardSkeleton />
+            <SearchResultsCardSkeleton mode={`dark`} />
+            <SearchResultsCardSkeleton mode={`dark`} />
+            <SearchResultsCardSkeleton mode={`dark`} />
+            <SearchResultsCardSkeleton mode={`dark`} />
+            <SearchResultsCardSkeleton mode={`dark`} />
+            <SearchResultsCardSkeleton mode={`dark`} />
           </>
         )}
         {(!isLoading && !error && currentArticles.length > 0) && (

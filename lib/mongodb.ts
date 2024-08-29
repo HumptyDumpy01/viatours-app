@@ -2943,7 +2943,7 @@ export async function getArticles() {
 
 }
 
-type TagsType = `new` | `featured` | `top` | `hot`
+export type TagsType = `new` | `featured` | `top` | `hot`
 
 export async function fetchArticlesByTags(tags: TagsType[], limit?: number) {
 
@@ -3444,6 +3444,179 @@ export async function searchForArticlesBySearchAndType(searchTerm: string, type:
     articles: transformedArticles,
     message: `Articles fetched successfully.`
   };
+
+}
+
+export async function getArticleDetails(id: string) {
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+  try {
+
+    const article = await db.collection(`articles`).aggregate([
+      {
+        $match: {
+          _id: new ObjectId(id) // change to your article ID
+        }
+      },
+      {
+        $unwind: '$author'
+      },
+      {
+        $lookup: {
+          from: 'travelArticlesAuthors',
+          localField: 'author',
+          foreignField: '_id',
+          as: 'authorDetails'
+        }
+      },
+      {
+        $group: {
+          _id: '$_id',
+          subTitle: { $first: '$subTitle' },
+          title: { $first: '$title' },
+          images: { $first: '$images' },
+          tags: { $first: '$tags' },
+          type: { $first: '$type' },
+          rating: { $first: '$rating' },
+          views: { $first: '$views' },
+          location: {
+            $first: {
+              $concat: [
+                '$location.place',
+                ', ',
+                '$location.city',
+                ', ',
+                '$location.country'
+              ]
+            }
+          },
+          author: {
+            $first: {
+              $concat: [
+                {
+                  $arrayElemAt: [
+                    '$authorDetails.firstName',
+                    0
+                  ]
+                },
+                ' ',
+                {
+                  $arrayElemAt: [
+                    '$authorDetails.lastName',
+                    0
+                  ]
+                }
+              ]
+            }
+          },
+          readTime: { $first: '$readTime' },
+          content: { $first: '$content' },
+          createdAt: { $first: '$createdAt' },
+          comments: { $first: '$comments' }
+        }
+      },
+      {
+        $lookup: {
+          from: 'articleComments',
+          localField: 'comments',
+          foreignField: '_id',
+          as: 'unwoundComments'
+        }
+      },
+
+      {
+        $unwind: {
+          path: '$unwoundComments',
+          preserveNullAndEmptyArrays: true // Handle articles with no comments
+        }
+      },
+      {
+        $group: {
+          _id: '$_id',
+          subTitle: { $first: '$subTitle' },
+          title: { $first: '$title' },
+          images: { $first: '$images' },
+          tags: { $first: '$tags' },
+          type: { $first: '$type' },
+          rating: { $first: '$rating' },
+          views: { $first: '$views' },
+          location: { $first: '$location' },
+          author: { $first: '$author' },
+          readTime: { $first: '$readTime' },
+          content: { $first: '$content' },
+          createdAt: { $first: '$createdAt' },
+          comments: {
+            $push: {
+              _id: '$unwoundComments._id',
+              user: '$unwoundComments.user',
+              rating: '$unwoundComments.rating',
+              title: '$unwoundComments.title',
+              text: '$unwoundComments.text',
+              addedAt: '$unwoundComments.addedAt',
+              likes: '$unwoundComments.likes',
+              dislikes: '$unwoundComments.dislikes'
+            }
+          }
+        }
+      },
+      // that is, if at the end the comment prop equals to [{}], it means
+      // this particular article does not have comments yet. I change its  structure
+      // to an empty array instead.
+      {
+        $addFields: {
+          comments: {
+            $cond: {
+              if: {
+                $eq: [
+                  { $arrayElemAt: ['$comments', 0] },
+                  {}
+                ]
+              },
+              then: [],
+              else: '$comments'
+            }
+          }
+        }
+      }
+    ]).toArray();
+
+    if (article.length === 0) {
+      notFound();
+    }
+
+    const transformedArticle = article.map((article: any) => {
+      return {
+        _id: article._id.toString(),
+        subTitle: article.subTitle,
+        title: article.title,
+        images: article.images,
+        tags: article.tags,
+        type: article.type,
+        rating: article.rating,
+        views: article.views,
+        location: article.location,
+        author: article.author,
+        readTime: article.readTime,
+        content: article.content,
+        createdAt: article.createdAt,
+        comments: article.comments
+      };
+    });
+
+    return {
+      error: false,
+      article: transformedArticle,
+      message: `Article fetched successfully.`,
+      status: 200
+    };
+
+  } catch (e) {
+    return {
+      error: true,
+      message: `Failed to fetch the article. ${e}`,
+      status: 500
+    };
+  }
 
 }
 

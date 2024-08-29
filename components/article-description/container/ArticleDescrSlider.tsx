@@ -2,6 +2,8 @@
 
 import React, { useRef, useState } from 'react';
 import ArticleDescrBtn from '@/components/article-description/article-descr-btn/ArtilcleDescrBtn';
+import { CldImage } from 'next-cloudinary';
+import watermarkImage from '@/assets/images/viatours-watermark-logo.svg';
 
 type ArticleDescrSliderType = {
   images: string[];
@@ -35,7 +37,19 @@ export default function ArticleDescrSlider({ images }: ArticleDescrSliderType) {
           style={{ transform: `translateX(${translateX}px)`, display: 'flex', transition: 'transform 0.3s ease-out' }}
         >
           {images.map((image, index) => (
-            <img key={index} src={image} alt="article-slider" style={{ flexShrink: 0, width: '100%' }} />
+            <>
+              <CldImage
+                width={1183}
+                height={496}
+                src={image}
+                alt={`Article slider image ${index}`}
+                style={{ flexShrink: 0, width: '100%' }}
+                quality="auto:best"
+                format={`auto`}
+                placeholder="blur"
+                blurDataURL={watermarkImage.src}
+              />
+            </>
           ))}
         </div>
       </div>
