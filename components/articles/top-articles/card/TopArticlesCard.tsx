@@ -3,7 +3,7 @@ import './TopArticlesCard.scss';
 import Link from 'next/link';
 import { CldImage } from 'next-cloudinary';
 
-type TopArticlesCardType = {
+export type TopArticlesCardType = {
   _id: string;
   image: any;
   type: string[];

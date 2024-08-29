@@ -21,6 +21,11 @@ export type ArticleComment = {
   likes: string[];
   dislikes: string[];
 };
+export type ArticleAuthorType = {
+  name: string;
+  role: string;
+  image: string;
+}
 
 export type ArticleDescrType = {
   _id: string;
@@ -32,7 +37,7 @@ export type ArticleDescrType = {
   rating: number[];
   views: number;
   location: string;
-  author: string;
+  author: ArticleAuthorType;
   readTime: string;
   content: [];
   createdAt: string;

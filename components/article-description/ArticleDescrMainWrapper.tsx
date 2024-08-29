@@ -128,7 +128,7 @@ export default function ArticleDescrMainWrapper({ session, article }: ArticleDes
           <ArticleDescrStats rating={article.rating.reduce((acc, i) => acc + i, 0) / article.rating.length}
                              location={article.location}
                              views={formattedViews} />
-          <ArticleDescrExtraInfo author={article.author} role={`Travel writer`} readTime={article.readTime} />
+          <ArticleDescrExtraInfo author={article.author} readTime={article.readTime} />
           <ArticleDescrSlider
             images={article.images} />
         </div>
@@ -140,7 +140,7 @@ export default function ArticleDescrMainWrapper({ session, article }: ArticleDes
           content={article.content} />
         <ArticleDescrSecondColumn />
       </ArticleDescrContent>
-      <ArticleDescrCharity />
+      <ArticleDescrCharity author={article.author} />
       <ArticleDescrAd />
       <ArticleDescrComments comments={article.comments} />
       <ArticleDescrLeaveReply />

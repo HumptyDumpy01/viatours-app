@@ -134,6 +134,11 @@
     }
   }
 
+  &-container-you-might-like {
+    display: flex;
+    padding-top: 1rem;
+  }
+
   &__see-more {
     color: var(--clr-purple);
     font-size: 2rem;

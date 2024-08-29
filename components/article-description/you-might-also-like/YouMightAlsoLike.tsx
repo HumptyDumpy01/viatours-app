@@ -51,7 +51,7 @@ export default function YouMightAlsoLike({ types }: YouMightAlsoLikeType) {
       <div className="you-might-also-like-article-descr container">
         <h2 className="you-might-also-like-article-descr__heading secondary-heading">You might also like...</h2>
 
-        <div className="search-results-container flex overflow-x-auto padding-top-5rem">
+        <div className="search-results-container-you-might-like overflow-x-auto padding-top-5rem">
           {(isLoading && !error) && (
             <>
               <SearchResultsCardSkeleton mode={`light`} />
@@ -64,14 +64,13 @@ export default function YouMightAlsoLike({ types }: YouMightAlsoLikeType) {
             <p className={`subheading`}>Something went wrong...</p>
           )}
           {(!isLoading && !error) && (
-            <>
+            <div className={`flex margin-top-huge`}>
               {articles.map(function(article) {
                 return (
                   <ArticlesCard key={article._id} {...article} />
                 );
               })}
-
-            </>
+            </div>
           )}
           {(!isLoading && articles.length === 0) && (
             <p className={`subheading`}>No similar articles found...</p>

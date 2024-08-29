@@ -13,6 +13,7 @@ type ArticleDescrSliderType = {
 export default function ArticleDescrSlider({ images }: ArticleDescrSliderType) {
   const sliderRef = useRef<HTMLDivElement>(null);
   const [translateX, setTranslateX] = useState(0);
+  const [imgLoading, setImgLoading] = useState(true);
 
   function handleScroll(mode: string) {
     const slider = sliderRef.current;
@@ -36,21 +37,23 @@ export default function ArticleDescrSlider({ images }: ArticleDescrSliderType) {
           ref={sliderRef}
           style={{ transform: `translateX(${translateX}px)`, display: 'flex', transition: 'transform 0.3s ease-out' }}
         >
-          {images.map((image, index) => (
-            <>
+          <>
+            {images.map((image, index) => (
               <CldImage
+                key={image}
                 width={1183}
-                height={496}
+                height={700}
                 src={image}
                 alt={`Article slider image ${index}`}
                 style={{ flexShrink: 0, width: '100%' }}
                 quality="auto:best"
                 format={`auto`}
                 placeholder="blur"
+                className="tour-article-descr__slider-img"
                 blurDataURL={watermarkImage.src}
               />
-            </>
-          ))}
+            ))}
+          </>
         </div>
       </div>
     </>

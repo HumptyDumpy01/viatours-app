@@ -1,9 +1,11 @@
 // 'use client';
 
 
+import { ArticleAuthorType } from '@/app/articles/[id]/page';
+
 export type ArticleDescTextType = {
   content: any;
-  author: string;
+  author: ArticleAuthorType;
   dateOfPublication: string;
   // children: ReactNode;
 }
@@ -122,7 +124,7 @@ export default function ArticleDescText({ content, author, dateOfPublication }: 
         );
       })}
       <p className="tour-articles-descr__content-1__author--bottom">Author: <span
-        className="inline-block author">{author}</span></p>
+        className="inline-block author">{author.name}</span></p>
       <p className="tour-articles-descr__content-1__date-of-publication">Date of Publication:
         <span className="inline-block date-of-publication">{dateOfPublication}</span></p>
     </div>

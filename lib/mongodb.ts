@@ -3492,21 +3492,26 @@ export async function getArticleDetails(id: string) {
           },
           author: {
             $first: {
-              $concat: [
-                {
-                  $arrayElemAt: [
-                    '$authorDetails.firstName',
-                    0
-                  ]
-                },
-                ' ',
-                {
-                  $arrayElemAt: [
-                    '$authorDetails.lastName',
-                    0
-                  ]
-                }
-              ]
+              name: {
+                $concat: [
+                  {
+                    $arrayElemAt: [
+                      '$authorDetails.firstName',
+                      0
+                    ]
+                  },
+                  ' ',
+                  {
+                    $arrayElemAt: [
+                      '$authorDetails.lastName',
+                      0
+                    ]
+                  }
+                ]
+              },
+              role: { $arrayElemAt: ['$authorDetails.role', 0] },
+              image: { $arrayElemAt: ['$authorDetails.image', 0] }
+
             }
           },
           readTime: { $first: '$readTime' },

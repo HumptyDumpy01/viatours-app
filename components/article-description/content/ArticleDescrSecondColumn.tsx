@@ -1,7 +1,4 @@
-// 'use client';
-import topStoriesImg1 from '@/assets/images/article-descr/top-stories/top-stories-img-1.png';
-import topStoriesImg2 from '@/assets/images/article-descr/top-stories/top-stories-img-2.png';
-import topStoriesImg3 from '@/assets/images/article-descr/top-stories/top-stories-img-3.png';
+'use client';
 
 import topCreatorImg1 from '@/assets/images/article-descr/top-creators/top-creator-img-1.svg';
 import topCreatorImg2 from '@/assets/images/article-descr/top-creators/top-creator-img-2.svg';
@@ -9,6 +6,9 @@ import topCreatorImg3 from '@/assets/images/article-descr/top-creators/top-creat
 
 import ArticleContentCard from '@/components/article-description/content/ArticleContentCard';
 import ArticleContentTopCreatorCard from '@/components/article-description/content/ArticleContentTopCreatorCard';
+import React, { useEffect, useState } from 'react';
+import { ArticleType } from '@/components/articles/search-article/SearchArticleContainer';
+import TopArticlesCardSkeleton from '@/components/articles/skeletons/TopArticlesCardSkeleton';
 
 type ArticleDescrSecondColumnType = {
   topStories: {
@@ -22,8 +22,41 @@ type ArticleDescrSecondColumnType = {
 }
 
 export default function ArticleDescrSecondColumn(/*{ articles }: any*/) {
+  const [topArticles, setTopArticles] = useState<ArticleType[] | []>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(false);
 
-  // TODO: Fetch top stories and top creators from the database
+  async function fetchTopArticles() {
+    try {
+      const res = await fetch(`/api/fetch-articles-by-tag`, {
+        method: `POST`,
+        headers: {
+          'Content-Type': `application/json`
+        },
+        body: JSON.stringify({ tags: [`top`], limit: 3 })
+      });
+
+      const data = await res.json();
+
+      // console.log(`Executing data from newestArticles: `, data);
+
+      if (data.error) {
+        setError(true);
+        setIsLoading(false);
+        return;
+      }
+
+      setTopArticles(data.articles);
+      setIsLoading(false);
+    } catch (e) {
+      setError(true);
+      setIsLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    fetchTopArticles();
+  }, []);
 
   return (
     <>
@@ -31,17 +64,24 @@ export default function ArticleDescrSecondColumn(/*{ articles }: any*/) {
         <h3 className="tour-articles-descr__content-2__heading">Top Stories</h3>
 
         <div className="tour-articles-descr__content-2-cards">
-          <ArticleContentCard readTime={`3 minutes`} country={`India`} title={`Wonders of the World: Taj Mahal`}
-                              tag={[`Culture`]}
-                              imgUrl={topStoriesImg1.src} />
-
-          <ArticleContentCard readTime={`3 minutes`} country={`India`} title={`Wonders of the World: Taj Mahal`}
-                              tag={[`Culture`]}
-                              imgUrl={topStoriesImg2.src} />
-
-          <ArticleContentCard readTime={`3 minutes`} country={`India`} title={`Wonders of the World: Taj Mahal`}
-                              tag={[`Culture`]}
-                              imgUrl={topStoriesImg3.src} />
+          {(isLoading && !error) && (
+            <>
+              <div className={`flex gap-13px flex-direction-column`}>
+                <TopArticlesCardSkeleton />
+                <TopArticlesCardSkeleton />
+                <TopArticlesCardSkeleton />
+              </div>
+            </>
+          )}
+          {!isLoading && !error && (
+            <>
+              {topArticles.map(function(topArticle) {
+                return (
+                  <ArticleContentCard key={topArticle._id} {...topArticle} />
+                );
+              })}
+            </>
+          )}
         </div>
 
         <div className="tour-articles-descr__content-2__top-creators">

@@ -14,11 +14,11 @@ import { motion } from 'framer-motion';
 }*/
 
 export default function TopArticlesContainer(/*{ topArticles }: TopArticlesContainerType*/) {
-  const [newestArticles, setNewestArticles] = useState<ArticleType[] | []>([]);
+  const [topArticles, setTopArticles] = useState<ArticleType[] | []>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
 
-  async function fetchNewestArticles() {
+  async function fetchTopArticles() {
     try {
       const res = await fetch(`/api/fetch-articles-by-tag`, {
         method: `POST`,
@@ -38,7 +38,7 @@ export default function TopArticlesContainer(/*{ topArticles }: TopArticlesConta
         return;
       }
 
-      setNewestArticles(data.articles);
+      setTopArticles(data.articles);
       setIsLoading(false);
     } catch (e) {
       setError(true);
@@ -47,7 +47,7 @@ export default function TopArticlesContainer(/*{ topArticles }: TopArticlesConta
   }
 
   useEffect(() => {
-    fetchNewestArticles();
+    fetchTopArticles();
   }, []);
 
   const topArticlesContainerRef = useRef<HTMLDivElement>(null);
@@ -84,7 +84,7 @@ export default function TopArticlesContainer(/*{ topArticles }: TopArticlesConta
           )}
           {!isLoading && !error && (
             <div className={`flex gap-13px`}>
-              {newestArticles.map(function(article) {
+              {topArticles.map(function(article) {
                 return (
                   <TopArticlesCard key={article._id} {...article} />
                 );
