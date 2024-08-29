@@ -1,7 +1,9 @@
-// 'use client';
+'use client';
 
 import Link from 'next/link';
 import Image from 'next/image';
+import { motion } from 'framer-motion';
+import { item } from '@/components/tourDescription/TourOverview/TourHighlights';
 
 type ArticlesReviewsCardType = {
   imageUrl: any;
@@ -10,7 +12,9 @@ type ArticlesReviewsCardType = {
 
 export default function ArticlesReviewsCard({ imageUrl }: ArticlesReviewsCardType) {
   return (
-    <>
+    <motion.div
+      variants={item}
+    >
       <Link href="#" className="travel-articles__card-hover first-element text-decoration-none">
         <div className="traveller-reviews__review first-element">
           <h3 className="traveller-reviews__review-heading">
@@ -30,6 +34,6 @@ export default function ArticlesReviewsCard({ imageUrl }: ArticlesReviewsCardTyp
           </div>
         </div>
       </Link>
-    </>
+    </motion.div>
   );
 }

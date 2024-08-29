@@ -1,6 +1,7 @@
-// 'use client';
+'use client';
 import './ArticlesContainer.scss';
 import { type ReactNode } from 'react';
+import { motion } from 'framer-motion';
 
 type ArticlesContainerType = {
   children: ReactNode;
@@ -8,8 +9,11 @@ type ArticlesContainerType = {
 
 export default function ArticlesContainer({ children }: ArticlesContainerType) {
   return (
-    <section className="travel-articles-container">
+    <motion.section
+      initial={{ opacity: 0, y: 200 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      className="travel-articles-container">
       {children}
-    </section>
+    </motion.section>
   );
 }

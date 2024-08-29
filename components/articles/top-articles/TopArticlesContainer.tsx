@@ -7,9 +7,9 @@ import BtnBulky from '@/components/UI/Button/BtnBulky';
 import { ArticleType } from '@/components/articles/search-article/SearchArticleContainer';
 import TopArticlesCardSkeleton from '@/components/articles/skeletons/TopArticlesCardSkeleton';
 import TopArticlesCard from '@/components/articles/top-articles/card/TopArticlesCard';
+import { motion } from 'framer-motion';
 
 /*type TopArticlesContainerType = {
-  /!* TODO: IMPLEMENT A BETTER SCHEMA LATER *!/
   topArticles: [];
 }*/
 
@@ -65,7 +65,11 @@ export default function TopArticlesContainer(/*{ topArticles }: TopArticlesConta
   }
 
   return (
-    <div className="travel-articles__the-top-articles-container flex">
+    <motion.div
+      initial={{ opacity: 0, y: 200 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ type: 'spring', duration: 1 }}
+      className="travel-articles__the-top-articles-container flex">
       <div className="travel-articles__the-top-articles">
         <TopArticlesHeading linkVisible={false} />
         <BtnBulky onClick={() => handleScroll('left')} mode="left" />
@@ -94,6 +98,6 @@ export default function TopArticlesContainer(/*{ topArticles }: TopArticlesConta
           )}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

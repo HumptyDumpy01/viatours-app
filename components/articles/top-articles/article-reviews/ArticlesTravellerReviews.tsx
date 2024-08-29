@@ -1,6 +1,8 @@
-// 'use client';
+'use client';
+
 import './ArticlesTravellerReviews.scss';
 import { type ReactNode } from 'react';
+import { motion } from 'framer-motion';
 
 type ArticlesTravellerReviewsType = {
   children: ReactNode;
@@ -8,10 +10,14 @@ type ArticlesTravellerReviewsType = {
 
 export default function ArticlesTravellerReviews({ children }: ArticlesTravellerReviewsType) {
   return (
-    <section className="traveller-reviews-container">
+    <motion.section
+      initial={{ opacity: 0, y: 200 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      className="traveller-reviews-container">
       <div className="traveller-reviews container">
         {children}
       </div>
-    </section>
+    </motion.section>
   );
 }

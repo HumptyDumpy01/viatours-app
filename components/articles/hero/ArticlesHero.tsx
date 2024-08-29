@@ -12,7 +12,7 @@ export default function ArticlesHero(/*{  }: ArticlesHeroType*/) {
         <motion.h1
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
-          transition={{ type: `spring`, stiffness: 260, damping: 20 }}
+          transition={{ type: 'spring', duration: 1 }}
           className="articles-hero__heading main-heading">Welcome to <br />
           Viatours Travel Articles!
         </motion.h1>
