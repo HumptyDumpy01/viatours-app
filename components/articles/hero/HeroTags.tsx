@@ -1,8 +1,11 @@
 'use client';
 
+import { motion } from 'framer-motion';
 import './HeroTags.scss';
 import { Dispatch, SetStateAction } from 'react';
 import { TagType } from '@/components/articles/hero/HeroArticlesForm';
+import { container } from '@/components/account-settings/contents/user-tour-purchases/UserTourPurchases';
+import { item } from '@/components/tourDescription/TourOverview/TourHighlights';
 
 type HeroTagsType = {
   activeTag: string;
@@ -18,27 +21,52 @@ export default function HeroTags({ activeTag, setActiveTag }: HeroTagsType) {
   }
 
   return (
-    <div className="hero__article-tag-container">
-      <div onClick={() => toggleActiveTag(`culture`)}
-           className={`hero__article-tag culture flex flex-align-center
+    <motion.div
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true }}
+      variants={container}
+      className="hero__article-tag-container">
+      <motion.div
+        variants={item}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+        transition={{ type: `spring`, stiffness: 260, damping: 20 }}
+        onClick={() => toggleActiveTag(`culture`)}
+        className={`hero__article-tag culture flex flex-align-center
          ${activeTag === `culture` ? ` hero__article-tag--active` : ``}`}>
         Culture
-      </div>
-      <div onClick={() => toggleActiveTag(`historic`)}
-           className={`hero__article-tag culture flex flex-align-center 
+      </motion.div>
+      <motion.div
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+        transition={{ type: `spring`, stiffness: 260, damping: 20 }}
+        variants={item}
+        onClick={() => toggleActiveTag(`historic`)}
+        className={`hero__article-tag culture flex flex-align-center 
         ${activeTag === `historic` ? ` hero__article-tag--active` : ``}`}>
         Historic
-      </div>
-      <div onClick={() => toggleActiveTag(`nature`)}
-           className={`hero__article-tag culture flex flex-align-center 
+      </motion.div>
+      <motion.div
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+        transition={{ type: `spring`, stiffness: 260, damping: 20 }}
+        variants={item}
+        onClick={() => toggleActiveTag(`nature`)}
+        className={`hero__article-tag culture flex flex-align-center 
         ${activeTag === `nature` ? ` hero__article-tag--active` : ``}`}>
         Nature
-      </div>
-      <div onClick={() => toggleActiveTag(`trips`)}
-           className={`hero__article-tag culture flex flex-align-center 
+      </motion.div>
+      <motion.div
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+        transition={{ type: `spring`, stiffness: 260, damping: 20 }}
+        variants={item}
+        onClick={() => toggleActiveTag(`trips`)}
+        className={`hero__article-tag culture flex flex-align-center 
         ${activeTag === `trips` ? ` hero__article-tag--active` : ``}`}>
         Trips
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }

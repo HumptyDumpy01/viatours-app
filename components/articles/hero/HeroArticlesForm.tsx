@@ -1,8 +1,9 @@
 'use client';
+
+import { motion } from 'framer-motion';
 /*type HeroArticlesFormType = {
   // children: ReactNode;
 }*/
-
 import HeroTags from '@/components/articles/hero/HeroTags';
 import { FormEvent, useState } from 'react';
 import { useCartDispatch } from '@/store/hooks';
@@ -11,7 +12,7 @@ import { articlesSliceActions } from '@/store/articlesSlice';
 export type TagType = `all` | `culture` | `historic` | `nature` | `trips`;
 
 export default function HeroArticlesForm(/*{  }: HeroArticlesFormType*/) {
-  const [activeTag, setActiveTag] = useState<TagType>(`all`);
+  const [activeTag, setActiveTag] = useState<TagType>(`trips`);
   const dispatch = useCartDispatch();
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
@@ -44,20 +45,27 @@ export default function HeroArticlesForm(/*{  }: HeroArticlesFormType*/) {
 
   return (
     <>
-      <div className="articles-hero__search-articles-input-container">
+      <motion.div
+        initial={{ opacity: 0, y: 200 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ type: `spring`, stiffness: 260, damping: 20 }}
+        className="articles-hero__search-articles-input-container">
         <form onSubmit={handleSubmit} className="articles-hero__search-articles-input">
           <label>
             <input type="search" name={`searchTerm`}
                    className="articles-hero__search-articles-input articles-hero-input"
                    placeholder="Search articles" />
           </label>
-          <button type="submit" className="btn articles-hero__search-articles-button">
+          <motion.button
+            whileHover={{ scale: 1.1, rotate: 360 }}
+            whileTap={{ scale: 0.9 }}
+            type="submit" className="btn articles-hero__search-articles-button">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
               <path
                 d="M15.0008 15.0008L18.3385 18.3385M17.3751 9.21518C17.3751 13.7524 13.7091 17.4304 9.18809 17.4304C4.666 17.4304 1 13.7524 1 9.21626C1 4.67684 4.666 1 9.187 1C13.7091 1 17.3751 4.67792 17.3751 9.21518Z"
                 stroke="white" strokeWidth="1.62548" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
-          </button>
+          </motion.button>
 
           <svg className="articles-hero__icon-location" xmlns="http://www.w3.org/2000/svg" width="21" height="21"
                viewBox="0 0 21 21"
@@ -77,7 +85,7 @@ export default function HeroArticlesForm(/*{  }: HeroArticlesFormType*/) {
             </defs>
           </svg>
         </form>
-      </div>
+      </motion.div>
       <HeroTags activeTag={activeTag} setActiveTag={setActiveTag} />
     </>
   );

@@ -1,10 +1,11 @@
 // 'use client';
 import './ArticlesCard.scss';
 import Link from 'next/link';
+import { StaticImageData } from 'next/image';
 
 type ArticlesCardType = {
-  type: string[];
-  image: string;
+  // type: string[];
+  image: string | StaticImageData;
   // children: ReactNode;
 }
 
@@ -13,7 +14,8 @@ export default function ArticlesCard({ image }: ArticlesCardType) {
     <figure className="travel-articles__the-newest__card grid">
       <Link href={`/articles/1`} className="link travel-articles__card-hover">
         <span className="inline-block travel-articles__the-newest__card-tag">Trips</span>
-        <img src={image}
+        {/*@ts-ignore*/}
+        <img src={image.src}
              alt="dummy image for the newest topic card"
              className="travel-articles__the-newest__card-img" />
         <div className="travel-articles__the-newest__card-info flex">
