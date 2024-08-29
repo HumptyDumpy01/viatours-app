@@ -3509,7 +3509,7 @@ export async function getArticleDetails(id: string) {
                   }
                 ]
               },
-              role: { $arrayElemAt: ['$authorDetails.role', 0] },
+              employment: { $arrayElemAt: ['$authorDetails.employment', 0] },
               image: { $arrayElemAt: ['$authorDetails.image', 0] }
 
             }
@@ -3627,4 +3627,14 @@ export async function getArticleDetails(id: string) {
 
 ///////////////////////////////////////
 
+
+/* IMPORTANT: ARTICLE CREATORS */
+export async function fetchArticlesAuthors() {
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+  // TODO: Create a flexible way to fetch authors, including conditions
+  //  for projection and limit
+}
+
+///////////////////////////////////////
 

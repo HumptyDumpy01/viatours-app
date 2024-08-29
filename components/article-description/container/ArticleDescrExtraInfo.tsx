@@ -14,7 +14,7 @@ type ArticleDescrExtraInfoType = {
 
 export default function ArticleDescrExtraInfo({ author, readTime }: ArticleDescrExtraInfoType) {
   // capitalize the first letter of the author's role
-  const capitalizedRole = author.role.charAt(0).toUpperCase() + author.role.slice(1);
+  const capitalizedRole = author.employment.charAt(0).toUpperCase() + author.employment.slice(1);
   return (
     <>
       <div className="tour-article-descr__extra-info">

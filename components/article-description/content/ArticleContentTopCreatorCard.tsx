@@ -1,26 +1,25 @@
 // 'use client';
 
 type ArticleContentTopCreatorCardType = {
-  imgUrl: string;
+  image: string;
+  name: string;
+  role: string;
   // children: ReactNode;
 }
 
-import Link from 'next/link';
-
-export default function ArticleContentTopCreatorCard({ imgUrl }: ArticleContentTopCreatorCardType) {
+export default function ArticleContentTopCreatorCard({ image, name, role }: ArticleContentTopCreatorCardType) {
   return (
     <>
-      <Link href="#"
-            className="tour-article-descr__extra-info__author flex flex-align-center top-creators-container text-decoration-none">
-        <img src={imgUrl}
+      <div
+        className="tour-article-descr__extra-info__author flex flex-align-center top-creators-container text-decoration-none">
+        <img src={image}
              alt="author logo"
              className="tour-article-descr__extra-info__author-img top-creators-img" />
         <div className="grid tour-article-descr__extra-info__author-credentials">
-          <p className="tour-article-descr__extra-info__author-name top-creators-author">Nika Jackson</p>
-          <p className="tour-article-descr__extra-info__author-employment top-creators-employment">Travel
-            writer</p>
+          <p className="tour-article-descr__extra-info__author-name top-creators-author">{name}</p>
+          <p className="tour-article-descr__extra-info__author-employment top-creators-employment">{role}</p>
         </div>
-      </Link>
+      </div>
     </>
   );
 }

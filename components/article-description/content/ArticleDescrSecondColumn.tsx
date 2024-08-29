@@ -9,22 +9,18 @@ import ArticleContentTopCreatorCard from '@/components/article-description/conte
 import React, { useEffect, useState } from 'react';
 import { ArticleType } from '@/components/articles/search-article/SearchArticleContainer';
 import TopArticlesCardSkeleton from '@/components/articles/skeletons/TopArticlesCardSkeleton';
-
-type ArticleDescrSecondColumnType = {
-  topStories: {
-    readTime: string;
-    country: string;
-    title: string;
-    tag: string[];
-    imgUrl: string;
-  }[];
-  // children: ReactNode;
-}
+import { ArticleAuthorType } from '@/app/articles/[id]/page';
+import ArticleContentTopCreatorCardSkeleton
+  from '@/components/article-description/top-authors/ArticleContentTopCreatorCardSkeleton';
 
 export default function ArticleDescrSecondColumn(/*{ articles }: any*/) {
   const [topArticles, setTopArticles] = useState<ArticleType[] | []>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
+
+  const [topAuthors, setTopAuthors] = useState<ArticleAuthorType[] | []>([]);
+  const [isAuthorsLoading, setIsAuthorsLoading] = useState<boolean>(true);
+  const [authorsError, setAuthorsError] = useState<boolean>(false);
 
   async function fetchTopArticles() {
     try {
@@ -52,6 +48,9 @@ export default function ArticleDescrSecondColumn(/*{ articles }: any*/) {
       setError(true);
       setIsLoading(false);
     }
+  }
+
+  async function fetchArticleAuthors() {
   }
 
   useEffect(() => {
@@ -87,9 +86,20 @@ export default function ArticleDescrSecondColumn(/*{ articles }: any*/) {
         <div className="tour-articles-descr__content-2__top-creators">
           <h3 className="tour-articles-descr__content-2__heading">Top Creators</h3>
           <div className="tour-articles-descr__content-2__top-creators-wrapper">
-            <ArticleContentTopCreatorCard imgUrl={topCreatorImg1.src} />
-            <ArticleContentTopCreatorCard imgUrl={topCreatorImg2.src} />
-            <ArticleContentTopCreatorCard imgUrl={topCreatorImg3.src} />
+            {(!isAuthorsLoading && !authorsError) && (
+              <>
+                <ArticleContentTopCreatorCard image={topCreatorImg1.src} name={`Nika Bobson`} role={`Travel Writer`} />
+                <ArticleContentTopCreatorCard image={topCreatorImg2.src} name={`Nika Bobson`} role={`Travel Writer`} />
+                <ArticleContentTopCreatorCard image={topCreatorImg3.src} name={`Nika Bobson`} role={`Travel Writer`} />
+              </>
+            )}
+            {(isAuthorsLoading && !authorsError) && (
+              <>
+                <ArticleContentTopCreatorCardSkeleton />
+                <ArticleContentTopCreatorCardSkeleton />
+                <ArticleContentTopCreatorCardSkeleton />
+              </>
+            )}
           </div>
         </div>
       </div>

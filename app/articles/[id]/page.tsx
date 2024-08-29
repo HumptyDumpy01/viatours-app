@@ -23,8 +23,20 @@ export type ArticleComment = {
 };
 export type ArticleAuthorType = {
   name: string;
-  role: string;
+  employment: string;
   image: string;
+}
+
+export type ArticleAuthorTypeFull = {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  articles: string[];
+  reportAbuse: string[];
+  image: string;
+  rating: number[];
+  employment: string;
+  email: string;
 }
 
 export type ArticleDescrType = {
