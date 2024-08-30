@@ -3629,11 +3629,32 @@ export async function getArticleDetails(id: string) {
 
 
 /* IMPORTANT: ARTICLE CREATORS */
-export async function fetchArticlesAuthors() {
+
+export async function fetchArticlesAuthors(project: {} = {}, limit?: number) {
   const client = await clientPromise;
   const db = client.db(`viatoursdb`);
+
   // TODO: Create a flexible way to fetch authors, including conditions
   //  for projection and limit
+  const limitVal = limit ? limit : 9999;
+
+  const response = await db.collection(`travelArticlesAuthors`).find({}, { projection: project }).limit(limitVal).toArray();
+
+  if (!response) {
+    return {
+      error: true,
+      message: `Failed to fetch authors.`,
+      status: 500
+    };
+  }
+
+  return {
+    error: false,
+    authors: response,
+    message: `Authors fetched successfully.`,
+    status: 200
+  };
+
 }
 
 ///////////////////////////////////////

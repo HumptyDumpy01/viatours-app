@@ -1,9 +1,5 @@
 'use client';
 
-import topCreatorImg1 from '@/assets/images/article-descr/top-creators/top-creator-img-1.svg';
-import topCreatorImg2 from '@/assets/images/article-descr/top-creators/top-creator-img-2.svg';
-import topCreatorImg3 from '@/assets/images/article-descr/top-creators/top-creator-img-3.svg';
-
 import ArticleContentCard from '@/components/article-description/content/ArticleContentCard';
 import ArticleContentTopCreatorCard from '@/components/article-description/content/ArticleContentTopCreatorCard';
 import React, { useEffect, useState } from 'react';
@@ -51,10 +47,38 @@ export default function ArticleDescrSecondColumn(/*{ articles }: any*/) {
   }
 
   async function fetchArticleAuthors() {
+    const res = await fetch(`/api/fetch-articles-authors`, {
+      method: `POST`,
+      headers: {
+        'Content-Type': `application/json`
+      },
+      body: JSON.stringify({
+        project: { firstName: 1, lastName: 1, employment: 1, image: 1, rating: 1 }
+        // limit: 22
+      })
+    });
+
+    const data = await res.json();
+
+    if (data.error) {
+      setAuthorsError(true);
+      setIsAuthorsLoading(false);
+      return;
+    }
+
+    // push only the authors with the rating of 4 - 5 and the limit of 3 authors.
+    // also push only the authors with the rating array number count at least 3.
+    const filteredAuthors = data.authors.filter((author: ArticleAuthorType) => {
+      return author.rating.reduce((acc: number, i: number) => acc + i, 0) / author.rating.length >= 4 && author.rating.length >= 3;
+    });
+    setTopAuthors(filteredAuthors);
+    setIsAuthorsLoading(false);
+
   }
 
   useEffect(() => {
     fetchTopArticles();
+    fetchArticleAuthors();
   }, []);
 
   return (
@@ -88,9 +112,15 @@ export default function ArticleDescrSecondColumn(/*{ articles }: any*/) {
           <div className="tour-articles-descr__content-2__top-creators-wrapper">
             {(!isAuthorsLoading && !authorsError) && (
               <>
-                <ArticleContentTopCreatorCard image={topCreatorImg1.src} name={`Nika Bobson`} role={`Travel Writer`} />
-                <ArticleContentTopCreatorCard image={topCreatorImg2.src} name={`Nika Bobson`} role={`Travel Writer`} />
-                <ArticleContentTopCreatorCard image={topCreatorImg3.src} name={`Nika Bobson`} role={`Travel Writer`} />
+                {topAuthors.map(function(item) {
+                  return (
+                    <>
+                      <ArticleContentTopCreatorCard image={item.image} name={`${item.firstName} ${item.lastName}`}
+                                                    role={item.employment} />
+                    </>
+                  );
+                })}
+
               </>
             )}
             {(isAuthorsLoading && !authorsError) && (

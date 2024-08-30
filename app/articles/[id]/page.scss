@@ -9,6 +9,15 @@
     align-items: center;
     margin-bottom: 5rem;
 
+    &-link-container {
+      display: flex;
+      justify-content: center;
+      @media only screen and (max-width: 37.5em) {
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+    }
+
     a {
       text-decoration: none;
     }
@@ -165,6 +174,8 @@
       }
 
       &-img {
+        width: 7rem;
+        height: 7rem;
         object-fit: cover;
         border-radius: 50%;
       }

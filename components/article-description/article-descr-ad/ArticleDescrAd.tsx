@@ -16,12 +16,11 @@ type ArticleDescrAdType = {
 
 export default function ArticleDescrAd(/*{ adArticle }: ArticleDescrAdType*/) {
 
-  // TODO: fetch the ad article from the server which will be displayed in the ad section
   const adArticle = {
-    heading: `7 Reasons to Plan a Trip to Lowa in 2024`,
-    text: `River cruises, railroad adventures, and Frank Lloyd Wright architecture.`,
+    heading: `Journey Along the Timeless Great Wall of China`,
+    text: `he Great Wall of China is not just a wall; it’s a symbol of the strength, ingenuity, and...`,
     imgUrl: nextArticleImg.src,
-    id: `1`
+    id: `66cd8e0817fb802dfbc4e49c`
   };
 
   return (

@@ -22,9 +22,12 @@ export type ArticleComment = {
   dislikes: string[];
 };
 export type ArticleAuthorType = {
-  name: string;
+  name?: string;
+  firstName: string;
+  lastName: string;
   employment: string;
   image: string;
+  rating: number[];
 }
 
 export type ArticleAuthorTypeFull = {

@@ -18,9 +18,11 @@ export default function ArticleDescrPageNav({ title, tags, _id }: ArticleDescrPa
   return (
     <>
       <div className="tour-article-descr__nav">
-        <div className="flex flex-align-center">
-          <Link href={`/`} className="inline-block">Home &gt;</Link>
-          <Link href={`/articles`} className="inline-block">Tour Articles &gt;</Link>
+        <div className="tour-article-descr__nav-link-container">
+          <div className={`flex gap-7px`}>
+            <Link href={`/`} className="inline-block">Home &gt;</Link>
+            <Link href={`/articles`} className="inline-block">Tour Articles &gt;</Link>
+          </div>
           <Link href={`/articles/${_id}`} className="inline-block highlighted">{title}</Link>
         </div>
         <div className="flex flex-align-center">
