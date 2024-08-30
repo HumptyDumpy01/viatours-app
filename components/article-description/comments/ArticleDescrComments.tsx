@@ -6,13 +6,15 @@ import ArticleDescrComment from '@/components/article-description/comments/Artic
 import { ArticleComment } from '@/app/articles/[id]/page';
 import React, { useRef, useState } from 'react';
 import CommentSkeleton from '@/components/tourDescription/skeletons/CommentSkeleton';
+import { SessionType } from '@/components/UI/Comment/Comment';
 
 type ArticleDescrCommentsType = {
   comments: ArticleComment[];
+  session: SessionType;
   // children: ReactNode;
 }
 
-export default function ArticleDescrComments({ comments }: ArticleDescrCommentsType) {
+export default function ArticleDescrComments({ comments, session }: ArticleDescrCommentsType) {
   const commentsPerPage = 3;
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [currArticlesComments, setCurrArticlesComments] = useState<ArticleComment[] | []>(comments);
@@ -76,7 +78,7 @@ export default function ArticleDescrComments({ comments }: ArticleDescrCommentsT
               {currentComments.map(function(comment) {
                 return (
                   <>
-                    <ArticleDescrComment comment={comment} />
+                    <ArticleDescrComment session={session} comment={comment} />
                   </>
                 );
               })}

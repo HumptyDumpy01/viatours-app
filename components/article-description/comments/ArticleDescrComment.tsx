@@ -1,17 +1,29 @@
-// 'use client';
+'use client';
+
 import './ArticleDescrComment.scss';
 import './ArticleDescrCommentsRate.scss';
 import Stars from '@/components/UI/Layout/Stars';
 import { ArticleComment } from '@/app/articles/[id]/page';
+import { SessionType } from '@/components/UI/Comment/Comment';
+import { useState } from 'react';
+import CustomizedSnackbar from '@/components/UI/Toast/Snackbar';
 
 type ArticleDescrCommentType = {
   comment: ArticleComment;
+  session: SessionType;
   // children: ReactNode;
 }
 
-export default function ArticleDescrComment({ comment }: ArticleDescrCommentType) {
+export default function ArticleDescrComment({ comment, session }: ArticleDescrCommentType) {
 
-  console.log(`Executing comment: `, comment);
+  const [open, setOpen] = useState(false);
+  const [toastLabel, setToastLabel] = useState<string>(`Hello there!`);
+  const [toastSeverity, setToastSeverity] = useState<string>(`info`);
+  // console.log(`Executing comment: `, comment);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   let nameParts;
   // if a user has just one word in their name, we should take the first two letters of the name
@@ -34,8 +46,31 @@ export default function ArticleDescrComment({ comment }: ArticleDescrCommentType
     minute: `numeric`
   });
 
+  async function handleLikeComment(id: string) {
+
+    if (session.user.email === ``) {
+      setOpen(true);
+      setToastLabel(`Please login to perform this action!`);
+      setToastSeverity(`error`);
+      return;
+    }
+
+    console.log(`Comment that should be liked: `, id);
+  }
+
+  async function handleDislikeComment(id: string) {
+    if (session.user.email === ``) {
+      setOpen(true);
+      setToastLabel(`Please login to perform this action!`);
+      setToastSeverity(`error`);
+      return;
+    }
+    console.log(`Comment that should be disliked: `, id);
+  }
+
   return (
     <>
+      <CustomizedSnackbar open={open} handleClose={handleClose} label={toastLabel} severity={toastSeverity} />
       <div className="comments__comment">
         <div className="comments__comment__user flex flex-align-center gap-14px">
           <div className="comments__comment__user__logo">{userInitials}</div>
@@ -59,7 +94,8 @@ export default function ArticleDescrComment({ comment }: ArticleDescrCommentType
         <div className="comments__comment__rate-container">
           <div className="flex flex-align-center gap-18px">
 
-            <div className="comments__comment__rate helpful text-decoration-none">
+            <div onClick={() => handleLikeComment(comment._id.toString())}
+                 className="comments__comment__rate helpful text-decoration-none">
               <div className="comments__comment__rate-helpful flex flex-align-center ">
                 <span className="comments__comment__rate-helpful__count inline-block">{comment.likes.length}</span>
                 <svg className="comments__comment__rate-icon-like" xmlns="http://www.w3.org/2000/svg" width="16"
@@ -73,7 +109,8 @@ export default function ArticleDescrComment({ comment }: ArticleDescrCommentType
               </div>
             </div>
 
-            <div className="comments__comment__rate not-helpful text-decoration-none">
+            <div onClick={() => handleDislikeComment(comment._id.toString())}
+                 className="comments__comment__rate not-helpful text-decoration-none">
               <div className="comments__comment__rate-helpful flex flex-align-center">
                 <span className="comments__comment__rate-helpful__count inline-block">{comment.dislikes.length}</span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 14 13" fill="none">
