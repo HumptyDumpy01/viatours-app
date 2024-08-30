@@ -145,7 +145,7 @@ export default function ArticleDescrMainWrapper({ session, article }: ArticleDes
       <ArticleDescrCharity author={article.author} />
       <ArticleDescrAd />
       <ArticleDescrComments session={session} comments={article.comments} />
-      <ArticleDescrLeaveReply />
+      <ArticleDescrLeaveReply session={session} />
       <YouMightAlsoLike types={article.type} />
     </>
   );
