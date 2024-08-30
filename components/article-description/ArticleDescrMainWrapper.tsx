@@ -16,6 +16,7 @@ import ArticleDescrComments from '@/components/article-description/comments/Arti
 import ArticleDescrLeaveReply from '@/components/article-description/leave-reply/ArticleDescrLeaveReply';
 import YouMightAlsoLike from '@/components/article-description/you-might-also-like/YouMightAlsoLike';
 
+/*
 const articleContent = [
   {
     part: `head`,
@@ -86,6 +87,7 @@ const articleContent = [
     ]
   }
 ];
+*/
 
 type ArticleDescrMainWrapperType = {
   session: {

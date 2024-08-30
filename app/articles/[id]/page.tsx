@@ -3,6 +3,9 @@ import './page.scss';
 import { getArticleDetails, TagsType, TypesType } from '@/lib/mongodb';
 import { ObjectId } from 'mongodb';
 import ArticleDescrMainWrapper from '@/components/article-description/ArticleDescrMainWrapper';
+import { getServerSession } from 'next-auth';
+import { authConfig } from '@/lib/auth';
+import TourDescriptionLoadingPage from '@/app/tours/[id]/loading-page';
 
 interface ArticleDescriptionInterface {
   params: {
@@ -89,7 +92,6 @@ export default async function ArticleDescription({ params }: ArticleDescriptionI
     console.log(`Article: `, article.article[0]);*/
   ///////////////////////////////////////
 
-  // TODO: fetch the session from the server
 
   /* IMPORTANT: FOR DEVELOPMENT */
 
@@ -102,12 +104,38 @@ export default async function ArticleDescription({ params }: ArticleDescriptionI
   if (!article) {
     throw new Error(`Failed to fetch article`);
   }
+
   console.log(`Article: `, article.article[0]);
+  // TODO: fetch the session from the server
+
+  const session = await getServerSession(authConfig);
+
+  if (session === undefined) {
+    return <TourDescriptionLoadingPage />;
+  }
+
+
+  let sessionVar;
+  if (session === null) {
+    sessionVar = {
+      user: {
+        email: '',
+        name: ''
+      }
+    };
+  } else {
+    sessionVar = {
+      user: {
+        email: session!.user!.email,
+        name: session!.user!.name
+      }
+    };
+  }
+  console.log(`Session: `, sessionVar);
 
   return (
     <>
       {/*@ts-ignore*/}
-      <ArticleDescrMainWrapper article={article.article[0]} session={[]} />
-    </>
+      <ArticleDescrMainWrapper article={article.article[0]} session={sessionVar} /> </>
   );
 }

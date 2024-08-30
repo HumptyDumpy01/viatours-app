@@ -178,6 +178,7 @@ export default async function TourDescription({ params }: TourDescriptionInterfa
       }
     };
   }
+
   return (
     <>
       {/*@ts-ignore*/}
