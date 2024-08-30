@@ -62,8 +62,6 @@ export type ArticleDescrType = {
   comments: ArticleComment[];
 }
 
-/* TEMPORARY */
-// @ts-ignore
 export default async function ArticleDescription({ params }: ArticleDescriptionInterface) {
   const id = params.id;
 

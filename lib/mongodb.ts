@@ -392,7 +392,7 @@ submitTourComment({
   } catch (e) {
     throw new Error(`Oops! We were unable to save this comment! Sorry for the inconvenience. We are working on it.`);
   }
-  // revalidate the tour page
+  // revalidate all the paths
   revalidatePath(`/`, `layout`);
 
   return {
@@ -3732,15 +3732,15 @@ export async function addArticleComment(session: SessionType, formResults: FormR
 
       /* TODO: fetch author and push the rating value onto his rating array */
 
+
       revalidatePath(`/articles`, `layout`);
+
+      return {
+        error: false,
+        message: `The comment was successfully inserted.`
+      };
+
     }
-
-
-    return {
-      error: false,
-      insertedId: response.insertedId,
-      message: `The comment was successfully inserted.`
-    };
 
 
   } else {
@@ -3765,8 +3765,8 @@ export async function fetchArticlesAuthors(project: {} = {}, limit?: number) {
   const client = await clientPromise;
   const db = client.db(`viatoursdb`);
 
-  // TODO: Create a flexible way to fetch authors, including conditions
-  //  for projection and limit
+  // Create a flexible way to fetch authors, including conditions
+  // for projection and limit
   const limitVal = limit ? limit : 9999;
 
   const response = await db.collection(`travelArticlesAuthors`).find({}, { projection: project }).limit(limitVal).toArray();

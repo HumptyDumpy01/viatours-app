@@ -25,6 +25,7 @@ export async function POST(request: NextRequest) {
         message: `Failed to add an article comment: ${response.message}`
       });
     }
+
     return NextResponse.json({
       error: false,
       /* TEMPORARY */

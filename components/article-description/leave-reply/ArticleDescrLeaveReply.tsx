@@ -5,9 +5,11 @@ import '@/components/UI/Layout/LeaveReply.scss';
 import IconIon from '@/components/UI/IonIcon/IconIon';
 import Rate from '@/components/UI/Checkbox/Rate';
 import React, { FormEvent, useRef, useState } from 'react';
-import { getUser } from '@/lib/mongodb';
+import { addArticleComment, getUser } from '@/lib/mongodb';
 import { SessionType } from '@/components/UI/Comment/Comment';
 import Lottie from 'lottie-react';
+import { useCartDispatch } from '@/store/hooks';
+import { sliceArticleDescrActions } from '@/store/sliceArticleDescr';
 
 type ArticleDescrLeaveReplyType = {
   articleId: string;
@@ -39,6 +41,7 @@ export default function ArticleDescrLeaveReply({ session, articleId }: ArticleDe
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formError, setFormError] = useState<string[]>([]);
   const timer = useRef<NodeJS.Timeout | null>(null);
+  const dispatch = useCartDispatch();
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -94,30 +97,45 @@ export default function ArticleDescrLeaveReply({ session, articleId }: ArticleDe
     };
 
     async function submitComment() {
-      setIsSubmitting(true);
-      // TODO: submit the comment to the db
-      const response = await fetch(`/api/add-article-comment`, {
-        method: `POST`,
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ session, formResults })
-      }).then(res => res.json());
 
-      if (response.error) {
-        setFormError([`Failed to submit the comment: ${response.message}`]);
-        setIsSubmitting(false);
-        scrollToLeaveReplyForm();
-        return;
-      }
-      setIsSubmitting(false);
-
+      // Optimistically scroll the user to the comments section and
+      // add comment skeleton
       const commentsHeading = document.querySelector(`.comments__heading`)! as HTMLHeadingElement;
 
       timer.current = setTimeout(function() {
         commentsHeading.scrollIntoView({ behavior: `smooth` });
         clearTimeout(timer.current!);
       }, 100);
+
+      dispatch(sliceArticleDescrActions.setArticleCommentAdded(true));
+
+      e.preventDefault();
+      setIsSubmitting(true);
+
+      // submit the comment to the db
+
+      /*const response = await fetch(`/api/add-article-comment`, {
+        method: `POST`,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ session, formResults })
+      }).then(res => res.json());*/
+
+      const response = await addArticleComment(session, formResults);
+
+
+      if (response?.error) {
+        setFormError([`Failed to submit the comment: ${response?.message}`]);
+        dispatch(sliceArticleDescrActions.setArticleCommentAdded(false));
+        setIsSubmitting(false);
+        scrollToLeaveReplyForm();
+        return;
+      }
+
+      dispatch(sliceArticleDescrActions.setArticleCommentAdded(false));
+      setIsSubmitting(false);
+
 
       currObject.reset();
 
