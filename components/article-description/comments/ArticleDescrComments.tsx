@@ -15,7 +15,7 @@ export default function ArticleDescrComments({ comments }: ArticleDescrCommentsT
   const commentsPerPage = 3;
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [currArticlesComments, setCurrArticlesComments] = useState<ArticleComment[] | []>(comments);
-  const [disableSorting, setDisableSorting] = useState(false);
+  const [disableSorting, setDisableSorting] = useState(comments.length === 0);
 
   const timer = useRef<NodeJS.Timeout | null>(null);
 
@@ -32,6 +32,7 @@ export default function ArticleDescrComments({ comments }: ArticleDescrCommentsT
 
   function handleSorting(event: React.ChangeEvent<HTMLSelectElement>) {
     const value = event.target.value;
+
     setDisableSorting(true);
 
     timer.current = setTimeout(() => {
