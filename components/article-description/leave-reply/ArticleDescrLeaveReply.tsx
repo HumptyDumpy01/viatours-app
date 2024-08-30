@@ -1,15 +1,27 @@
 'use client';
 
+import loadingSpinner from '@/animations/loading-spinner.json';
 import '@/components/UI/Layout/LeaveReply.scss';
 import IconIon from '@/components/UI/IonIcon/IconIon';
 import Rate from '@/components/UI/Checkbox/Rate';
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, useRef, useState } from 'react';
 import { getUser } from '@/lib/mongodb';
 import { SessionType } from '@/components/UI/Comment/Comment';
+import Lottie from 'lottie-react';
 
 type ArticleDescrLeaveReplyType = {
+  articleId: string;
   session: SessionType;
   // children: ReactNode;
+}
+
+export type FormResultsType = {
+  articleId: string;
+  user: string;
+  rating: number;
+  title: string;
+  text: string;
+  email: string;
 }
 
 function scrollToLeaveReplyForm() {
@@ -23,15 +35,22 @@ function scrollToLeaveReplyForm() {
 }
 
 
-export default function ArticleDescrLeaveReply({ session }: ArticleDescrLeaveReplyType) {
+export default function ArticleDescrLeaveReply({ session, articleId }: ArticleDescrLeaveReplyType) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formError, setFormError] = useState<string[]>([]);
+  const timer = useRef<NodeJS.Timeout | null>(null);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const currObject = e.currentTarget;
     const formData = new FormData(currObject);
-    const results = Object.fromEntries(formData.entries());
+    const results = Object.fromEntries(formData.entries()) as {
+      user: string;
+      rating: string;
+      title: string;
+      text: string;
+      email: string;
+    };
 
     // the userEmail comes directly from the session,
     // if the user is authenticated, otherwise it comes from the form
@@ -42,7 +61,6 @@ export default function ArticleDescrLeaveReply({ session }: ArticleDescrLeaveRep
 
     // Validate form data
     const errors = validateFormData(results);
-
 
     const userExists = await getUser({ email: results.email }, { email: 1 });
 
@@ -57,7 +75,6 @@ export default function ArticleDescrLeaveReply({ session }: ArticleDescrLeaveRep
       }
     }
 
-
     if (errors.length > 0) {
       setFormError(errors);
       scrollToLeaveReplyForm();
@@ -65,8 +82,54 @@ export default function ArticleDescrLeaveReply({ session }: ArticleDescrLeaveRep
       return;
     }
 
-    // output
-    console.log(results);
+
+    // formatted data for the db
+    const formResults: FormResultsType = {
+      articleId: articleId,
+      user: results.user,
+      rating: Number(results.rating),
+      title: results.title,
+      text: results.text,
+      email: results.email
+    };
+
+    async function submitComment() {
+      setIsSubmitting(true);
+      // TODO: submit the comment to the db
+      const response = await fetch(`/api/add-article-comment`, {
+        method: `POST`,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ session, formResults })
+      }).then(res => res.json());
+
+      if (response.error) {
+        setFormError([`Failed to submit the comment: ${response.message}`]);
+        setIsSubmitting(false);
+        scrollToLeaveReplyForm();
+        return;
+      }
+      setIsSubmitting(false);
+
+      const commentsHeading = document.querySelector(`.comments__heading`)! as HTMLHeadingElement;
+
+      timer.current = setTimeout(function() {
+        commentsHeading.scrollIntoView({ behavior: `smooth` });
+        clearTimeout(timer.current!);
+      }, 100);
+
+      currObject.reset();
+
+    }
+
+    submitComment().catch(err => {
+      console.error(`Failed to submit the comment: ${err}`);
+      setFormError([`Failed to submit the comment: ${err}`]);
+      setIsSubmitting(false);
+      scrollToLeaveReplyForm();
+    });
+
   }
 
   function validateFormData(results: Record<string, FormDataEntryValue>): string[] {
@@ -131,11 +194,22 @@ export default function ArticleDescrLeaveReply({ session }: ArticleDescrLeaveRep
                                                            className="leave-a-reply__form-inputs-comment"
                                                            placeholder="Comment" required></textarea>
               </div>
-              <div className={`margin-bottom-41px`}>
-                <button disabled={isSubmitting} className="btn btn--submit flex flex-align-center">Post comment
-                  {/*<ion-icon name="arrow-forward-outline" className="icon icon--right-arrow"></ion-icon>*/}
-                  <IconIon type={`arrowForwardOutline`} className="icon icon--right-arrow" />
+              <div className={`margin-bottom-41px leave-a-reply-article-btn-container grid`}>
+                <button disabled={isSubmitting}
+                        className={`btn btn--submit flex flex-align-center ${isSubmitting ? `btn--submit-disabled` : ``}`}>
+                  {!isSubmitting ? (
+                    <>
+                      Post comment
+                      {/*<ion-icon name="arrow-forward-outline" className="icon icon--right-arrow"></ion-icon>*/}
+                      <IconIon type={`arrowForwardOutline`} className="icon icon--right-arrow" />
+                    </>
+                  ) : `Submitting...`}
                 </button>
+                {isSubmitting && (
+                  <div className={`loading-spinner-add-article`}>
+                    <Lottie animationData={loadingSpinner} />
+                  </div>
+                )}
               </div>
             </form>
           </div>

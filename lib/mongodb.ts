@@ -11,6 +11,8 @@ import { notFound, redirect } from 'next/navigation';
 import { FormDataType } from '@/components/account-settings/contents/user-profile/UserProfile';
 import { generateVerificationToken } from '@/lib/tokens';
 import { sendVerificationCode } from '@/lib/mail';
+import { FormResultsType } from '@/components/article-description/leave-reply/ArticleDescrLeaveReply';
+import { SessionType } from '@/components/UI/Comment/Comment';
 
 // Extend the global interface
 // it resolves issues with the global variable missing type
@@ -3624,6 +3626,135 @@ export async function getArticleDetails(id: string) {
   }
 
 }
+
+type ArticleCommentType = {
+  articleId: string,
+  user: string,
+  rating: number,
+  title: string,
+  text: string,
+  addedAt: string,
+  timestamp: Timestamp,
+  likes: string[],
+  dislikes: string[],
+  abuseReports: string[],
+  email: string
+}
+
+export async function addArticleComment(session: SessionType, formResults: FormResultsType) {
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+
+  const articleExists = await db.collection(`articles`).findOne({ _id: new ObjectId(formResults.articleId) });
+
+  if (!articleExists) {
+    return {
+      error: true,
+      message: `Error. Article does not exist.`
+    };
+  }
+
+  if (session.user.email) {
+
+    /* IMPORTANT: IF USER AUTHENTICATED  */
+    // TODO: if session is active and user email is the same as the email provided in the form,
+    //  use the email from the session and 1. push a new comment to the articleComments collection
+    //  1. push objectId of this comment to current article comments array,
+    //  2. push the rating number to the article ratings array
+    //  3. Fetch the user
+    //  Push notification about added comment to the user notifications array
+
+    const user = await db.collection(`users`).findOne({ email: session.user.email });
+
+    if (!user) {
+      return {
+        error: true,
+        message: `Error. User does not exist.`
+      };
+    }
+
+    if (session.user.email !== formResults.email) {
+      return {
+        error: true,
+        message: `Error. User email does not match the email provided in the form.`
+      };
+    }
+
+    const transformedData = {
+      articleId: new ObjectId(formResults.articleId),
+      user: formResults.user,
+      rating: Number(formResults.rating),
+      title: formResults.title,
+      text: formResults.text,
+      addedAt: new Date().toISOString(),
+      timestamp: Timestamp.fromNumber(Date.now()),
+      likes: [],
+      dislikes: [],
+      abuseReports: [],
+      email: formResults.email
+    };
+
+    const newNotification = {
+      type: `darkOrange`,
+      icon: `letter`,
+      addedAt: new Date(),
+      timestamp: Timestamp.fromNumber(Date.now()),
+      text: `You successfully added a comment to
+       <a class="highlighted text-decoration-none" 
+       href="/articles/${formResults.articleId}">${articleExists.title.length
+      > 60 ? articleExists.title.slice(0, 60) : articleExists.title}</a> article!`
+    };
+
+    /*  extract the formResults, transform them in a needed form and push it to the articleComments */
+    const response = await db.collection(`articleComments`).insertOne(transformedData);
+
+    if (!response.acknowledged) {
+      return {
+        error: true,
+        message: `Failed to insert the comment.`
+      };
+    } else {
+      // silently push the comment to the article comments array and the rating to the article ratings array
+      await db.collection(`articles`).updateOne({ _id: new ObjectId(formResults.articleId) }, {
+        // @ts-ignore
+        $push: {
+          comments: new ObjectId(response.insertedId),
+          rating: Number(formResults.rating)
+        }
+      });
+      // silently push a notification to the user notifications array
+      await db.collection(`users`).updateOne({ email: session.user.email }, {
+        // @ts-ignore
+        $push: {
+          notifications: newNotification
+        }
+      });
+
+      /* TODO: fetch author and push the rating value onto his rating array */
+
+      revalidatePath(`/articles`, `layout`);
+    }
+
+
+    return {
+      error: false,
+      insertedId: response.insertedId,
+      message: `The comment was successfully inserted.`
+    };
+
+
+  } else {
+    /* IMPORTANT: IF USER IS NOT AUTHENTICATED */
+
+    // TODO: Check if session is not active, then..
+    //  first, ensure that the email user entered is not already in the users collection
+    //  second, push a new comment to the articleComments collection
+
+  }
+
+
+}
+
 
 ///////////////////////////////////////
 

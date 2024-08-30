@@ -1,6 +1,11 @@
 .leave-a-reply {
   margin-top: 5rem;
 
+  &-article-btn-container {
+    grid-template-columns: 17rem auto;
+    grid-template-rows: 6rem;
+  }
+
   &__form {
     cursor: pointer;
 

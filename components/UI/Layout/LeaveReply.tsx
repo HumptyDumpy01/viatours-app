@@ -182,6 +182,8 @@ export default function LeaveReply({ tourId, tourTitle, userEmail, userName, ses
       throw new Error(`The user is authenticated, but the email is not found in the session object.`);
     }
 
+    /* IMPORTANT: REGARDING NOTIFICATIONS PUSH FOR AUTH USERS */
+
     // INFO: The second condition: if user is authenticated and the email he enters is IN MY DB ALREADY.
 
     if (session.user.email && userEmail && userExists.length > 0 && userExists[0].email === results.email) {
