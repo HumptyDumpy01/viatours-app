@@ -7,6 +7,7 @@ import { ArticleComment } from '@/app/articles/[id]/page';
 import React, { useRef, useState } from 'react';
 import CommentSkeleton from '@/components/tourDescription/skeletons/CommentSkeleton';
 import { SessionType } from '@/components/UI/Comment/Comment';
+import { useCartSelector } from '@/store/hooks';
 
 type ArticleDescrCommentsType = {
   comments: ArticleComment[];
@@ -19,6 +20,9 @@ export default function ArticleDescrComments({ comments, session }: ArticleDescr
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [currArticlesComments, setCurrArticlesComments] = useState<ArticleComment[] | []>(comments);
   const [disableSorting, setDisableSorting] = useState(comments.length === 0);
+
+  const isArticleCommentAdded = useCartSelector((state) => state.articleDescription.articleCommentAdded);
+
 
   const timer = useRef<NodeJS.Timeout | null>(null);
 
@@ -53,8 +57,10 @@ export default function ArticleDescrComments({ comments, session }: ArticleDescr
       setCurrArticlesComments([...comments].sort((a, b) => b.likes.length - a.likes.length));
     }
 
-    console.log(value);
+    // console.log(value);
   }
+
+
 
   return (
     <section className="comments-container">
@@ -73,8 +79,11 @@ export default function ArticleDescrComments({ comments, session }: ArticleDescr
         {comments.length > 0 && (
           <div className="comments__comment-container">
             <div className="comments__section">
-              {/* TODO: CREATE A SLICE TO SHOW IMAGE SKELETON TILL THE ACTUAL COMMENT IS ADDED. */}
-              <CommentSkeleton showImageSkeleton={false} />
+              {isArticleCommentAdded && (
+                <>
+                  <CommentSkeleton showImageSkeleton={false} />
+                </>
+              )}
               {currentComments.map(function(comment) {
                 return (
                   <>

@@ -10,6 +10,7 @@ import registerSlice from '@/store/registerSlice';
 import forgotPasswordSlice from '@/store/forgotPasswordSlice';
 import deleteAccountSlice from '@/store/deleteAccountSlice';
 import articlesSlice from '@/store/articlesSlice';
+import sliceArticleDescr from '@/store/sliceArticleDescr';
 
 const store = configureStore({
   reducer: {
@@ -26,7 +27,8 @@ const store = configureStore({
     register: registerSlice,
     forgotPassword: forgotPasswordSlice,
     deleteAccount: deleteAccountSlice,
-    articles: articlesSlice
+    articles: articlesSlice,
+    articleDescription: sliceArticleDescr
   }
 });
 
