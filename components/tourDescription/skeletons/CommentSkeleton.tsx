@@ -1,12 +1,13 @@
 // 'use client';
-
-/*type CommentSkeletonType = {
-  // children: ReactNode;
-}*/
-
+import '@/components/tourDescription/TourOverview/TourComments.scss';
 import { Skeleton } from '@mui/material';
 
-export default function CommentSkeleton(/*{  }: CommentSkeletonType*/) {
+type CommentSkeletonType = {
+  showImageSkeleton?: boolean;
+  // children: ReactNode;
+}
+
+export default function CommentSkeleton({ showImageSkeleton }: CommentSkeletonType) {
   return (
     <>
       <div className={`comments-wrapper`}>
@@ -43,12 +44,16 @@ export default function CommentSkeleton(/*{  }: CommentSkeletonType*/) {
             <Skeleton animation={`wave`} variant="text" width={`100%`} height={`3rem`} />
             <Skeleton animation={`wave`} variant="text" width={`100%`} height={`3rem`} />
           </p>
-          <div className={`flex gap-13px`}>
-            <Skeleton animation={`wave`} className="comments__content-images-wrapper-skeleton" />
-            <Skeleton animation={`wave`} className="comments__content-images-wrapper-skeleton" />
-            <Skeleton animation={`wave`} className="comments__content-images-wrapper-skeleton" />
-          </div>
-          <div className="comments__content-reaction">
+          {showImageSkeleton && (
+            <>
+              <div className={`flex gap-13px`}>
+                <Skeleton animation={`wave`} className="comments__content-images-wrapper-skeleton" />
+                <Skeleton animation={`wave`} className="comments__content-images-wrapper-skeleton" />
+                <Skeleton animation={`wave`} className="comments__content-images-wrapper-skeleton" />
+              </div>
+            </>
+          )}
+          <div className={`comments__content-reaction ${!showImageSkeleton ? `margin-top-3rem` : ``}`}>
             <button className={`comments__content-reaction-btn`}>
               <span
                 className={`comments__content-reaction-btn--helpful`}>

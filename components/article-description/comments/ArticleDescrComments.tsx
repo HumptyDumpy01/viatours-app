@@ -5,6 +5,7 @@ import SortBy from '@/components/UI/SortBy/SortBy';
 import ArticleDescrComment from '@/components/article-description/comments/ArticleDescrComment';
 import { ArticleComment } from '@/app/articles/[id]/page';
 import React, { useRef, useState } from 'react';
+import CommentSkeleton from '@/components/tourDescription/skeletons/CommentSkeleton';
 
 type ArticleDescrCommentsType = {
   comments: ArticleComment[];
@@ -65,11 +66,13 @@ export default function ArticleDescrComments({ comments }: ArticleDescrCommentsT
         </div>
 
         {comments.length === 0 && (
-          <p className="comments__no-comments">No comments yet. Be the first to comment!</p>
+          <p className="highlighted subheading">No comments yet. Be the first to comment!</p>
         )}
         {comments.length > 0 && (
           <div className="comments__comment-container">
             <div className="comments__section">
+              {/* TODO: CREATE A SLICE TO SHOW IMAGE SKELETON TILL THE ACTUAL COMMENT IS ADDED. */}
+              <CommentSkeleton showImageSkeleton={false} />
               {currentComments.map(function(comment) {
                 return (
                   <>

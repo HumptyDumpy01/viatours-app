@@ -59,7 +59,7 @@ export default function TourComments({ currTourComments, session }: TourComments
       viewport={{ once: true }}
       className="comments">
       {addCommentSkeleton && (
-        <CommentSkeleton />
+        <CommentSkeleton showImageSkeleton />
       )}
       {currentComments.map((comment) => (
         <Comment
