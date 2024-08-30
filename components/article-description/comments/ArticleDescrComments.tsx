@@ -4,7 +4,7 @@ import './ArticleDescrComments.scss';
 import SortBy from '@/components/UI/SortBy/SortBy';
 import ArticleDescrComment from '@/components/article-description/comments/ArticleDescrComment';
 import { ArticleComment } from '@/app/articles/[id]/page';
-import { useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 type ArticleDescrCommentsType = {
   comments: ArticleComment[];
@@ -15,17 +15,42 @@ export default function ArticleDescrComments({ comments }: ArticleDescrCommentsT
   const commentsPerPage = 3;
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [currArticlesComments, setCurrArticlesComments] = useState<ArticleComment[] | []>(comments);
+  const [disableSorting, setDisableSorting] = useState(false);
+
+  const timer = useRef<NodeJS.Timeout | null>(null);
 
   const totalCommentsToShow = currentPage * commentsPerPage;
   // Adjust the slice method to use totalCommentsToShow
 
-  // use this array of object to loop over.
+  // use this array of an object to loop over.
   const currentComments = currArticlesComments.slice(0, totalCommentsToShow);
 
   // change the page to show more comments
   const handleMoreReviews = () => {
     setCurrentPage((prev) => prev + 1);
   };
+
+  function handleSorting(event: React.ChangeEvent<HTMLSelectElement>) {
+    const value = event.target.value;
+    setDisableSorting(true);
+
+    timer.current = setTimeout(() => {
+      setDisableSorting(false);
+      clearTimeout(timer.current as NodeJS.Timeout);
+    }, 1000);
+
+    if (value === `newest`) {
+      setCurrArticlesComments([...comments].sort((a, b) => new Date(b.addedAt).getTime() - new Date(a.addedAt).getTime()));
+    }
+    if (value === `oldest`) {
+      setCurrArticlesComments([...comments].sort((a, b) => new Date(a.addedAt).getTime() - new Date(b.addedAt).getTime()));
+    }
+    if (value === `likes`) {
+      setCurrArticlesComments([...comments].sort((a, b) => b.likes.length - a.likes.length));
+    }
+
+    console.log(value);
+  }
 
   return (
     <section className="comments-container">
@@ -35,8 +60,7 @@ export default function ArticleDescrComments({ comments }: ArticleDescrCommentsT
           <SortBy options={[
             { value: `newest`, label: `Newest` },
             { value: `oldest`, label: `Oldest` },
-            { value: `likes`, label: `Likes` }]} handleOnChange={() => {
-          }} disabled={false} />
+            { value: `likes`, label: `Likes` }]} handleOnChange={handleSorting} disabled={disableSorting} />
         </div>
 
         {comments.length === 0 && (
