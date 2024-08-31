@@ -132,7 +132,11 @@ export default function ArticleDescrMainWrapper({ session, article }: ArticleDes
           <ArticleDescrStats rating={article.rating.reduce((acc, i) => acc + i, 0) / article.rating.length}
                              location={article.location}
                              views={formattedViews} />
-          <ArticleDescrExtraInfo session={session} author={article.author} readTime={article.readTime} />
+          <ArticleDescrExtraInfo
+            articleId={article._id}
+            session={session}
+            author={article.author}
+            readTime={article.readTime} />
           <ArticleDescrSlider
             images={article.images} />
         </div>

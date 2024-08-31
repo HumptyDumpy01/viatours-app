@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { ArticleAuthorType } from '@/app/articles/[id]/page';
 import watermarkImage from '@/assets/images/viatours-watermark-logo.svg';
 import { CldImage } from 'next-cloudinary';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SessionType } from '@/components/UI/Comment/Comment';
 import { SnackbarCloseReason } from '@mui/material/Snackbar/useSnackbar.types';
 import CustomizedSnackbar from '@/components/UI/Toast/Snackbar';
@@ -13,14 +13,21 @@ type ArticleDescrExtraInfoType = {
   author: ArticleAuthorType;
   session: SessionType;
   readTime: string;
+  articleId: string;
   // children: ReactNode;
 }
 
-export default function ArticleDescrExtraInfo({ author, readTime, session }: ArticleDescrExtraInfoType) {
+export default function ArticleDescrExtraInfo({ author, readTime, session, articleId }: ArticleDescrExtraInfoType) {
 
   const [open, setOpen] = useState<boolean>(false);
   const [toastLabel, setToastLabel] = useState<string>(`Hello there!`);
   const [toastSeverity, setToastSeverity] = useState<string>(`info`);
+  const [articleInUserList, setArticleInUserList] = useState();
+
+  useEffect(() => {
+    /* TODO: Create an api endpoint that would return true or false based on
+    *   whether the user has articleId in his savedArticles Array or not */
+  }, []);
 
   const handleClose = (
     event?: React.SyntheticEvent | Event,

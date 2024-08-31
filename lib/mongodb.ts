@@ -4124,5 +4124,16 @@ export async function reportArticleCommentAbuse(commentId: string, session: Sess
 
 }
 
+export async function isUserHasArticleInList(session: SessionType, articleId: string) {
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+
+  const user = await db.collection(`users`).findOne({ email: session.user.email });
+
+  if (user) {
+  }
+
+}
+
 ///////////////////////////////////////
 
