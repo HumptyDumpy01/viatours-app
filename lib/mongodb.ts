@@ -3562,7 +3562,8 @@ export async function getArticleDetails(id: string) {
               text: '$unwoundComments.text',
               addedAt: '$unwoundComments.addedAt',
               likes: '$unwoundComments.likes',
-              dislikes: '$unwoundComments.dislikes'
+              dislikes: '$unwoundComments.dislikes',
+              abuseReports: '$unwoundComments.abuseReports'
             }
           }
         }

@@ -23,6 +23,7 @@ export type ArticleComment = {
   addedAt: string;
   likes: string[];
   dislikes: string[];
+  abuseReports: string[];
 };
 export type ArticleAuthorType = {
   _id: string;
