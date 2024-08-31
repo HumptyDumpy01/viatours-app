@@ -25,6 +25,7 @@ export type ArticleComment = {
   dislikes: string[];
 };
 export type ArticleAuthorType = {
+  _id: string;
   name?: string;
   firstName: string;
   lastName: string;
@@ -104,8 +105,8 @@ export default async function ArticleDescription({ params }: ArticleDescriptionI
   }
 
   console.log(`Article: `, article.article[0]);
-  // TODO: fetch the session from the server
 
+  // fetch the session from the server
   const session = await getServerSession(authConfig);
 
   if (session === undefined) {

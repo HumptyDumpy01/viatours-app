@@ -13,6 +13,7 @@ import { sliceArticleDescrActions } from '@/store/sliceArticleDescr';
 
 type ArticleDescrLeaveReplyType = {
   articleId: string;
+  author: string;
   session: SessionType;
   // children: ReactNode;
 }
@@ -37,7 +38,7 @@ function scrollToLeaveReplyForm() {
 }
 
 
-export default function ArticleDescrLeaveReply({ session, articleId }: ArticleDescrLeaveReplyType) {
+export default function ArticleDescrLeaveReply({ session, articleId, author }: ArticleDescrLeaveReplyType) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formError, setFormError] = useState<string[]>([]);
   const timer = useRef<NodeJS.Timeout | null>(null);
@@ -122,7 +123,7 @@ export default function ArticleDescrLeaveReply({ session, articleId }: ArticleDe
         body: JSON.stringify({ session, formResults })
       }).then(res => res.json());*/
 
-      const response = await addArticleComment(session, formResults);
+      const response = await addArticleComment(session, formResults, author);
 
 
       if (response?.error) {
@@ -192,9 +193,10 @@ export default function ArticleDescrLeaveReply({ session, articleId }: ArticleDe
               <div className="leave-a-reply__form-inputs-container grid">
                 <div className="leave-a-reply__form-inputs flex flex-align-center flex-space-between">
                   <div className="leave-a-reply__form-inputs-wrapper">
-                    <label htmlFor="user-initials"></label><input type="text" name="user" id="user-initials"
-                                                                  placeholder="Initials"
-                                                                  required />
+                    <label htmlFor="user-initials"></label>
+                    <input defaultValue={session.user.name || ``} type="text" name="user" id="user-initials"
+                           placeholder="Initials"
+                           required />
                   </div>
                   {session.user.email.trim() === `` && (
                     <>

@@ -3511,6 +3511,7 @@ export async function getArticleDetails(id: string) {
                   }
                 ]
               },
+              _id: { $toString: { $arrayElemAt: ['$authorDetails._id', 0] } },
               employment: { $arrayElemAt: ['$authorDetails.employment', 0] },
               image: { $arrayElemAt: ['$authorDetails.image', 0] }
 
@@ -3641,7 +3642,7 @@ type ArticleCommentType = {
   email: string
 }
 
-export async function addArticleComment(session: SessionType, formResults: FormResultsType) {
+export async function addArticleComment(session: SessionType, formResults: FormResultsType, author: string) {
   const client = await clientPromise;
   const db = client.db(`viatoursdb`);
 
@@ -3730,7 +3731,13 @@ export async function addArticleComment(session: SessionType, formResults: FormR
         }
       });
 
-      /* TODO: fetch author and push the rating value onto his rating array */
+      /* fetch author and push the rating value onto his rating array */
+      await db.collection(`travelArticlesAuthors`).updateOne({ _id: new ObjectId(author) }, {
+        // @ts-ignore
+        $push: {
+          rating: Number(formResults.rating)
+        }
+      });
 
 
       revalidatePath(`/articles`, `layout`);
