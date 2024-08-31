@@ -3581,7 +3581,12 @@ export async function getArticleDetails(id: string) {
                 ]
               },
               then: [],
-              else: '$comments'
+              else: {
+                $sortArray: {
+                  input: '$comments',
+                  sortBy: { addedAt: -1 }
+                }
+              }
             }
           }
         }
@@ -3658,7 +3663,7 @@ export async function addArticleComment(session: SessionType, formResults: FormR
   if (session.user.email) {
 
     /* IMPORTANT: IF USER AUTHENTICATED  */
-    // TODO: if session is active and user email is the same as the email provided in the form,
+    //  if session is active and user email is the same as the email provided in the form,
     //  use the email from the session and 1. push a new comment to the articleComments collection
     //  1. push objectId of this comment to current article comments array,
     //  2. push the rating number to the article ratings array

@@ -53,8 +53,8 @@ export default function ArticleDescrSecondColumn(/*{ articles }: any*/) {
         'Content-Type': `application/json`
       },
       body: JSON.stringify({
-        project: { firstName: 1, lastName: 1, employment: 1, image: 1, rating: 1 }
-        // limit: 22
+        project: { firstName: 1, lastName: 1, employment: 1, image: 1, rating: 1 },
+        limit: 3
       })
     });
 
