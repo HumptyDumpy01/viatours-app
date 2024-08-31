@@ -3651,6 +3651,47 @@ export async function addArticleComment(session: SessionType, formResults: FormR
   const client = await clientPromise;
   const db = client.db(`viatoursdb`);
 
+  if (formResults.rating < 1 || formResults.rating > 5) {
+    return {
+      error: true,
+      message: `Rating must be between 1 and 5.`
+    };
+  }
+
+  if (formResults.user.length < 5 || formResults.user.length > 100) {
+    return {
+      error: true,
+      message: `Name must be between 5 and 100 characters long.`
+    };
+  }
+
+  if (formResults.title.length < 5 || formResults.title.length > 100) {
+    return {
+      error: true,
+      message: `Title must be between 5 and 100 characters long.`
+    };
+  }
+  if (formResults.text.length < 5 || formResults.text.length > 600) {
+    return {
+      error: true,
+      message: `Text must be between 5 and 600 characters long.`
+    };
+
+  }
+  if (formResults.user.trim() === ``) {
+    return {
+      error: true,
+      message: `Name must not be empty.`
+    };
+  }
+
+  if (formResults.email.trim() === ``) {
+    return {
+      error: true,
+      message: `Email must not be empty.`
+    };
+  }
+
   const articleExists = await db.collection(`articles`).findOne({ _id: new ObjectId(formResults.articleId) });
 
   if (!articleExists) {
@@ -3663,10 +3704,10 @@ export async function addArticleComment(session: SessionType, formResults: FormR
   if (session.user.email) {
 
     /* IMPORTANT: IF USER AUTHENTICATED  */
-    //  if session is active and user email is the same as the email provided in the form,
+    //  If the session is active and user email is the same as the email provided in the form,
     //  use the email from the session and 1. push a new comment to the articleComments collection
-    //  1. push objectId of this comment to current article comments array,
-    //  2. push the rating number to the article ratings array
+    //  1. Push objectId of this comment to current article comments array,
+    //  2. Push the rating number to the article ratings array
     //  3. Fetch the user
     //  Push notification about added comment to the user notifications array
 
@@ -3758,9 +3799,68 @@ export async function addArticleComment(session: SessionType, formResults: FormR
   } else {
     /* IMPORTANT: IF USER IS NOT AUTHENTICATED */
 
-    // TODO: Check if session is not active, then..
-    //  first, ensure that the email user entered is not already in the users collection
-    //  second, push a new comment to the articleComments collection
+    // Check if the session is not active, then..
+    // first, ensure that the email user entered is not already in the users collection
+    // second, push a new comment to the articleComments collection
+    const userExists = await db.collection(`users`).findOne({ email: formResults.email });
+
+    if (userExists) {
+      return {
+        error: true,
+        message: `Error. User with this email already exists.`
+      };
+    }
+
+
+    const transformedData = {
+      articleId: new ObjectId(formResults.articleId),
+      user: formResults.user,
+      rating: Number(formResults.rating),
+      title: formResults.title,
+      text: formResults.text,
+      addedAt: new Date().toISOString(),
+      timestamp: Timestamp.fromNumber(Date.now()),
+      likes: [],
+      dislikes: [],
+      abuseReports: [],
+      email: formResults.email
+    };
+
+    /*  extract the formResults, transform them in a needed form and push it to the articleComments */
+    const response = await db.collection(`articleComments`).insertOne(transformedData);
+
+    if (!response.acknowledged) {
+      return {
+        error: true,
+        message: `Failed to insert the comment.`
+      };
+    } else {
+      // silently push the comment to the article comments array and the rating to the article ratings array
+      await db.collection(`articles`).updateOne({ _id: new ObjectId(formResults.articleId) }, {
+        // @ts-ignore
+        $push: {
+          comments: new ObjectId(response.insertedId),
+          rating: Number(formResults.rating)
+        }
+      });
+
+      /* fetch author and push the rating value onto his rating array */
+      await db.collection(`travelArticlesAuthors`).updateOne({ _id: new ObjectId(author) }, {
+        // @ts-ignore
+        $push: {
+          rating: Number(formResults.rating)
+        }
+      });
+
+
+      revalidatePath(`/articles`, `layout`);
+
+      return {
+        error: false,
+        message: `The comment was successfully inserted.`
+      };
+
+    }
 
   }
 

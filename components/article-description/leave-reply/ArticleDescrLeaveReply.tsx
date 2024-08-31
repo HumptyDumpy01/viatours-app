@@ -137,7 +137,6 @@ export default function ArticleDescrLeaveReply({ session, articleId, author }: A
       dispatch(sliceArticleDescrActions.setArticleCommentAdded(false));
       setIsSubmitting(false);
 
-
       currObject.reset();
 
     }
@@ -166,6 +165,19 @@ export default function ArticleDescrLeaveReply({ session, articleId, author }: A
     if (!results.title) {
       errors.push('Title is required.');
     }
+
+    if (results.user.toString().length > 100 || results.user.toString().length < 2) {
+      errors.push('User should be between 2 and 100 characters long.');
+    }
+
+    if (results.title.toString().length > 100 || results.title.toString().length < 5) {
+      errors.push('Title should be between 5 and 100 characters long.');
+    }
+
+    if (results.text.toString().length > 600 || results.text.toString().length < 10) {
+      errors.push('Comment should be between 10 and 500 characters long.');
+    }
+
     if (!results.text) {
       errors.push('Comment is required.');
     }
@@ -194,7 +206,8 @@ export default function ArticleDescrLeaveReply({ session, articleId, author }: A
                 <div className="leave-a-reply__form-inputs flex flex-align-center flex-space-between">
                   <div className="leave-a-reply__form-inputs-wrapper">
                     <label htmlFor="user-initials"></label>
-                    <input defaultValue={session.user.name || ``} type="text" name="user" id="user-initials"
+                    <input minLength={2} maxLength={100} defaultValue={session.user.name || ``} type="text" name="user"
+                           id="user-initials"
                            placeholder="Initials"
                            required />
                   </div>
@@ -207,12 +220,14 @@ export default function ArticleDescrLeaveReply({ session, articleId, author }: A
                     </>
                   )}
                 </div>
-                <label htmlFor="title"></label><input type="text" name="title" id="title"
-                                                      className="leave-a-reply__form-inputs-title" placeholder="Title"
-                                                      required />
-                <label htmlFor="comment"></label><textarea name="text" id="comment" cols={30} rows={6}
-                                                           className="leave-a-reply__form-inputs-comment"
-                                                           placeholder="Comment" required></textarea>
+                <label htmlFor="title"></label>
+                <input minLength={5} maxLength={100} type="text" name="title" id="title"
+                       className="leave-a-reply__form-inputs-title" placeholder="Title"
+                       required />
+                <label htmlFor="comment"></label>
+                <textarea minLength={10} maxLength={600} name="text" id="comment" cols={30} rows={6}
+                          className="leave-a-reply__form-inputs-comment"
+                          placeholder="Comment" required></textarea>
               </div>
               <div className={`margin-bottom-41px leave-a-reply-article-btn-container grid`}>
                 <button disabled={isSubmitting}
