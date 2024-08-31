@@ -723,17 +723,23 @@ export async function getUser(filter: {}, options?: {}, unwind: boolean = false)
     // Unwind an entire user document, particularly talking about wishlisted tours,
     // saved articles, orders
     const unwoundUser = await db.collection('users').aggregate([
-      { $match: filter },
-
+      {
+        $match: filter
+      },
       // Ensure wishlist, notifications, and savedArticles have default values
       {
         $addFields: {
-          wishlist: { $ifNull: ['$wishlist', []] },
-          notifications: { $ifNull: ['$notifications', []] },
-          savedArticles: { $ifNull: ['$savedArticles', []] }
+          wishlist: {
+            $ifNull: ['$wishlist', []]
+          },
+          notifications: {
+            $ifNull: ['$notifications', []]
+          },
+          savedArticles: {
+            $ifNull: ['$savedArticles', []]
+          }
         }
       },
-
       {
         $lookup: {
           from: 'tours',
@@ -742,74 +748,212 @@ export async function getUser(filter: {}, options?: {}, unwind: boolean = false)
           as: 'wishlistedTours'
         }
       },
-
-      { $unwind: { path: '$wishlistedTours', preserveNullAndEmptyArrays: true } },
+      {
+        $unwind: {
+          path: '$wishlistedTours',
+          preserveNullAndEmptyArrays: true
+        }
+      },
       {
         $group: {
           _id: '$_id',
-          email: { $first: '$email' },
-          image: { $first: '$image' },
-          firstName: { $first: '$firstName' },
-          lastName: { $first: '$lastName' },
-          password: { $first: '$password' },
-          phone: { $first: '$phone' },
-          orders: { $first: '$orders' },
-          notifications: { $first: '$notifications' },
-          savedArticles: { $first: '$savedArticles' },
-          registeredManually: { $first: '$registeredManually' },
-          twoFactorAuthEnabled: { $first: '$twoFactorAuthEnabled' },
+          email: {
+            $first: '$email'
+          },
+          image: {
+            $first: '$image'
+          },
+          firstName: {
+            $first: '$firstName'
+          },
+          lastName: {
+            $first: '$lastName'
+          },
+          password: {
+            $first: '$password'
+          },
+          phone: {
+            $first: '$phone'
+          },
+          orders: {
+            $first: '$orders'
+          },
+          registeredManually: {
+            $first: '$registeredManually'
+          },
+          notifications: {
+            $first: '$notifications'
+          },
+          savedArticles: {
+            $first: '$savedArticles'
+          },
           wishlist: {
             $push: {
-              _id: { $ifNull: ['$wishlistedTours._id', null] },  // Push null-safe values
-              title: { $ifNull: ['$wishlistedTours.title', null] },
-              image: { $ifNull: [{ $arrayElemAt: ['$wishlistedTours.images', 0] }, null] },
+              _id: {
+                $ifNull: [
+                  '$wishlistedTours._id',
+                  null
+                ]
+              },
+              // Push null-safe values
+              title: {
+                $ifNull: [
+                  '$wishlistedTours.title',
+                  null
+                ]
+              },
+              image: {
+                $ifNull: [
+                  {
+                    $arrayElemAt: [
+                      '$wishlistedTours.images',
+                      0
+                    ]
+                  },
+                  null
+                ]
+              },
               location: {
                 $cond: {
-                  if: { $and: ['$wishlistedTours.city', '$wishlistedTours.country'] },
-                  then: { $concat: ['$wishlistedTours.city', ', ', '$wishlistedTours.country'] },
+                  if: {
+                    $and: [
+                      '$wishlistedTours.city',
+                      '$wishlistedTours.country'
+                    ]
+                  },
+                  then: {
+                    $concat: [
+                      '$wishlistedTours.city',
+                      ', ',
+                      '$wishlistedTours.country'
+                    ]
+                  },
                   else: null
                 }
               },
-              rating: { $ifNull: ['$wishlistedTours.rating.overall', 0] },
-              reviews: { $ifNull: ['$wishlistedTours.reviews', 0] },
-              duration: { $ifNull: ['$wishlistedTours.duration', null] },
-              fromPrice: { $ifNull: ['$wishlistedTours.price.children', null] }
+              rating: {
+                $ifNull: [
+                  '$wishlistedTours.rating.overall',
+                  0
+                ]
+              },
+              reviews: {
+                $ifNull: [
+                  '$wishlistedTours.reviews',
+                  0
+                ]
+              },
+              duration: {
+                $ifNull: [
+                  '$wishlistedTours.duration',
+                  null
+                ]
+              },
+              fromPrice: {
+                $ifNull: [
+                  '$wishlistedTours.price.children',
+                  null
+                ]
+              }
             }
           }
         }
       },
-
-      { $lookup: { from: 'orders', localField: 'orders', foreignField: '_id', as: 'userOrders' } },
-      { $unwind: { path: '$userOrders', preserveNullAndEmptyArrays: true } },
+      {
+        $lookup: {
+          from: 'orders',
+          localField: 'orders',
+          foreignField: '_id',
+          as: 'userOrders'
+        }
+      },
+      {
+        $unwind: {
+          path: '$userOrders',
+          preserveNullAndEmptyArrays: true
+        }
+      },
       {
         $group: {
           _id: '$_id',
-          email: { $first: '$email' },
-          firstName: { $first: '$firstName' },
-          lastName: { $first: '$lastName' },
-          image: { $first: '$image' },
-          password: { $first: '$password' },
-          phone: { $first: '$phone' },
-          notifications: { $first: '$notifications' },
-          savedArticles: { $first: '$savedArticles' },
-          registeredManually: { $first: '$registeredManually' },
-          twoFactorAuthEnabled: { $first: '$twoFactorAuthEnabled' },
-          wishlist: { $last: '$wishlist' },
+          email: {
+            $first: '$email'
+          },
+          firstName: {
+            $first: '$firstName'
+          },
+          lastName: {
+            $first: '$lastName'
+          },
+          image: {
+            $first: '$image'
+          },
+          password: {
+            $first: '$password'
+          },
+          phone: {
+            $first: '$phone'
+          },
+          registeredManually: {
+            $last: '$registeredManually'
+          },
+          notifications: {
+            $first: '$notifications'
+          },
+          savedArticles: {
+            $first: '$savedArticles'
+          },
+          wishlist: {
+            $last: '$wishlist'
+          },
           orders: {
             $push: {
-              _id: { $ifNull: ['$userOrders._id', null] },
-              tourId: { $ifNull: ['$userOrders.tourId', null] },
-              date: { $ifNull: ['$userOrders.booking.date', null] },
-              contactDetails: { $ifNull: ['$userOrders.contactDetails', null] },
-              tickets: { $ifNull: ['$userOrders.booking.tickets', null] },
-              price: { $ifNull: ['$userOrders.booking.totalPrice', null] },
-              extraDetails: { $ifNull: ['$userOrders.extraDetails', null] }
+              _id: {
+                $ifNull: ['$userOrders._id', null]
+              },
+              tourId: {
+                $ifNull: ['$userOrders.tourId', null]
+              },
+              date: {
+                $ifNull: [
+                  '$userOrders.booking.date',
+                  null
+                ]
+              },
+              contactDetails: {
+                $ifNull: [
+                  '$userOrders.contactDetails',
+                  null
+                ]
+              },
+              tickets: {
+                $ifNull: [
+                  '$userOrders.booking.tickets',
+                  null
+                ]
+              },
+              price: {
+                $ifNull: [
+                  '$userOrders.booking.totalPrice',
+                  null
+                ]
+              },
+              extraDetails: {
+                $ifNull: [
+                  '$userOrders.extraDetails',
+                  null
+                ]
+              }
             }
           }
         }
       },
-      { $unwind: { path: '$orders', preserveNullAndEmptyArrays: true } },
-
+      {
+        $unwind: {
+          path: '$orders',
+          preserveNullAndEmptyArrays: true
+        }
+      },
       {
         $lookup: {
           from: 'tours',
@@ -821,39 +965,194 @@ export async function getUser(filter: {}, options?: {}, unwind: boolean = false)
       {
         $group: {
           _id: '$_id',
+          email: {
+            $first: '$email'
+          },
+          firstName: {
+            $first: '$firstName'
+          },
+          lastName: {
+            $first: '$lastName'
+          },
+          image: {
+            $first: '$image'
+          },
+          password: {
+            $first: '$password'
+          },
+          phone: {
+            $first: '$phone'
+          },
+          registeredManually: {
+            $last: '$registeredManually'
+          },
+          notifications: {
+            $first: '$notifications'
+          },
+          savedArticles: {
+            $first: '$savedArticles'
+          },
+          wishlist: {
+            $last: '$wishlist'
+          },
+          orders: {
+            $push: {
+              _id: '$orders._id',
+              date: '$orders.date',
+              totalPrice: '$orders.price',
+              contactDetails: {
+                $ifNull: [
+                  '$orders.contactDetails',
+                  null
+                ]
+              },
+              tickets: '$orders.tickets',
+              extraDetails: '$orders.extraDetails',
+              tour: {
+                _id: {
+                  $arrayElemAt: ['$orderTours._id', 0]
+                },
+                title: {
+                  $arrayElemAt: [
+                    '$orderTours.title',
+                    0
+                  ]
+                },
+                location: {
+                  $cond: {
+                    if: {
+                      $and: [
+                        {
+                          $arrayElemAt: [
+                            '$orderTours.city',
+                            0
+                          ]
+                        },
+                        {
+                          $arrayElemAt: [
+                            '$orderTours.country',
+                            0
+                          ]
+                        }
+                      ]
+                    },
+                    then: {
+                      $concat: [
+                        {
+                          $arrayElemAt: [
+                            '$orderTours.city',
+                            0
+                          ]
+                        },
+                        ', ',
+                        {
+                          $arrayElemAt: [
+                            '$orderTours.country',
+                            0
+                          ]
+                        }
+                      ]
+                    },
+                    else: null
+                  }
+                },
+                image: {
+                  $arrayElemAt: [
+                    {
+                      $arrayElemAt: [
+                        '$orderTours.images',
+                        0
+                      ]
+                    },
+                    0
+                  ]
+                },
+                rating: {
+                  $arrayElemAt: [
+                    '$orderTours.rating.overall',
+                    0
+                  ]
+                },
+                reviews: {
+                  $arrayElemAt: [
+                    '$orderTours.reviews',
+                    0
+                  ]
+                },
+                duration: {
+                  $arrayElemAt: [
+                    '$orderTours.duration',
+                    0
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+
+      // Unwind the savedArticles field
+      {
+        $unwind: {
+          path: '$savedArticles',
+          preserveNullAndEmptyArrays: true
+        }
+      },
+      // Lookup articles from the articles collection
+      {
+        $lookup: {
+          from: 'articles',
+          localField: 'savedArticles',
+          foreignField: '_id',
+          as: 'savedArticles'
+        }
+      },
+      // Unwind the article's savedArticles array
+      {
+        $unwind: {
+          path: '$savedArticles',
+          preserveNullAndEmptyArrays: true
+        }
+      },
+      // Lookup the author of each article
+      {
+        $lookup: {
+          from: 'travelArticlesAuthors',
+          localField: 'savedArticles.author',
+          foreignField: '_id',
+          as: 'authorDetails'
+        }
+      },
+      // Add author details into the savedArticles
+      {
+        $addFields: {
+          'savedArticles.author': { $arrayElemAt: ['$authorDetails', 0] }
+        }
+      },
+// Group the savedArticles again with the fully populated authors
+      {
+        $group: {
+          _id: '$_id',
           email: { $first: '$email' },
           firstName: { $first: '$firstName' },
           lastName: { $first: '$lastName' },
           image: { $first: '$image' },
           password: { $first: '$password' },
           phone: { $first: '$phone' },
+          registeredManually: { $last: '$registeredManually' },
           notifications: { $first: '$notifications' },
-          savedArticles: { $first: '$savedArticles' },
-          registeredManually: { $first: '$registeredManually' },
-          twoFactorAuthEnabled: { $first: '$twoFactorAuthEnabled' },
-          wishlist: { $last: '$wishlist' },
-          orders: {
+          wishlist: { $first: '$wishlist' },
+          orders: { $first: '$orders' },
+          savedArticles: {
             $push: {
-              _id: '$orders._id',
-              date: '$orders.date',
-              totalPrice: '$orders.price',
-              tickets: '$orders.tickets',
-              contactDetails: { $ifNull: ['$orders.contactDetails', null] },
-              extraDetails: '$orders.extraDetails',
-              tour: {
-                _id: { $arrayElemAt: ['$orderTours._id', 0] },
-                title: { $arrayElemAt: ['$orderTours.title', 0] },
-                location: {
-                  $cond: {
-                    if: { $and: [{ $arrayElemAt: ['$orderTours.city', 0] }, { $arrayElemAt: ['$orderTours.country', 0] }] },
-                    then: { $concat: [{ $arrayElemAt: ['$orderTours.city', 0] }, ', ', { $arrayElemAt: ['$orderTours.country', 0] }] },
-                    else: null
-                  }
-                },
-                image: { $arrayElemAt: [{ $arrayElemAt: ['$orderTours.images', 0] }, 0] },
-                rating: { $arrayElemAt: ['$orderTours.rating.overall', 0] },
-                reviews: { $arrayElemAt: ['$orderTours.reviews', 0] },
-                duration: { $arrayElemAt: ['$orderTours.duration', 0] }
+              _id: '$savedArticles._id',
+              title: '$savedArticles.title',
+              type: '$savedArticles.type',
+              image: { $arrayElemAt: ['$savedArticles.images', 0] },
+              createdAt: '$savedArticles.createdAt',
+              author: {
+                $concat: ['$savedArticles.author.firstName', ' ',
+                  '$savedArticles.author.lastName']
               }
             }
           }
@@ -866,25 +1165,56 @@ export async function getUser(filter: {}, options?: {}, unwind: boolean = false)
         $addFields: {
           wishlist: {
             $cond: {
-              if: { $ne: [{ $arrayElemAt: ['$wishlist._id', 0] }, null] },
+              if: {
+                $ne: [
+                  {
+                    $arrayElemAt: ['$wishlist._id', 0]
+                  },
+                  null
+                ]
+              },
               then: '$wishlist',
               else: []
             }
           },
           orders: {
             $cond: {
-              if: { $ne: [{ $arrayElemAt: ['$orders._id', 0] }, null] },
+              if: {
+                $ne: [
+                  {
+                    $arrayElemAt: ['$orders._id', 0]
+                  },
+                  null
+                ]
+              },
               then: '$orders',
               else: []
+            }
+          },
+          savedArticles: {
+            $cond: {
+              if: {
+                $eq: [
+                  {
+                    $arrayElemAt: ['$savedArticles.author', 0]
+                  },
+                  null
+                ]
+              },
+              then: [],
+              else: '$savedArticles'
             }
           }
         }
       }
+
+
     ]).toArray();
 
-    // console.log(`Executing unwoundUser: `, unwoundUser);
+    console.log(`Executing unwoundUser: `, unwoundUser);
     // console.log(`Executing unwoundUser.wishlist: `, unwoundUser[0].wishlist);
     // console.log(`Executing unwoundUser.orders: `, unwoundUser[0].orders);
+
 
     if (!unwoundUser || unwoundUser.length === 0) {
       return {
