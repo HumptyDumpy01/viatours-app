@@ -36,6 +36,13 @@ export default function AccountSettingsSidebar({ activeUrl, notificationsCount }
         <div className="account-settings__line"></div>
       </div>
       <div className="account-settings__sidebar__element">
+        <button onClick={() => router.push(`/account-settings?page=saved-articles`)}
+                className={`btn account-settings__element-title  ${activeUrl === `saved-articles` ? `active` : ``}`}>Saved
+          Articles
+        </button>
+        <div className="account-settings__line"></div>
+      </div>
+      <div className="account-settings__sidebar__element">
         <button onClick={() => router.push(`/account-settings?page=tour-purchases`)}
                 className={`btn account-settings__element-title  ${activeUrl === `tour-purchases` ? `active` : ``}`}>Tour
           Purchases

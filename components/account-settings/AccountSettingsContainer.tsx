@@ -167,7 +167,7 @@ export default function AccountSettingsContainer({ page }: AccountSettingsContai
                       <UserNotificationSkeleton />
                     </div>
                   )}
-                  {page === `wishlist` && (
+                  {(page === `wishlist` || page === `saved-articles`) && (
                     <>
                       <UserWishlistItemsSkeletons />
                     </>
@@ -219,6 +219,11 @@ export default function AccountSettingsContainer({ page }: AccountSettingsContai
                 {page === `tour-purchases` && (
                   <>
                     <UserTourPurchases userOrders={userData.orders} />
+                  </>
+                )}
+                {page === `saved-articles` && (
+                  <>
+                    <h2 className="secondary-heading margin-bottom-big">Saved Articles</h2>
                   </>
                 )}
                 {page === `delete-account` && (

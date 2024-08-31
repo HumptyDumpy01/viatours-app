@@ -131,7 +131,7 @@ export default async function ArticleDescription({ params }: ArticleDescriptionI
       }
     };
   }
-  console.log(`Session: `, sessionVar);
+  // console.log(`Session: `, sessionVar);
 
   return (
     <>
