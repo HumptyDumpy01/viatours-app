@@ -3635,6 +3635,7 @@ export async function getArticleDetails(id: string) {
 }
 
 type ArticleCommentType = {
+  _id: string,
   articleId: string,
   user: string,
   rating: number,
@@ -3868,6 +3869,182 @@ export async function addArticleComment(session: SessionType, formResults: FormR
 
 }
 
+export type handleArticleCommentActionType = {
+  type: `like` | `dislike`,
+  session: SessionType,
+  commentId: string
+}
+
+export async function handleArticleCommentAction(type: `like` | `dislike`, session: SessionType, commentId: string) {
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+
+  const userExists = await db.collection(`users`).findOne({ email: session.user.email });
+
+  if (!userExists) {
+    return {
+      error: true,
+      message: `Error. User does not exist.`
+    };
+  }
+  const comment = await db.collection(`articleComments`).findOne({ _id: new ObjectId(commentId) }) as ArticleCommentType | null;
+
+  if (!comment) {
+    return {
+      error: true,
+      message: `Error. Comment does not exist.`
+    };
+  }
+  ///////////////////////////////////////
+
+  if (type === `like`) {
+
+    /* TODO: if user already liked comment, I should remove like. */
+    if (comment.likes.includes(session.user.email) && !comment.dislikes.includes(session.user.email)) {
+      const response = await db.collection(`articleComments`).updateOne({ _id: new ObjectId(commentId) }, {
+        // @ts-ignore
+        $pull: {
+          likes: session.user.email
+        }
+      });
+      if (!response.acknowledged) {
+        return {
+          error: true,
+          message: `Failed to remove the like.`
+        };
+      } else {
+        return {
+          error: false,
+          message: `The like was successfully removed.`
+        };
+      }
+
+    }
+
+    /* TODO: if user did not like comment but disliked it before, remove the dislike and like it. */
+    if (!comment.likes.includes(session.user.email) && comment.dislikes.includes(session.user.email)) {
+      const response = await db.collection(`articleComments`).updateOne({ _id: new ObjectId(commentId) }, {
+        // @ts-ignore
+        $pull: {
+          dislikes: session.user.email
+        },
+        // @ts-ignore
+        $push: {
+          likes: session.user.email
+        }
+      });
+
+      if (!response.acknowledged) {
+        return {
+          error: true,
+          message: `Failed to remove the dislike and like the comment.`
+        };
+      } else {
+        return {
+          error: false,
+          message: `The dislike was successfully removed and the comment was liked.`
+        };
+      }
+    }
+
+    /* TODO: if user did not like comment yet and did not dislike it, then just like it. */
+    if (!comment.likes.includes(session.user.email) && !comment.dislikes.includes(session.user.email)) {
+      const response = await db.collection(`articleComments`).updateOne({ _id: new ObjectId(commentId) }, {
+        // @ts-ignore
+        $push: {
+          likes: session.user.email
+        }
+      });
+
+      if (!response.acknowledged) {
+        return {
+          error: true,
+          message: `Failed to remove the dislike and like the comment.`
+        };
+      } else {
+        return {
+          error: false,
+          message: `The dislike was successfully removed and the comment was liked.`
+        };
+      }
+
+    }
+  }
+
+  if (type === `dislike`) {
+    /* TODO: if user did dislike comment before, remove dislike */
+    if (comment.dislikes.includes(session.user.email) && !comment.likes.includes(session.user.email)) {
+      const response = await db.collection(`articleComments`).updateOne({ _id: new ObjectId(commentId) }, {
+        // @ts-ignore
+        $pull: {
+          dislikes: session.user.email
+        }
+      });
+      if (!response.acknowledged) {
+        return {
+          error: true,
+          message: `Failed to remove the dislike.`
+        };
+      } else {
+        return {
+          error: false,
+          message: `The dislike was successfully removed.`
+        };
+      }
+    }
+
+    /* TODO: if user did not dislike comment but he already liked it before, remove like and add dislike */
+    if (!comment.dislikes.includes(session.user.email) && comment.likes.includes(session.user.email)) {
+      const response = await db.collection(`articleComments`).updateOne({ _id: new ObjectId(commentId) }, {
+        // @ts-ignore
+        $pull: {
+          likes: session.user.email
+        },
+        // @ts-ignore
+        $push: {
+          dislikes: session.user.email
+        }
+      });
+
+      if (!response.acknowledged) {
+        return {
+          error: true,
+          message: `Failed to remove the like and dislike the comment.`
+        };
+      } else {
+        return {
+          error: false,
+          message: `The like was successfully removed and the comment was disliked.`
+        };
+      }
+    }
+
+    /* TODO: if user did not dislike nor liked comment, just dislike it. */
+    if (!comment.dislikes.includes(session.user.email) && !comment.likes.includes(session.user.email)) {
+      const response = await db.collection(`articleComments`).updateOne({ _id: new ObjectId(commentId) }, {
+        // @ts-ignore
+        $push: {
+          dislikes: session.user.email
+        }
+      });
+
+      if (!response.acknowledged) {
+        return {
+          error: true,
+          message: `Failed to dislike the comment.`
+        };
+      } else {
+        return {
+          error: false,
+          message: `The comment was successfully disliked.`
+        };
+      }
+    }
+  }
+
+  revalidatePath(`/articles`, `layout`);
+
+}
 
 ///////////////////////////////////////
 

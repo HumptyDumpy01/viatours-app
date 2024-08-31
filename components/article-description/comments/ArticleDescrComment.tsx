@@ -5,7 +5,7 @@ import './ArticleDescrCommentsRate.scss';
 import Stars from '@/components/UI/Layout/Stars';
 import { ArticleComment } from '@/app/articles/[id]/page';
 import { SessionType } from '@/components/UI/Comment/Comment';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import CustomizedSnackbar from '@/components/UI/Toast/Snackbar';
 
 type ArticleDescrCommentType = {
@@ -21,10 +21,13 @@ export default function ArticleDescrComment({ comment, session }: ArticleDescrCo
   const [toastSeverity, setToastSeverity] = useState<string>(`info`);
 
   const [userLikedComment, setUserLikedComment] = useState<boolean>(comment.likes.includes(session.user.email));
-  const [userDislikedComment, setuserDislikedComment] = useState<boolean>(comment.dislikes.includes(session.user.email));
+  const [userDislikedComment, setUserDislikedComment] = useState<boolean>(comment.dislikes.includes(session.user.email));
   const [commentLikes, setCommentLikes] = useState<string[] | []>(comment.likes);
   const [commentDislikes, setCommentDislikes] = useState<string[] | []>(comment.dislikes);
   const [userReportedAbuse, setUserReportedAbuse] = useState<boolean>(comment.abuseReports.includes(session.user.email));
+
+  const [disableBtn, setDisableBtn] = useState<boolean>(false);
+  const timer = useRef<NodeJS.Timeout | null>(null);
 
 
   const handleClose = () => {
@@ -53,6 +56,10 @@ export default function ArticleDescrComment({ comment, session }: ArticleDescrCo
   });
 
   async function handleLikeComment(id: string) {
+    setDisableBtn(true);
+    timer.current = setTimeout(function() {
+      setDisableBtn(false);
+    }, 2000);
 
     if (session.user.email === ``) {
       setOpen(true);
@@ -61,7 +68,7 @@ export default function ArticleDescrComment({ comment, session }: ArticleDescrCo
       return;
     }
 
-    /* TODO: if user already liked comment, I should remove like. */
+    /* if user already liked comment, I should remove like. */
     if (userLikedComment && !userDislikedComment) {
       // remove like
       /* INFO: OPTIMISTICALLY UPDATE THE UI */
@@ -69,18 +76,18 @@ export default function ArticleDescrComment({ comment, session }: ArticleDescrCo
       setCommentLikes(commentLikes.filter((like) => like !== session.user.email));
     }
 
-    /* TODO: if user did not like comment but disliked it before, remove the dislike and like it. */
+    /* if user did not like comment but disliked it before, remove the dislike and like it. */
     if (userDislikedComment && !userLikedComment) {
       // remove dislike and like
       /* INFO: OPTIMISTICALLY UPDATE THE UI */
-      setuserDislikedComment(false);
+      setUserDislikedComment(false);
       setCommentDislikes(commentDislikes.filter((dislike) => dislike !== session.user.email));
 
       setUserLikedComment(true);
       setCommentLikes([...commentLikes, session.user.email]);
     }
 
-    /* TODO: if user did not like comment yet and did not dislike it, then just like it. */
+    /*  if user did not like comment yet and did not dislike it, then just like it. */
     if (!userLikedComment && !userDislikedComment) {
       // like
       /* INFO: OPTIMISTICALLY UPDATE THE UI */
@@ -88,10 +95,35 @@ export default function ArticleDescrComment({ comment, session }: ArticleDescrCo
       setCommentLikes([...commentLikes, session.user.email]);
     }
 
+    /* create a flexible, one api route + server function, which would
+    *  rather like, remove like, remove dislike and like actions. */
+    const response = await fetch(`/api/handle-article-comment-action`, {
+      method: `POST`,
+      headers: {
+        'Content-Type': `application/json`
+      },
+      body: JSON.stringify({ type: `like`, session, commentId: id })
+    }).then((response) => response.json()).catch((error) => {
+      console.error(`Failed to perform article comment action`, error);
+    });
+
+    if (response.error) {
+      setOpen(true);
+      setToastLabel(`Failed to perform action over the article comment: ${response.message}`);
+      setToastSeverity(`error`);
+      console.error(`Failed to perform action over the article comment: ${response.message}`);
+    }
+
+
     console.log(`Comment that should be liked: `, id);
   }
 
   async function handleDislikeComment(id: string) {
+    setDisableBtn(true);
+    timer.current = setTimeout(function() {
+      setDisableBtn(false);
+    }, 2000);
+
     if (session.user.email === ``) {
       setOpen(true);
       setToastLabel(`Please login to perform this action!`);
@@ -103,7 +135,7 @@ export default function ArticleDescrComment({ comment, session }: ArticleDescrCo
     if (userDislikedComment && !userLikedComment) {
       // remove dislike
       /* INFO: OPTIMISTICALLY UPDATE THE UI */
-      setuserDislikedComment(false);
+      setUserDislikedComment(false);
       setCommentDislikes(commentDislikes.filter((dislike) => dislike !== session.user.email));
     }
 
@@ -114,7 +146,7 @@ export default function ArticleDescrComment({ comment, session }: ArticleDescrCo
       setUserLikedComment(false);
       setCommentLikes(commentLikes.filter((like) => like !== session.user.email));
 
-      setuserDislikedComment(true);
+      setUserDislikedComment(true);
       setCommentDislikes([...commentDislikes, session.user.email]);
     }
 
@@ -122,11 +154,28 @@ export default function ArticleDescrComment({ comment, session }: ArticleDescrCo
     if (!userDislikedComment && !userLikedComment) {
       // dislike
       /* INFO: OPTIMISTICALLY UPDATE THE UI */
-      setuserDislikedComment(true);
+      setUserDislikedComment(true);
       setCommentDislikes([...commentDislikes, session.user.email]);
     }
 
-    console.log(`Comment that should be disliked: `, id);
+    const response = await fetch(`/api/handle-article-comment-action`, {
+      method: `POST`,
+      headers: {
+        'Content-Type': `application/json`
+      },
+      body: JSON.stringify({ type: `dislike`, session, commentId: id })
+
+    }).then((response) => response.json()).catch((error) => {
+      console.error(`Failed to perform article comment action`, error);
+    });
+
+    if (response.error) {
+      setOpen(true);
+      setToastLabel(`Failed to perform action over the article comment: ${response.message}`);
+      setToastSeverity(`error`);
+      console.error(`Failed to perform action over the article comment: ${response.message}`);
+    }
+
   }
 
   return (
@@ -155,8 +204,8 @@ export default function ArticleDescrComment({ comment, session }: ArticleDescrCo
         <div className="comments__comment__rate-container">
           <div className="flex flex-align-center gap-18px">
 
-            <div onClick={() => handleLikeComment(comment._id.toString())}
-                 className={`comments__comment__rate helpful text-decoration-none ${userLikedComment ? `highlighted` : ``}`}>
+            <button disabled={disableBtn} onClick={() => handleLikeComment(comment._id.toString())}
+                    className={`btn comments__comment__rate helpful text-decoration-none ${disableBtn ? `cursor-not-allowed` : ``} ${userLikedComment ? `highlighted` : ``}`}>
               <div className="comments__comment__rate-helpful flex flex-align-center ">
                 <span className="comments__comment__rate-helpful__count inline-block">{commentLikes.length}</span>
                 <svg className="comments__comment__rate-icon-like" xmlns="http://www.w3.org/2000/svg" width="16"
@@ -168,10 +217,10 @@ export default function ArticleDescrComment({ comment, session }: ArticleDescrCo
                 </svg>
                 <p className="comments__comment__rate-helpful__text">Helpful</p>
               </div>
-            </div>
+            </button>
 
-            <div onClick={() => handleDislikeComment(comment._id.toString())}
-                 className={`comments__comment__rate not-helpful text-decoration-none ${userDislikedComment ? `highlighted` : ``}`}>
+            <button disabled={disableBtn} onClick={() => handleDislikeComment(comment._id.toString())}
+                    className={`${disableBtn ? `cursor-not-allowed` : ``} btn comments__comment__rate not-helpful text-decoration-none ${userDislikedComment ? `highlighted` : ``}`}>
               <div className="comments__comment__rate-helpful flex flex-align-center">
                 <span className="comments__comment__rate-helpful__count inline-block">{commentDislikes.length}</span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 14 13" fill="none">
@@ -181,7 +230,7 @@ export default function ArticleDescrComment({ comment, session }: ArticleDescrCo
                 </svg>
                 <p className="comments__comment__rate-helpful__text">Not Helpful</p>
               </div>
-            </div>
+            </button>
           </div>
           <>
             <div className="comments__comment__date-container">

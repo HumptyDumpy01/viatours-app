@@ -1,6 +1,8 @@
 .comments__comment__rate {
   transition: transform .2s;
   backface-visibility: hidden;
+  font-size: 1.6rem;
+  background-color: var(--clr-white);
 
   svg {
     transition: margin-bottom .2s;

@@ -5,7 +5,11 @@ import { addArticleComment } from '@/lib/mongodb';
 
 export async function POST(request: NextRequest) {
   try {
-    const { session, formResults } = await request.json() as { session: SessionType, formResults: FormResultsType };
+    const { session, formResults, author } = await request.json() as {
+      session: SessionType,
+      formResults: FormResultsType,
+      author: string
+    };
 
     if (!session || !formResults) {
       return NextResponse.json({
@@ -13,24 +17,19 @@ export async function POST(request: NextRequest) {
         message: `Error! Session or formResults are missing`
       });
     }
-    const response = await addArticleComment(session, formResults);
+    const response = await addArticleComment(session, formResults, author);
 
-    /* TEMPORARY */
-    // @ts-ignore
     if (response.error) {
       return NextResponse.json({
         error: true,
-        /* TEMPORARY */
-        // @ts-ignore
         message: `Failed to add an article comment: ${response.message}`
       });
     }
 
     return NextResponse.json({
       error: false,
-      /* TEMPORARY */
       // @ts-ignore
-      insertedId: response.insertedId,
+      insertedId: response.insertedId.toString(),
       message: `Article comment added successfully`
     });
 
