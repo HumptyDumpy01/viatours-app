@@ -177,7 +177,7 @@ export default function ArticleDescrExtraInfo({ author, readTime, session, artic
                       onClick={handleSaveArticleToList}
                       type="button"
                       className={`btn tour-article-descr__extra-info__actions-save background-white ${isArticleInUserList ? `highlighted` : ``}`}>
-                {isArticleInUserList ? `Remove` : `Save`}
+                {isArticleInUserList ? `Remove from Saved` : `Save`}
               </button>
             </>
           )}
