@@ -3899,7 +3899,7 @@ export async function handleArticleCommentAction(type: `like` | `dislike`, sessi
 
   if (type === `like`) {
 
-    /* TODO: if user already liked comment, I should remove like. */
+    /* if user already liked comment, I should remove like. */
     if (comment.likes.includes(session.user.email) && !comment.dislikes.includes(session.user.email)) {
       const response = await db.collection(`articleComments`).updateOne({ _id: new ObjectId(commentId) }, {
         // @ts-ignore
@@ -3921,7 +3921,7 @@ export async function handleArticleCommentAction(type: `like` | `dislike`, sessi
 
     }
 
-    /* TODO: if user did not like comment but disliked it before, remove the dislike and like it. */
+    /* if user did not like comment but disliked it before, remove the dislike and like it. */
     if (!comment.likes.includes(session.user.email) && comment.dislikes.includes(session.user.email)) {
       const response = await db.collection(`articleComments`).updateOne({ _id: new ObjectId(commentId) }, {
         // @ts-ignore
@@ -3947,7 +3947,7 @@ export async function handleArticleCommentAction(type: `like` | `dislike`, sessi
       }
     }
 
-    /* TODO: if user did not like comment yet and did not dislike it, then just like it. */
+    /*  if user did not like comment yet and did not dislike it, then just like it. */
     if (!comment.likes.includes(session.user.email) && !comment.dislikes.includes(session.user.email)) {
       const response = await db.collection(`articleComments`).updateOne({ _id: new ObjectId(commentId) }, {
         // @ts-ignore
@@ -3972,7 +3972,7 @@ export async function handleArticleCommentAction(type: `like` | `dislike`, sessi
   }
 
   if (type === `dislike`) {
-    /* TODO: if user did dislike comment before, remove dislike */
+    /*  if user did dislike comment before, remove dislike */
     if (comment.dislikes.includes(session.user.email) && !comment.likes.includes(session.user.email)) {
       const response = await db.collection(`articleComments`).updateOne({ _id: new ObjectId(commentId) }, {
         // @ts-ignore
@@ -3993,7 +3993,7 @@ export async function handleArticleCommentAction(type: `like` | `dislike`, sessi
       }
     }
 
-    /* TODO: if user did not dislike comment but he already liked it before, remove like and add dislike */
+    /*  if user did not dislike comment but he already liked it before, remove like and add dislike */
     if (!comment.dislikes.includes(session.user.email) && comment.likes.includes(session.user.email)) {
       const response = await db.collection(`articleComments`).updateOne({ _id: new ObjectId(commentId) }, {
         // @ts-ignore
@@ -4019,7 +4019,7 @@ export async function handleArticleCommentAction(type: `like` | `dislike`, sessi
       }
     }
 
-    /* TODO: if user did not dislike nor liked comment, just dislike it. */
+    /* if user did not dislike nor liked comment, just dislike it. */
     if (!comment.dislikes.includes(session.user.email) && !comment.likes.includes(session.user.email)) {
       const response = await db.collection(`articleComments`).updateOne({ _id: new ObjectId(commentId) }, {
         // @ts-ignore
@@ -4075,6 +4075,52 @@ export async function fetchArticlesAuthors(project: {} = {}, limit?: number) {
     message: `Authors fetched successfully.`,
     status: 200
   };
+
+}
+
+///////////////////////////////////////
+
+/* IMPORTANT: ABUSE REPORTS */
+export async function reportArticleCommentAbuse(commentId: string, session: SessionType) {
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+
+  const user = await db.collection(`users`).findOne({ email: session.user.email });
+
+  if (!user) {
+    return {
+      error: true,
+      message: `Error. User does not exist.`
+    };
+  }
+
+  const comment = await db.collection(`articleComments`).findOne({ _id: new ObjectId(commentId) });
+
+  if (!comment) {
+    return {
+      error: true,
+      message: `Error. Comment does not exist.`
+    };
+  }
+
+  const response = await db.collection(`articleComments`).updateOne({ _id: new ObjectId(commentId) }, {
+    $addToSet: {
+      abuseReports: session.user.email
+    }
+  });
+
+  if (response.acknowledged) {
+    return {
+      error: false,
+      message: `The comment was successfully reported.`
+    };
+  } else {
+    return {
+      error: true,
+      message: `Failed to report the comment.`
+    };
+  }
+
 
 }
 

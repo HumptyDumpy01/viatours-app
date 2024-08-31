@@ -131,7 +131,7 @@ export default function ArticleDescrComment({ comment, session }: ArticleDescrCo
       return;
     }
 
-    /* TODO: if user did dislike comment before, remove dislike */
+    /* if user did dislike comment before, remove dislike */
     if (userDislikedComment && !userLikedComment) {
       // remove dislike
       /* INFO: OPTIMISTICALLY UPDATE THE UI */
@@ -139,7 +139,7 @@ export default function ArticleDescrComment({ comment, session }: ArticleDescrCo
       setCommentDislikes(commentDislikes.filter((dislike) => dislike !== session.user.email));
     }
 
-    /* TODO: if user did not dislike comment but he already liked it before, remove like and add dislike */
+    /* if the user did not dislike comment but he already liked it before, remove like and add dislike */
     if (userLikedComment && !userDislikedComment) {
       // remove like and add dislike
       /* INFO: OPTIMISTICALLY UPDATE THE UI */
@@ -150,7 +150,7 @@ export default function ArticleDescrComment({ comment, session }: ArticleDescrCo
       setCommentDislikes([...commentDislikes, session.user.email]);
     }
 
-    /* TODO: if user did not dislike nor liked comment, just dislike it. */
+    /* if user did not dislike nor liked comment, just dislike it. */
     if (!userDislikedComment && !userLikedComment) {
       // dislike
       /* INFO: OPTIMISTICALLY UPDATE THE UI */
@@ -174,6 +174,29 @@ export default function ArticleDescrComment({ comment, session }: ArticleDescrCo
       setToastLabel(`Failed to perform action over the article comment: ${response.message}`);
       setToastSeverity(`error`);
       console.error(`Failed to perform action over the article comment: ${response.message}`);
+    }
+
+  }
+
+  async function handleReportAbuse() {
+    /* INFO: OPTIMISTICALLY BLOCK THE BUTTON */
+    setUserReportedAbuse(true);
+    /* create a versatile api route to report the abuse. Also, use addToSet to prevent the same user adding his email multiple times */
+    const response = await fetch(`/api/report-article-comment-abuse`, {
+      method: `POST`,
+      headers: {
+        'Content-Type': `application/json`
+      },
+      body: JSON.stringify({ commentId: comment._id, session })
+    }).then((response) => response.json()).catch((error) => {
+      console.error(`Failed to report the article comment abuse`, error);
+    });
+
+    if (response.error) {
+      setOpen(true);
+      setToastLabel(`Failed to report the article comment abuse: ${response.message}`);
+      setToastSeverity(`error`);
+      console.error(`Failed to report the article comment abuse: ${response.message}`);
     }
 
   }
@@ -234,14 +257,19 @@ export default function ArticleDescrComment({ comment, session }: ArticleDescrCo
           </div>
           <>
             <div className="comments__comment__date-container">
-              {(session.user.email.trim() !== `` || (session.user.email && userReportedAbuse)) && (
-                <div className="comments__comment__report-abuse flex flex-align-center gap-sm">
+              {session.user.email.trim() !== `` && (
+                <div
+                  className={`comments__comment__report-abuse flex flex-align-center gap-sm ${userReportedAbuse ? `cursor-not-allowed` : ``}`}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 11 11" fill="none">
                     <path className="comments__comment__report-abuse__path"
                           d="M5.50024 8.25036C5.65608 8.25036 5.78681 8.19756 5.89241 8.09196C5.99801 7.98635 6.05063 7.85581 6.05027 7.70034C6.0499 7.54487 5.9971 7.41433 5.89186 7.30872C5.78662 7.20312 5.65608 7.15032 5.50024 7.15032C5.3444 7.15032 5.21386 7.20312 5.10863 7.30872C5.00339 7.41433 4.95059 7.54487 4.95022 7.70034C4.94985 7.85581 5.00265 7.98654 5.10863 8.09251C5.2146 8.19848 5.34514 8.2511 5.50024 8.25036ZM4.95022 6.05027H6.05027V2.75012H4.95022V6.05027ZM5.50024 11.0005C4.73938 11.0005 4.02434 10.856 3.35515 10.5671C2.68595 10.2781 2.10384 9.88632 1.60882 9.39166C1.1138 8.89701 0.721999 8.3149 0.43342 7.64534C0.14484 6.97577 0.000367379 6.26074 6.96233e-07 5.50024C-0.000365987 4.73974 0.144107 4.02471 0.43342 3.35515C0.722733 2.68559 1.11453 2.10348 1.60882 1.60882C2.10311 1.11417 2.68522 0.722365 3.35515 0.433419C4.02508 0.144473 4.74011 0 5.50024 0C6.26038 0 6.97541 0.144473 7.64534 0.433419C8.31527 0.722365 8.89738 1.11417 9.39166 1.60882C9.88595 2.10348 10.2779 2.68559 10.5676 3.35515C10.8573 4.02471 11.0016 4.73974 11.0005 5.50024C10.9994 6.26074 10.8549 6.97577 10.5671 7.64534C10.2792 8.3149 9.88742 8.89701 9.39166 9.39166C8.89591 9.88632 8.3138 10.2783 7.64534 10.5676C6.97687 10.8569 6.26184 11.0012 5.50024 11.0005Z"
-                          fill="#EB2B2B" />
+                          fill={`${!userReportedAbuse ? `#EB2B2B` : `#989898`}`} />
                   </svg>
-                  <button className="btn comments__comment__report-abuse__text">Report abuse</button>
+                  <button disabled={userReportedAbuse} onClick={handleReportAbuse}
+                          className={`btn comments__comment__report-abuse__text 
+                          ${userReportedAbuse ? `comments__comment__report-abuse__text-reported font-weight-bold cursor-not-allowed` : ``}`}>
+                    {userReportedAbuse ? `Reported` : `Report Abuse`}
+                  </button>
                 </div>
               )}
               <div className="comments__comment__date">{formattedDate}</div>

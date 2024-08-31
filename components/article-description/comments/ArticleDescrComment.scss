@@ -101,6 +101,10 @@
       font-size: 1.2648rem;
       line-height: 2.813rem; /* 234.417% */
       cursor: pointer;
+
+      &-reported {
+        color: var(--clr-grey);
+      }
     }
   }
 }
