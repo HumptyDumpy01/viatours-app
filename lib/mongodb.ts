@@ -4120,20 +4120,119 @@ export async function reportArticleCommentAbuse(commentId: string, session: Sess
       message: `Failed to report the comment.`
     };
   }
-
-
 }
 
-export async function isUserHasArticleInList(session: SessionType, articleId: string) {
+
+///////////////////////////////////////
+
+/* IMPORTANT: ARTICLE DESCRIPTION ACTIONS */
+
+export async function isUserHaveArticleInList(session: SessionType, articleId: string) {
   const client = await clientPromise;
   const db = client.db(`viatoursdb`);
 
-  const user = await db.collection(`users`).findOne({ email: session.user.email });
+  const user = await db.collection(`users`).findOne({ email: session.user.email }) as UserType | null;
 
-  if (user) {
+  if (!user) {
+    return {
+      error: true,
+      message: `Error. User does not exist.`
+    };
+  }
+
+  const article = await db.collection(`articles`).findOne({ _id: new ObjectId(articleId) });
+
+  if (!article) {
+    return {
+      error: true,
+      message: `Error. Article does not exist.`
+    };
+  }
+
+  const articleObjectId = new ObjectId(articleId);
+  // console.log(`Executing articleId`, articleObjectId);
+
+  // @ts-ignore
+  if (user.savedArticles.some((id: ObjectId) => id.equals(articleObjectId))) {
+    return {
+      error: false,
+      status: true,
+      message: `User has this article in the list.`
+    };
+  } else {
+    return {
+      error: false,
+      status: false,
+      message: `User does not have this article in the list.`
+    };
+  }
+}
+
+export async function handleAddOrRemoveArticleFromList(type: `add` | `remove`, session: SessionType, articleId: string) {
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+
+  const user = await db.collection(`users`).findOne({ email: session.user.email }) as UserType | null;
+
+  if (!user) {
+    return {
+      error: true,
+      message: `Error. User does not exist.`
+    };
+  }
+
+  const article = await db.collection(`articles`).findOne({ _id: new ObjectId(articleId) });
+
+  if (!article) {
+    return {
+      error: true,
+      message: `Error. Article does not exist.`
+    };
+  }
+
+  if (type === `add`) {
+    /* TODO: Use "$addToSet" operator to push articleId to user's savedArticles array. */
+    const response = await db.collection(`users`).updateOne({ email: session.user.email }, {
+      // @ts-ignore
+      $addToSet: {
+        savedArticles: new ObjectId(articleId)
+      }
+    });
+    if (!response.acknowledged) {
+      return {
+        error: true,
+        message: `Failed to add article to the list.`
+      };
+    } else {
+      return {
+        error: false,
+        message: `Article added to the list.`
+      };
+    }
+  }
+
+  if (type === `remove`) {
+    /* TODO: remove article from user's savedArticles array. */
+    const response = await db.collection(`users`).updateOne({ email: session.user.email }, {
+      // @ts-ignore
+      $pull: {
+        savedArticles: new ObjectId(articleId)
+      }
+    });
+    if (!response.acknowledged) {
+      return {
+        error: true,
+        message: `Failed to remove article from the list.`
+      };
+
+    } else {
+      return {
+        error: false,
+        message: `Article removed from the list.`
+      };
+    }
   }
 
 }
 
 ///////////////////////////////////////
-

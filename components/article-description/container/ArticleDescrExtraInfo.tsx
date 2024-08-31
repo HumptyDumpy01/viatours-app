@@ -4,10 +4,11 @@ import Link from 'next/link';
 import { ArticleAuthorType } from '@/app/articles/[id]/page';
 import watermarkImage from '@/assets/images/viatours-watermark-logo.svg';
 import { CldImage } from 'next-cloudinary';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { SessionType } from '@/components/UI/Comment/Comment';
 import { SnackbarCloseReason } from '@mui/material/Snackbar/useSnackbar.types';
 import CustomizedSnackbar from '@/components/UI/Toast/Snackbar';
+import { Skeleton } from '@mui/material';
 
 type ArticleDescrExtraInfoType = {
   author: ArticleAuthorType;
@@ -22,11 +23,63 @@ export default function ArticleDescrExtraInfo({ author, readTime, session, artic
   const [open, setOpen] = useState<boolean>(false);
   const [toastLabel, setToastLabel] = useState<string>(`Hello there!`);
   const [toastSeverity, setToastSeverity] = useState<string>(`info`);
-  const [articleInUserList, setArticleInUserList] = useState();
+
+  const [isArticleInUserList, setIsArticleInUserList] = useState<boolean>();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [disableBtn, setDisableBtn] = useState<boolean>(false);
+
+  const timer = useRef<NodeJS.Timeout | null>(null);
+
+  async function isUserAddedArticle() {
+    const response = await fetch(`/api/is-user-have-article-in-list`, {
+      method: `POST`,
+      headers: {
+        'Content-Type': `application/json`
+      },
+      body: JSON.stringify({ session, articleId })
+    }).then((response) => {
+      setIsLoading(false);
+      return response.json();
+    }).catch((error) => {
+      console.error(`Error while fetching the data: `, error);
+    });
+
+    if (response.error) {
+      console.error(`Failed to fetch article`);
+      return;
+    }
+    setIsArticleInUserList(response.status);
+
+  }
+
+  async function handleArticleSaveOrRemoveAction(type: `add` | `remove`) {
+
+    /* TODO: Create an API endpoint who would delete article from user wishlist. */
+    const response = await fetch(`/api/handle-add-or-remove-article-from-list`, {
+      method: `POST`,
+      headers: {
+        'Content-Type': `application/json`
+      },
+      body: JSON.stringify({ type, session, articleId })
+
+    }).then((response) => response.json()).catch((error) => {
+      console.error(`Error while fetching the data: `, error);
+    });
+
+    if (response.error) {
+      setToastLabel(`Failed to ${type} the article from the list: ${response.message}`);
+      setToastSeverity(`error`);
+      setOpen(true);
+
+      return;
+    }
+  }
 
   useEffect(() => {
-    /* TODO: Create an api endpoint that would return true or false based on
-    *   whether the user has articleId in his savedArticles Array or not */
+    /* Create an api endpoint that would return true or false based on
+    *  whether the user has articleId in his savedArticles Array or not */
+    isUserAddedArticle();
+
   }, []);
 
   const handleClose = (
@@ -42,7 +95,11 @@ export default function ArticleDescrExtraInfo({ author, readTime, session, artic
   // capitalize the first letter of the author's role
   const capitalizedRole = author.employment.charAt(0).toUpperCase() + author.employment.slice(1);
 
-  function handleSaveArticleToList() {
+  async function handleSaveArticleToList() {
+    if (isLoading) {
+      return;
+    }
+
     // means the user is not logged in
     if (session.user.email === ``) {
       setToastLabel(`Please sign in to add the article to savedArticles list!`);
@@ -50,8 +107,37 @@ export default function ArticleDescrExtraInfo({ author, readTime, session, artic
       setOpen(true);
       return;
     }
-    /* TODO: ADD OR REMOVE THIS ARTICLE FROM USER'S SAVED_ARTICLES LIST BY USING API ENDPOINT */
-    console.log(`Article saved to the list!`);
+
+    /* ADD OR REMOVE THIS ARTICLE FROM USER'S SAVED_ARTICLES LIST BY USING API ENDPOINT */
+
+    if (isArticleInUserList) {
+      setDisableBtn(true);
+      /* INFO: Optimistically update the UI */
+      setIsArticleInUserList(false);
+
+      await handleArticleSaveOrRemoveAction(`remove`).catch((error) => {
+        console.error(`Error while fetching the data: `, error);
+      });
+
+      timer.current = setTimeout(function() {
+        setDisableBtn(false);
+      }, 2000);
+
+    }
+
+    if (!isArticleInUserList) {
+      setDisableBtn(true);
+      /* INFO: Optimistically update the UI */
+      setIsArticleInUserList(true);
+
+      await handleArticleSaveOrRemoveAction(`add`).catch((error) => {
+        console.error(`Error while fetching the data: `, error);
+      });
+
+      timer.current = setTimeout(function() {
+        setDisableBtn(false);
+      }, 2000);
+    }
 
   }
 
@@ -80,9 +166,21 @@ export default function ArticleDescrExtraInfo({ author, readTime, session, artic
           <p className="tour-article-descr__extra-info__actions-min-read">{readTime} read</p>
           <button type="button" className="btn tour-article-descr__extra-info__actions-share background-white">Share
           </button>
-          <button onClick={handleSaveArticleToList} type="button"
-                  className="btn tour-article-descr__extra-info__actions-save background-white">Save
-          </button>
+          {isLoading && (
+            <>
+              <Skeleton variant="rounded" width={60} height={10} />
+            </>
+          )}
+          {!isLoading && (
+            <>
+              <button disabled={disableBtn}
+                      onClick={handleSaveArticleToList}
+                      type="button"
+                      className={`btn tour-article-descr__extra-info__actions-save background-white ${isArticleInUserList ? `highlighted` : ``}`}>
+                {isArticleInUserList ? `Remove` : `Save`}
+              </button>
+            </>
+          )}
         </div>
       </div>
     </>
