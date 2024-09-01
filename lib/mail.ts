@@ -6,11 +6,11 @@ const DOMAIN = process.env.NEXT_PUBLIC_API_URL;
 
 export async function sendVerificationCode(email: string, token: string, type:
   `emailVerification` | `twoFactorAuth` |
-  `resetPassword` | `registerEmailVerification` | `deleteAccount`) {
+  `resetPassword` | `registerEmailVerification` | `deleteAccount` | `orderDetails`) {
 
   if (type === `emailVerification`) {
     const response = await resend.emails.send({
-      from: 'onboarding@viatours.net',
+      from: 'Viatours@viatours.net',
       to: email,
       subject: 'Changing Viatours Email Verification',
       html: `
@@ -26,7 +26,7 @@ export async function sendVerificationCode(email: string, token: string, type:
   }
   if (type === `registerEmailVerification`) {
     const response = await resend.emails.send({
-      from: 'onboarding@viatours.net',
+      from: 'Viatours@viatours.net',
       to: email,
       subject: 'Viatours Email Verification',
       html: `
@@ -42,7 +42,7 @@ export async function sendVerificationCode(email: string, token: string, type:
   }
   if (type === `twoFactorAuth`) {
     const response = await resend.emails.send({
-      from: 'onboarding@viatours.net',
+      from: 'Viatours@viatours.net',
       to: email,
       subject: 'Viatours Two-factor Authentication',
       html: `
@@ -58,7 +58,7 @@ export async function sendVerificationCode(email: string, token: string, type:
   }
   if (type === `resetPassword`) {
     const response = await resend.emails.send({
-      from: 'onboarding@viatours.net',
+      from: 'Viatours@viatours.net',
       to: email,
       subject: 'Viatours Reset Password',
       html: `
@@ -77,7 +77,7 @@ export async function sendVerificationCode(email: string, token: string, type:
 
   if (type === `deleteAccount`) {
     const response = await resend.emails.send({
-      from: 'onboarding@viatours.net',
+      from: 'Viatours@viatours.net',
       to: email,
       subject: 'Viatours Delete Account',
       html: `
@@ -90,6 +90,8 @@ export async function sendVerificationCode(email: string, token: string, type:
       </div>
     `
     });
+  }
+  if (type === `orderDetails`) {
   }
 
 }

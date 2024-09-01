@@ -209,7 +209,7 @@ export default function LoginSecondCol({ message }: LoginSecondColType) {
             </>
           )}
         </form>
-        <form className={`sign-in__second-col-form flex flex-direction-column`}>
+        <div className={`sign-in__second-col-form flex flex-direction-column`}>
           {loginStages === 2 && (
             <>
               <div>
@@ -224,12 +224,13 @@ export default function LoginSecondCol({ message }: LoginSecondColType) {
               <button
                 onClick={verifyUserTwoAuthToken}
                 disabled={isPending}
+                type={`button`}
                 className={`btn btn--book-now ${isPending ? `sign-in__submit-button-pending` : ``}`}>
                 {isPending ? `Processing...` : `Verify`}
               </button>
             </>
           )}
-        </form>
+        </div>
         <p className="sign-in__second-col-text-login-with text-align-center">Or login with</p>
         <GoogleBtn />
         <GithubBtn />
