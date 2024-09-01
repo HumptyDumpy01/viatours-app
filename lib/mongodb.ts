@@ -709,7 +709,7 @@ export async function getUser(filter: {}, options?: {}, unwind: boolean = false)
     const user = await db.collection(`users`).aggregate([{ $match: filter }, { $project: options }]).toArray();
 
 
-    console.log(`Executing user: `, user);
+    // console.log(`Executing user: `, user);
 
     return JSON.parse(JSON.stringify(user));
   } else {
@@ -780,6 +780,9 @@ export async function getUser(filter: {}, options?: {}, unwind: boolean = false)
           },
           registeredManually: {
             $first: '$registeredManually'
+          },
+          twoFactorAuthEnabled: {
+            $first: '$twoFactorAuthEnabled'
           },
           notifications: {
             $first: '$notifications'
@@ -897,6 +900,9 @@ export async function getUser(filter: {}, options?: {}, unwind: boolean = false)
           registeredManually: {
             $last: '$registeredManually'
           },
+          twoFactorAuthEnabled: {
+            $last: '$twoFactorAuthEnabled'
+          },
           notifications: {
             $first: '$notifications'
           },
@@ -985,6 +991,9 @@ export async function getUser(filter: {}, options?: {}, unwind: boolean = false)
           },
           registeredManually: {
             $last: '$registeredManually'
+          },
+          twoFactorAuthEnabled: {
+            $last: '$twoFactorAuthEnabled'
           },
           notifications: {
             $first: '$notifications'
@@ -1141,6 +1150,9 @@ export async function getUser(filter: {}, options?: {}, unwind: boolean = false)
           phone: { $first: '$phone' },
           registeredManually: { $last: '$registeredManually' },
           notifications: { $first: '$notifications' },
+          twoFactorAuthEnabled: {
+            $last: '$twoFactorAuthEnabled'
+          },
           wishlist: { $first: '$wishlist' },
           orders: { $first: '$orders' },
           savedArticles: {

@@ -24,7 +24,6 @@ export default function NavigationResponsive(/*{  }: NavigationBurgerInterface*/
 
   const { data: session, status } = useSession();
 
-
   useEffect(() => {
     // @ts-ignore
     if (session && status !== `loading`) {

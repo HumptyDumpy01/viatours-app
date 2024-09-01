@@ -133,6 +133,7 @@ export default function AccountSettingsContainer({ page }: AccountSettingsContai
         setIsLoading(false);
 
         setUserData(data.result[0]);
+        console.log(`User data fetched: `, data.result[0]);
 
       }).catch((err) => {
         setIsLoading(false);
