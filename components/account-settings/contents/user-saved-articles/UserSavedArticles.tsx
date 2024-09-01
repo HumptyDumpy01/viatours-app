@@ -125,7 +125,10 @@ export default function UserSavedArticles({ userSavedArticles }: UserSavedArticl
           )}
         </div>
 
-        <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage}
+        <Pagination scrollToElem={{
+          className: `.account-settings__content__title`,
+          offset: 100
+        }} currentPage={currentPage} setCurrentPage={setCurrentPage}
                     totalItems={filteredSavedArticlesItems.length}
                     itemsPerPage={savedArticlesItemsPerPage} />
       </motion.div>
