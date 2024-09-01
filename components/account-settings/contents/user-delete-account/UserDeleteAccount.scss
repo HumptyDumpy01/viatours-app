@@ -22,6 +22,12 @@
       font-weight: 700;
     }
 
+    &-active-url {
+      transition: all .3s;
+      border-top: 2px solid var(--clr-primary) !important;
+      border-bottom: 2px solid var(--clr-primary) !important;
+    }
+
     @media only screen and (max-width: 54.4375em) {
       height: auto;
     }

@@ -15,14 +15,14 @@ export default function AccountSettingsSidebar({ activeUrl, notificationsCount }
     <div className="account-settings__sidebar">
       <div className="account-settings__sidebar__element">
         <button onClick={() => router.push(`/account-settings?page=profile`)}
-                className={`btn account-settings__element-title my-profile ${activeUrl === `profile` ? `active` : ``}`}>My
+                className={`btn account-settings__element-title my-profile ${activeUrl === `profile` ? `account-settings-active-url` : ``}`}>My
           Profile
         </button>
         <div className="account-settings__line"></div>
       </div>
       <div className="account-settings__sidebar__element fix-alpha-badge">
         <button onClick={() => router.push(`/account-settings?page=notifications`)}
-                className={`btn account-settings__element-title notifications  ${activeUrl === `notifications` ? `active` : ``}`}>Notifications
+                className={`btn account-settings__element-title notifications  ${activeUrl === `notifications` ? `account-settings-active-url` : ``}`}>Notifications
         </button>
         <div className="account-settings__line"></div>
         <div className="alpha-badge">
@@ -31,20 +31,20 @@ export default function AccountSettingsSidebar({ activeUrl, notificationsCount }
       </div>
       <div className="account-settings__sidebar__element">
         <button onClick={() => router.push(`/account-settings?page=wishlist`)}
-                className={`btn account-settings__element-title  ${activeUrl === `wishlist` ? `active` : ``}`}>Wishlist
+                className={`btn account-settings__element-title  ${activeUrl === `wishlist` ? `account-settings-active-url` : ``}`}>Wishlist
         </button>
         <div className="account-settings__line"></div>
       </div>
       <div className="account-settings__sidebar__element">
         <button onClick={() => router.push(`/account-settings?page=saved-articles`)}
-                className={`btn account-settings__element-title  ${activeUrl === `saved-articles` ? `active` : ``}`}>Saved
+                className={`btn account-settings__element-title  ${activeUrl === `saved-articles` ? `account-settings-active-url` : ``}`}>Saved
           Articles
         </button>
         <div className="account-settings__line"></div>
       </div>
       <div className="account-settings__sidebar__element">
         <button onClick={() => router.push(`/account-settings?page=tour-purchases`)}
-                className={`btn account-settings__element-title  ${activeUrl === `tour-purchases` ? `active` : ``}`}>Tour
+                className={`btn account-settings__element-title  ${activeUrl === `tour-purchases` ? `account-settings-active-url` : ``}`}>Tour
           Purchases
         </button>
         <div className="account-settings__line"></div>
