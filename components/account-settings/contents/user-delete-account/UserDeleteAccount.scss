@@ -4,6 +4,9 @@
   padding-right: 0;
   background-color: #FCFCFC;
 
+  @media only screen and (max-width: 32.3125em) {
+    padding-left: .5rem;
+  }
 
   @media only screen and (max-width: 54.3125em) {
     background-color: var(--clr-white);

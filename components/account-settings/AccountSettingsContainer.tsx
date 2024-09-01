@@ -21,6 +21,9 @@ import UserTourPurchases from '@/components/account-settings/contents/user-tour-
 import UserTourPurchasesSkeleton
   from '@/components/account-settings/skeletons/tour-purchases/UserTourPurchasesSkeleton';
 import UserDeleteAccount from '@/components/account-settings/contents/user-delete-account/UserDeleteAccount';
+import UserSavedArticles, {
+  savedArticlesType
+} from '@/components/account-settings/contents/user-saved-articles/UserSavedArticles';
 
 type AccountSettingsContainerType = {
   page: 'profile' | `notifications` | `wishlist` | `tour-purchases` | `delete-account` | `saved-articles`;
@@ -96,7 +99,7 @@ export type UnwoundUserData = {
   notifications: UserNotificationsType[] | [];
   wishlist: UserWishlistItemType[] | [];
   // When working with saved articles, make sure to change the type to the correct one.
-  savedArticles: string[] | [];
+  savedArticles: savedArticlesType[] | [];
   orders: UserOrdersType[] | [];
 }
 
@@ -223,7 +226,7 @@ export default function AccountSettingsContainer({ page }: AccountSettingsContai
                 )}
                 {page === `saved-articles` && (
                   <>
-                    <h2 className="secondary-heading margin-bottom-big">Saved Articles</h2>
+                    <UserSavedArticles userSavedArticles={userData.savedArticles} />
                   </>
                 )}
                 {page === `delete-account` && (

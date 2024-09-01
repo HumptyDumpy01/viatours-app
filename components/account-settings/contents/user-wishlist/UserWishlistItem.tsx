@@ -86,7 +86,7 @@ export default function
               </svg>
               <span className="inline-block wishlist-items__info-location-span">{location}</span>
             </div>
-            <h2 className="wishlist-items__info-title">{title}</h2>
+            <h2 className="wishlist-items__info-title text-decoration-underline">{title}</h2>
             <div className="wishlist-items__info-rating flex flex-align-center">
               <Stars rating={Number(rating.toFixed(0))} />
               <span className="inline-block wishlist-items__info-rating-rate">{rating.toFixed(1)}<span

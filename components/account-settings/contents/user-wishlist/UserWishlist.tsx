@@ -56,7 +56,7 @@ export default function UserWishlist({ userEmail, wishlistItems }: UserWishlistT
     if (responseData.error) {
       setFilteredWishlistItems(copiedFilteredWishlistItems);
       setUserWishlistItems(copiedWishlistItems);
-      console.error(`Failed to delete all notifications.`);
+      console.error(`Failed to delete all wishlist items.`);
       return;
     }
   }

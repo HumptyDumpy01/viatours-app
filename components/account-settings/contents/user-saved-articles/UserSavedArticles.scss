@@ -1,0 +1,149 @@
+.account-settings__content {
+  &__heading {
+    &-container {
+      margin-bottom: 5.7rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      @media only screen and (max-width: 27.3125em) {
+        flex-direction: column;
+        gap: 1.5rem;
+        align-items: flex-start;
+      }
+    }
+  }
+
+  .sort-by {
+    &-container {
+    }
+
+    &__text {
+      font-size: 1.4rem;
+      color: var(--clr-blue-lighter);
+      @media only screen and (max-width: 57.9375em) {
+        font-size: 1.6rem;
+      }
+    }
+  }
+
+  #sort-by {
+    border: none;
+    background-color: #fff;
+    font-size: 1.5rem;
+
+    @media only screen and (max-width: 57.9375em) {
+      font-size: 1.7rem;
+    }
+  }
+
+  &__card {
+    transition: all .3s;
+    @media only screen and (max-width: 30em) {
+      justify-self: center;
+    }
+
+    position: relative;
+
+    &__text {
+      color: var(--clr-blue-lighter);
+      font-size: 1.5754rem;
+      font-weight: 500;
+      line-height: 2.1469rem;
+    }
+
+    .card-badge {
+      transition: all .3s;
+      position: absolute;
+      top: 1.2rem;
+      left: 1.2rem;
+      border-radius: 1000rem;
+      font-size: 1.5rem;
+      font-weight: 500;
+      padding: .7156rem 1.1768rem .7355rem 1.1927rem;
+      color: var(--clr-blue-lighter);
+      background-color: var(--clr-white);
+
+
+    }
+
+    .delete-article-icon {
+      position: absolute;
+      top: 1.2rem;
+      right: 1.2rem;
+      font-size: 1.5rem;
+      color: var(--clr-blue-lighter);
+      cursor: pointer;
+    }
+
+    &-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2.3rem;
+      @media only screen and (max-width: 37.5em) {
+        grid-template-columns: 1fr;
+        justify-items: center;
+      }
+    }
+
+
+    &__img {
+      width: 100%;
+      height: 25.2rem;
+      object-fit: cover;
+      border-radius: 12px;
+      @media only screen and (max-width: 46.6875em) {
+        height: 20.2rem;
+      }
+      @media only screen and (max-width: 37.5em) {
+        height: 29.2rem;
+        width: 49rem;
+      }
+
+      margin-bottom: 2rem;
+
+      &-container {
+        overflow: hidden;
+        border-radius: 12px;
+      }
+    }
+
+    &-date {
+      color: var(--clr-blue-lighter);
+      font-size: 1.3045rem;
+      padding-right: 1rem;
+      border-right: 1px solid var(--clr-grey-3);
+      margin-right: 1rem;
+
+      &-container {
+        margin-bottom: 1.158rem;
+      }
+
+      &__author {
+        color: var(--clr-blue-lighter);
+        font-size: 1.3045rem;
+      }
+
+      &__text {
+      }
+    }
+
+    &:hover, &:active {
+      .card-badge {
+        background-color: var(--clr-primary);
+        color: var(--clr-white);
+      }
+
+      transform: translateY(-.5rem);
+
+      .account-settings__content__card__img {
+      }
+    }
+  }
+}
+
+.wishlist-items__empty {
+  font-size: 1.6rem;
+  color: var(--clr-blue-lighter);
+  margin-top: 2rem;
+  gap: 1rem;
+}
