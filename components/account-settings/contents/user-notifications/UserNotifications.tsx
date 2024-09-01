@@ -20,7 +20,10 @@ type UserNotificationsTypeComponent = {
 export default function UserNotifications({ notifications, userEmail }: UserNotificationsTypeComponent) {
   const notificationsPerPage = 5;
   const [currentPage, setCurrentPage] = useState(1);
-  const [userNotifications, setUserNotifications] = useState<UserNotificationsType[]>(notifications);
+
+  const sortedNotificationsByDate = notifications.sort((a, b) => (new Date(a.addedAt) > new Date(b.addedAt)) ? -1 : 1);
+
+  const [userNotifications, setUserNotifications] = useState<UserNotificationsType[]>(sortedNotificationsByDate);
   const [filteredNotifications, setFilteredNotifications] = useState<UserNotificationsType[]>(notifications);
   const [originalNotifications] = useState<UserNotificationsType[]>([...notifications]);
   const [userSignedUpToNewsletter, setUserSignedUpToNewsletter] = useState<boolean | undefined>(undefined);

@@ -3,6 +3,7 @@
 /* IMPORTANT: DO NOT MODIFY */
 
 // IMPORTANT: FOR PRODUCTION
+/*
 
 import TourDescriptionSection from '@/components/tourDescription/TourDescription';
 import { notFound } from 'next/navigation';
@@ -88,7 +89,7 @@ export default async function TourDescription({ params }: TourDescriptionInterfa
 
   return (
     <>
-      {/*@ts-ignore*/}
+      {/!*@ts-ignore*!/}
       <TourDescriptionSection userName={sessionVar.user.name} userEmail={sessionVar.user.email} session={sessionVar}
                               similarTours={similarTours}
                               tour={currTour} params={params} />
@@ -96,6 +97,7 @@ export default async function TourDescription({ params }: TourDescriptionInterfa
   );
 }
 
+*/
 
 /* INFO: the reason why I do have two versions is that in build bundle I change the way how
 *   I parse the data by using separate fetch apis. It is not possible to do so without env variable
@@ -104,7 +106,6 @@ export default async function TourDescription({ params }: TourDescriptionInterfa
 
 /* IMPORTANT: FOR DEVELOPMENT */
 
-/*
 
 import TourDescriptionSection from '@/components/tourDescription/TourDescription';
 import { notFound } from 'next/navigation';
@@ -182,7 +183,7 @@ export default async function TourDescription({ params }: TourDescriptionInterfa
 
   return (
     <>
-      {/!*@ts-ignore*!/}
+      {/*@ts-ignore*/}
       <TourDescriptionSection session={sessionVar} userEmail={sessionVar.user.email} userName={sessionVar.user.name}
                               similarTours={similarTours}
                               tour={currTour}
@@ -190,6 +191,5 @@ export default async function TourDescription({ params }: TourDescriptionInterfa
     </>
   );
 }
-*/
 
 
