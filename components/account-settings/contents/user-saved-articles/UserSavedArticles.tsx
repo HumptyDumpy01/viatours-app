@@ -2,13 +2,14 @@
 
 import CustomizedSnackbar from '@/components/UI/Toast/Snackbar';
 import { AnimatePresence, motion } from 'framer-motion';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SnackbarCloseReason } from '@mui/material/Snackbar/useSnackbar.types';
 import Popup from '@/components/UI/Popup/Popup';
 import SortBy from '@/components/UI/SortBy/SortBy';
 import './UserSavedArticles.scss';
 import UserSavedArticlesCards from '@/components/account-settings/contents/user-saved-articles/UserSavedArticlesCards';
 import UserSavedArticlesCard from '@/components/account-settings/contents/user-saved-articles/UserSavedArticlesCard';
+import Pagination from '@/components/UI/Pagnation/Pagination';
 
 export type savedArticlesType = {
 
@@ -27,6 +28,14 @@ export type UserSavedArticlesType = {
 
 export default function UserSavedArticles({ userSavedArticles }: UserSavedArticlesType) {
 
+  const [filteredSavedArticlesItems, setFilteredWishlistItems] = useState<savedArticlesType[]>(userSavedArticles);
+
+  const savedArticlesItemsPerPage = 4;
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const indexOfLastArticleItem = currentPage * savedArticlesItemsPerPage;
+  const indexOfFirstArticle = indexOfLastArticleItem - savedArticlesItemsPerPage;
+
   const [open, setOpen] = useState(false);
   const [toastLabel, setToastLabel] = useState<string>(`Hello there!`);
   const [toastSeverity, setToastSeverity] = useState<string>(`info`);
@@ -34,6 +43,13 @@ export default function UserSavedArticles({ userSavedArticles }: UserSavedArticl
   const [savedArticlesItems, setSavedArticlesItems] = useState<[] | savedArticlesType[]>(userSavedArticles);
 
 
+  useEffect(() => {
+    if (userSavedArticles.length === 0) {
+      setDisableClearSavedArticles(true);
+    }
+
+    setSavedArticlesItems(filteredSavedArticlesItems.slice(indexOfFirstArticle, indexOfLastArticleItem));
+  }, [currentPage, filteredSavedArticlesItems, savedArticlesItems]);
 
   const handleClose = (
     event?: React.SyntheticEvent | Event,
@@ -108,6 +124,10 @@ export default function UserSavedArticles({ userSavedArticles }: UserSavedArticl
             </motion.div>
           )}
         </div>
+
+        <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage}
+                    totalItems={filteredSavedArticlesItems.length}
+                    itemsPerPage={savedArticlesItemsPerPage} />
       </motion.div>
     </>
   );
