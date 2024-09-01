@@ -56,6 +56,9 @@ export default function ArticleDescrComment({ comment, session }: ArticleDescrCo
   });
 
   async function handleLikeComment(id: string) {
+    if (disableBtn) {
+      return;
+    }
     setDisableBtn(true);
     timer.current = setTimeout(function() {
       setDisableBtn(false);
@@ -119,6 +122,9 @@ export default function ArticleDescrComment({ comment, session }: ArticleDescrCo
   }
 
   async function handleDislikeComment(id: string) {
+    if (disableBtn) {
+      return;
+    }
     setDisableBtn(true);
     timer.current = setTimeout(function() {
       setDisableBtn(false);
@@ -227,7 +233,7 @@ export default function ArticleDescrComment({ comment, session }: ArticleDescrCo
         <div className="comments__comment__rate-container">
           <div className="flex flex-align-center gap-18px">
 
-            <button disabled={disableBtn} onClick={() => handleLikeComment(comment._id.toString())}
+            <button onClick={() => handleLikeComment(comment._id.toString())}
                     className={`btn comments__comment__rate helpful text-decoration-none ${disableBtn ? `cursor-not-allowed` : ``} ${userLikedComment ? `highlighted` : ``}`}>
               <div className="comments__comment__rate-helpful flex flex-align-center ">
                 <span className="comments__comment__rate-helpful__count inline-block">{commentLikes.length}</span>
@@ -242,7 +248,7 @@ export default function ArticleDescrComment({ comment, session }: ArticleDescrCo
               </div>
             </button>
 
-            <button disabled={disableBtn} onClick={() => handleDislikeComment(comment._id.toString())}
+            <button onClick={() => handleDislikeComment(comment._id.toString())}
                     className={`${disableBtn ? `cursor-not-allowed` : ``} btn comments__comment__rate not-helpful text-decoration-none ${userDislikedComment ? `highlighted` : ``}`}>
               <div className="comments__comment__rate-helpful flex flex-align-center">
                 <span className="comments__comment__rate-helpful__count inline-block">{commentDislikes.length}</span>
