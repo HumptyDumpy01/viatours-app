@@ -12,11 +12,11 @@ import UserSavedArticlesCard from '@/components/account-settings/contents/user-s
 import Pagination from '@/components/UI/Pagnation/Pagination';
 
 export type savedArticlesType = {
-
   _id: string;
   title: string;
   type: string[],
   image: string;
+  rating: number;
   createdAt: string;
   author: string;
 };
@@ -64,7 +64,10 @@ export default function UserSavedArticles({ userSavedArticles }: UserSavedArticl
   };
 
   async function handleDeleteSavedArticles() {
+    /* TODO: Create an api end point  to delete all saved articles from user savedArticles list.
+    *   Get access to session email and apply all the necessary validation.*/
   }
+
 
   async function handleSavedArticlesSorting(event: React.ChangeEvent<HTMLSelectElement>) {
 

@@ -1150,7 +1150,13 @@ export async function getUser(filter: {}, options?: {}, unwind: boolean = false)
               type: '$savedArticles.type',
               image: { $arrayElemAt: ['$savedArticles.images', 0] },
               createdAt: '$savedArticles.createdAt',
-              author: {
+              rating: {
+                $cond: {
+                  if: { $eq: ['$savedArticles.rating', []] },
+                  then: 0,
+                  else: { $avg: '$savedArticles.rating' }
+                }
+              }, author: {
                 $concat: ['$savedArticles.author.firstName', ' ',
                   '$savedArticles.author.lastName']
               }

@@ -44,6 +44,8 @@ export default function UserSavedArticlesCard({ savedArticle }: UserSavedArticle
             fill="#EB662B" />
         </svg>
         <div className="account-settings__content__card-date-container flex flex-align-center">
+          <span
+            className="account-settings__content__card-date inline-block highlighted">{savedArticle.rating.toFixed(1)}</span>
           <span className="account-settings__content__card-date inline-block">{formattedDate}</span>
           <span className="account-settings__content__card-date__author inline-block">By {savedArticle.author}</span>
         </div>

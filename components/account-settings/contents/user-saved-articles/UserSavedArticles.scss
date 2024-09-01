@@ -73,12 +73,20 @@
       font-size: 1.5rem;
       color: var(--clr-blue-lighter);
       cursor: pointer;
+
+      @media only screen and (max-width: 37.5em) {
+        top: 1.5rem;
+        right: 1.5rem;
+        width: 5.5rem;
+        height: 5.5rem;
+      }
     }
 
     &-container {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 2.3rem;
+      row-gap: 4.5rem;
       @media only screen and (max-width: 37.5em) {
         grid-template-columns: 1fr;
         justify-items: center;
