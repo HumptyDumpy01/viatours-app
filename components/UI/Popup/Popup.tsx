@@ -94,7 +94,7 @@ export default function
     setOpenPopup(state);
   }
 
-  console.log(`User Signed Up On Newsletter State: `, userSignedUpOnNewsletterState);
+  // console.log(`User Signed Up On Newsletter State: `, userSignedUpOnNewsletterState);
 
   async function handleNewsletterSignUpOrSignOut() {
 
@@ -192,7 +192,7 @@ export default function
                             </clipPath>
                           </defs>
                         </svg>
-                        {userSignedUpOnNewsletterState ? `Turn Off Notifications` : `Turn on Notifications`}
+                        {userSignedUpOnNewsletterState ? `Unsubscribe` : `Sign on Newsletter`}
                       </motion.button>
                     </>
                   )}
