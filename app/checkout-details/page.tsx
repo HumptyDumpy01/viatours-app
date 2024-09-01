@@ -156,16 +156,15 @@ export default function ThanksForPurchase({ searchParams }: ThanksForPurchaseTyp
           });
         }
 
-        /* IMPORTANT: DISABLED BECAUSE OF THE LIMITS OF MAILTRAP */
-
         // email the user about the order
 
-        /*const sendEmail = await fetch(`/api/send-email`, {
+        const sendEmail = await fetch(`/api/send-email`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
+            email: fetchedOrderData.order.contactDetails.email,
             order: {
               ...fetchedOrderData.order,
               extraDetails: {
@@ -180,7 +179,11 @@ export default function ThanksForPurchase({ searchParams }: ThanksForPurchaseTyp
               }
             }
           })
-        });*/
+        }).then(res => res.json());
+
+        if (sendEmail.error) {
+          console.error(`Failed to send email to user.`);
+        }
 
 
       }

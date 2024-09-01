@@ -1,25 +1,40 @@
-import { NextRequest } from 'next/server';
-import { sendEmail } from '@/lib/helpers/mailer';
+import { NextRequest, NextResponse } from 'next/server';
+import { sendOrderDetails } from '@/lib/mail';
 
 export async function POST(request: NextRequest) {
 
-  const { order } = await request.json();
+  const { email, order } = await request.json();
   try {
 
     if (!order) {
       new Error('No order data provided');
     }
 
-    const sender = {
-      name: 'Viatours Tourism Company',
-      address: 'viatours.test@gmail.com'
-    };
+    const response = await sendOrderDetails(email, order);
 
-    const recipients = [
-      { name: `Nick Baker`, address: 'tuznikolas@gmail.com' }
-    ];
+    if (response.error) {
+      return NextResponse.json({
+        error: true,
+        message: `Failed to send email: ${response.message}`
+      });
+    } else {
+      return NextResponse.json({
+        response: 'Email sent successfully'
+      });
+    }
 
-    const result = await sendEmail({
+
+    /*
+        const sender = {
+          name: 'Viatours Tourism Company',
+          address: 'viatours.test@gmail.com'
+        };
+
+        const recipients = [
+          { name: `Nick Baker`, address: 'tuznikolas@gmail.com' }
+        ];*/
+
+    /*const result = await sendEmail({
       sender,
       recipients,
       subject: 'Order Confirmation',
@@ -80,13 +95,17 @@ export async function POST(request: NextRequest) {
       </div>
       `
 
-    });
+    });*/
 
-    return Response.json({
-      accepted: result.accepted
-    });
+    /* return NextResponse.json({
+       accepted: result.accepted
+     });*/
 
   } catch (e) {
-    throw new Error(`Failed to send email. Error: ${e}`);
+    return NextResponse.json({
+      error: true,
+      message: `Failed to send email: ${e}`
+    });
+
   }
 }
