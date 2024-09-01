@@ -29,8 +29,8 @@ export type UserSavedArticlesType = {
 
 export default function UserSavedArticles({ userSavedArticles, userEmail }: UserSavedArticlesType) {
 
-  const [filteredSavedArticlesItems, setFilteredWishlistItems] = useState<savedArticlesType[]>(userSavedArticles);
-  const [originalWishlistItems, setOriginalWishlistItems] = useState<savedArticlesType[]>([...userSavedArticles]);
+  const [filteredSavedArticlesItems, setFilteredSavedArticlesItems] = useState<savedArticlesType[]>(userSavedArticles);
+  const [originalSavedArticlesItems, setOriginalSavedArticlesItems] = useState<savedArticlesType[]>([...userSavedArticles]);
 
   const savedArticlesItemsPerPage = 4;
   const [currentPage, setCurrentPage] = useState(1);
@@ -69,15 +69,16 @@ export default function UserSavedArticles({ userSavedArticles, userEmail }: User
     const copiedFilteredSavedArticlesItems = [...filteredSavedArticlesItems];
 
     /* INFO: OPTIMISTICALLY GET RID OF ALL SAVED ARTICLES ARRAY AND SHOW THE TOASTER */
-    setFilteredWishlistItems([]);
+    setFilteredSavedArticlesItems([]);
     setSavedArticlesItems([]);
     setOpen(true);
     setToastLabel(`All saved articles have been deleted.`);
     setToastSeverity(`success`);
     setDisableClearSavedArticles(true);
 
-    /* TODO: Create an api end point  to delete all saved articles from user savedArticles list.
-    *   Get access to session email and apply all the necessary validation.*/
+    /* Create an api end point  to delete all saved articles from user savedArticles list.
+    *  Get access to session email and apply all the necessary validation.*/
+
     const response = await fetch(`/api/delete-all-saved-articles`, {
       method: `POST`,
       headers: {
@@ -91,7 +92,7 @@ export default function UserSavedArticles({ userSavedArticles, userEmail }: User
     });
 
     if (response.error) {
-      setFilteredWishlistItems(copiedFilteredSavedArticlesItems);
+      setFilteredSavedArticlesItems(copiedFilteredSavedArticlesItems);
       setSavedArticlesItems(copiedSavedArticlesItems);
       console.error(`Failed to delete all saved articles.`);
       setOpen(true);
@@ -107,7 +108,7 @@ export default function UserSavedArticles({ userSavedArticles, userEmail }: User
   async function handleSavedArticlesSorting(event: React.ChangeEvent<HTMLSelectElement>) {
 
     const value = event.target.value as 'rating' | 'descending' | 'ascending';
-    let sortedSavedArticlesItems = [...originalWishlistItems];
+    let sortedSavedArticlesItems = [...originalSavedArticlesItems];
 
     if (savedArticlesItems.length === 0 || userSavedArticles.length === 0) {
       return;
@@ -124,8 +125,53 @@ export default function UserSavedArticles({ userSavedArticles, userEmail }: User
       sortedSavedArticlesItems = sortedSavedArticlesItems.sort((a, b) => b.title.localeCompare(a.title));
     }
 
-    setFilteredWishlistItems(sortedSavedArticlesItems);
+    setFilteredSavedArticlesItems(sortedSavedArticlesItems);
     setCurrentPage(1);
+  }
+
+  async function handleDeleteSavedArticle(id: string) {
+
+    const updatedFilteredSavedArticlesItems = filteredSavedArticlesItems.filter(item => item._id !== id);
+    const updatedOriginalSavedArticlesItems = originalSavedArticlesItems.filter(item => item._id !== id);
+
+    /* INFO: OPTIMISTICALLY REMOVE CLICKED ARTICLE FROM LIST */
+    setFilteredSavedArticlesItems(filteredSavedArticlesItems.filter((item) => item._id !== id));
+    setSavedArticlesItems(savedArticlesItems.filter((item) => item._id !== id));
+
+    setFilteredSavedArticlesItems(updatedFilteredSavedArticlesItems);
+    setOriginalSavedArticlesItems(updatedOriginalSavedArticlesItems);
+    setSavedArticlesItems(updatedFilteredSavedArticlesItems.slice(indexOfFirstArticle, indexOfLastArticleItem));
+
+    if (updatedFilteredSavedArticlesItems.length <= indexOfFirstArticle && currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+
+    /* Create an  api endpoint to delete a specified article from user's savedArticles list
+    *  userEmail and article id is required. */
+    const response = await fetch(`/api/delete-user-saved-article`, {
+      method: `POST`,
+      headers: {
+        'Content-Type': `application/json`
+      },
+      body: JSON.stringify({
+        userEmail,
+        articleId: id
+      })
+    }).then((res) => {
+      return res.json();
+    });
+
+    if (response.error) {
+      setFilteredSavedArticlesItems(originalSavedArticlesItems);
+      setSavedArticlesItems(userSavedArticles);
+      console.error(`Failed to delete specified article from user's saved articles array.`);
+      setOpen(true);
+      setToastLabel(`Failed to delete specified article from user's saved articles array.`);
+      setToastSeverity(`error`);
+      return;
+    }
+
+    console.log(`Deleting article with id: `, id);
   }
 
   return (
@@ -169,7 +215,8 @@ export default function UserSavedArticles({ userSavedArticles, userEmail }: User
           {savedArticlesItems.length > 0 && (
             <UserSavedArticlesCards>
               {savedArticlesItems.map((savedArticle: savedArticlesType) => (
-                <UserSavedArticlesCard key={savedArticle._id} savedArticle={savedArticle} />
+                <UserSavedArticlesCard handleDeleteSavedArticle={handleDeleteSavedArticle} key={savedArticle._id}
+                                       savedArticle={savedArticle} />
               ))}
             </UserSavedArticlesCards>
           )}

@@ -8,10 +8,11 @@ import watermarkImage from '@/assets/images/viatours-watermark-logo.svg';
 
 type UserSavedArticlesCardType = {
   savedArticle: savedArticlesType;
+  handleDeleteSavedArticle: (id: string) => void;
   // children: ReactNode;
 }
 
-export default function UserSavedArticlesCard({ savedArticle }: UserSavedArticlesCardType) {
+export default function UserSavedArticlesCard({ savedArticle, handleDeleteSavedArticle }: UserSavedArticlesCardType) {
   // the savedArticles.createdAt is in ISO 8601 format. I do want to see e.g. December 15, 2023 instead
   const date = new Date(savedArticle.createdAt);
   const formattedDate = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
@@ -33,7 +34,9 @@ export default function UserSavedArticlesCard({ savedArticle }: UserSavedArticle
           />
         </div>
         <div className="card-badge">{capitalizedType}</div>
-        <svg className="delete-article-icon" xmlns="http://www.w3.org/2000/svg" width="27" height="27"
+        <svg onClick={() => handleDeleteSavedArticle(savedArticle._id)} className="delete-article-icon"
+             xmlns="http://www.w3.org/2000/svg"
+             width="27" height="27"
              viewBox="0 0 27 27"
              fill="none">
           <path

@@ -4508,4 +4508,48 @@ export async function deleteAllUserSavedArticles(userEmail: string) {
 
 }
 
+export async function deleteUserSavedArticle(userEmail: string, articleId: string) {
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+
+  const user = await db.collection(`users`).findOne({ email: userEmail }) as UserType | null;
+
+  if (!user) {
+    return {
+      error: true,
+      message: `Error. User does not exist.`
+    };
+  }
+
+  const article = await db.collection(`articles`).findOne({ _id: new ObjectId(articleId) });
+
+  if (!article) {
+    return {
+      error: true,
+      message: `Error. Article does not exist.`
+    };
+  }
+
+  const response = await db.collection(`users`).updateOne({ email: userEmail }, {
+    // @ts-ignore
+    $pull: {
+      savedArticles: new ObjectId(articleId)
+    }
+  });
+
+  if (!response.acknowledged) {
+    return {
+      error: true,
+      message: `Failed to delete saved article.`
+    };
+  } else {
+    revalidatePath(`/account-settings`, `layout`);
+    return {
+      error: false,
+      message: `The saved article was successfully deleted.`
+    };
+  }
+
+}
+
 ///////////////////////////////////////
