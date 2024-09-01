@@ -29,6 +29,7 @@ export type UserSavedArticlesType = {
 export default function UserSavedArticles({ userSavedArticles }: UserSavedArticlesType) {
 
   const [filteredSavedArticlesItems, setFilteredWishlistItems] = useState<savedArticlesType[]>(userSavedArticles);
+  const [originalWishlistItems, setOriginalWishlistItems] = useState<savedArticlesType[]>([...userSavedArticles]);
 
   const savedArticlesItemsPerPage = 4;
   const [currentPage, setCurrentPage] = useState(1);
@@ -65,7 +66,28 @@ export default function UserSavedArticles({ userSavedArticles }: UserSavedArticl
   async function handleDeleteSavedArticles() {
   }
 
-  async function handleSavedArticlesSorting() {
+  async function handleSavedArticlesSorting(event: React.ChangeEvent<HTMLSelectElement>) {
+
+    const value = event.target.value as 'rating' | 'descending' | 'ascending';
+    let sortedSavedArticlesItems = [...originalWishlistItems];
+
+    if (savedArticlesItems.length === 0 || userSavedArticles.length === 0) {
+      return;
+    }
+
+    if (value === `rating`) {
+      // @ts-ignore
+      sortedSavedArticlesItems = sortedSavedArticlesItems.sort((a, b) => b.rating - a.rating);
+    }
+    if (value === `descending`) {
+      sortedSavedArticlesItems = sortedSavedArticlesItems.sort((a, b) => a.title.localeCompare(b.title));
+    }
+    if (value === `ascending`) {
+      sortedSavedArticlesItems = sortedSavedArticlesItems.sort((a, b) => b.title.localeCompare(a.title));
+    }
+
+    setFilteredWishlistItems(sortedSavedArticlesItems);
+    setCurrentPage(1);
   }
 
   return (
