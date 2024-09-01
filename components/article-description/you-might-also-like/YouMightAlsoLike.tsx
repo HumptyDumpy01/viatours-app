@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import SearchResultsCardSkeleton from '@/components/articles/skeletons/SearchResultsCardSkeleton';
 import ArticlesCard from '@/components/articles/card/ArticlesCard';
 import { SearchResultsCardType } from '@/components/articles/search-article/SearchResultsCard';
+import { motion } from 'framer-motion';
 
 type YouMightAlsoLikeType = {
   types: TypesType[];
@@ -47,7 +48,12 @@ export default function YouMightAlsoLike({ types }: YouMightAlsoLikeType) {
 
 
   return (
-    <section className="you-might-also-like-article-descr-container">
+    <motion.section
+      initial={{ opacity: 0, y: 300 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+      viewport={{ once: true }}
+      className="you-might-also-like-article-descr-container">
       <div className="you-might-also-like-article-descr container">
         <h2 className="you-might-also-like-article-descr__heading secondary-heading">You might also like...</h2>
 
@@ -77,6 +83,6 @@ export default function YouMightAlsoLike({ types }: YouMightAlsoLikeType) {
           )}
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }

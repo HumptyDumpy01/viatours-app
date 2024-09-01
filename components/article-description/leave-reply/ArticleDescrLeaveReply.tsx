@@ -10,6 +10,7 @@ import { SessionType } from '@/components/UI/Comment/Comment';
 import Lottie from 'lottie-react';
 import { useCartDispatch } from '@/store/hooks';
 import { sliceArticleDescrActions } from '@/store/sliceArticleDescr';
+import { motion } from 'framer-motion';
 
 type ArticleDescrLeaveReplyType = {
   articleId: string;
@@ -187,7 +188,12 @@ export default function ArticleDescrLeaveReply({ session, articleId, author }: A
 
   return (
     <>
-      <section className="leave-a-reply container">
+      <motion.section
+        initial={{ opacity: 0, y: 300 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+        viewport={{ once: true }}
+        className="leave-a-reply container">
         <div className="leave-a-reply__wrapper">
           <h2 className="secondary-heading margin-bottom-small">Leave a reply</h2>
           <p className="paragraph leave-a-reply-paragraph">Your email address will not be published. All fields are
@@ -230,8 +236,12 @@ export default function ArticleDescrLeaveReply({ session, articleId, author }: A
                           placeholder="Comment" required></textarea>
               </div>
               <div className={`margin-bottom-41px leave-a-reply-article-btn-container grid`}>
-                <button disabled={isSubmitting}
-                        className={`btn btn--submit flex flex-align-center ${isSubmitting ? `btn--submit-disabled` : ``}`}>
+                <motion.button
+                  whileHover={{ scale: 1.1, rotate: 2 }}
+                  whileTap={{ scale: 0.8 }}
+                  transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+                  disabled={isSubmitting}
+                  className={`btn btn--submit flex flex-align-center ${isSubmitting ? `btn--submit-disabled` : ``}`}>
                   {!isSubmitting ? (
                     <>
                       Post comment
@@ -239,7 +249,7 @@ export default function ArticleDescrLeaveReply({ session, articleId, author }: A
                       <IconIon type={`arrowForwardOutline`} className="icon icon--right-arrow" />
                     </>
                   ) : `Submitting...`}
-                </button>
+                </motion.button>
                 {isSubmitting && (
                   <div className={`loading-spinner-add-article`}>
                     <Lottie animationData={loadingSpinner} />
@@ -249,7 +259,7 @@ export default function ArticleDescrLeaveReply({ session, articleId, author }: A
             </form>
           </div>
         </div>
-      </section>
+      </motion.section>
     </>
   );
 }

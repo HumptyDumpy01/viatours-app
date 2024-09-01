@@ -8,6 +8,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import CommentSkeleton from '@/components/tourDescription/skeletons/CommentSkeleton';
 import { SessionType } from '@/components/UI/Comment/Comment';
 import { useCartSelector } from '@/store/hooks';
+import { motion } from 'framer-motion';
 
 type ArticleDescrCommentsType = {
   comments: ArticleComment[];
@@ -66,7 +67,12 @@ export default function ArticleDescrComments({ comments, session }: ArticleDescr
 
 
   return (
-    <section className="comments-container">
+    <motion.section
+      initial={{ opacity: 0, y: 300 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+      viewport={{ once: true }}
+      className="comments-container">
       <div className="comments container">
         <div className="comments__heading-container">
           <h3 className="comments__heading secondary-heading">Comments</h3>
@@ -80,7 +86,8 @@ export default function ArticleDescrComments({ comments, session }: ArticleDescr
           <p className="paragraph">No comments yet. Be the first to comment!</p>
         )}
         <div className="comments__comment-container">
-          <div className="comments__section">
+          <div
+            className="comments__section">
             {isArticleCommentAdded && (
               <>
                 <CommentSkeleton showImageSkeleton={false} />
@@ -96,7 +103,10 @@ export default function ArticleDescrComments({ comments, session }: ArticleDescr
           {totalCommentsToShow < currArticlesComments.length && (
             <>
               <div className={`margin-top-7rem`}>
-                <button
+                <motion.button
+                  whileHover={{ scale: 1.05, rotate: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                  transition={{ type: `spring`, stiffness: 300 }}
                   onClick={handleMoreReviews}
                   className="btn comments__comment__see-more flex flex-align-center">See more comments
                   <svg className="comments__comment__see-more-icon" xmlns="http://www.w3.org/2000/svg" width="14"
@@ -107,13 +117,13 @@ export default function ArticleDescrComments({ comments, session }: ArticleDescr
                           stroke="#EB662B"
                           strokeWidth="1.90385" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
-                </button>
+                </motion.button>
               </div>
             </>
           )}
         </div>
 
       </div>
-    </section>
+    </motion.section>
   );
 }

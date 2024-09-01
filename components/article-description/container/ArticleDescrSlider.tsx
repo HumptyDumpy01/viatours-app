@@ -4,6 +4,7 @@ import React, { useRef, useState } from 'react';
 import ArticleDescrBtn from '@/components/article-description/article-descr-btn/ArtilcleDescrBtn';
 import { CldImage } from 'next-cloudinary';
 import watermarkImage from '@/assets/images/viatours-watermark-logo.svg';
+import { motion } from 'framer-motion';
 
 type ArticleDescrSliderType = {
   images: string[];
@@ -31,7 +32,11 @@ export default function ArticleDescrSlider({ images }: ArticleDescrSliderType) {
     <>
       <ArticleDescrBtn mode="left" onClick={() => handleScroll('left')} />
       <ArticleDescrBtn mode="right" onClick={() => handleScroll('right')} />
-      <div className="tour-article-descr__slider-container">
+      <motion.div
+        initial={{ opacity: 0, x: -120 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        transition={{ type: 'spring', duration: 1 }}
+        className="tour-article-descr__slider-container">
         <div
           className="tour-article-descr__slider"
           ref={sliderRef}
@@ -55,7 +60,7 @@ export default function ArticleDescrSlider({ images }: ArticleDescrSliderType) {
             ))}
           </>
         </div>
-      </div>
+      </motion.div>
     </>
   );
 }

@@ -7,6 +7,7 @@ import { ArticleComment } from '@/app/articles/[id]/page';
 import { SessionType } from '@/components/UI/Comment/Comment';
 import { useRef, useState } from 'react';
 import CustomizedSnackbar from '@/components/UI/Toast/Snackbar';
+import { motion } from 'framer-motion';
 
 type ArticleDescrCommentType = {
   comment: ArticleComment;
@@ -210,7 +211,12 @@ export default function ArticleDescrComment({ comment, session }: ArticleDescrCo
   return (
     <>
       <CustomizedSnackbar open={open} handleClose={handleClose} label={toastLabel} severity={toastSeverity} />
-      <div className="comments__comment">
+      <motion.div
+        initial={{ opacity: 0, y: 300 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ type: `spring`, duration: 1, bounce: 0.25 }}
+        viewport={{ once: true }}
+        className="comments__comment">
         <div className="comments__comment__user flex flex-align-center gap-14px">
           <div className="comments__comment__user__logo">{userInitials}</div>
           <div className="comments__comment__user__credentials">
@@ -282,7 +288,7 @@ export default function ArticleDescrComment({ comment, session }: ArticleDescrCo
             </div>
           </>
         </div>
-      </div>
+      </motion.div>
     </>
   );
 }

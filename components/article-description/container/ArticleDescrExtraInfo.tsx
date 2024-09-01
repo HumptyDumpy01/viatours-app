@@ -9,6 +9,7 @@ import { SessionType } from '@/components/UI/Comment/Comment';
 import { SnackbarCloseReason } from '@mui/material/Snackbar/useSnackbar.types';
 import CustomizedSnackbar from '@/components/UI/Toast/Snackbar';
 import { Skeleton } from '@mui/material';
+import { motion } from 'framer-motion';
 
 type ArticleDescrExtraInfoType = {
   author: ArticleAuthorType;
@@ -164,8 +165,11 @@ export default function ArticleDescrExtraInfo({ author, readTime, session, artic
         </Link>
         <div className="tour-article-descr__extra-info__actions flex flex-align-center">
           <p className="tour-article-descr__extra-info__actions-min-read">{readTime} read</p>
-          <button type="button" className="btn tour-article-descr__extra-info__actions-share background-white">Share
-          </button>
+          <motion.button
+            whileTap={{ scale: 0.9 }}
+            transition={{ type: `spring`, stiffness: 260, damping: 20 }}
+            type="button" className="btn tour-article-descr__extra-info__actions-share background-white">Share
+          </motion.button>
           {isLoading && (
             <>
               <Skeleton variant="rounded" width={60} height={10} />
@@ -173,12 +177,15 @@ export default function ArticleDescrExtraInfo({ author, readTime, session, artic
           )}
           {!isLoading && (
             <>
-              <button disabled={disableBtn}
-                      onClick={handleSaveArticleToList}
-                      type="button"
-                      className={`btn tour-article-descr__extra-info__actions-save background-white ${isArticleInUserList ? `highlighted` : ``}`}>
+              <motion.button
+                whileTap={{ scale: 0.9 }}
+                transition={{ type: `spring`, stiffness: 260, damping: 20 }}
+                disabled={disableBtn}
+                onClick={handleSaveArticleToList}
+                type="button"
+                className={`btn tour-article-descr__extra-info__actions-save background-white ${isArticleInUserList ? `highlighted` : ``}`}>
                 {isArticleInUserList ? `Remove from Saved` : `Save`}
-              </button>
+              </motion.button>
             </>
           )}
         </div>
