@@ -20,24 +20,24 @@ import { Skeleton } from '@mui/material';
 export default function NavigationResponsive(/*{  }: NavigationBurgerInterface*/) {
   const isOpen = useCartSelector((state) => state.navigation.navIsOpen);
   const dispatch = useCartDispatch();
+  const [userName, setUserName] = useState<string>(``);
 
   const { data: session, status } = useSession();
 
 
-  let userName = '';
   useEffect(() => {
     // @ts-ignore
     if (session && status !== `loading`) {
       // console.log(`Executing session: `, session);
       const name = session.user?.name?.split(' ');
-      userName = name?.length === 1 ? name[0].charAt(0).toUpperCase() : `${name![0].charAt(0) + `.`}${name![1].charAt(0)}`.toUpperCase();
+      setUserName(name?.length === 1 ? name[0].charAt(0).toUpperCase() : `${name![0].charAt(0) + `.`}${name![1].charAt(0)}`.toUpperCase());
 
       // @ts-ignore
       console.log(session.user.image);
     }
     // @ts-ignore
 
-  }, [isStatusLoading, session]);
+  }, [session, status]);
 
   function openNavBurger() {
     // console.log(`openNavBurger clicked`);
@@ -98,11 +98,11 @@ export default function NavigationResponsive(/*{  }: NavigationBurgerInterface*/
             </>
           )}
 
-          {(isStatusLoading && !session) && (
+          {(status === `loading` && !session) && (
             <Skeleton variant={`circular`} width={`3.6rem`} height={`3.6rem`} />
           )}
 
-          {(!session && !isStatusLoading) && (
+          {(!session && status !== `loading`) && (
             <>
               <button className={`btn`} onClick={openSideNav}>
                 <Image priority src={userIcon} alt="user icon" className={`nav-icon nav-icon--user-icon`} />
