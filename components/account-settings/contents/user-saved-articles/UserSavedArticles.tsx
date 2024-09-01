@@ -49,7 +49,7 @@ export default function UserSavedArticles({ userSavedArticles }: UserSavedArticl
     }
 
     setSavedArticlesItems(filteredSavedArticlesItems.slice(indexOfFirstArticle, indexOfLastArticleItem));
-  }, [currentPage, filteredSavedArticlesItems, savedArticlesItems]);
+  }, [currentPage, filteredSavedArticlesItems]);
 
   const handleClose = (
     event?: React.SyntheticEvent | Event,
