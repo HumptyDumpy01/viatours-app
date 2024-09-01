@@ -20,14 +20,11 @@ export default function AccountSettingsSidebar({ activeUrl, notificationsCount }
         </button>
         <div className="account-settings__line"></div>
       </div>
-      <div className="account-settings__sidebar__element fix-alpha-badge">
+      <div className="account-settings__sidebar__element">
         <button onClick={() => router.push(`/account-settings?page=notifications`)}
-                className={`btn account-settings__element-title notifications  ${activeUrl === `notifications` ? `account-settings-active-url` : ``}`}>Notifications
+                className={`btn account-settings__element-title flex justify-center ${activeUrl === `notifications` ? `account-settings-active-url` : ``}`}>
+          Notifications<span className={`notifications inline-block`}>({notificationsCount})</span>
         </button>
-        <div className="account-settings__line"></div>
-        <div className="alpha-badge">
-          <span className="notifications">{notificationsCount}</span>
-        </div>
       </div>
       <div className="account-settings__sidebar__element">
         <button onClick={() => router.push(`/account-settings?page=wishlist`)}
