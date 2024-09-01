@@ -130,7 +130,7 @@ export default async function ArticleDescription({ params }: ArticleDescriptionI
     throw new Error(`Failed to fetch article`);
   }
 
-  console.log(`Article: `, article.article[0]);
+  // console.log(`Article: `, article.article[0]);
 
   // fetch the session from the server
   const session = await getServerSession(authConfig);

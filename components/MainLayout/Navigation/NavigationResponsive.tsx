@@ -23,14 +23,21 @@ export default function NavigationResponsive(/*{  }: NavigationBurgerInterface*/
 
   const { data: session, status } = useSession();
 
-  const isStatusLoading = status === `loading`;
 
   let userName = '';
-  if (session) {
-    // console.log(`Executing session: `, session);
-    const name = session.user?.name?.split(' ');
-    userName = name?.length === 1 ? name[0].charAt(0).toUpperCase() : `${name![0].charAt(0) + `.`}${name![1].charAt(0)}`.toUpperCase();
-  }
+  useEffect(() => {
+    // @ts-ignore
+    if (session && status !== `loading`) {
+      // console.log(`Executing session: `, session);
+      const name = session.user?.name?.split(' ');
+      userName = name?.length === 1 ? name[0].charAt(0).toUpperCase() : `${name![0].charAt(0) + `.`}${name![1].charAt(0)}`.toUpperCase();
+
+      // @ts-ignore
+      console.log(session.user.image);
+    }
+    // @ts-ignore
+
+  }, [isStatusLoading, session]);
 
   function openNavBurger() {
     // console.log(`openNavBurger clicked`);
@@ -75,7 +82,8 @@ export default function NavigationResponsive(/*{  }: NavigationBurgerInterface*/
         <div className="nav-icon-wrapper flex flex-align-center">
           {/* @ts-ignore*/}
           {/*<ion-icon name="search-outline" className="nav-icon nav-icon--search"></ion-icon>*/}
-          {(session && !isStatusLoading) && (
+          {/*@ts-ignore*/}
+          {(session?.user?.email && status !== `loading`) && (
             <>
               {session?.user?.image &&
                 <img onClick={openSideNav} className={`user-actions-sidebar__user-auth-icon-responsive`} width={55}
