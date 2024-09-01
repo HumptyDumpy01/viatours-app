@@ -23,10 +23,11 @@ export type savedArticlesType = {
 
 export type UserSavedArticlesType = {
   userSavedArticles: savedArticlesType[] | [];
+  userEmail: string;
   // children: ReactNode;
 }
 
-export default function UserSavedArticles({ userSavedArticles }: UserSavedArticlesType) {
+export default function UserSavedArticles({ userSavedArticles, userEmail }: UserSavedArticlesType) {
 
   const [filteredSavedArticlesItems, setFilteredWishlistItems] = useState<savedArticlesType[]>(userSavedArticles);
   const [originalWishlistItems, setOriginalWishlistItems] = useState<savedArticlesType[]>([...userSavedArticles]);
@@ -64,8 +65,42 @@ export default function UserSavedArticles({ userSavedArticles }: UserSavedArticl
   };
 
   async function handleDeleteSavedArticles() {
+    const copiedSavedArticlesItems = [...userSavedArticles];
+    const copiedFilteredSavedArticlesItems = [...filteredSavedArticlesItems];
+
+    /* INFO: OPTIMISTICALLY GET RID OF ALL SAVED ARTICLES ARRAY AND SHOW THE TOASTER */
+    setFilteredWishlistItems([]);
+    setSavedArticlesItems([]);
+    setOpen(true);
+    setToastLabel(`All saved articles have been deleted.`);
+    setToastSeverity(`success`);
+    setDisableClearSavedArticles(true);
+
     /* TODO: Create an api end point  to delete all saved articles from user savedArticles list.
     *   Get access to session email and apply all the necessary validation.*/
+    const response = await fetch(`/api/delete-all-saved-articles`, {
+      method: `POST`,
+      headers: {
+        'Content-Type': `application/json`
+      },
+      body: JSON.stringify({
+        userEmail
+      })
+    }).then((res) => {
+      return res.json();
+    });
+
+    if (response.error) {
+      setFilteredWishlistItems(copiedFilteredSavedArticlesItems);
+      setSavedArticlesItems(copiedSavedArticlesItems);
+      console.error(`Failed to delete all saved articles.`);
+      setOpen(true);
+      setToastLabel(`Failed to delete all saved articles.`);
+      setToastSeverity(`error`);
+      return;
+    }
+
+
   }
 
 
@@ -145,7 +180,7 @@ export default function UserSavedArticles({ userSavedArticles }: UserSavedArticl
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 200 }}
               className="account-settings__content__empty-wishlist">
-              <p>Your wishlist is empty</p>
+              <p>You haven&apos;t saved any articles yet.</p>
             </motion.div>
           )}
         </div>

@@ -3684,107 +3684,6 @@ export async function searchArticles(searchTerm: string) {
   }
 }
 
-export async function searchForArticlesBySearchAndType(searchTerm: string, type: `all` | `culture` | `historic` | `nature` | `trips`) {
-  const client = await clientPromise;
-  const db = client.db(`viatoursdb`);
-
-  // if the type is not of the correct type, return an error
-  if (![`all`, `culture`, `historic`, `nature`, `trips`].includes(type)) {
-    return {
-      error: true,
-      message: `Type provided is not correct. Please provide all, culture, historic, nature or trips.`
-    };
-  }
-
-  const response = await db.collection(`articles`).aggregate([
-    { $match: { $text: { $search: searchTerm }, type: { $in: type } } }, {
-      $unwind: '$author'
-    },
-    {
-      $lookup: {
-        from: 'travelArticlesAuthors',
-        localField: 'author',
-        foreignField: '_id',
-        as: 'authorDetails'
-      }
-    },
-    {
-      $group: {
-        _id: '$_id',
-        title: {
-          $first: '$title'
-        },
-        createdAt: {
-          $first: '$createdAt'
-        },
-        author: {
-          $first: '$authorDetails'
-        },
-        type: {
-          $first: '$type'
-        },
-        image: {
-          $first: { $arrayElemAt: ['$images', 0] }
-        },
-        views: {
-          $first: '$views'
-        }
-      }
-    },
-    {
-      $unwind: '$author'
-    },
-    {
-      $group: {
-        _id: '$_id',
-        title: {
-          $first: '$title'
-        },
-        createdAt: {
-          $first: '$createdAt'
-        },
-        author: {
-          $first: {
-            $concat: [
-              '$author.firstName',
-              ' ',
-              '$author.lastName'
-            ]
-          }
-        },
-        type: {
-          $first: '$type'
-        },
-        image: {
-          $first: '$image'
-        },
-        views: {
-          $first: '$views'
-        }
-      }
-    }
-  ]).toArray();
-
-  const transformedArticles = response.map((article: any) => {
-    return {
-      _id: article._id.toString(),
-      title: article.title,
-      createdAt: article.createdAt,
-      author: article.author,
-      type: article.type,
-      image: article.image,
-      views: article.views
-    };
-  });
-
-  return {
-    error: false,
-    articles: transformedArticles,
-    message: `Articles fetched successfully.`
-  };
-
-}
-
 export async function getArticleDetails(id: string) {
   const client = await clientPromise;
   const db = client.db(`viatoursdb`);
@@ -4567,6 +4466,44 @@ export async function handleAddOrRemoveArticleFromList(type: `add` | `remove`, s
         message: `Article removed from the list.`
       };
     }
+  }
+
+}
+
+///////////////////////////////////////
+
+/* IMPORTANT: USER: SAVED ARTICLES */
+export async function deleteAllUserSavedArticles(userEmail: string) {
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+
+  const user = await db.collection(`users`).findOne({ email: userEmail }) as UserType | null;
+
+  if (!user) {
+    return {
+      error: true,
+      message: `Error. User does not exist.`
+    };
+  }
+
+  const response = await db.collection(`users`).updateOne({ email: userEmail }, {
+    $set: {
+      savedArticles: []
+    }
+  });
+
+  if (!response.acknowledged) {
+    return {
+      error: true,
+      message: `Failed to delete saved articles.`
+    };
+  } else {
+
+    revalidatePath(`/account-settings`, `layout`);
+    return {
+      error: false,
+      message: `All saved articles were successfully deleted.`
+    };
   }
 
 }

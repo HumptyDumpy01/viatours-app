@@ -226,7 +226,7 @@ export default function AccountSettingsContainer({ page }: AccountSettingsContai
                 )}
                 {page === `saved-articles` && (
                   <>
-                    <UserSavedArticles userSavedArticles={userData.savedArticles} />
+                    <UserSavedArticles userEmail={userData.email} userSavedArticles={userData.savedArticles} />
                   </>
                 )}
                 {page === `delete-account` && (
