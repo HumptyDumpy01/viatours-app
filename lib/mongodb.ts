@@ -4160,6 +4160,8 @@ export async function handleArticleCommentAction(type: `like` | `dislike`, sessi
           message: `Failed to remove the like.`
         };
       } else {
+
+        revalidatePath(`/articles`, `layout`);
         return {
           error: false,
           message: `The like was successfully removed.`
@@ -4187,6 +4189,7 @@ export async function handleArticleCommentAction(type: `like` | `dislike`, sessi
           message: `Failed to remove the dislike and like the comment.`
         };
       } else {
+        revalidatePath(`/articles`, `layout`);
         return {
           error: false,
           message: `The dislike was successfully removed and the comment was liked.`
@@ -4209,6 +4212,7 @@ export async function handleArticleCommentAction(type: `like` | `dislike`, sessi
           message: `Failed to remove the dislike and like the comment.`
         };
       } else {
+        revalidatePath(`/articles`, `layout`);
         return {
           error: false,
           message: `The dislike was successfully removed and the comment was liked.`
@@ -4233,6 +4237,7 @@ export async function handleArticleCommentAction(type: `like` | `dislike`, sessi
           message: `Failed to remove the dislike.`
         };
       } else {
+        revalidatePath(`/articles`, `layout`);
         return {
           error: false,
           message: `The dislike was successfully removed.`
@@ -4259,6 +4264,7 @@ export async function handleArticleCommentAction(type: `like` | `dislike`, sessi
           message: `Failed to remove the like and dislike the comment.`
         };
       } else {
+        revalidatePath(`/articles`, `layout`);
         return {
           error: false,
           message: `The like was successfully removed and the comment was disliked.`
@@ -4281,6 +4287,7 @@ export async function handleArticleCommentAction(type: `like` | `dislike`, sessi
           message: `Failed to dislike the comment.`
         };
       } else {
+        revalidatePath(`/articles`, `layout`);
         return {
           error: false,
           message: `The comment was successfully disliked.`
@@ -4288,8 +4295,6 @@ export async function handleArticleCommentAction(type: `like` | `dislike`, sessi
       }
     }
   }
-
-  revalidatePath(`/articles`, `layout`);
 
 }
 
@@ -4357,6 +4362,7 @@ export async function reportArticleCommentAbuse(commentId: string, session: Sess
   });
 
   if (response.acknowledged) {
+    revalidatePath('/articles', 'layout');
     return {
       error: false,
       message: `The comment was successfully reported.`

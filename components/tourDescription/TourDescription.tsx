@@ -23,6 +23,7 @@ import React from 'react';
 import SidebarForm from '@/components/UI/Form/SidebarForm';
 import TourStatsContainer from '@/components/tourDescription/TourOverview/TourStatsContainer';
 import TourCommentsContainer from '@/components/tourDescription/TourComments/TourCommentsContainer';
+import GoogleMap from '@/components/UI/Map/Map';
 
 type TourDescriptionType = {
   params: {
