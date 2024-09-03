@@ -1,0 +1,50 @@
+.order-details-actions-container {
+  margin-top: 8.7rem;
+}
+
+.order-details-actions-heading {
+  font-size: 4rem;
+  color: var(--clr-blue-lighter);
+  margin-bottom: 5rem;
+}
+
+.order-details-actions-par {
+  font-size: 1.767rem;
+  line-height: 2.6rem;
+}
+
+
+.order-details-actions-btn {
+  border: none;
+  color: var(--clr-white);
+  font-size: 1.6rem;
+  height: 5.8rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  padding: 0 2.4rem;
+  font-weight: 600;
+
+  // apply margin bottom to the button but not to the last button
+  &:not(:last-child) {
+    margin-bottom: 1.6rem;
+  }
+
+  &:hover, &:active {
+    cursor: pointer;
+  }
+
+}
+
+.order-details-actions-btns {
+  margin-bottom: 6.8rem;
+}
+
+.refund {
+  background-color: var(--clr-primary);
+}
+
+.cancellation {
+  background-color: var(--clr-purple);
+}

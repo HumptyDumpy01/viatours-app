@@ -1,0 +1,77 @@
+.track-order-heading {
+  font-size: 7rem;
+  color: var(--clr-dark-blue);
+  font-weight: 700;
+  margin-bottom: 5rem;
+}
+
+.order-details-actions-container {
+  max-width: 94.9rem;
+}
+
+.track-order-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+
+  @media only screen and (max-width: 63em) {
+    grid-template-columns: 1fr;
+    row-gap: 5rem;
+  }
+
+
+  label {
+    font-size: 1.805rem;
+    font-weight: 600;
+  }
+
+  input {
+    height: 5.7rem;
+    width: 29.5rem;
+    border: none;
+    padding-left: 1.7rem;
+    background-color: var(--clr-grey-3);
+    border-radius: 12px;
+
+    @media only screen and (max-width: 75em) {
+      height: 6.1rem;
+    }
+  }
+}
+
+.track-order-par {
+  margin-bottom: 3.2rem;
+}
+
+.track-order-input-container {
+  margin-top: 2.2rem;
+  gap: 1.1rem;
+  align-items: center;
+}
+
+.track-order-container-first-col {
+  padding-top: 2rem;
+}
+
+.track-order-track-btn {
+  display: flex;
+  width: 13.2rem;
+  height: 5.8rem;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  border: none;
+  font-weight: 600;
+  background-color: var(--clr-primary);
+  color: var(--clr-white);
+
+  @media only screen and (max-width: 75em) {
+    height: 6.1rem;
+  }
+
+  &:hover, &:active {
+    cursor: pointer;
+  }
+}
+
+.track-order-second-col {
+}

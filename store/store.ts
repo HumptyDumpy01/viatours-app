@@ -11,6 +11,7 @@ import forgotPasswordSlice from '@/store/forgotPasswordSlice';
 import deleteAccountSlice from '@/store/deleteAccountSlice';
 import articlesSlice from '@/store/articlesSlice';
 import sliceArticleDescr from '@/store/sliceArticleDescr';
+import trackOrderSlice from '@/store/trackOrderSlice';
 
 const store = configureStore({
   reducer: {
@@ -28,7 +29,8 @@ const store = configureStore({
     forgotPassword: forgotPasswordSlice,
     deleteAccount: deleteAccountSlice,
     articles: articlesSlice,
-    articleDescription: sliceArticleDescr
+    articleDescription: sliceArticleDescr,
+    trackOrder: trackOrderSlice
   }
 });
 

@@ -1,0 +1,49 @@
+.need-help-heading {
+  font-size: 4rem;
+  margin-bottom: 3.4rem;
+}
+
+.need-help-par {
+  font-size: 1.767rem;
+  margin-bottom: 6.3rem;
+}
+
+.need-help-support-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.need-help-support-item {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+
+  p {
+    font-size: 1.767rem;
+    font-weight: 600;
+    color: var(--clr-primary);
+  }
+}
+
+
+.need-help-support-item-2 {
+  display: flex;
+  gap: 1.2rem;
+  width: 32.5rem;
+  height: 6.8rem;
+  padding: 2.2rem 2.3rem;
+  border-radius: 39px;
+  background: linear-gradient(90deg, #DD95FF 0%, #FF8181 100%), linear-gradient(92deg, #F28555 1.59%, #8C4D31 174.22%);
+
+  p {
+    font-size: 1.767rem;
+    font-weight: 600;
+    color: var(--clr-white);
+  }
+
+}
+
+.margin-top-med {
+  margin-top: 3.2rem;
+}
