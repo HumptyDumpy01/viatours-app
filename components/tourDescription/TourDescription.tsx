@@ -3,7 +3,7 @@
 import '@/components/homepage/top-trending/TopTrending.scss';
 import TourDescriptionNavigation from '@/components/tourDescription/TourDescriptionNav/TourDescriptionNavigation';
 import DescriptionTag from '@/components/tourDescription/DescriptionTag';
-import { TourInterface } from '@/data/DUMMY_TOURS';
+import { TourInterface } from '@/app/tours/[id]/page';
 import Gallery from '@/components/UI/Gallery/Gallery';
 import DescriptionOverview from '@/components/tourDescription/TourOverview/DescriptionOverview';
 import TourOverviewInfo from '@/components/tourDescription/TourOverview/TourOverviewInfo';

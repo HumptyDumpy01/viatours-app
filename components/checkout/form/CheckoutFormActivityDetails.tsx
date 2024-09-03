@@ -2,7 +2,8 @@
 
 import '@/components/checkout/card/card-second-col/ActivityDetailsExtraInfo.scss';
 import TravellerInput from '@/components/checkout/TravellerInput';
-import { MeetingPointType } from '@/data/DUMMY_MEETING_POINTS';
+import { MeetingPointType } from '@/app/tours/[id]/page';
+
 import { FormEvent, useState } from 'react';
 import { useCartDispatch, useCartSelector } from '@/store/hooks';
 import { checkoutSliceActions } from '@/store/checkoutSlice';

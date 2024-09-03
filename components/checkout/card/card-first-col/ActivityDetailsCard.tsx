@@ -5,7 +5,7 @@ import ActivityDetailsHeading from '@/components/checkout/card/card-first-col/Ac
 import ActivityDetailsRating from '@/components/checkout/card/card-first-col/ActivityDetailsRating';
 import ActivityDetailsCardFooter from '@/components/checkout/card/card-first-col/ActivityDetailsCardFooter';
 import ActivityDetailsDate from '@/components/checkout/card/card-second-col/ActivityDetailsDate';
-import { TourInterface } from '@/data/DUMMY_TOURS';
+import { TourInterface } from '@/app/tours/[id]/page';
 import { OrderInterface } from '@/components/checkout/checkout-details/CheckoutDetails';
 import { CldImage } from 'next-cloudinary';
 

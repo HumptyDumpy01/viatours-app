@@ -6,7 +6,7 @@
 // import animationData from '@/animations/loading-spinner.json';
 import './WhereToPopup.scss';
 import WhereToElement from '@/components/homepage/choose-location-popup/WhereToElement';
-import { TourInterface } from '@/data/DUMMY_TOURS';
+import { TourInterface } from '@/app/tours/[id]/page';
 import WhereToPopupSkeleton from '@/components/homepage/skeletons/WhereToPopupSkeleton';
 import { motion } from 'framer-motion';
 

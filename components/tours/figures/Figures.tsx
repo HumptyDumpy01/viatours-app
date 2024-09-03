@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import './Figures.scss';
-import { TourInterface } from '@/data/DUMMY_TOURS';
+import { TourInterface } from '@/app/tours/[id]/page';
 import Figure from './Figure';
 import Pagination from '@/components/UI/Pagnation/Pagination';
 import FiguresHeader from '@/components/tours/figures/FiguresHeader';

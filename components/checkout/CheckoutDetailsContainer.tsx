@@ -6,7 +6,7 @@
 
 import CheckoutDetails, { OrderInterface } from '@/components/checkout/checkout-details/CheckoutDetails';
 import React, { useEffect, useState } from 'react';
-import { TourInterface } from '@/data/DUMMY_TOURS';
+import { TourInterface } from '@/app/tours/[id]/page';
 import { notFound } from 'next/navigation';
 import { getTourById } from '@/lib/mongodb';
 import CheckoutLoadingPage from '@/app/checkout/loading';

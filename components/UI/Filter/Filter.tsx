@@ -10,7 +10,7 @@ import StoreProvider from '@/components/UI/Provider/StoreProvider';
 import { useCartDispatch, useCartSelector } from '@/store/hooks';
 import { HeroSliceActions } from '@/store/heroSlice';
 import DatePicker from '@/components/UI/DatePicker/DatePicker';
-import { TourInterface } from '@/data/DUMMY_TOURS';
+import { TourInterface } from '@/app/tours/[id]/page';
 import { motion } from 'framer-motion';
 
 

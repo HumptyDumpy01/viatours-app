@@ -1,6 +1,6 @@
 // 'use client';
 import './CheckoutOverall.scss';
-import { TourInterface } from '@/data/DUMMY_TOURS';
+import { TourInterface } from '@/app/tours/[id]/page';
 import { OrderInterface } from '@/components/checkout/checkout-details/CheckoutDetails';
 import { CldImage } from 'next-cloudinary';
 

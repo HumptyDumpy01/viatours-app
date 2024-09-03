@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import './TopTrending.scss';
 import TourCard from '@/components/UI/Card/TourCard';
-import { TourInterface } from '@/data/DUMMY_TOURS';
+import { TourInterface } from '@/app/tours/[id]/page';
 import SkeletonCardFull from '@/components/skeletons/Card/SkeletonCardFull';
 
 type TopTrendingSliderType = {

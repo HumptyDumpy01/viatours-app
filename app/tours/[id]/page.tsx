@@ -2,11 +2,94 @@
 /* IMPORTANT: DO NOT MODIFY */
 /* IMPORTANT: DO NOT MODIFY */
 
+export type MeetingPointType = {
+  title: string;
+  location: { type: `Point`, coordinates: [number, number] };
+  city: string;
+  state: string;
+  country: string;
+};
+
+export interface TourInterface {
+  _id: string;
+  title: string;
+  overview: string;
+  country: string;
+  city: string;
+  reviews: number;
+  views: number;
+  time: string[];
+  type: string[];
+  price: {
+    adult: number;
+    youth: number;
+    children: number;
+    extra: {
+      servicePerBooking: number,
+      servicePerPerson: number;
+      adult: number;
+      youth: number;
+    }
+  };
+  tags: string[];
+  booked: number;
+  images: string[];
+  duration: string;
+  groupSize: number;
+  ages: string;
+  tourHighlights: string[];
+  whatsIncluded: {
+    green: string[];
+    orange: string[];
+  };
+  itinerary: {
+    title: string;
+    description: string;
+  }[];
+  tourMap: {
+    label: string,
+    location: { type: `Point` | `Polygon`, coordinates: [number, number] },
+    googleMap: { key: string, location: google.maps.LatLngLiteral }
+  }[];
+  meetingPoint: MeetingPointType;
+  searchIndex: string;
+  available: boolean;
+  onSale: false | {
+    newPrice: {
+      adult: number,
+      youth: number,
+      children: number,
+      extra: { servicePerBooking: number, servicePerPerson: number, adult: number, youth: number }
+    }
+  };
+  languages: string[];
+  rating: {
+    overall: number;
+    location: number;
+    amenities: number;
+    food: number;
+    price: number;
+    rooms: number;
+    tourOperator: number;
+  };
+  comments: { id: string }[] | [];
+  tourComments: {
+    _id: string;
+    user: string;
+    rating: number;
+    title: string;
+    text: string;
+    images: string[];
+    addedAt: string;
+    likes: [];
+    dislikes: [];
+  }[];
+}
+
 // IMPORTANT: FOR PRODUCTION
 
 import TourDescriptionSection from '@/components/tourDescription/TourDescription';
 import { notFound } from 'next/navigation';
-import { TourInterface } from '@/data/DUMMY_TOURS';
 import { getServerSession } from 'next-auth';
 import { authConfig } from '@/lib/auth';
 import TourDescriptionLoadingPage from './loading-page';
@@ -108,7 +191,7 @@ export default async function TourDescription({ params }: TourDescriptionInterfa
 import TourDescriptionSection from '@/components/tourDescription/TourDescription';
 import { notFound } from 'next/navigation';
 import { getTourById, getTours } from '@/lib/mongodb';
-import { TourInterface } from '@/data/DUMMY_TOURS';
+import { TourInterface } from '@/app/tours/[id]/page';
 import { getServerSession } from 'next-auth';
 import { authConfig } from '@/lib/auth';
 import TourDescriptionLoadingPage from '@/app/tours/[id]/loading-page';

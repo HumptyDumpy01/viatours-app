@@ -1,6 +1,6 @@
 'use client';
 
-import { TourInterface } from '@/data/DUMMY_TOURS';
+import { TourInterface } from '@/app/tours/[id]/page';
 import CheckoutHeading from '@/components/checkout/CheckoutHeading';
 import ActivityDetailsCard from '@/components/checkout/card/card-first-col/ActivityDetailsCard';
 import CheckoutFormActivityDetails from '@/components/checkout/form/CheckoutFormActivityDetails';

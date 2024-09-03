@@ -3,7 +3,7 @@
 import FindPopularHeading from '@/components/homepage/find-popular-tours/FindPopularHeading';
 import TourCard from '@/components/UI/Card/TourCard';
 import './FindPopularTours.scss';
-import { TourInterface } from '@/data/DUMMY_TOURS';
+import { TourInterface } from '@/app/tours/[id]/page';
 import React, { useEffect, useState } from 'react';
 import FindPopularToursSkeleton from '@/components/homepage/skeletons/FindPopularToursSkeleton';
 import { motion } from 'framer-motion';

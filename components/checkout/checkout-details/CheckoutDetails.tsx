@@ -7,7 +7,7 @@ import CheckoutDetailsSecondStep from '@/components/checkout/checkout-details/Ch
 import CheckoutDetailsThirdStep from '@/components/checkout/checkout-details/CheckoutDetailsThirdStep';
 import CheckoutOverall from '@/components/checkout/checkout-overall/CheckoutOverall';
 import BookWithConfidence from '@/components/UI/Layout/BookWithConfidence';
-import { MeetingPointType } from '@/data/DUMMY_MEETING_POINTS';
+import { MeetingPointType } from '@/app/tours/[id]/page';
 
 export type OrderInterface = {
   date: string;

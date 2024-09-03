@@ -10,7 +10,7 @@ import HeroInput from '@/components/homepage/hero/HeroInput';
 import Image from 'next/image';
 import { useCartDispatch, useCartSelector } from '@/store/hooks';
 import { HeroSliceActions } from '@/store/heroSlice';
-import { TourInterface } from '@/data/DUMMY_TOURS';
+import { TourInterface } from '@/app/tours/[id]/page';
 import useDebounce from '@/hooks/useDebounce';
 import { useRouter } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';

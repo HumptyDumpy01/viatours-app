@@ -1,6 +1,6 @@
 'use server';
 import { MongoClient, ObjectId, Timestamp } from 'mongodb';
-import { TourInterface } from '@/data/DUMMY_TOURS';
+import { TourInterface } from '@/app/tours/[id]/page';
 import { revalidatePath } from 'next/cache';
 import { FormContactDetailsType } from '@/components/checkout/form/CheckoutFormContactDetails';
 import { transformedResultsType } from '@/components/checkout/form/CheckoutFormActivityDetails';
