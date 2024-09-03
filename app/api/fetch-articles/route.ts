@@ -1,14 +1,14 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { getArticles } from '@/lib/mongodb';
 
-export async function GET() {
+export async function POST(request: NextRequest) {
   try {
 
-    // const { userId } = await request.json();
+    const { limit, project } = await request.json();
 
-    const response = await getArticles();
+    const response = await getArticles(limit, project);
 
-    console.log(`Executing response: `, response);
+    // console.log(`Executing response: `, response);
 
     if (response.error) {
       return NextResponse.json({

@@ -3190,7 +3190,11 @@ export async function deleteUserAccount(userEmail: string) {
 
 /* IMPORTANT: ARTICLES */
 
-export async function getArticles() {
+export async function getArticles(limit?: number, project?: any) {
+
+  const limitVal = limit ? limit : 9999;
+  const projectVal = project ? project : { searchTerm: 0 };
+
   const client = await clientPromise;
   const db = client.db(`viatoursdb`);
 
@@ -3260,7 +3264,9 @@ export async function getArticles() {
           $first: '$views'
         }
       }
-    }
+    },
+    { $limit: limitVal },
+    { $project: projectVal }
   ]).toArray();
 
   if (!articles) {

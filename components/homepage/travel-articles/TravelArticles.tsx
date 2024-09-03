@@ -4,13 +4,44 @@
   // children: ReactNode;
 }*/
 import TravelArticlesHeading from '@/components/homepage/travel-articles/TravelArticlesHeading';
-import ArticleCard from '@/components/UI/Card/ArticleCard';
-import { DummyArticleType } from '@/data/DUMMY_ARTICLES';
-import { formatDate } from '@/lib/helpers/formatDate';
-import { fetchArticles } from '@/lib/api/fetchArticles';
 import { useEffect, useState } from 'react';
 import SkeletonCardClipped from '@/components/skeletons/Card/SkeletonCardClipped';
 import { motion } from 'framer-motion';
+import { ObjectId } from 'mongodb';
+import { ArticleComment } from '@/app/articles/[id]/page';
+import ArticleCard from '@/components/UI/Card/ArticleCard';
+import { formatDate } from '@/lib/helpers/formatDate';
+
+export type ArticleTypeFull = {
+  _id: string;
+  subtitle: string;
+  title: string;
+  images: string[]
+  type: string[];
+  tags: string[];
+  rating: number[];
+  views: number;
+  location: {
+    place: string;
+    city: string;
+    country: string;
+  };
+  author: ObjectId[];
+  readTime: string;
+  content: any;
+  searchTerm: string;
+  createdAt: string;
+  comments: ArticleComment[];
+}
+
+type ArticleType = {
+  _id: string;
+  title: string;
+  image: string;
+  type: string[];
+  author: string;
+  createdAt: string;
+}
 
 const container = {
   hidden: { opacity: 0 },
@@ -29,14 +60,40 @@ const item = {
 };
 
 export default function TravelArticles(/*{  }: TravelArticlesInterface*/) {
-  const [articles, setArticles] = useState<DummyArticleType[]>([]);
+  const [articles, setArticles] = useState<ArticleType[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<boolean>(false);
+
+  async function fetchArticles() {
+    const response = await fetch(`/api/fetch-articles`, {
+      method: `POST`,
+      body: JSON.stringify({
+        limit: 3,
+        project: {
+          title: 1,
+          image: 1,
+          type: 1,
+          createdAt: 1,
+          author: 1
+        }
+      })
+    });
+    const data = await response.json();
+
+    if (data.error) {
+      setError(true);
+      setLoading(false);
+      return;
+    }
+    setArticles(data.articles);
+    setLoading(false);
+    setError(false);
+
+  }
+
 
   useEffect(() => {
-    fetchArticles(3).then((articles) => {
-      setArticles(articles);
-      setLoading(false);
-    });
+    fetchArticles();
   }, []);
 
   return (
@@ -60,18 +117,19 @@ export default function TravelArticles(/*{  }: TravelArticlesInterface*/) {
           variants={container}
           transition={{ type: 'spring', stiffness: 300, damping: 10 }}
           className="travel-articles__articles grid">
-          {!loading && articles.map((item) =>
+          {(!loading && !error) && articles.map((item) =>
             <ArticleCard
-              imgSrc={item.images[0]}
-              key={item.id}
-              href={`/articles/1`}
-              tag={item.tags[0]}
-              date={formatDate(item.date)}
-              author={`${item.author.name} ${item.author.lastName}`}
+              imgSrc={item.image}
+              key={item._id}
+              href={item._id}
+              type={item.type}
+              date={formatDate(item.createdAt)}
+              author={item.author}
               title={item.title} />
           )}
         </motion.div>
-        {!loading && articles.length === 0 && <p>No articles found</p>}
+        {(!loading && !error && articles.length === 0) && <p>No articles found</p>}
+        {(error && !loading) && <p className={`subheading`}>There was an error fetching the articles!</p>}
 
       </div>
     </motion.div>

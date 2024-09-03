@@ -86,7 +86,10 @@ export default function SearchArticleContainer(/*{ results }: SearchArticleConta
     setDisableSearchBtn(true);
     setIsLoading(true);
     try {
-      const response = await fetch(`/api/fetch-articles`);
+      const response = await fetch(`/api/fetch-articles`, {
+        method: `POST`,
+        body: JSON.stringify({})
+      });
       const data = await response.json();
 
       if (data.error) {
