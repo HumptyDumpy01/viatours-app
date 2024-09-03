@@ -1,6 +1,6 @@
 // 'use client';
 import React from 'react';
-import TrackOrderContent from '@/components/track-order/TrackOrderContent';
+import TrackOrderContent from '@/components/track-order/trackOrder/TrackOrderContent';
 /*type TrackOrderPageType = {
   // children: ReactNode;
 }*/

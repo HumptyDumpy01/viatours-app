@@ -5,7 +5,7 @@
 }*/
 
 import classes from '@/app/track-order/page.module.scss';
-import TrackOrderForm from '@/components/track-order/TrackOrderForm';
+import TrackOrderForm from '@/components/track-order/trackOrder/TrackOrderForm';
 import React from 'react';
 
 export default function EnterOrderIdStage(/*{  }: EnterOrderIdStageType*/) {

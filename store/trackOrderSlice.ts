@@ -3,11 +3,21 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 const trackOrderSlice = createSlice({
   name: `track-order-slice`,
   initialState: {
-    currentStage: 2
+    orderStage: 2,
+    actionsStage: {
+      stage: 1,
+      type: ``
+    }
   },
   reducers: {
-    setStage(state, action: PayloadAction<1 | 2>) {
-      state.currentStage = action.payload;
+    setOrderStage(state, action: PayloadAction<1 | 2>) {
+      state.orderStage = action.payload;
+    },
+    setActionsStage(state, action: PayloadAction<{
+      stage: 1 | 2 | 3;
+      type: `refund` | `cancellation`;
+    }>) {
+      state.actionsStage = action.payload;
     }
   }
 });
