@@ -26,6 +26,8 @@ export default function TrackOrderForm(/*{  }: TrackOrderFormType*/) {
       setError(`Please enter a valid Order ID`);
     }
 
+    /* TODO: Create an api endpoint that would retrieve the order details. */
+
     // output
     console.log(results);
   }

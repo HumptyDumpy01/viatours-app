@@ -4577,3 +4577,17 @@ export async function deleteUserSavedArticle(userEmail: string, articleId: strin
 }
 
 ///////////////////////////////////////
+
+
+/* IMPORTANT: TRACK ORDER */
+
+export async function fetchTrackOrderData(orderId: string) {
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+
+
+}
+
+
+///////////////////////////////////////
+
