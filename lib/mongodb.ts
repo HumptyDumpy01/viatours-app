@@ -2776,6 +2776,38 @@ export async function generateOrderActionConfirmationToken(orderId: string, type
 
 }
 
+export async function verifyOrderCancellationToken(orderId: string, userToken: string) {
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+
+  const tokenObject = await db.collection(`requestCancellationTokens`).findOne({ orderId: new ObjectId(orderId) });
+
+  if (!tokenObject) {
+    return {
+      error: true,
+      message: `Error. Token expired/doesn't exist.`
+    };
+  }
+
+  const userTokenMatch = await bcrypt.compare(userToken, tokenObject.token);
+
+  if (!userTokenMatch) {
+    return {
+      error: true,
+      message: `Invalid Token.`
+    };
+  }
+
+  await db.collection(`requestCancellationTokens`).deleteOne({ orderId: new ObjectId(orderId) });
+
+  return {
+    error: false,
+    acknowledged: true,
+    message: `Tokens do match.`
+  };
+
+}
+
 ///////////////////////////////////////
 
 /* IMPORTANT: TWO-FACTOR AUTH */

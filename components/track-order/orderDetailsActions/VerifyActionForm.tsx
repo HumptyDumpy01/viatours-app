@@ -1,5 +1,10 @@
 'use client';
 
+import { useCartSelector } from '@/store/hooks';
+import classes from '@/app/track-order/page.module.scss';
+import { useRef, useState, useTransition } from 'react';
+import { OrderDetailsType } from '@/store/trackOrderSlice';
+
 type VerifyActionFormType = {
   action: {
     type: `cancellation` | `refund`;
@@ -8,26 +13,65 @@ type VerifyActionFormType = {
   // children: ReactNode;
 }
 
-import classes from '@/app/track-order/page.module.scss';
-import { FormEvent, useState, useTransition } from 'react';
-
 export default function VerifyActionForm({ action }: VerifyActionFormType) {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string>(``);
-  const [success, setSuccess] = useState<string>(`Success! The request for refund/cancellation is sent.`);
+
+  const { _id } = useCartSelector((state) => state.trackOrder.orderDetails) as OrderDetailsType;
+
+
+  const userCode = useRef<HTMLInputElement>(null);
 
   console.log(`action.stage`, action.stage);
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const currObject = e.currentTarget;
-    const formData = new FormData(currObject);
-    const results = Object.fromEntries(formData.entries());
+  async function handleSubmit() {
+
+    if (userCode?.current?.value.toString().trim().length !== 6 || isNaN(+userCode.current.value)) {
+      setError(`The code should be 6 digits long.`);
+      return;
+    }
+    // console.log(`userCode`, userCode.current.value);
+
+    if (!userCode.current.value) {
+      setError(`Please, enter the code.`);
+      return;
+    }
+
+    /* TODO: Create an API endpoint to check whether the token user entered is correct.
+    *   If so, just change the action stage to third. Then use another api endpoint to push a document with
+    *   all the necessary data onto orderCancellations collections. */
+    startTransition(async () => {
+      setError(``);
+      const response = await fetch(`/api/verify-order-cancellation-token`, {
+        method: `POST`,
+        headers: {
+          'Content-Type': `application/json`
+        },
+        body: JSON.stringify({
+          orderId: _id.toString(),
+          userToken: userCode.current!.value ? userCode.current!.value : false
+        })
+      });
+
+      const data = await response.json();
+
+      if (data.error || !data.acknowledged) {
+        setError(data.message || `An error occurred. Please, try again.`);
+        return;
+      }
+
+      console.log(`data`, data);
+
+      /* TODO: Use api endpoint to push user's order to orderCancellations collection,
+      *   and also do not forget to change the actual order data.
+      *   If user is authenticated, then push corresponding notification to his notifications array.*/
+
+    });
+
 
     // resetting the form
     // currObject.reset();
     // output
-    console.log(results);
   }
 
   return (
@@ -40,10 +84,14 @@ export default function VerifyActionForm({ action }: VerifyActionFormType) {
             </div>
           )}
           <label className={`${classes[`label`]}`} htmlFor={`orderId`}>Enter Verification Code</label>
-          <form onSubmit={handleSubmit} className={`flex ${classes['track-order-input-container']} margin-bottom-42px`}>
-            <input name={`code`} className={`${classes[`input`]}`} type={`password`} id={`orderId`} required
+          <form className={`flex ${classes['track-order-input-container']} margin-bottom-42px`}>
+            <input disabled={isPending} ref={userCode} name={`code`} className={`${classes[`input`]}`} type={`password`}
+                   id={`orderId`}
+                   required
                    placeholder={`6-digit code`} />
-            <button type={`submit`} className={classes[`track-order-track-btn`]}>Verify</button>
+            <button onClick={handleSubmit} type={`button`}
+                    className={`${classes[`track-order-track-btn`]} ${isPending ? `${classes[`disabled`]}` : ``} `}>Verify
+            </button>
           </form>
         </>
       )}
