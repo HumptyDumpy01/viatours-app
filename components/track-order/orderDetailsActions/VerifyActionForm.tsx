@@ -47,14 +47,6 @@ export default function VerifyActionForm({ action }: VerifyActionFormType) {
           </form>
         </>
       )}
-
-      {action.stage === 3 && (
-        <div>
-          {success && (
-            <></>
-          )}
-        </div>
-      )}
     </form>
   );
 }

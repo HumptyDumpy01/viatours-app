@@ -36,6 +36,13 @@
   border-radius: 39px;
   background: linear-gradient(90deg, #DD95FF 0%, #FF8181 100%), linear-gradient(92deg, #F28555 1.59%, #8C4D31 174.22%);
 
+  @media only screen and (max-width: 75em) {
+    svg {
+      width: 2.7rem;
+      height: 2.7rem;
+    }
+  }
+
   p {
     font-size: 1.767rem;
     font-weight: 600;

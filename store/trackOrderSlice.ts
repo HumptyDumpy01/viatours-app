@@ -3,10 +3,10 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 const trackOrderSlice = createSlice({
   name: `track-order-slice`,
   initialState: {
-    orderStage: 2,
+    orderStage: 1,
     actionsStage: {
-      stage: 3,
-      type: `cancellation`
+      stage: 1,
+      type: ``
     }
   },
   reducers: {
