@@ -1,9 +1,9 @@
 'use client';
 
-import { useCartSelector } from '@/store/hooks';
+import { useCartDispatch, useCartSelector } from '@/store/hooks';
 import classes from '@/app/track-order/page.module.scss';
 import { useRef, useState, useTransition } from 'react';
-import { OrderDetailsType } from '@/store/trackOrderSlice';
+import { OrderDetailsType, trackOrderSliceActions } from '@/store/trackOrderSlice';
 
 type VerifyActionFormType = {
   action: {
@@ -16,13 +16,14 @@ type VerifyActionFormType = {
 export default function VerifyActionForm({ action }: VerifyActionFormType) {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string>(``);
+  const dispatch = useCartDispatch();
 
   const { _id } = useCartSelector((state) => state.trackOrder.orderDetails) as OrderDetailsType;
 
 
   const userCode = useRef<HTMLInputElement>(null);
 
-  console.log(`action.stage`, action.stage);
+  // console.log(`action.stage`, action.stage);
 
   async function handleSubmit() {
 
@@ -37,9 +38,9 @@ export default function VerifyActionForm({ action }: VerifyActionFormType) {
       return;
     }
 
-    /* TODO: Create an API endpoint to check whether the token user entered is correct.
-    *   If so, just change the action stage to third. Then use another api endpoint to push a document with
-    *   all the necessary data onto orderCancellations collections. */
+    /* Create an API endpoint to check whether the token user entered is correct.
+    *  If so, just change the action stage to third. Then use another api endpoint to push a document with
+    *  all the necessary data onto orderCancellations collections. */
     startTransition(async () => {
       setError(``);
       const response = await fetch(`/api/verify-order-cancellation-token`, {
@@ -62,9 +63,33 @@ export default function VerifyActionForm({ action }: VerifyActionFormType) {
 
       console.log(`data`, data);
 
-      /* TODO: Use api endpoint to push user's order to orderCancellations collection,
-      *   and also do not forget to change the actual order data.
-      *   If user is authenticated, then push corresponding notification to his notifications array.*/
+      /* Use api endpoint to push user's order to orderCancellations collection,
+      *  and also remember to change the actual order data.
+      *  If the user is authenticated, then push the corresponding notification to his notification array.*/
+      const finalResultForCancellationReq = await fetch(`/api/approve-request-for-cancellation`, {
+        method: `POST`,
+        headers: {
+          'Content-Type': `application/json`
+        },
+        body: JSON.stringify({
+          orderId: _id.toString()
+        })
+      });
+
+      const finalResultForCancellationReqData = await finalResultForCancellationReq.json();
+
+      if (finalResultForCancellationReqData.error || !finalResultForCancellationReqData.acknowledged) {
+        setError(finalResultForCancellationReqData.message || `An error occurred. Please, try again.`);
+        return;
+      }
+
+      // if everything is successful, then change the stage to 3
+      dispatch(trackOrderSliceActions.setActionsStage({
+        type: action.type,
+        stage: 3
+      }));
+      // clear the error
+      setError(``);
 
     });
 

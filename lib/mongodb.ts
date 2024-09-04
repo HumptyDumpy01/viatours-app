@@ -2808,6 +2808,95 @@ export async function verifyOrderCancellationToken(orderId: string, userToken: s
 
 }
 
+export async function approveRequestForCancellation(orderId: string) {
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+
+  if (!ObjectId.isValid(orderId)) {
+    return {
+      error: true,
+      message: `Error. Invalid Order ID.`
+    };
+  }
+  const order = await db.collection(`orders`).findOne({ _id: new ObjectId(orderId) });
+
+  if (!order) {
+    return {
+      error: true,
+      message: `Error. Order does not exist.`
+    };
+  }
+  const cancellationAvailable = order.extraDetails.cancellation.available;
+
+  if (!cancellationAvailable) {
+    return {
+      error: true,
+      message: `Error. Cancellation is not available.`
+    };
+  }
+
+
+  const newOrderForCancellation = {
+    orderId: order._id,
+    status: `pending`,
+    userEmail: order.contactDetails.email,
+    userPhone: order.contactDetails.phone,
+    userInitials: `${order.contactDetails.firstName} ${order.contactDetails.lastName}`
+  };
+
+  const orderAlreadyExists = await db.collection(`orderCancellations`).findOne({ orderId: order._id });
+
+  if (orderAlreadyExists) {
+    return {
+      error: true,
+      message: `Error. Cancellation request already sent.`
+    };
+  }
+
+  const response = await db.collection(`orderCancellations`).insertOne(newOrderForCancellation);
+
+  if (!response.acknowledged) {
+    return {
+      error: true,
+      message: `Failed to insert the order cancellation.`
+    };
+
+  } else {
+
+    const userExists = await db.collection(`users`).findOne({ email: order.contactDetails.email });
+
+    if (userExists) {
+      // silently push a notification to the user
+      const response = await db.collection(`users`).updateOne({ email: order.contactDetails.email }, {
+        // @ts-ignore
+        $push: {
+          notifications: {
+            type: `orange`,
+            icon: `map`,
+            addedAt: new Date(),
+            timestamp: Timestamp.fromNumber(Date.now()),
+            text: `Your cancellation request for the order was sent.`
+          }
+        }
+      });
+    }
+
+    await db.collection(`orders`).updateOne({ _id: new ObjectId(orderId) }, {
+      $set: {
+        'extraDetails.cancellation.available': false,
+        'extraDetails.cancellation.requested': true
+      }
+    });
+
+    return {
+      error: false,
+      message: `The order cancellation was successfully sent.`
+    };
+  }
+
+
+}
+
 ///////////////////////////////////////
 
 /* IMPORTANT: TWO-FACTOR AUTH */
