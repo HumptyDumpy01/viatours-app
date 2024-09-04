@@ -2691,6 +2691,91 @@ export async function validateRegisterEmailToken(userToken: string, email: strin
 
 }
 
+/* INFO: Order Action means user can request a cancellation or refund for the tickets
+*   he bought. He should confirm this action when he requests in via track-order page. */
+export async function generateOrderActionConfirmationToken(orderId: string, type: `refund` | `cancellation`) {
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+
+  if (!ObjectId.isValid(orderId)) {
+    return {
+      error: true,
+      message: `Error. Invalid Order ID.`
+    };
+  }
+
+  if (type !== `refund` && type !== `cancellation`) {
+    return {
+      error: true,
+      message: `Error. Invalid type.`
+    };
+  }
+
+  const order = await db.collection(`orders`).findOne({ _id: new ObjectId(orderId) });
+
+  if (!order) {
+    return {
+      error: true,
+      message: `Error. Order does not exist.`
+    };
+  }
+
+  const userCanRequestRefund = order.extraDetails.refund.available;
+  const userCanRequestCancellation = order.extraDetails.cancellation.available;
+
+  if (type === `cancellation`) {
+
+    if (!userCanRequestCancellation) {
+      return {
+        error: true,
+        message: `Error. Cancellation is not available.`
+      };
+    }
+
+    const token = await generateVerificationToken();
+    const encryptedToken = await bcrypt.hash(token, 12);
+
+    const tokenExists = await db.collection(`requestCancellationTokens`).findOne({ orderId: new ObjectId(orderId) });
+
+    if (tokenExists) {
+      await db.collection(`requestCancellationTokens`).deleteOne({ orderId: new ObjectId(orderId) });
+    }
+
+    const response = await db.collection(`requestCancellationTokens`).insertOne({
+      orderId: new ObjectId(orderId),
+      token: encryptedToken,
+      createdAt: new Date()
+    });
+
+    if (!response.acknowledged) {
+      return {
+        error: true,
+        message: `Failed to insert the token.`
+      };
+    }
+
+    await sendVerificationCode(order.contactDetails.email, token, `verifyOrderCancellation`);
+
+    return {
+      error: false,
+      message: `The token was successfully inserted.`
+    };
+
+
+  }
+
+  if (type === `refund`) {
+    if (!userCanRequestRefund) {
+      return {
+        error: true,
+        message: `Error. Refund is not available.`
+      };
+    }
+
+  }
+
+}
+
 ///////////////////////////////////////
 
 /* IMPORTANT: TWO-FACTOR AUTH */

@@ -8,12 +8,16 @@ type OrderDetailsActionsBtnsType = {
   // children: ReactNode;
   handleRequestRefund: () => void;
   handleRequestCancellation: () => void;
+  isPending: boolean;
+  error: boolean;
 }
 
 export default function
   OrderDetailsActionsBtns({
                             handleRequestRefund,
-                            handleRequestCancellation
+                            handleRequestCancellation,
+                            isPending,
+                            error
                           }: OrderDetailsActionsBtnsType) {
 
   const {
@@ -24,23 +28,23 @@ export default function
 
   return (
     <>
-      <div className={`${classes[`order-details-actions-btns`]}`}>
+      <div className={`${classes[`order-details-actions-btns`]} ${!error ? `margin-top-big` : ``}`}>
         <div className={`flex margin-bottom-21px`}>
           <button
-            disabled={!refundAvailable}
+            disabled={!refundAvailable || isPending}
             onClick={refundAvailable ? handleRequestRefund : undefined}
             className={`${classes[`order-details-actions-btn`]}
-             ${!refundAvailable ? `${classes[`disabled`]}` : ``} ${classes[`refund`]}`}>Request
+             ${!refundAvailable || isPending ? `${classes[`disabled`]}` : ``} ${classes[`refund`]}`}>Request
             a
             Refund
           </button>
         </div>
         <div className={`flex`}>
           <button
-            disabled={!cancellationAvailable}
+            disabled={!cancellationAvailable || isPending}
             onClick={cancellationAvailable ? handleRequestCancellation : undefined}
             className={`${classes[`order-details-actions-btn`]} 
-             ${!cancellationAvailable ? `${classes[`disabled`]}` : ``}
+             ${!cancellationAvailable || isPending ? `${classes[`disabled`]}` : ``}
              ${classes[`cancellation`]}`}>Request
             a
             Cancellation

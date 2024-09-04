@@ -40,7 +40,7 @@ export default function VerifyActionForm({ action }: VerifyActionFormType) {
             </div>
           )}
           <label className={`${classes[`label`]}`} htmlFor={`orderId`}>Enter Verification Code</label>
-          <form className={`flex ${classes['track-order-input-container']} margin-bottom-42px`}>
+          <form onSubmit={handleSubmit} className={`flex ${classes['track-order-input-container']} margin-bottom-42px`}>
             <input name={`code`} className={`${classes[`input`]}`} type={`password`} id={`orderId`} required
                    placeholder={`6-digit code`} />
             <button type={`submit`} className={classes[`track-order-track-btn`]}>Verify</button>

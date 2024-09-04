@@ -46,8 +46,8 @@
 }
 
 .disabled {
-  background-color: var(--clr-grey);
-  color: var(--clr-white);
+  background-color: var(--clr-grey) !important;
+  color: var(--clr-white) !important;
   cursor: not-allowed !important;
 }
 
