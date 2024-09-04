@@ -19,22 +19,25 @@
   }
 
 
-  label {
-    font-size: 1.805rem;
-    font-weight: 600;
-  }
+}
 
-  input {
-    height: 5.7rem;
-    width: 29.5rem;
-    border: none;
-    padding-left: 1.7rem;
-    background-color: var(--clr-grey-3);
-    border-radius: 12px;
+.label {
+  display: inline-block;
+  margin-top: 2rem;
+  font-size: 1.805rem;
+  font-weight: 600;
+}
 
-    @media only screen and (max-width: 75em) {
-      height: 6.1rem;
-    }
+.input {
+  height: 5.7rem;
+  width: 29.5rem;
+  border: none;
+  padding-left: 1.7rem;
+  background-color: var(--clr-grey-3);
+  border-radius: 12px;
+
+  @media only screen and (max-width: 75em) {
+    height: 6.1rem;
   }
 }
 

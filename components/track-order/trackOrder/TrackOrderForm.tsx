@@ -27,9 +27,10 @@ export default function TrackOrderForm(/*{  }: TrackOrderFormType*/) {
       <div className={`flex`}>
         {error && <p className={`paragraph paragraph-error`}>{error}</p>}
       </div>
-      <label htmlFor={`orderId`}>Enter your Order ID</label>
+      <label className={classes[`label`]} htmlFor={`orderId`}>Enter your Order ID</label>
       <div className={`flex ${classes['track-order-input-container']}`}>
-        <input type={`text`} id={`orderId`} required placeholder={`e.g 66cd917717fb802dfbc4e4a9`} />
+        <input name={`orderId`} className={classes[`input`]} type={`text`} id={`orderId`} required
+               placeholder={`e.g 66cd917717fb802dfbc4e4a9`} />
         <button type={`submit`} className={classes[`track-order-track-btn`]}>Track Order</button>
       </div>
     </form>

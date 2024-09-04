@@ -20,7 +20,7 @@ export default function OrderDetailsActions(/*{  }: OrderDetailsActionsType*/) {
           <OrderDetailsActionsStageOne />
         </>
       )}
-      {actionsStage === 2 && (
+      {actionsStage !== 1 && (
         <>
           <OrderDetailsActionsStageTwo />
         </>

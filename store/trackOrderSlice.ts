@@ -5,8 +5,8 @@ const trackOrderSlice = createSlice({
   initialState: {
     orderStage: 2,
     actionsStage: {
-      stage: 1,
-      type: ``
+      stage: 3,
+      type: `cancellation`
     }
   },
   reducers: {
