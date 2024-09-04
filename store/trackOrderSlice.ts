@@ -17,7 +17,7 @@ export type OrderDetailsType = {
 const trackOrderSlice = createSlice({
   name: `track-order-slice`,
   initialState: {
-    orderStage: 2,
+    orderStage: 1,
     actionsStage: {
       stage: 1,
       type: ``

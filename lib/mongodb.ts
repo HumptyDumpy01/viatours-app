@@ -4581,10 +4581,96 @@ export async function deleteUserSavedArticle(userEmail: string, articleId: strin
 
 /* IMPORTANT: TRACK ORDER */
 
-export async function fetchTrackOrderData(orderId: string) {
+export async function fetchTrackedOrderData(orderId: string) {
   const client = await clientPromise;
   const db = client.db(`viatoursdb`);
 
+  console.log(`Executing orderId: `, orderId);
+
+  // check if orderId is  a valid ObjectId
+  if (!ObjectId.isValid(orderId)) {
+    return {
+      error: true,
+      message: `Invalid order ID!`
+    };
+  }
+
+  const orderDetails = await db.collection(`orders`).aggregate(
+    [
+      { $match: { _id: new ObjectId(orderId) } },
+      {
+        $project: {
+          _id: 1,
+          tourId: 1,
+          tourTitle: 1,
+          extraDetails: 1,
+          'booking.tickets.overall': 1,
+          contactDetails: 1
+        }
+      },
+      {
+        $group: {
+          _id: '$_id',
+          status: {
+            $first: '$extraDetails.state.status'
+          },
+          tour: {
+            $first: {
+              _id: '$tourId',
+              title: '$tourTitle'
+            }
+          },
+          tickets: {
+            $first: '$booking.tickets.overall'
+          },
+          refundAvailable: {
+            $first: '$extraDetails.refund.available'
+          },
+          cancellationAvailable: {
+            $first: '$extraDetails.cancellation.available'
+          },
+          createdAt: {
+            $first: '$extraDetails.createdAt'
+          },
+          orderMadeBy: {
+            $first: {
+              $concat: ['$contactDetails.firstName',
+                ' ',
+                '$contactDetails.lastName']
+            }
+          }
+        }
+      }
+    ]).toArray();
+
+  if (orderDetails.length === 0) {
+    return {
+      error: true,
+      message: `Order does not exist, it seems!`
+    };
+  }
+
+  if (!orderDetails) {
+    return {
+      error: true,
+      message: `Failed to fetch order details.`
+    };
+  }
+
+
+  if (orderDetails.length > 0) {
+    return {
+      error: false,
+      order: orderDetails[0],
+      message: `Order details fetched successfully.`
+    };
+
+  } else {
+    return {
+      error: true,
+      message: `Failed to fetch order details.`
+    };
+  }
 
 }
 

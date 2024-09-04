@@ -67,6 +67,7 @@
   background-color: var(--clr-primary);
   color: var(--clr-white);
 
+
   @media only screen and (max-width: 75em) {
     height: 6.1rem;
   }
@@ -76,5 +77,28 @@
   }
 }
 
-.track-order-second-col {
+.disabled {
+  background-color: var(--clr-grey-3) !important;
+  color: var(--clr-grey) !important;
+  // add animation
+  animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
+}
+
+
+@keyframes shake {
+  10%, 90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+
+  20%, 80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%, 50%, 70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%, 60% {
+    transform: translate3d(4px, 0, 0);
+  }
 }
