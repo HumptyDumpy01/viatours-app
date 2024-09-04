@@ -15,21 +15,6 @@ export default function OrderDetailsStage(/*{  }: OrderDetailsStageType*/) {
   const orderDetails = useCartSelector((state) => state.trackOrder.orderDetails) as OrderDetailsType;
   const dispatch = useCartDispatch();
 
-  /*const orderDetailsDummy = {
-    _id: `66cd917717fb802dfbc4e4a9`,
-    status: `booked`,
-    tour: {
-      _id: `66cd917717fb802dfbc4e4a9`,
-      title: `The Forest Hiker`
-    },
-    tickets: 4,
-    refundAvailable: false,
-    cancellationAvailable: true,
-    createdAt: `August 27, 2024, 13:55`,
-    orderMadeBy: `Nick Baker`
-  } as OrderDetailsType;
-*/
-
   if (!orderDetails) {
     NotFound();
   }
@@ -68,7 +53,7 @@ export default function OrderDetailsStage(/*{  }: OrderDetailsStageType*/) {
           </p>
           <p className={classes[`order-details-data-par`]}><span
             className={`inline-block font-weight-bold`}>ID:</span> {orderDetails?._id?.toString()} </p>
-          <Link href={`/tours/${orderDetails?._id?.toString()}`}
+          <Link target={`_blank`} href={`/tours/${orderDetails?._id?.toString()}`}
                 className={`${classes[`order-details-data-par`]}`}><span
             className={`inline-block font-weight-bold`}>Tour:</span> <u>{orderDetails?.tour?.title}</u></Link>
           <p className={classes[`order-details-data-par`]}><span

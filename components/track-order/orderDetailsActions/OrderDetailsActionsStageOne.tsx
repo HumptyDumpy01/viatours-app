@@ -12,6 +12,12 @@ export default function OrderDetailsActionsStageOne(/*{  }: OrderDetailsActionsS
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string>(`Error! You cannot request a refund for this order.`);
 
+  function handleRequestCancellation() {
+  }
+
+  function handleRequestRefund() {
+  }
+
   return (
     <>
       <p className={classes[`order-details-actions-par`]}>
@@ -26,7 +32,8 @@ export default function OrderDetailsActionsStageOne(/*{  }: OrderDetailsActionsS
           {error}
         </p>
       )}
-      <OrderDetailsActionsBtns />
+      <OrderDetailsActionsBtns handleRequestCancellation={handleRequestCancellation}
+                               handleRequestRefund={handleRequestRefund} />
     </>
   );
 }

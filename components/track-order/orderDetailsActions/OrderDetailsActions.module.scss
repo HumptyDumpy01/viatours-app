@@ -45,6 +45,12 @@
   background-color: var(--clr-primary);
 }
 
+.disabled {
+  background-color: var(--clr-grey);
+  color: var(--clr-white);
+  cursor: not-allowed !important;
+}
+
 .cancellation {
   background-color: var(--clr-purple);
 }
