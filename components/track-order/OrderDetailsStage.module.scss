@@ -41,3 +41,12 @@
   display: grid;
   gap: 1.6rem;
 }
+
+.order-details-back-link {
+  font-size: 1.6rem;
+  color: var(--clr-primary);
+  font-weight: 600;
+  text-decoration: none;
+  margin-bottom: 2.5rem;
+  display: inline-block;
+}
