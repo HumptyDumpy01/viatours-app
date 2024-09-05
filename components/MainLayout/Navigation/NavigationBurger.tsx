@@ -33,6 +33,9 @@ export default function NavigationBurger(/*{  }: NavigationBurgerInterface*/) {
           <NavBurgerLink pathname={`/articles`}>Tour Articles</NavBurgerLink>
         </li>
         <li>
+          <NavBurgerLink pathname={`/track-order`}>Track Order</NavBurgerLink>
+        </li>
+        <li>
           {/*<NavBurgerLink pathname={`/account-settings?page=wishlist`}>Wishlist</NavBurgerLink>*/}
           <a className={`burger-link`}
              href="/account-settings?page=wishlist">Wishlist</a>
