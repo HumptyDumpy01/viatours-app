@@ -99,11 +99,27 @@ export async function sendVerificationCode(email: string, token: string, type:
     const response = await resend.emails.send({
       from: 'Viatours@viatours.net',
       to: email,
-      subject: 'Viatours Request Cancellation Verification',
+      subject: 'Viatours Request Cancellation for the Order',
       html: `
       <div style="font-family: 'Montserrat', sans-serif;">
       <h1>Cancellation of your Order</h1>
       <p>Your code to verify cancellation request: <strong>${token}</strong></p>
+      <p>This code will expire in 10 minutes.</p>
+      <br>
+      <p>If you didn't request this code, we highly recommend to change your password immediately.</p>
+      </div>
+    `
+    });
+  }
+  if (type === `verifyOrderRefund`) {
+    const response = await resend.emails.send({
+      from: 'Viatours@viatours.net',
+      to: email,
+      subject: 'Viatours Request Refund for the Order',
+      html: `
+      <div style="font-family: 'Montserrat', sans-serif;">
+      <h1>Refund of your Order</h1>
+      <p>Your code to verify refund request: <strong>${token}</strong></p>
       <p>This code will expire in 10 minutes.</p>
       <br>
       <p>If you didn't request this code, we highly recommend to change your password immediately.</p>

@@ -17,6 +17,10 @@ export default function VerifyActionForm({ action }: VerifyActionFormType) {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string>(``);
   const dispatch = useCartDispatch();
+  const { type } = useCartSelector((state) => state.trackOrder.actionsStage) as {
+    type: `cancellation` | `refund`;
+    stage: 1 | 2 | 3;
+  };
 
   const { _id } = useCartSelector((state) => state.trackOrder.orderDetails) as OrderDetailsType;
 
@@ -38,60 +42,117 @@ export default function VerifyActionForm({ action }: VerifyActionFormType) {
       return;
     }
 
-    /* Create an API endpoint to check whether the token user entered is correct.
-    *  If so, just change the action stage to third. Then use another api endpoint to push a document with
-    *  all the necessary data onto orderCancellations collections. */
-    startTransition(async () => {
-      setError(``);
-      const response = await fetch(`/api/verify-order-cancellation-token`, {
-        method: `POST`,
-        headers: {
-          'Content-Type': `application/json`
-        },
-        body: JSON.stringify({
-          orderId: _id.toString(),
-          userToken: userCode.current!.value ? userCode.current!.value : false
-        })
+    if (type === `cancellation`) {
+      /* Create an API endpoint to check whether the token user entered is correct.
+      *  If so, change the action stage to the third. Then use another api endpoint to push a document with
+      *  all the necessary data onto orderCancellations collections. */
+      startTransition(async () => {
+        setError(``);
+        const response = await fetch(`/api/verify-order-cancellation-token`, {
+          method: `POST`,
+          headers: {
+            'Content-Type': `application/json`
+          },
+          body: JSON.stringify({
+            orderId: _id.toString(),
+            userToken: userCode.current!.value ? userCode.current!.value : false
+          })
+        });
+
+        const data = await response.json();
+
+        if (data.error || !data.acknowledged) {
+          setError(data.message || `An error occurred. Please, try again.`);
+          return;
+        }
+
+        console.log(`data`, data);
+
+        /* Use api endpoint to push user's order to orderCancellations collection,
+        *  and also remember to change the actual order data.
+        *  If the user is authenticated, then push the corresponding notification to his notification array.*/
+        const finalResultForCancellationReq = await fetch(`/api/approve-request-for-cancellation`, {
+          method: `POST`,
+          headers: {
+            'Content-Type': `application/json`
+          },
+          body: JSON.stringify({
+            orderId: _id.toString()
+          })
+        });
+
+        const finalResultForCancellationReqData = await finalResultForCancellationReq.json();
+
+        if (finalResultForCancellationReqData.error || !finalResultForCancellationReqData.acknowledged) {
+          setError(finalResultForCancellationReqData.message || `An error occurred. Please, try again.`);
+          return;
+        }
+
+        // if everything is successful, then change the stage to 3
+        dispatch(trackOrderSliceActions.setActionsStage({
+          type: action.type,
+          stage: 3
+        }));
+        // clear the error
+        setError(``);
+
       });
+    }
 
-      const data = await response.json();
+    if (type === `refund`) {
 
-      if (data.error || !data.acknowledged) {
-        setError(data.message || `An error occurred. Please, try again.`);
-        return;
-      }
+      startTransition(async () => {
+        setError(``);
+        const response = await fetch(`/api/verify-order-refund-token`, {
+          method: `POST`,
+          headers: {
+            'Content-Type': `application/json`
+          },
+          body: JSON.stringify({
+            orderId: _id.toString(),
+            userToken: userCode.current!.value ? userCode.current!.value : false
+          })
+        });
 
-      console.log(`data`, data);
+        const data = await response.json();
 
-      /* Use api endpoint to push user's order to orderCancellations collection,
-      *  and also remember to change the actual order data.
-      *  If the user is authenticated, then push the corresponding notification to his notification array.*/
-      const finalResultForCancellationReq = await fetch(`/api/approve-request-for-cancellation`, {
-        method: `POST`,
-        headers: {
-          'Content-Type': `application/json`
-        },
-        body: JSON.stringify({
-          orderId: _id.toString()
-        })
+        if (data.error || !data.acknowledged) {
+          setError(data.message || `An error occurred. Please, try again.`);
+          return;
+        }
+
+        console.log(`data`, data);
+
+        /* Use api endpoint to push user's order to orderCancellations collection,
+        *  and also remember to change the actual order data.
+        *  If the user is authenticated, then push the corresponding notification to his notification array.*/
+        const finalResultForRefundReq = await fetch(`/api/approve-request-for-refund`, {
+          method: `POST`,
+          headers: {
+            'Content-Type': `application/json`
+          },
+          body: JSON.stringify({
+            orderId: _id.toString()
+          })
+        });
+
+        const finalResultForRefundReqData = await finalResultForRefundReq.json();
+
+        if (finalResultForRefundReqData.error || !finalResultForRefundReqData.acknowledged) {
+          setError(finalResultForRefundReqData.message || `An error occurred. Please, try again.`);
+          return;
+        }
+
+        // if everything is successful, then change the stage to 3
+        dispatch(trackOrderSliceActions.setActionsStage({
+          type: action.type,
+          stage: 3
+        }));
+        // clear the error
+        setError(``);
+
       });
-
-      const finalResultForCancellationReqData = await finalResultForCancellationReq.json();
-
-      if (finalResultForCancellationReqData.error || !finalResultForCancellationReqData.acknowledged) {
-        setError(finalResultForCancellationReqData.message || `An error occurred. Please, try again.`);
-        return;
-      }
-
-      // if everything is successful, then change the stage to 3
-      dispatch(trackOrderSliceActions.setActionsStage({
-        type: action.type,
-        stage: 3
-      }));
-      // clear the error
-      setError(``);
-
-    });
+    }
 
 
     // resetting the form

@@ -2772,6 +2772,35 @@ export async function generateOrderActionConfirmationToken(orderId: string, type
       };
     }
 
+    const token = await generateVerificationToken();
+    const encryptedToken = await bcrypt.hash(token, 12);
+
+    const tokenExists = await db.collection(`requestRefundTokens`).findOne({ orderId: new ObjectId(orderId) });
+
+    if (tokenExists) {
+      await db.collection(`requestRefundTokens`).deleteOne({ orderId: new ObjectId(orderId) });
+    }
+
+    const response = await db.collection(`requestRefundTokens`).insertOne({
+      orderId: new ObjectId(orderId),
+      token: encryptedToken,
+      createdAt: new Date()
+    });
+
+    if (!response.acknowledged) {
+      return {
+        error: true,
+        message: `Failed to insert the token.`
+      };
+    }
+
+    await sendVerificationCode(order.contactDetails.email, token, `verifyOrderRefund`);
+
+    return {
+      error: false,
+      message: `The token was successfully inserted.`
+    };
+
   }
 
 }
@@ -2891,6 +2920,127 @@ export async function approveRequestForCancellation(orderId: string) {
     return {
       error: false,
       message: `The order cancellation was successfully sent.`
+    };
+  }
+
+
+}
+
+export async function verifyOrderRefundToken(orderId: string, userToken: string) {
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+
+  const tokenObject = await db.collection(`requestRefundTokens`).findOne({ orderId: new ObjectId(orderId) });
+
+  if (!tokenObject) {
+    return {
+      error: true,
+      message: `Error. Token expired/doesn't exist.`
+    };
+  }
+
+  const userTokenMatch = await bcrypt.compare(userToken, tokenObject.token);
+
+  if (!userTokenMatch) {
+    return {
+      error: true,
+      message: `Invalid Token.`
+    };
+  }
+
+  await db.collection(`requestRefundTokens`).deleteOne({ orderId: new ObjectId(orderId) });
+
+  return {
+    error: false,
+    acknowledged: true,
+    message: `Tokens do match.`
+  };
+
+}
+
+export async function approveRequestForRefund(orderId: string) {
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+
+  if (!ObjectId.isValid(orderId)) {
+    return {
+      error: true,
+      message: `Error. Invalid Order ID.`
+    };
+  }
+  const order = await db.collection(`orders`).findOne({ _id: new ObjectId(orderId) });
+
+  if (!order) {
+    return {
+      error: true,
+      message: `Error. Order does not exist.`
+    };
+  }
+  const refundAvailable = order.extraDetails.refund.available;
+
+  if (!refundAvailable) {
+    return {
+      error: true,
+      message: `Error. Refund is not available.`
+    };
+  }
+
+
+  const newOrderForRefund = {
+    orderId: order._id,
+    status: `pending`,
+    userEmail: order.contactDetails.email,
+    userPhone: order.contactDetails.phone,
+    userInitials: `${order.contactDetails.firstName} ${order.contactDetails.lastName}`
+  };
+
+  const orderAlreadyExists = await db.collection(`orderRefunds`).findOne({ orderId: order._id });
+
+  if (orderAlreadyExists) {
+    return {
+      error: true,
+      message: `Error. Refund request already sent.`
+    };
+  }
+
+  const response = await db.collection(`orderRefunds`).insertOne(newOrderForRefund);
+
+  if (!response.acknowledged) {
+    return {
+      error: true,
+      message: `Failed to insert the order refund.`
+    };
+
+  } else {
+
+    const userExists = await db.collection(`users`).findOne({ email: order.contactDetails.email });
+
+    if (userExists) {
+      // silently push a notification to the user
+      const response = await db.collection(`users`).updateOne({ email: order.contactDetails.email }, {
+        // @ts-ignore
+        $push: {
+          notifications: {
+            type: `orange`,
+            icon: `map`,
+            addedAt: new Date(),
+            timestamp: Timestamp.fromNumber(Date.now()),
+            text: `Your refund request for the order ${orderId.slice(0, 10) + `..`} was sent.`
+          }
+        }
+      });
+    }
+
+    await db.collection(`orders`).updateOne({ _id: new ObjectId(orderId) }, {
+      $set: {
+        'extraDetails.refund.available': false,
+        'extraDetails.refund.requested': true
+      }
+    });
+
+    return {
+      error: false,
+      message: `The order refund request was successfully sent.`
     };
   }
 
