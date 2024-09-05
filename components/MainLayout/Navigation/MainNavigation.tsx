@@ -111,7 +111,7 @@ export default function MainNavigation(/*{  }: MainNavigationInterface*/) {
                   type="search"
                   name={`searchTerm`}
                   className={`navigation--search`}
-                  placeholder="Search destinations or activities" />
+                  placeholder="Search Tours" />
               </label>
             </motion.form>
           </motion.div>
@@ -125,6 +125,7 @@ export default function MainNavigation(/*{  }: MainNavigationInterface*/) {
             <NavButton pathname={`/`}>Home</NavButton>
             <NavButton pathname={`/tours`}>Tours</NavButton>
             <NavButton pathname={`/articles`}>Tour Articles</NavButton>
+            <NavButton pathname={`/track-order`}>Track Order</NavButton>
             {/*<NavButton pathname={`/account-settings?page=wishlist`}>Wishlist</NavButton>*/}
             <motion.a
               whileHover={{ scale: 1.2, color: `#EB662B` }}

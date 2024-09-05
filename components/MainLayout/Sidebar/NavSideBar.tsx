@@ -8,6 +8,7 @@ import Image from 'next/image';
 import { signOut, useSession } from 'next-auth/react';
 import SidebarBtn from '@/components/UI/Button/SidebarLink';
 import CloseBtn from '@/components/UI/Button/CloseBtn';
+import Link from 'next/link';
 
 export default function NavSideBar() {
   const sideNavOpen = useCartSelector((state) => state.navigation.sideNavIsOpen);
@@ -93,6 +94,19 @@ export default function NavSideBar() {
           </div>
           {/*<SidebarLink label="Saved Articles" type="purple-heart" pathName="/account-settings?page=saved-articles" />*/}
           {/*<SidebarLink label="Account Settings" type="settings" pathName="/account-settings?page=profile" />*/}
+
+          <div
+            className={`user-actions-sidebar__actions-element flex flex-align-center gap-sm }`}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 48 48" fill="none">
+              <path
+                d="M37 8H11C9.89543 8 9 8.89543 9 10V42C9 43.1046 9.89543 44 11 44H37C38.1046 44 39 43.1046 39 42V10C39 8.89543 38.1046 8 37 8Z"
+                stroke="#EB662B" strokeWidth="4" strokeLinejoin="round" />
+              <path d="M18 4V10M30 4V10M16 19H32M16 27H28M16 35H24" stroke="#EB662B" strokeWidth="4"
+                    strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+            <Link className={`user-actions-sidebar__actions-link`}
+                  href={`/track-order`}>Track Order</Link>
+          </div>
 
           <div
             className={`user-actions-sidebar__actions-element flex flex-align-center gap-sm }`}>

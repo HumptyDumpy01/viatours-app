@@ -1,5 +1,24 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+export type OrderDetailsType = {
+  _id: string;
+  status: string;
+  tour: {
+    _id: string;
+    title: string;
+  };
+  tickets: number;
+  refundAvailable: boolean;
+  refundRequested: boolean;
+  cancellationAvailable: boolean;
+  cancellationRequested: boolean;
+  createdAt: string;
+  orderMadeBy: string;
+  location: {
+    googleMap: { key: string, location: google.maps.LatLngLiteral }
+  }
+}
+
 const trackOrderSlice = createSlice({
   name: `track-order-slice`,
   initialState: {
@@ -7,7 +26,8 @@ const trackOrderSlice = createSlice({
     actionsStage: {
       stage: 1,
       type: ``
-    }
+    },
+    orderDetails: {}
   },
   reducers: {
     setOrderStage(state, action: PayloadAction<1 | 2>) {
@@ -18,6 +38,9 @@ const trackOrderSlice = createSlice({
       type: `refund` | `cancellation`;
     }>) {
       state.actionsStage = action.payload;
+    },
+    setOrderDetails(state, action: PayloadAction<OrderDetailsType>) {
+      state.orderDetails = action.payload;
     }
   }
 });

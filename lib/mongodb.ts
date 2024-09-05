@@ -2691,6 +2691,362 @@ export async function validateRegisterEmailToken(userToken: string, email: strin
 
 }
 
+/* INFO: Order Action means user can request a cancellation or refund for the tickets
+*   he bought. He should confirm this action when he requests in via track-order page. */
+export async function generateOrderActionConfirmationToken(orderId: string, type: `refund` | `cancellation`) {
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+
+  if (!ObjectId.isValid(orderId)) {
+    return {
+      error: true,
+      message: `Error. Invalid Order ID.`
+    };
+  }
+
+  if (type !== `refund` && type !== `cancellation`) {
+    return {
+      error: true,
+      message: `Error. Invalid type.`
+    };
+  }
+
+  const order = await db.collection(`orders`).findOne({ _id: new ObjectId(orderId) });
+
+  if (!order) {
+    return {
+      error: true,
+      message: `Error. Order does not exist.`
+    };
+  }
+
+  const userCanRequestRefund = order.extraDetails.refund.available;
+  const userCanRequestCancellation = order.extraDetails.cancellation.available;
+
+  if (type === `cancellation`) {
+
+    if (!userCanRequestCancellation) {
+      return {
+        error: true,
+        message: `Error. Cancellation is not available.`
+      };
+    }
+
+    const token = await generateVerificationToken();
+    const encryptedToken = await bcrypt.hash(token, 12);
+
+    const tokenExists = await db.collection(`requestCancellationTokens`).findOne({ orderId: new ObjectId(orderId) });
+
+    if (tokenExists) {
+      await db.collection(`requestCancellationTokens`).deleteOne({ orderId: new ObjectId(orderId) });
+    }
+
+    const response = await db.collection(`requestCancellationTokens`).insertOne({
+      orderId: new ObjectId(orderId),
+      token: encryptedToken,
+      createdAt: new Date()
+    });
+
+    if (!response.acknowledged) {
+      return {
+        error: true,
+        message: `Failed to insert the token.`
+      };
+    }
+
+    await sendVerificationCode(order.contactDetails.email, token, `verifyOrderCancellation`);
+
+    return {
+      error: false,
+      message: `The token was successfully inserted.`
+    };
+
+
+  }
+
+  if (type === `refund`) {
+    if (!userCanRequestRefund) {
+      return {
+        error: true,
+        message: `Error. Refund is not available.`
+      };
+    }
+
+    const token = await generateVerificationToken();
+    const encryptedToken = await bcrypt.hash(token, 12);
+
+    const tokenExists = await db.collection(`requestRefundTokens`).findOne({ orderId: new ObjectId(orderId) });
+
+    if (tokenExists) {
+      await db.collection(`requestRefundTokens`).deleteOne({ orderId: new ObjectId(orderId) });
+    }
+
+    const response = await db.collection(`requestRefundTokens`).insertOne({
+      orderId: new ObjectId(orderId),
+      token: encryptedToken,
+      createdAt: new Date()
+    });
+
+    if (!response.acknowledged) {
+      return {
+        error: true,
+        message: `Failed to insert the token.`
+      };
+    }
+
+    await sendVerificationCode(order.contactDetails.email, token, `verifyOrderRefund`);
+
+    return {
+      error: false,
+      message: `The token was successfully inserted.`
+    };
+
+  }
+
+}
+
+export async function verifyOrderCancellationToken(orderId: string, userToken: string) {
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+
+  const tokenObject = await db.collection(`requestCancellationTokens`).findOne({ orderId: new ObjectId(orderId) });
+
+  if (!tokenObject) {
+    return {
+      error: true,
+      message: `Error. Token expired/doesn't exist.`
+    };
+  }
+
+  const userTokenMatch = await bcrypt.compare(userToken, tokenObject.token);
+
+  if (!userTokenMatch) {
+    return {
+      error: true,
+      message: `Invalid Token.`
+    };
+  }
+
+  await db.collection(`requestCancellationTokens`).deleteOne({ orderId: new ObjectId(orderId) });
+
+  return {
+    error: false,
+    acknowledged: true,
+    message: `Tokens do match.`
+  };
+
+}
+
+export async function approveRequestForCancellation(orderId: string) {
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+
+  if (!ObjectId.isValid(orderId)) {
+    return {
+      error: true,
+      message: `Error. Invalid Order ID.`
+    };
+  }
+  const order = await db.collection(`orders`).findOne({ _id: new ObjectId(orderId) });
+
+  if (!order) {
+    return {
+      error: true,
+      message: `Error. Order does not exist.`
+    };
+  }
+  const cancellationAvailable = order.extraDetails.cancellation.available;
+
+  if (!cancellationAvailable) {
+    return {
+      error: true,
+      message: `Error. Cancellation is not available.`
+    };
+  }
+
+
+  const newOrderForCancellation = {
+    orderId: order._id,
+    status: `pending`,
+    userEmail: order.contactDetails.email,
+    userPhone: order.contactDetails.phone,
+    userInitials: `${order.contactDetails.firstName} ${order.contactDetails.lastName}`
+  };
+
+  const orderAlreadyExists = await db.collection(`orderCancellations`).findOne({ orderId: order._id });
+
+  if (orderAlreadyExists) {
+    return {
+      error: true,
+      message: `Error. Cancellation request already sent.`
+    };
+  }
+
+  const response = await db.collection(`orderCancellations`).insertOne(newOrderForCancellation);
+
+  if (!response.acknowledged) {
+    return {
+      error: true,
+      message: `Failed to insert the order cancellation.`
+    };
+
+  } else {
+
+    const userExists = await db.collection(`users`).findOne({ email: order.contactDetails.email });
+
+    if (userExists) {
+      // silently push a notification to the user
+      const response = await db.collection(`users`).updateOne({ email: order.contactDetails.email }, {
+        // @ts-ignore
+        $push: {
+          notifications: {
+            type: `orange`,
+            icon: `map`,
+            addedAt: new Date(),
+            timestamp: Timestamp.fromNumber(Date.now()),
+            text: `Your cancellation request for the order was sent.`
+          }
+        }
+      });
+    }
+
+    await db.collection(`orders`).updateOne({ _id: new ObjectId(orderId) }, {
+      $set: {
+        'extraDetails.cancellation.available': false,
+        'extraDetails.cancellation.requested': true
+      }
+    });
+
+    return {
+      error: false,
+      message: `The order cancellation was successfully sent.`
+    };
+  }
+
+
+}
+
+export async function verifyOrderRefundToken(orderId: string, userToken: string) {
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+
+  const tokenObject = await db.collection(`requestRefundTokens`).findOne({ orderId: new ObjectId(orderId) });
+
+  if (!tokenObject) {
+    return {
+      error: true,
+      message: `Error. Token expired/doesn't exist.`
+    };
+  }
+
+  const userTokenMatch = await bcrypt.compare(userToken, tokenObject.token);
+
+  if (!userTokenMatch) {
+    return {
+      error: true,
+      message: `Invalid Token.`
+    };
+  }
+
+  await db.collection(`requestRefundTokens`).deleteOne({ orderId: new ObjectId(orderId) });
+
+  return {
+    error: false,
+    acknowledged: true,
+    message: `Tokens do match.`
+  };
+
+}
+
+export async function approveRequestForRefund(orderId: string) {
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+
+  if (!ObjectId.isValid(orderId)) {
+    return {
+      error: true,
+      message: `Error. Invalid Order ID.`
+    };
+  }
+  const order = await db.collection(`orders`).findOne({ _id: new ObjectId(orderId) });
+
+  if (!order) {
+    return {
+      error: true,
+      message: `Error. Order does not exist.`
+    };
+  }
+  const refundAvailable = order.extraDetails.refund.available;
+
+  if (!refundAvailable) {
+    return {
+      error: true,
+      message: `Error. Refund is not available.`
+    };
+  }
+
+
+  const newOrderForRefund = {
+    orderId: order._id,
+    status: `pending`,
+    userEmail: order.contactDetails.email,
+    userPhone: order.contactDetails.phone,
+    userInitials: `${order.contactDetails.firstName} ${order.contactDetails.lastName}`
+  };
+
+  const orderAlreadyExists = await db.collection(`orderRefunds`).findOne({ orderId: order._id });
+
+  if (orderAlreadyExists) {
+    return {
+      error: true,
+      message: `Error. Refund request already sent.`
+    };
+  }
+
+  const response = await db.collection(`orderRefunds`).insertOne(newOrderForRefund);
+
+  if (!response.acknowledged) {
+    return {
+      error: true,
+      message: `Failed to insert the order refund.`
+    };
+
+  } else {
+
+    const userExists = await db.collection(`users`).findOne({ email: order.contactDetails.email });
+
+    if (userExists) {
+      // silently push a notification to the user
+      const response = await db.collection(`users`).updateOne({ email: order.contactDetails.email }, {
+        // @ts-ignore
+        $push: {
+          notifications: {
+            type: `orange`,
+            icon: `map`,
+            addedAt: new Date(),
+            timestamp: Timestamp.fromNumber(Date.now()),
+            text: `Your refund request for the order ${orderId.slice(0, 10) + `..`} was sent.`
+          }
+        }
+      });
+    }
+
+    await db.collection(`orders`).updateOne({ _id: new ObjectId(orderId) }, {
+      $set: {
+        'extraDetails.refund.available': false,
+        'extraDetails.refund.requested': true
+      }
+    });
+
+    return {
+      error: false,
+      message: `The order refund request was successfully sent.`
+    };
+  }
+
+
+}
+
 ///////////////////////////////////////
 
 /* IMPORTANT: TWO-FACTOR AUTH */
@@ -4577,3 +4933,133 @@ export async function deleteUserSavedArticle(userEmail: string, articleId: strin
 }
 
 ///////////////////////////////////////
+
+
+/* IMPORTANT: TRACK ORDER */
+
+export async function fetchTrackedOrderData(orderId: string) {
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+
+  console.log(`Executing orderId: `, orderId);
+
+  // check if orderId is  a valid ObjectId
+  if (!ObjectId.isValid(orderId)) {
+    return {
+      error: true,
+      message: `Invalid order ID!`
+    };
+  }
+
+  const orderDetails = await db.collection(`orders`).aggregate(
+    [
+      {
+        $match: {
+          _id: new ObjectId(orderId)
+        }
+      },
+      {
+        $project: {
+          _id: 1,
+          tourId: 1,
+          tourTitle: 1,
+          extraDetails: 1,
+          meetingPoint: 1,
+          'booking.tickets.overall': 1,
+          contactDetails: 1
+        }
+      },
+      {
+        $group: {
+          _id: '$_id',
+          status: {
+            $first: '$extraDetails.state.status'
+          },
+          tour: {
+            $first: {
+              _id: '$tourId',
+              title: '$tourTitle'
+            }
+          },
+          tickets: {
+            $first: '$booking.tickets.overall'
+          },
+          refundAvailable: {
+            $first: '$extraDetails.refund.available'
+          },
+          refundRequested: {
+            $first: '$extraDetails.refund.requested'
+          },
+          cancellationAvailable: {
+            $first:
+              '$extraDetails.cancellation.available'
+          },
+          cancellationRequested: {
+            $first: '$extraDetails.cancellation.requested'
+          },
+          createdAt: {
+            $first: '$extraDetails.createdAt'
+          },
+          orderMadeBy: {
+            $first: {
+              $concat: [
+                '$contactDetails.firstName',
+                ' ',
+                '$contactDetails.lastName'
+              ]
+            }
+          },
+
+          location: {
+            $first: {
+              googleMap: {
+                key: '$meetingPoint.title',
+                location: {
+                  lat: {
+                    $arrayElemAt: ['$meetingPoint.location.coordinates', 0]
+                  },
+                  lng: {
+                    $arrayElemAt: ['$meetingPoint.location.coordinates', 1]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    ]).toArray();
+
+  if (orderDetails.length === 0) {
+    return {
+      error: true,
+      message: `Order does not exist, it seems!`
+    };
+  }
+
+  if (!orderDetails) {
+    return {
+      error: true,
+      message: `Failed to fetch order details.`
+    };
+  }
+
+
+  if (orderDetails.length > 0) {
+    return {
+      error: false,
+      order: orderDetails[0],
+      message: `Order details fetched successfully.`
+    };
+
+  } else {
+    return {
+      error: true,
+      message: `Failed to fetch order details.`
+    };
+  }
+
+}
+
+
+///////////////////////////////////////
+

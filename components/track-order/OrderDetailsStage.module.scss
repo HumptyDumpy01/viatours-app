@@ -26,6 +26,8 @@
 .order-details-data-par {
   font-size: 2.2rem;
   font-weight: 600;
+  color: var(--clr-blue-lighter);
+  text-decoration: none;
 }
 
 .order-details-data-container {
@@ -38,4 +40,13 @@
   font-weight: 500;
   display: grid;
   gap: 1.6rem;
+}
+
+.order-details-back-link {
+  font-size: 1.6rem;
+  color: var(--clr-primary);
+  font-weight: 600;
+  text-decoration: none;
+  margin-bottom: 2.5rem;
+  display: inline-block;
 }
