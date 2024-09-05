@@ -84,16 +84,16 @@ export default function NavigationResponsive(/*{  }: NavigationBurgerInterface*/
           {/*@ts-ignore*/}
           {(session?.user?.email && status !== `loading`) && (
             <>
-              {session?.user?.image &&
+              {/*{session?.user?.image &&
                 <img onClick={openSideNav} className={`user-actions-sidebar__user-auth-icon-responsive`} width={55}
                      height={55}
                      src={session.user.image}
-                     alt="user icon" />}
-              {!session?.user?.image &&
-                <div className={`user-actions-sidebar__user-auth-icon-responsive`} onClick={openSideNav}>
-                  {userName}
-                </div>
-              }
+                     alt="user icon" />}*/}
+              {/*{!session?.user?.image &&*/}
+              <div className={`user-actions-sidebar__user-auth-icon-responsive`} onClick={openSideNav}>
+                {userName}
+              </div>
+              {/*}*/}
             </>
           )}
 

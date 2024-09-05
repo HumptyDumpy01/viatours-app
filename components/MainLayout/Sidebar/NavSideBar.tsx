@@ -43,12 +43,12 @@ export default function NavSideBar() {
         {session && (
           <>
             <div className="user-actions-sidebar__user-auth-icon">
-              {session?.user?.image &&
-                <img className={`user-actions-sidebar-logo`} width={55} height={55} src={session.user.image}
-                     alt="user icon" />}
-              {!session?.user?.image &&
-                userName
-              }
+              {/*{session?.user?.image &&*/}
+              {/*  <img className={`user-actions-sidebar-logo`} width={55} height={55} src={session.user.image}*/}
+              {/*       alt="user icon" />}*/}
+              {/*{!session?.user?.image &&*/}
+              {userName}
+              {/*}*/}
             </div>
             <SidebarBtn onMouseUp={() => signOut()} label={`Sign Out`} href={``} />
           </>

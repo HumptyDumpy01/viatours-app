@@ -234,7 +234,7 @@ export default function
     setToastLabel(`Two-factor authentication successfully ${twoFactorAuthEnabled ? `disabled` : `enabled`}`);
     setToastSeverity(twoFactorAuthEnabled ? `info` : `success`);
 
-    // TODO: Create backend api to toggle two-factor auth
+    // Create backend api to toggle two-factor auth
 
     disableTwoAuthTimer.current = setTimeout(function() {
       setDisableTwoAuthSwitch(false);

@@ -34,7 +34,7 @@ export default function
       <label htmlFor={htmlFor}
              className={`account-settings__content__input-label ${readonly ? `disabled-input-label` : ``}`}>{label}</label>
       <input {...props} required={required} type={type} id={htmlFor} name={htmlFor}
-             className={`account-settings__content__input-field ${readonly ? `disabled-input-field` : ``}`}
+             className={`account-settings__content__input-field ${readonly ? `disabled-input-field` : `input-field`}`}
              defaultValue={defaultVal} placeholder={placeholder} readOnly={readonly} />
     </motion.div>
   );
