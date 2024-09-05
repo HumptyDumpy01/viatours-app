@@ -14,11 +14,8 @@ export type OrderDetailsType = {
   cancellationRequested: boolean;
   createdAt: string;
   orderMadeBy: string;
-  meetingPoint: {
-    location: {
-      type: `Point`,
-      coordinates: [number, number];
-    };
+  location: {
+    googleMap: { key: string, location: google.maps.LatLngLiteral }
   }
 }
 

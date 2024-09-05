@@ -5010,8 +5010,20 @@ export async function fetchTrackedOrderData(orderId: string) {
             }
           },
 
-          meetingPoint: {
-            $first: '$meetingPoint.location'
+          location: {
+            $first: {
+              googleMap: {
+                key: '$meetingPoint.title',
+                location: {
+                  lat: {
+                    $arrayElemAt: ['$meetingPoint.location.coordinates', 0]
+                  },
+                  lng: {
+                    $arrayElemAt: ['$meetingPoint.location.coordinates', 1]
+                  }
+                }
+              }
+            }
           }
         }
       }

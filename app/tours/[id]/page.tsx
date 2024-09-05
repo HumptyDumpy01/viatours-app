@@ -87,6 +87,7 @@ export interface TourInterface {
 }
 
 // IMPORTANT: FOR PRODUCTION
+/*
 
 import TourDescriptionSection from '@/components/tourDescription/TourDescription';
 import { notFound } from 'next/navigation';
@@ -171,13 +172,14 @@ export default async function TourDescription({ params }: TourDescriptionInterfa
 
   return (
     <>
-      {/*@ts-ignore*/}
+      {/!*@ts-ignore*!/}
       <TourDescriptionSection userName={sessionVar.user.name} userEmail={sessionVar.user.email} session={sessionVar}
                               similarTours={similarTours}
                               tour={currTour} params={params} />
     </>
   );
 }
+*/
 
 
 /* INFO: the reason why I do have two versions is that in build bundle I change the way how
@@ -186,12 +188,10 @@ export default async function TourDescription({ params }: TourDescriptionInterfa
 * */
 
 /* IMPORTANT: FOR DEVELOPMENT */
-/*
 
 import TourDescriptionSection from '@/components/tourDescription/TourDescription';
 import { notFound } from 'next/navigation';
 import { getTourById, getTours } from '@/lib/mongodb';
-import { TourInterface } from '@/app/tours/[id]/page';
 import { getServerSession } from 'next-auth';
 import { authConfig } from '@/lib/auth';
 import TourDescriptionLoadingPage from '@/app/tours/[id]/loading-page';
@@ -264,7 +264,7 @@ export default async function TourDescription({ params }: TourDescriptionInterfa
 
   return (
     <>
-      {/!*@ts-ignore*!/}
+      {/*@ts-ignore*/}
       <TourDescriptionSection session={sessionVar} userEmail={sessionVar.user.email} userName={sessionVar.user.name}
                               similarTours={similarTours}
                               tour={currTour}
@@ -273,5 +273,4 @@ export default async function TourDescription({ params }: TourDescriptionInterfa
   );
 }
 
-*/
 
