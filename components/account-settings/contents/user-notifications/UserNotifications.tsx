@@ -18,7 +18,7 @@ type UserNotificationsTypeComponent = {
 }
 
 export default function UserNotifications({ notifications, userEmail }: UserNotificationsTypeComponent) {
-  const notificationsPerPage = 5;
+  const notificationsPerPage = 7;
   const [currentPage, setCurrentPage] = useState(1);
 
   const sortedNotificationsByDate = notifications.sort((a, b) => (new Date(a.addedAt) > new Date(b.addedAt)) ? -1 : 1);

@@ -197,7 +197,7 @@ export default function VerifyActionForm({ action }: VerifyActionFormType) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <div>
       {action.stage === 2 && (
         <motion.div
           initial={{ opacity: 0, y: 200 }}
@@ -233,6 +233,6 @@ export default function VerifyActionForm({ action }: VerifyActionFormType) {
           </div>
         </motion.div>
       )}
-    </form>
+    </div>
   );
 }
