@@ -192,6 +192,7 @@ li {
 
   &-error {
     margin-bottom: 2.4rem;
+    background-color: var(--clr-white);
     color: var(--clr-strawberry-red);
     font-size: 1.8rem;
     font-weight: 600;
@@ -203,6 +204,7 @@ li {
 
   &-success {
     transition: all .4s;
+    background-color: var(--clr-white);
     margin-bottom: 2.4rem;
     color: var(--clr-success);
     font-size: 1.8rem;

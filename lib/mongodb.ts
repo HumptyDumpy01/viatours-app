@@ -5126,6 +5126,41 @@ export async function fetchTrackedOrderData(orderId: string) {
 
 }
 
+///////////////////////////////////////
+
+/* IMPORTANT: ARTICLE NEWSLETTER */
+
+export async function subscribeOnArticleNewsletter(email: string) {
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+
+  if (!email.trim() || !email.includes(`@`)) {
+    return {
+      error: true,
+      message: `Invalid email address.`
+    };
+  }
+
+  // upsert the email to the newsletter collection
+  const response = await db.collection(`articlesNewsletter`).updateOne({ email: email }, {
+    $set: {
+      email: email
+    }
+  }, { upsert: true });
+
+  if (!response.acknowledged) {
+    return {
+      error: true,
+      message: `Failed to subscribe to the newsletter.`
+    };
+  }
+  return {
+    error: false,
+    message: `You successfully subscribed to the newsletter.`
+  };
+
+
+}
 
 ///////////////////////////////////////
 
