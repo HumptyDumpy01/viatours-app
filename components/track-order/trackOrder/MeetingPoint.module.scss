@@ -1,0 +1,30 @@
+.meeting-point-heading {
+  font-size: 4rem;
+  font-weight: 700;
+  margin-bottom: 3.2rem;
+  color: var(--clr-dark-blue);
+}
+
+.meeting-point-button {
+  margin-top: 3.2rem;
+  background-color: var(--clr-primary);
+  border: none;
+  padding: 1.6rem 3.2rem;
+  color: var(--clr-white);
+  font-size: 1.6rem;
+  font-weight: 600;
+  border-radius: 0.8rem;
+  text-decoration: none;
+  display: inline-block;
+
+  &:hover, &:active {
+    background-color: var(--clr-white);
+    color: var(--clr-primary);
+    transition: background-color 0.3s;
+    box-shadow: 0 0 0 1px var(--clr-primary);
+  }
+}
+
+.meeting-point-container {
+  margin-bottom: 5rem;
+}

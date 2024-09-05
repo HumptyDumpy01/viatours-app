@@ -6,6 +6,7 @@ import OrderDetailsActionsStageOne from '@/components/track-order/orderDetailsAc
 import { useCartSelector } from '@/store/hooks';
 import OrderDetailsActionsStageTwo from '@/components/track-order/orderDetailsActions/OrderDetailsActionsStageTwo';
 import { OrderDetailsType } from '@/store/trackOrderSlice';
+import MeetingPoint from '@/components/track-order/trackOrder/MeetingPoint';
 /*type OrderDetailsActionsType = {
   // children: ReactNode;
 }*/
@@ -27,6 +28,7 @@ export default function OrderDetailsActions(/*{  }: OrderDetailsActionsType*/) {
           <OrderDetailsActionsStageTwo />
         </>
       )}
+      <MeetingPoint coordinates={{ lat: location.googleMap.location.lat, lng: location.googleMap.location.lng }} />
       <NeedHelp />
     </div>
   );
