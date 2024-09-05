@@ -252,7 +252,9 @@ submitTourComment({
     };
   }
   if (!tourId) {
-    throw new Error(`Oops! We were unable to save this comment! Sorry for the inconvenience. We are working on it.`);
+    return {
+      error: `Oops! We were unable to save this comment! Sorry for the inconvenience. We are working on it.`
+    };
   }
 
   // rating coefficients
@@ -303,7 +305,9 @@ submitTourComment({
 
     });
     if (!result.acknowledged) {
-      new Error(`Oops! We were unable to save this comment! Sorry for the inconvenience. We are working on it.`);
+      return {
+        error: `Oops! We were unable to save this comment! Sorry for the inconvenience. We are working on it.`
+      };
     } else {
 
       /* IMPORTANT: 2/4 STAGE: adding newly created comment(objectId only) onto a tour
@@ -317,7 +321,9 @@ submitTourComment({
       );
 
       if (!updateTour.acknowledged) {
-        new Error(`Oops! We were unable to save this comment! Failed to add comment id to a tour array. We are working on it...`);
+        return {
+          error: `Oops! We were unable to save this comment! Failed to add comment id to a tour array. We are working on it...`
+        };
       }
 
       /* IMPORTANT: 3/4 STAGE: gathering all comments related to this specific tour and performing recalculation of
@@ -383,14 +389,17 @@ submitTourComment({
       const updatedTour = await db.collection(`tours`).updateOne({ _id: new ObjectId(tourId) }, { $set: { rating: updatedRating } });
 
       if (!updatedTour.acknowledged) {
-        new Error(`Oops! We were unable to save this comment! Failed to update the tour rating...  We are working on it
-        `);
+        return {
+          error: `Oops! We were unable to save this comment! Failed to update the tour rating...  We are working on it`
+        };
       }
 
     }
 
   } catch (e) {
-    throw new Error(`Oops! We were unable to save this comment! Sorry for the inconvenience. We are working on it.`);
+    return {
+      error: `Oops! We were unable to save this comment! Sorry for the inconvenience. We are working on it.`
+    };
   }
   // revalidate all the paths
   revalidatePath(`/`, `layout`);
@@ -527,7 +536,9 @@ export async function createOrder(contactDetails: FormContactDetailsType,
   // const isUserExists = false;
 
   if (!contactDetails || !activityDetails || !order) {
-    throw new Error(`Failed to get form details!`);
+    return {
+      error: `Failed to get form details!`
+    };
   }
 
   const transformedOrder = {
@@ -627,7 +638,10 @@ export async function createOrder(contactDetails: FormContactDetailsType,
   console.log(`Executing createdOrder: `, createdOrder);
 
   if (!createdOrder) {
-    throw new Error(`Failed to create an order!`);
+    return {
+      error: `Failed to create an order!`,
+      acknowledged: false
+    };
   } else {
     console.log(`createdOrder: `, createdOrder);
     return createdOrder;
@@ -645,7 +659,9 @@ export async function handleOrder(perform: `deletion` | `changeStatus` | `fetchB
       const order = await db.collection(`orders`).findOne({ _id: new ObjectId(id) });
 
       if (!order) {
-        new Error(`Failed to find the order with the id ${id}`);
+        return {
+          error: `Failed to find the order with the id ${id}`
+        };
       }
       return order;
     }
@@ -670,14 +686,18 @@ export async function handleOrder(perform: `deletion` | `changeStatus` | `fetchB
       const order = await db.collection(`orders`).findOne({ _id: new ObjectId(id) });
 
       if (!order) {
-        new Error(`Failed to find the order with the id ${id}`);
+        return {
+          error: `Failed to find the order with the id ${id}`
+        };
       }
 
       const updatedTour =
         await db.collection(`tours`).updateOne({ _id: new ObjectId(order!.tourId) }, { $inc: { booked: 1 } });
 
       if (updatedTour) {
-        new Error(`Failed to update the tour with the id ${order!.tourId}`);
+        return {
+          error: `Failed to update the tour with the id ${order!.tourId}`
+        };
       }
 
       revalidatePath(`/`, `layout`);
@@ -689,12 +709,16 @@ export async function handleOrder(perform: `deletion` | `changeStatus` | `fetchB
       const deleteOrder = await db.collection(`orders`).deleteOne({ _id: new ObjectId(id) });
 
       if (!deleteOrder) {
-        new Error(`Failed to delete the order with the id ${id}`);
+        return {
+          error: `Failed to delete the order with the id ${id}`
+        };
       }
     }
 
   } catch (e) {
-    throw new Error(`Failed to handle the order! ${e}`);
+    return {
+      error: `Failed to handle the order! ${e}`
+    };
   }
 }
 
@@ -1355,7 +1379,10 @@ export async function createUser(formData: createUserType, createViaProvider?: b
 
 
   } catch (e) {
-    throw new Error(`An error occurred while creating a user. Please try again later. ${e}`);
+    return {
+      error: `An error occurred while creating a user. Please try again later.`,
+      acknowledged: false
+    };
   }
 }
 
@@ -1386,7 +1413,9 @@ export async function createUserWhenAuthViaProvider(formData: UserType) {
       insertedId: createdUser.insertedId
     };
   } catch (e) {
-    throw new Error(`An error occurred while creating a user. Please try again later. ${e}`);
+    return {
+      error: `An error occurred while creating a user. Please try again later.`
+    };
   }
 }
 
@@ -1436,7 +1465,11 @@ export async function addOrderIdToUserDocument(
   const db = client.db(`viatoursdb`);
 
   if (!orderId && userEmail) {
-    throw new Error(`No order id or user email provided.`);
+    return {
+      error: true,
+      message: `No order id or user email provided.`,
+      acknowledged: false
+    };
   }
 
   const IsUserExists = await getUser({ email: userEmail }, { email: 1, _id: 0, phone: 1 });
@@ -1484,14 +1517,22 @@ export async function addOrderIdToUserDocument(
     );
 
     if (!insertEmailToNewsletter.acknowledged) {
-      throw new Error(`Failed to insert email to the newsletter collection.`);
+      return {
+        error: true,
+        acknowledged: false,
+        message: `Failed to insert email to the newsletter collection`
+      };
     }
 
     const updateUser = await db.collection(`users`)
       .updateOne({ email: userEmail }, { $set: { 'extra.signedOnNewsletter': true } });
 
     if (!updateUser.acknowledged) {
-      throw new Error(`Failed to update the user document.`);
+      return {
+        error: true,
+        acknowledged: false,
+        message: `Failed to update the user document.`
+      };
     }
   }
 
@@ -1514,7 +1555,11 @@ export async function addOrderIdToUserDocument(
     );
 
     if (!result) {
-      throw new Error(` Failed to add an order id to the user document.`);
+      return {
+        error: true,
+        acknowledged: false,
+        message: `Failed to add an order id to the user document`
+      };
     }
 
     return {
@@ -1534,7 +1579,11 @@ export async function addOrderIdToUserDocument(
     );
 
     if (!result) {
-      throw new Error(` Failed to add an order id to the user document.`);
+      return {
+        error: true,
+        acknowledged: false,
+        message: `Failed to add an order id to the user document`
+      };
     }
 
     return {
@@ -1551,7 +1600,11 @@ export async function findWishlistedTour(tourId: string, userEmail: string) {
   const user = await getUser({ email: userEmail }, { email: 1, _id: 0, wishlist: 1 });
 
   if (user.length === 0) {
-    throw new Error(`The user with the email ${userEmail} does not exist.`);
+    return {
+      error: true,
+      message: `The user with the email ${userEmail} does not exist.`,
+      status: 404
+    };
   }
 
   const isTourWishlisted = user[0].wishlist.includes(tourId);
@@ -1700,7 +1753,10 @@ export async function handleCommentAction(commentId: string, userEmail: string, 
       [{ $match: { _id: new ObjectId(commentId) } }, { $project: { likes: 1, dislikes: 1 } }]).toArray();
 
     if (fetchedComment.length === 0) {
-      new Error(`Failed to fetch the comment.`);
+      return {
+        acknowledged: false,
+        error: `Failed to fetch the comment.`
+      };
     }
 
     // console.log(`Executing fetchedComment: `, fetchedComment[0]);
@@ -1866,7 +1922,9 @@ export async function handleCommentAction(commentId: string, userEmail: string, 
 
     revalidatePath(`/`, `layout`);
   } catch (e) {
-    throw new Error(`Failed to handle the comment action. ${e}`);
+    return {
+      acknowledged: false
+    };
   }
 
 }
@@ -2061,7 +2119,11 @@ export async function addOrRemoveNewsletterEmail(email: string, method: `ADD` | 
     );
 
     if (!insertEmailToNewsletter.acknowledged) {
-      throw new Error(`Failed to insert email to the newsletter collection.`);
+      return {
+        error: true,
+        acknowledged: false,
+        message: `Failed to add the email to the newsletter.`
+      };
     }
 
     return {
@@ -2074,7 +2136,11 @@ export async function addOrRemoveNewsletterEmail(email: string, method: `ADD` | 
     const response = await db.collection(`newsletter`).deleteOne({ email: email });
 
     if (!response.acknowledged) {
-      throw new Error(`Failed to remove email from the newsletter collection.`);
+      return {
+        error: true,
+        acknowledged: false,
+        message: `Failed to remove the email from the newsletter.`
+      };
     }
 
     return {
