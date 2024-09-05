@@ -48,7 +48,9 @@ export default function CheckoutFormContactDetails() {
     const results = Object.fromEntries(formData.entries());
 
     if (session && !session.user?.email) {
-      throw new Error('No email in session');
+      // throw new Error('No email in session');
+      console.error('No email in session');
+      setFormError(['No email in session']);
     }
 
     // const userEmail = session ? session.user!.email : results.email;

@@ -23,11 +23,14 @@ export default function CheckoutFormPaymentDetails({ order }: CheckoutFormPaymen
   const activityDetails = useCartSelector((state) => state.checkout.activityDetails);
 
   if (contactDetails === undefined || activityDetails === undefined) {
-    throw new Error('Failed to get form details!');
+    // throw new Error('Failed to get form details!');
+    console.error('Failed to get form details!');
+    setLoading(false);
+    setErrorMessage('Failed to get form details!');
   }
 
   useEffect(() => {
-    /* TEMPORARY: DISABLED IT FOR TESTING PURPOSES AND APPLYING ANIMATIONS FOR CHECKOUT PAGE.*/
+
     fetch('/api/create-payment-intent', {
       method: 'POST',
       headers: {

@@ -72,7 +72,7 @@
 
       &--1 {
         background-color: var(--clr-error);
-        color: var(--clr-primary);
+        color: var(--clr-white) !important;
         box-shadow: 0 0 0 1px var(--clr-primary);
 
         &:hover, &:active {

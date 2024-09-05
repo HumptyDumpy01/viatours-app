@@ -87,7 +87,6 @@ export interface TourInterface {
 }
 
 // IMPORTANT: FOR PRODUCTION
-/*
 
 import TourDescriptionSection from '@/components/tourDescription/TourDescription';
 import { notFound } from 'next/navigation';
@@ -113,7 +112,7 @@ async function fetchTourData(id: string): Promise<{ currTour: TourInterface, sim
     });
 
     if (!response.ok) {
-      new Error(`HTTP error! status: ${response.status}`);
+      notFound();
     }
 
     const data = await response.json();
@@ -172,14 +171,13 @@ export default async function TourDescription({ params }: TourDescriptionInterfa
 
   return (
     <>
-      {/!*@ts-ignore*!/}
+      {/*@ts-ignore*/}
       <TourDescriptionSection userName={sessionVar.user.name} userEmail={sessionVar.user.email} session={sessionVar}
                               similarTours={similarTours}
                               tour={currTour} params={params} />
     </>
   );
 }
-*/
 
 
 /* INFO: the reason why I do have two versions is that in build bundle I change the way how
@@ -188,6 +186,7 @@ export default async function TourDescription({ params }: TourDescriptionInterfa
 * */
 
 /* IMPORTANT: FOR DEVELOPMENT */
+/*
 
 import TourDescriptionSection from '@/components/tourDescription/TourDescription';
 import { notFound } from 'next/navigation';
@@ -224,13 +223,18 @@ interface TourDescriptionInterface {
 async function getTour(id: string): Promise<{ currTour: TourInterface, similarTours: TourInterface[] }> {
   'use server';
 
-  const currTour = await getTourById(id) as TourInterface;
-  const similarTours = await getTours(22, { tags: { $in: currTour.tags } }) as TourInterface[];
+  try {
+    const currTour = await getTourById(id) as TourInterface;
+    const similarTours = await getTours(22, { tags: { $in: currTour.tags } }) as TourInterface[];
 
-  return {
-    currTour,
-    similarTours
-  };
+    return {
+      currTour,
+      similarTours
+    };
+  } catch (e) {
+    console.error('Fetch error:', e);
+    notFound();
+  }
 }
 
 
@@ -264,7 +268,7 @@ export default async function TourDescription({ params }: TourDescriptionInterfa
 
   return (
     <>
-      {/*@ts-ignore*/}
+      {/!*@ts-ignore*!/}
       <TourDescriptionSection session={sessionVar} userEmail={sessionVar.user.email} userName={sessionVar.user.name}
                               similarTours={similarTours}
                               tour={currTour}
@@ -272,5 +276,6 @@ export default async function TourDescription({ params }: TourDescriptionInterfa
     </>
   );
 }
+*/
 
 

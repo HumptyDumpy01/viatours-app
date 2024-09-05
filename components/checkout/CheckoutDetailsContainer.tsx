@@ -29,7 +29,8 @@ export default function CheckoutDetailsContainer(/*{  }: CheckoutDetailsContaine
 
       getTourById(parsedOrder.tourId).then((tour) => {
         if (!tour) {
-          throw new Error('Tour not found');
+          console.error('Tour not found');
+          // throw new Error('Tour not found');
         }
         setTour(tour);
         console.log(tour);

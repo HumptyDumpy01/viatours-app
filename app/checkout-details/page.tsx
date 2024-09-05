@@ -130,7 +130,9 @@ export default function ThanksForPurchase({ searchParams }: ThanksForPurchaseTyp
           const addEmailToNewsletterData = await pushEmailToNewsletter.json();
 
           if (addEmailToNewsletterData.error) {
-            throw new Error(`Failed to add email to newsletter.`);
+            // throw new Error(`Failed to add email to newsletter.`);
+            setError(true);
+            console.error(`Failed to add email to newsletter.`);
           }
         }
 
