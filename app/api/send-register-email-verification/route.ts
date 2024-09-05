@@ -20,6 +20,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: false, message: `Email verification sent to ${email}` });
 
   } catch (e) {
-    throw new Error(`Failed to send register email verification: ${e}`);
+    // throw new Error(`Failed to send register email verification: ${e}`);
+    return NextResponse.json({ error: true, message: `Failed to send register email verification: ${e}` });
   }
 }

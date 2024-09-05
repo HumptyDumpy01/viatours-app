@@ -29,6 +29,10 @@ export async function POST(request: NextRequest) {
 
     // create a serer function in e.g. mongodb.ts and then call it here
   } catch (e) {
-    throw new Error(`Error deleting individual user item: ${e}`);
+    // throw new Error(`Error deleting individual user item: ${e}`);
+    return NextResponse.json({
+      error: true,
+      message: `Error deleting individual user item.`
+    });
   }
 }

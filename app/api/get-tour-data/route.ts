@@ -32,6 +32,11 @@ export async function POST(request: NextRequest) {
     }
 
   } catch (e) {
-    throw new Error(`Failed to fetch tour data: ${e}`);
+    // throw new Error(`Failed to fetch tour data: ${e}`);
+    return NextResponse.json({
+        error: true,
+        message: `Failed to fetch tour data: ${e}`
+      },
+      { status: 500 });
   }
 }

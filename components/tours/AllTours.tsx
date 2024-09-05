@@ -86,7 +86,7 @@ export default function AllTours({ searchParams }: AllToursInterface) {
       }
 
     } catch (e) {
-      throw new Error(`Failed to filter by URl params: ${e}`);
+      console.error(`Failed to fetch tours: ${e}`);
     }
   }, [filter, filterType, filterSearch]);
 
@@ -184,10 +184,11 @@ export default function AllTours({ searchParams }: AllToursInterface) {
         .catch(error => {
           console.error(`Failed to fetch tours: ${error}`);
           setLoading(false);
-          throw new Error(`Failed to fetch tours: ${error}`);
+          // throw new Error(`Failed to fetch tours: ${error}`);
         });
     } catch (e) {
-      throw new Error(`Failed to fetch tours: ${e}`);
+      // throw new Error(`Failed to fetch tours: ${e}`);
+      console.error(`Failed to fetch tours: ${e}`);
     }
   }
 

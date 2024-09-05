@@ -17,6 +17,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: false, result }, { status: 200 });
 
   } catch (e) {
-    throw new Error(`Failed to find wishlisted tour: ${e}`);
+    // throw new Error(`Failed to find wishlisted tour: ${e}`);
+    return NextResponse.json({ error: true, message: `Failed to find wishlisted tour: ${e}` }, { status: 500 });
   }
 }

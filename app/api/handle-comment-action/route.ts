@@ -20,6 +20,10 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ acknowledged: response.acknowledged, status: response.status });
 
   } catch (e) {
-    throw new Error(`Failed to handle the comment action in API route!`);
+    // throw new Error(`Failed to handle the comment action in API route!`);
+    return NextResponse.json({
+      acknowledged: false,
+      message: e || `Failed to handle the comment action in API route!`
+    });
   }
 }

@@ -27,6 +27,11 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: false, message: 'Recovery code token generated successfully.', status: 200 });
 
   } catch (e) {
-    throw null;
+    // throw null;
+    return NextResponse.json({
+      error: true,
+      message: 'Failed to generate recovery code token.',
+      status: 500
+    });
   }
 }

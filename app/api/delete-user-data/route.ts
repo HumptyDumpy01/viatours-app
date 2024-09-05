@@ -30,6 +30,10 @@ export async function POST(request: NextRequest) {
 
 
   } catch (e) {
-    throw new Error(`Failed to delete user data specified: ${e}`);
+    // throw new Error(`Failed to delete user data specified: ${e}`);
+    return NextResponse.json({
+      error: true,
+      message: `Failed to delete user data.`
+    });
   }
 }

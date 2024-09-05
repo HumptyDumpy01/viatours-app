@@ -19,6 +19,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: false, message: 'Successfully added email to newsletter' });
 
   } catch (e) {
-    throw new Error(`Failed to add email to newsletter: ${e}`);
+    // throw new Error(`Failed to add email to newsletter: ${e}`);
+    return NextResponse.json({ error: true, message: 'Failed to add email to newsletter' }, { status: 500 });
   }
 }

@@ -20,6 +20,7 @@ export async function POST(request: NextRequest) {
 
     // create a serer function in e.g. mongodb.ts and then call it here
   } catch (e) {
-    throw new Error(`Failed to validate email operation: ${e}`);
+    // throw new Error(`Failed to validate email operation: ${e}`);
+    return NextResponse.json({ error: true, message: `Failed to validate email operation: ${e}` }, { status: 500 });
   }
 }

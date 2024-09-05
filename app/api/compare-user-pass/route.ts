@@ -19,6 +19,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ acknowledged: true, passwordMatch: response.passwordMatch });
 
   } catch (e) {
-    throw new Error(`Failed to compare user password: ${e}`);
+    // throw new Error(`Failed to compare user password: ${e}`);
+    return NextResponse.json({ error: 'Failed to compare user password', acknowledged: false });
   }
 }

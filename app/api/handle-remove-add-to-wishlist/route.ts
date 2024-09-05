@@ -23,6 +23,7 @@ export async function POST(request: NextRequest) {
     }
 
   } catch (e) {
-    throw new Error(`Failed to handle remove/add to wishlist: ${e}`);
+    // throw new Error(`Failed to handle remove/add to wishlist: ${e}`);
+    return NextResponse.json({ error: true, message: 'Failed to handle remove/add to wishlist!' }, { status: 400 });
   }
 }

@@ -28,6 +28,11 @@ export async function POST(request: NextRequest) {
     }
 
   } catch (e) {
-    throw new Error(`Failed to change order refund/cancellation request: ${e}`);
+    // throw new Error(`Failed to change order refund/cancellation request: ${e}`);
+    return NextResponse.json({
+        error: true,
+        message: 'Failed to change order refund/cancellation request'
+      },
+      { status: 500 });
   }
 }

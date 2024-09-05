@@ -172,14 +172,19 @@ export default function LeaveReply({ tourId, tourTitle, userEmail, userName, ses
       await addComment().catch(err => {
         dispatch(commentFormSliceActions.toggleOptimisticallyAddedComment(false));
 
-        throw new Error(`Failed to add a comment(Cond:default). Error: ${err}`);
+        // throw new Error(`Failed to add a comment(Cond:default). Error: ${err}`);
+        console.error(`Failed to add a comment(Cond:default). Error: ${err}`);
+        setIsSubmitting(false);
+        setFormError([`Failed to add a comment. Please try again.`]);
       });
     }
 
     if (session.user.email && !userEmail) {
       setIsSubmitting(false);
       dispatch(commentFormSliceActions.toggleOptimisticallyAddedComment(false));
-      throw new Error(`The user is authenticated, but the email is not found in the session object.`);
+      // throw new Error(`The user is authenticated, but the email is not found in the session object.`);
+      setFormError([`The user is authenticated, but the email is not found in the session object.`]);
+      // scrollToLeaveReplyForm();
     }
 
     /* IMPORTANT: REGARDING NOTIFICATIONS PUSH FOR AUTH USERS */
@@ -207,13 +212,15 @@ export default function LeaveReply({ tourId, tourTitle, userEmail, userName, ses
       const pushNotificationData = await pushNotification.json();
 
       if (pushNotificationData.error) {
-        throw new Error(`Failed to push notification to user document. Error: ${pushNotificationData.error}`);
+        // throw new Error(`Failed to push notification to user document. Error: ${pushNotificationData.error}`);
+        console.error(`Failed to push notification to user document. Error: ${pushNotificationData.error}`);
       }
 
       // add a new comment to the database
       await addComment().catch(err => {
         dispatch(commentFormSliceActions.toggleOptimisticallyAddedComment(false));
-        throw new Error(`Failed to add a comment(Cond:2). Error: ${err}`);
+        // throw new Error(`Failed to add a comment(Cond:2). Error: ${err}`);
+        console.error(`Failed to add a comment(Cond:2). Error: ${err}`);
       });
 
       setIsSubmitting(false);

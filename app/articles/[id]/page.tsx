@@ -1,12 +1,11 @@
 // 'use client';
 import './page.scss';
-import { TagsType, TypesType } from '@/lib/mongodb';
+import { getArticleDetails, TagsType, TypesType } from '@/lib/mongodb';
 import { ObjectId } from 'mongodb';
 import ArticleDescrMainWrapper from '@/components/article-description/ArticleDescrMainWrapper';
 import { getServerSession } from 'next-auth';
 import { authConfig } from '@/lib/auth';
 import TourDescriptionLoadingPage from '@/app/tours/[id]/loading-page';
-import { ArticleType } from '@/components/articles/search-article/SearchArticleContainer';
 
 interface ArticleDescriptionInterface {
   params: {
@@ -70,24 +69,67 @@ export default async function ArticleDescription({ params }: ArticleDescriptionI
 
 
   /* IMPORTANT: FOR PRODUCTION */
-  // fetch the article from the server based on url id
+  /*
+   // fetch the article from the server based on url id
+   const article: {
+     error: boolean;
+     article: ArticleType[];
+
+   } = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/get-article-details`, {
+     method: `POST`,
+     headers: {
+       'Content-Type': `application/json`
+     },
+     body: JSON.stringify({ id })
+   }).then((response) => response.json()).catch((error) => {
+     console.error(`Fetch error:`, error);
+   });
+
+   if (article.error) {
+     throw new Error(`Failed to fetch article`);
+   }
+   // fetch the session from the server
+   const session = await getServerSession(authConfig);
+
+   if (session === undefined) {
+     return <TourDescriptionLoadingPage />;
+   }
+
+
+   let sessionVar;
+   if (session === null) {
+     sessionVar = {
+       user: {
+         email: '',
+         name: ''
+       }
+     };
+   } else {
+     sessionVar = {
+       user: {
+         email: session!.user!.email,
+         name: session!.user!.name
+       }
+     };
+   }*/
+  // console.log(`Article: `, article.article[0]);
+
+  ///////////////////////////////////////
+
+
+  /* IMPORTANT: FOR DEVELOPMENT */
+  // @ts-ignore
   const article: {
     error: boolean;
-    article: ArticleType[];
+    article: ArticleDescrType[];
+  } = await getArticleDetails(id);
 
-  } = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/get-article-details`, {
-    method: `POST`,
-    headers: {
-      'Content-Type': `application/json`
-    },
-    body: JSON.stringify({ id })
-  }).then((response) => response.json()).catch((error) => {
-    console.error(`Fetch error:`, error);
-  });
-
-  if (article.error) {
+  if (!article) {
     throw new Error(`Failed to fetch article`);
   }
+
+  // console.log(`Article: `, article.article[0]);
+
   // fetch the session from the server
   const session = await getServerSession(authConfig);
 
@@ -112,51 +154,7 @@ export default async function ArticleDescription({ params }: ArticleDescriptionI
       }
     };
   }
-  // console.log(`Article: `, article.article[0]);
-
-  ///////////////////////////////////////
-
-
-  /* IMPORTANT: FOR DEVELOPMENT */
-  /*
-   // @ts-ignore
-   const article: {
-     error: boolean;
-     article: ArticleDescrType[];
-   } = await getArticleDetails(id);
-
-   if (!article) {
-     throw new Error(`Failed to fetch article`);
-   }
-
-   // console.log(`Article: `, article.article[0]);
-
-   // fetch the session from the server
-   const session = await getServerSession(authConfig);
-
-   if (session === undefined) {
-     return <TourDescriptionLoadingPage />;
-   }
-
-
-   let sessionVar;
-   if (session === null) {
-     sessionVar = {
-       user: {
-         email: '',
-         name: ''
-       }
-     };
-   } else {
-     sessionVar = {
-       user: {
-         email: session!.user!.email,
-         name: session!.user!.name
-       }
-     };
-   }
-   // console.log(`Session: `, sessionVar);
- */
+  // console.log(`Session: `, sessionVar);
   return (
     <>
       {/*@ts-ignore*/}

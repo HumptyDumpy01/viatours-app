@@ -18,6 +18,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: false, message: `Email verified for ${email}` });
 
   } catch (e) {
-    throw new Error(`Failed to verify user email ${e}`);
+    // throw new Error(`Failed to verify user email ${e}`);
+    return NextResponse.json({ error: true, message: `Failed to verify user email: ${e}` });
   }
 }

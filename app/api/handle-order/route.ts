@@ -25,6 +25,9 @@ export async function POST(request: NextRequest) {
     }
 
   } catch (e) {
-    throw new Error(`Failed to handle the order! ${e}`);
+    // throw new Error(`Failed to handle the order! ${e}`);
+    return NextResponse.json({
+      message: `Failed to handle the order! ${e}`, acknowledged: false
+    });
   }
 }

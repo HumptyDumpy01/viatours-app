@@ -19,6 +19,10 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: false, message: 'Email verification token has been sent' });
 
   } catch (e) {
-    throw new Error(`Failed to push change email verification token: ${e}`);
+    // throw new Error(`Failed to push change email verification token: ${e}`);
+    return NextResponse.json({
+      error: true,
+      message: 'Failed to push change email verification token'
+    }, { status: 500 });
   }
 }

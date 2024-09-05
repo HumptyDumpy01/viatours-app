@@ -64,7 +64,7 @@ export default function OrderDetailsStage(/*{  }: OrderDetailsStageType*/) {
           </p>
           <p className={classes[`order-details-data-par`]}><span
             className={`inline-block font-weight-bold`}>ID:</span> {orderDetails?._id?.toString()} </p>
-          <Link target={`_blank`} href={`/tours/${orderDetails?._id?.toString()}`}
+          <Link target={`_blank`} href={`/tours/${orderDetails.tour._id}`}
                 className={`${classes[`order-details-data-par`]}`}><span
             className={`inline-block font-weight-bold`}>Tour:</span> <u>{orderDetails?.tour?.title}</u></Link>
           <p className={classes[`order-details-data-par`]}><span

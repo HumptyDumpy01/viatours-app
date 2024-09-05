@@ -22,6 +22,10 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ userSignedUpToNewsletter: response.status });
 
   } catch (e) {
-    throw new Error(`Failed to check whether the user signed up to newsletter or not. Error: ${e}`);
+    // throw new Error(`Failed to check whether the user signed up to newsletter or not. Error: ${e}`);
+    return NextResponse.json({
+      error: true,
+      message: `Failed to check whether the user signed up to newsletter or not.`
+    }, { status: 500 });
   }
 }

@@ -19,6 +19,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: false, message: 'Successfully added orderId to user document' });
 
   } catch (e) {
-    throw new Error(`Failed to add orderId to user document: ${e}`);
+    // throw new Error(`Failed to add orderId to user document: ${e}`);
+    return NextResponse.json({ error: true, message: `Failed to add orderId to user document: ${e}` }, { status: 500 });
   }
 }

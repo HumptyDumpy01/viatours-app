@@ -19,6 +19,10 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: false, message: response.message });
 
   } catch (e) {
-    throw new Error(`Failed to toggle two-factor authentication. Error: ${e}`);
+    // throw new Error(`Failed to toggle two-factor authentication. Error: ${e}`);
+    return NextResponse.json({
+      error: true,
+      message: `Failed to toggle two-factor authentication. ${e}`
+    }, { status: 500 });
   }
 }

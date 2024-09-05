@@ -14,6 +14,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ data: result, error: false });
 
   } catch (e) {
-    throw new Error(`Failed to push notification to user document. Error: ${e}`);
+    // throw new Error(`Failed to push notification to user document. Error: ${e}`);
+    return NextResponse.json({ data: null, error: `Failed to push notification to user document.` });
   }
 }
