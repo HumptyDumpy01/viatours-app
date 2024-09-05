@@ -152,7 +152,7 @@ export default async function TourDescription({ params }: TourDescriptionInterfa
   let sessionVar;
   if (session === null) {
     sessionVar = {
-      user: {
+       user: {
         email: '',
         name: ''
       }
