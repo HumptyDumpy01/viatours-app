@@ -4953,13 +4953,18 @@ export async function fetchTrackedOrderData(orderId: string) {
 
   const orderDetails = await db.collection(`orders`).aggregate(
     [
-      { $match: { _id: new ObjectId(orderId) } },
+      {
+        $match: {
+          _id: new ObjectId(orderId)
+        }
+      },
       {
         $project: {
           _id: 1,
           tourId: 1,
           tourTitle: 1,
           extraDetails: 1,
+          meetingPoint: 1,
           'booking.tickets.overall': 1,
           contactDetails: 1
         }
@@ -4982,18 +4987,31 @@ export async function fetchTrackedOrderData(orderId: string) {
           refundAvailable: {
             $first: '$extraDetails.refund.available'
           },
+          refundRequested: {
+            $first: '$extraDetails.refund.requested'
+          },
           cancellationAvailable: {
-            $first: '$extraDetails.cancellation.available'
+            $first:
+              '$extraDetails.cancellation.available'
+          },
+          cancellationRequested: {
+            $first: '$extraDetails.cancellation.requested'
           },
           createdAt: {
             $first: '$extraDetails.createdAt'
           },
           orderMadeBy: {
             $first: {
-              $concat: ['$contactDetails.firstName',
+              $concat: [
+                '$contactDetails.firstName',
                 ' ',
-                '$contactDetails.lastName']
+                '$contactDetails.lastName'
+              ]
             }
+          },
+
+          meetingPoint: {
+            $first: '$meetingPoint.location'
           }
         }
       }

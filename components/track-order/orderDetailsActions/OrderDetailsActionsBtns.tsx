@@ -22,7 +22,9 @@ export default function
 
   const {
     refundAvailable,
-    cancellationAvailable
+    refundRequested,
+    cancellationAvailable,
+    cancellationRequested
   } = useCartSelector((state) => state.trackOrder.orderDetails) as OrderDetailsType;
 
 
@@ -34,9 +36,8 @@ export default function
             disabled={!refundAvailable || isPending}
             onClick={refundAvailable ? handleRequestRefund : undefined}
             className={`${classes[`order-details-actions-btn`]}
-             ${!refundAvailable || isPending ? `${classes[`disabled`]}` : ``} ${classes[`refund`]}`}>Request
-            a
-            Refund
+             ${!refundAvailable || isPending ? `${classes[`disabled`]}` : ``} ${classes[`refund`]}`}>
+            {refundRequested ? `Refund Requested` : `Request a Refund`}
           </button>
         </div>
         <div className={`flex`}>
@@ -45,9 +46,7 @@ export default function
             onClick={cancellationAvailable ? handleRequestCancellation : undefined}
             className={`${classes[`order-details-actions-btn`]} 
              ${!cancellationAvailable || isPending ? `${classes[`disabled`]}` : ``}
-             ${classes[`cancellation`]}`}>Request
-            a
-            Cancellation
+             ${classes[`cancellation`]}`}>{cancellationRequested ? `Cancellation Requested` : `Request a Cancellation`}
           </button>
         </div>
       </div>

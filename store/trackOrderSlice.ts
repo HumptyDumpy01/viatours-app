@@ -9,9 +9,17 @@ export type OrderDetailsType = {
   };
   tickets: number;
   refundAvailable: boolean;
+  refundRequested: boolean;
   cancellationAvailable: boolean;
+  cancellationRequested: boolean;
   createdAt: string;
   orderMadeBy: string;
+  meetingPoint: {
+    location: {
+      type: `Point`,
+      coordinates: [number, number];
+    };
+  }
 }
 
 const trackOrderSlice = createSlice({
