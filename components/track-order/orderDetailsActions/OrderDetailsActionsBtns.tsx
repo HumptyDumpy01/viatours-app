@@ -3,6 +3,7 @@
 import { useCartSelector } from '@/store/hooks';
 import classes from '@/components/track-order/orderDetailsActions/OrderDetailsActions.module.scss';
 import { OrderDetailsType } from '@/store/trackOrderSlice';
+import { motion } from 'framer-motion';
 
 type OrderDetailsActionsBtnsType = {
   // children: ReactNode;
@@ -32,22 +33,28 @@ export default function
     <>
       <div className={`${classes[`order-details-actions-btns`]} ${!error ? `margin-top-big` : ``}`}>
         <div className={`flex margin-bottom-21px`}>
-          <button
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ type: `spring`, stiffness: 300, damping: 20 }}
             disabled={!refundAvailable || isPending}
             onClick={refundAvailable ? handleRequestRefund : undefined}
             className={`${classes[`order-details-actions-btn`]}
              ${!refundAvailable || isPending ? `${classes[`disabled`]}` : ``} ${classes[`refund`]}`}>
             {refundRequested ? `Refund Requested` : `Request a Refund`}
-          </button>
+          </motion.button>
         </div>
         <div className={`flex`}>
-          <button
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ type: `spring`, stiffness: 300, damping: 20 }}
             disabled={!cancellationAvailable || isPending}
             onClick={cancellationAvailable ? handleRequestCancellation : undefined}
             className={`${classes[`order-details-actions-btn`]} 
              ${!cancellationAvailable || isPending ? `${classes[`disabled`]}` : ``}
              ${classes[`cancellation`]}`}>{cancellationRequested ? `Cancellation Requested` : `Request a Cancellation`}
-          </button>
+          </motion.button>
         </div>
       </div>
     </>

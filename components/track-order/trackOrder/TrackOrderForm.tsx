@@ -8,6 +8,7 @@ import classes from '@/app/track-order/page.module.scss';
 import { FormEvent, useState, useTransition } from 'react';
 import { useCartDispatch } from '@/store/hooks';
 import { trackOrderSliceActions } from '@/store/trackOrderSlice';
+import { AnimatePresence, motion } from 'framer-motion';
 
 export default function TrackOrderForm(/*{  }: TrackOrderFormType*/) {
   const [isPending, startTransition] = useTransition();
@@ -64,8 +65,17 @@ export default function TrackOrderForm(/*{  }: TrackOrderFormType*/) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className={`flex`}>
-        {error && <p className={`paragraph paragraph-error`}>{error}</p>}
+      <div
+        className={`flex`}>
+        <AnimatePresence>
+          {error &&
+            <motion.p
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.5 }}
+              transition={{ duration: 0.5 }}
+              className={`paragraph paragraph-error`}>{error}</motion.p>}
+        </AnimatePresence>
       </div>
       <label className={classes[`label`]} htmlFor={`orderId`}>Enter your Order ID</label>
       <div className={`flex ${classes['track-order-input-container']}`}>
@@ -73,10 +83,14 @@ export default function TrackOrderForm(/*{  }: TrackOrderFormType*/) {
                className={`${classes[`input`]} ${isPending ? `disabled-input-field` : ``}`}
                type={`text`} id={`orderId`}
                placeholder={`24-chars expected`} />
-        <button disabled={isPending} type={`submit`}
-                className={`${classes[`track-order-track-btn`]} ${isPending ? `${classes[`disabled`]}` : ``}`}>Track
+        <motion.button
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          transition={{ type: `spring`, stiffness: 100, damping: 20 }}
+          disabled={isPending} type={`submit`}
+          className={`${classes[`track-order-track-btn`]} ${isPending ? `${classes[`disabled`]}` : ``}`}>Track
           Order
-        </button>
+        </motion.button>
       </div>
     </form>
   );

@@ -1,12 +1,19 @@
 // 'use client';
 import classes from './NeedHelp.module.scss';
+import { motion } from 'framer-motion';
 /*type NeedHelpType = {
   // children: ReactNode;
 }*/
 
 export default function NeedHelp(/*{  }: NeedHelpType*/) {
   return (
-    <div>
+    <motion.div
+      initial={{ opacity: 0, y: 200 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 200 }}
+      viewport={{ once: true }}
+      transition={{ type: `spring`, stiffness: 100, damping: 20 }}
+    >
       <h2 className={classes[`need-help-heading`]}>Need Help?</h2>
       <p className={classes[`need-help-par`]}>
         We are here to help you! If you have any questions or need assistance, please contact our support team. You can
@@ -27,7 +34,7 @@ export default function NeedHelp(/*{  }: NeedHelpType*/) {
               </clipPath>
             </defs>
           </svg>
-          <p>1-800-453-6744</p>
+          <a href={`tel:1-800-453-6744`} className={`highlighted text-decoration-none`}>1-800-453-6744</a>
         </div>
 
         <div className={`${classes[`need-help-support-item`]}`}>
@@ -43,9 +50,14 @@ export default function NeedHelp(/*{  }: NeedHelpType*/) {
               </clipPath>
             </defs>
           </svg>
-          <p><u>Chat to our Manager!</u></p>
+          <button className={`${classes[`need-help-support-chat-to-manager`]}`}><u>Chat to our Manager!</u></button>
         </div>
-        <div className={`${classes[`need-help-support-item-2`]} ${classes[`margin-top-med`]}`}>
+        <motion.div
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          initial={{ scale: 0.8 }}
+          whileInView={{ scale: 1 }}
+          className={`${classes[`need-help-support-item-2`]} ${classes[`margin-top-med`]}`}>
           <svg xmlns="http://www.w3.org/2000/svg" width="25" height="26" viewBox="0 0 25 26" fill="none">
             <g clipPath="url(#clip0_1076_5257)">
               <path
@@ -59,9 +71,9 @@ export default function NeedHelp(/*{  }: NeedHelpType*/) {
             </defs>
           </svg>
           <p>Chat with Layla AI Agent!</p>
-        </div>
+        </motion.div>
 
       </div>
-    </div>
+    </motion.div>
   );
 }

@@ -9,6 +9,7 @@ import { useCartDispatch, useCartSelector } from '@/store/hooks';
 import NotFound from 'next/dist/client/components/not-found-error';
 import { OrderDetailsType, trackOrderSliceActions } from '@/store/trackOrderSlice';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 
 export default function OrderDetailsStage(/*{  }: OrderDetailsStageType*/) {
 
@@ -37,11 +38,21 @@ export default function OrderDetailsStage(/*{  }: OrderDetailsStageType*/) {
 
 
   return (
-    <div>
+    <motion.div
+      initial={{ opacity: 0, y: 200 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 200 }}
+      transition={{ type: `spring`, stiffness: 100, damping: 20 }}
+    >
       <Link href={``} onClick={() => handleGoToTrackOrderStage(1)}
             className={classes[`order-details-back-link`]}> &larr; Go
         back</Link>
-      <h1 className={classes[`order-details-heading`]}>Wow! Nice order!</h1>
+      <motion.h1
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+        transition={{ type: `spring`, stiffness: 300 }}
+        className={classes[`order-details-heading`]}>Wow! Nice order!
+      </motion.h1>
       <p className={classes[`order-details-par`]}>Here we are! You can contemplate the most important details about your
         order. Check the
         meeting point, or Actions you can perform.</p>
@@ -72,6 +83,6 @@ export default function OrderDetailsStage(/*{  }: OrderDetailsStageType*/) {
         <p>Created: {formattedDate}</p>
         <p>Order made by : {orderDetails.orderMadeBy}</p>
       </div>
-    </div>
+    </motion.div>
   );
 }

@@ -8,11 +8,18 @@ import classes from '@/app/track-order/page.module.scss';
 import TrackOrderFirstCol from '@/components/track-order/trackOrder/TrackOrderFirstCol';
 import TrackOrderSecondCol from '@/components/track-order/trackOrder/TrackOrderSecondCol';
 import OrderDetailsActions from '@/components/track-order/orderDetailsActions/OrderDetailsActions';
-import React from 'react';
-import { useCartSelector } from '@/store/hooks';
+import React, { useEffect } from 'react';
+import { useCartDispatch, useCartSelector } from '@/store/hooks';
+import { trackOrderSliceActions } from '@/store/trackOrderSlice';
 
 export default function TrackOrderContent(/*{  }: TrackOrderContentType*/) {
   const currentStage = useCartSelector((state) => state.trackOrder.orderStage);
+  const dispatch = useCartDispatch();
+
+  useEffect(() => {
+    dispatch(trackOrderSliceActions.setOrderStage(1));
+  }, [dispatch]);
+
 
   return (
     <>

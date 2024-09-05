@@ -2904,7 +2904,7 @@ export async function approveRequestForCancellation(orderId: string) {
             icon: `map`,
             addedAt: new Date(),
             timestamp: Timestamp.fromNumber(Date.now()),
-            text: `Your cancellation request for the order was sent.`
+            text: `Your cancellation request for the order ${orderId.slice(0, 10) + `..`} was sent.`
           }
         }
       });

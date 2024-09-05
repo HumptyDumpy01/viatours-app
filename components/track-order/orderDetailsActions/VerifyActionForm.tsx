@@ -4,6 +4,7 @@ import { useCartDispatch, useCartSelector } from '@/store/hooks';
 import classes from '@/app/track-order/page.module.scss';
 import { useRef, useState, useTransition } from 'react';
 import { OrderDetailsType, trackOrderSliceActions } from '@/store/trackOrderSlice';
+import { AnimatePresence, motion } from 'framer-motion';
 
 type VerifyActionFormType = {
   action: {
@@ -16,6 +17,10 @@ type VerifyActionFormType = {
 export default function VerifyActionForm({ action }: VerifyActionFormType) {
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string>(``);
+  const orderDetails = useCartSelector((state) => state.trackOrder.orderDetails) as OrderDetailsType;
+
+  const timer = useRef<NodeJS.Timeout | null>(null);
+
   const dispatch = useCartDispatch();
   const { type } = useCartSelector((state) => state.trackOrder.actionsStage) as {
     type: `cancellation` | `refund`;
@@ -66,7 +71,7 @@ export default function VerifyActionForm({ action }: VerifyActionFormType) {
           return;
         }
 
-        console.log(`data`, data);
+        // console.log(`data`, data);
 
         /* Use api endpoint to push user's order to orderCancellations collection,
         *  and also remember to change the actual order data.
@@ -93,6 +98,21 @@ export default function VerifyActionForm({ action }: VerifyActionFormType) {
           type: action.type,
           stage: 3
         }));
+        dispatch(trackOrderSliceActions.setOrderDetails({
+          ...orderDetails,
+          cancellationAvailable: false,
+          cancellationRequested: true
+        }));
+
+        timer.current = setTimeout(function() {
+          dispatch(trackOrderSliceActions.setActionsStage({
+            // @ts-ignore
+            type: ``,
+            stage: 1
+          }));
+          clearTimeout(timer.current!);
+        }, 3000);
+
         // clear the error
         setError(``);
 
@@ -148,6 +168,22 @@ export default function VerifyActionForm({ action }: VerifyActionFormType) {
           type: action.type,
           stage: 3
         }));
+
+        dispatch(trackOrderSliceActions.setOrderDetails({
+          ...orderDetails,
+          refundAvailable: false,
+          refundRequested: true
+        }));
+
+        timer.current = setTimeout(function() {
+          dispatch(trackOrderSliceActions.setActionsStage({
+            // @ts-ignore
+            type: ``,
+            stage: 1
+          }));
+          clearTimeout(timer.current!);
+        }, 3000);
+
         // clear the error
         setError(``);
 
@@ -163,23 +199,39 @@ export default function VerifyActionForm({ action }: VerifyActionFormType) {
   return (
     <form onSubmit={handleSubmit}>
       {action.stage === 2 && (
-        <>
-          {error && (
-            <div className={`flex margin-top-3rem`}>
-              {error && <p className={`paragraph paragraph-error`}>{error}</p>}
-            </div>
-          )}
+        <motion.div
+          initial={{ opacity: 0, y: 200 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 200 }}
+          transition={{ type: `spring`, stiffness: 100, damping: 20 }}
+        >
+          <AnimatePresence>
+            {error && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.5 }}
+                className={`flex margin-top-3rem`}>
+                {error && <p className={`paragraph paragraph-error`}>{error}</p>}
+              </motion.div>
+            )}
+          </AnimatePresence>
           <label className={`${classes[`label`]}`} htmlFor={`orderId`}>Enter Verification Code</label>
-          <form className={`flex ${classes['track-order-input-container']} margin-bottom-42px`}>
+          <div className={`flex ${classes['track-order-input-container']} margin-bottom-42px`}>
             <input disabled={isPending} ref={userCode} name={`code`} className={`${classes[`input`]}`} type={`password`}
                    id={`orderId`}
                    required
                    placeholder={`6-digit code`} />
-            <button onClick={handleSubmit} type={`button`}
-                    className={`${classes[`track-order-track-btn`]} ${isPending ? `${classes[`disabled`]}` : ``} `}>Verify
-            </button>
-          </form>
-        </>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              disabled={isPending}
+              whileTap={{ scale: 0.95 }}
+              transition={{ type: `spring`, stiffness: 300, damping: 20 }}
+              onClick={handleSubmit} type={`button`}
+              className={`${classes[`track-order-track-btn`]} ${isPending ? `${classes[`disabled`]}` : ``} `}>Verify
+            </motion.button>
+          </div>
+        </motion.div>
       )}
     </form>
   );

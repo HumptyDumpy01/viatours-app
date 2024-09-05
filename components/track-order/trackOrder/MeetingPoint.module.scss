@@ -16,6 +16,7 @@
   border-radius: 0.8rem;
   text-decoration: none;
   display: inline-block;
+  transition: background-color 0.3s;
 
   &:hover, &:active {
     background-color: var(--clr-white);
