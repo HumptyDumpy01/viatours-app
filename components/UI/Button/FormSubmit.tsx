@@ -19,12 +19,13 @@ export default function FormSubmit({ btnClassName, btnTextIsPending, btnTextDefa
   return (
     <>
       <motion.button
+        disabled={true}
         whileHover={{ x: 20 }}
         whileTap={{ scale: 0.9 }}
         transition={{ type: 'spring', stiffness: 100, damping: 10 }}
         style={{ fontFamily: `Inter` }}
         className={btnClassName}
-        disabled={isPending}>{!isPending ? btnTextDefault : btnTextIsPending}</motion.button>
+        /*disabled={isPending}*/>{!isPending ? btnTextDefault : btnTextIsPending}</motion.button>
     </>
   );
 }
