@@ -38,12 +38,16 @@ export default function AIAgentLayla() {
   const [showAIWindow, setShowAIWindow] = useState<boolean>(false);
   const chatHistoryContainer = useRef<HTMLDivElement>(null);
 
+  // Function to scroll to the bottom of the chat history container
+  const scrollToBottom = () => {
+    chatHistoryContainer.current?.scrollBy(0, chatHistoryContainer.current.scrollHeight);
+  };
   // when the user opens the chat window, scroll to the bottom of the chat history container
   useEffect(() => {
     if (showAIWindow) {
-      chatHistoryContainer.current?.scrollBy(0, chatHistoryContainer.current.scrollHeight);
+      scrollToBottom();
     }
-  }, [showAIWindow]);
+  }, [showAIWindow, chatHistory]);
 
 
   useEffect(() => {
