@@ -187,7 +187,7 @@ export default function AIAgentLayla() {
               </button>
             </div>
             <div className={`${classes[`ai-input-btn-aside-container`]}`}>
-              <button onClick={handleClearChatHistory} disabled={loading} type={'button'}
+              <button onClick={handleClearChatHistory} disabled={loading || chatHistory?.length === 0} type={'button'}
                       className={`${classes[`ai-input-btn-clear`]} cursor-pointer`}>Clear Chat
               </button>
               <button onClick={() => toggleShowAIWindow(false)} type={'button'}
