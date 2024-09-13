@@ -154,9 +154,14 @@ export default function AIAgentLayla() {
 
   return (
     <>
-      <div onClick={() => toggleShowAIWindow(false)}
-           className={`${classes['ai-backdrop']} ${showAIWindow ? classes['open'] : ''}`}></div>
-      <div className={`${classes[`ai-box`]}  ${showAIWindow ? classes['open'] : ''}`}>
+      {showAIWindow && (
+        <div
+          onClick={() => toggleShowAIWindow(false)}
+          className={`${classes['ai-backdrop']} ${showAIWindow ? classes['open'] : ''}`}></div>
+      )}
+
+      <div
+        className={`${classes[`ai-box`]} ${showAIWindow ? `${classes[`open`]}` : ``}`}>
         <div ref={chatHistoryContainer} className={`${classes[`ai-box-comment-container`]}`}>
           <div>
             <LaylaComment date={formattedDate} style={'message'} initialText />
@@ -182,17 +187,35 @@ export default function AIAgentLayla() {
                  placeholder={`Your message goes here! Ask her anything!`} required />
           <div className={`${classes[`ai-input-btn-container`]}`}>
             <div>
-              <button disabled={loading} type={'submit'}
-                      className={`${classes[`ai-input-btn-submit`]} cursor-pointer ${loading ? `${classes[`btn-disabled`]}` : ''}`}>Ask
-              </button>
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                initial={{ scale: 0.8 }}
+                whileInView={{ scale: 1 }}
+                transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+                disabled={loading} type={'submit'}
+                className={`${classes[`ai-input-btn-submit`]} cursor-pointer ${loading ? `${classes[`btn-disabled`]}` : ''}`}>Ask
+              </motion.button>
             </div>
             <div className={`${classes[`ai-input-btn-aside-container`]}`}>
-              <button onClick={handleClearChatHistory} disabled={loading || chatHistory?.length === 0} type={'button'}
-                      className={`${classes[`ai-input-btn-clear`]} cursor-pointer`}>Clear Chat
-              </button>
-              <button onClick={() => toggleShowAIWindow(false)} type={'button'}
-                      className={`${classes[`ai-input-btn-hide`]} cursor-pointer`}>Hide
-              </button>
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                initial={{ scale: 0.8 }}
+                whileInView={{ scale: 1 }}
+                transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+                onClick={handleClearChatHistory} disabled={loading || chatHistory?.length === 0} type={'button'}
+                className={`${classes[`ai-input-btn-clear`]} cursor-pointer`}>Clear Chat
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                initial={{ scale: 0.8 }}
+                whileInView={{ scale: 1 }}
+                transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+                onClick={() => toggleShowAIWindow(false)} type={'button'}
+                className={`${classes[`ai-input-btn-hide`]} cursor-pointer`}>Hide
+              </motion.button>
             </div>
           </div>
         </form>

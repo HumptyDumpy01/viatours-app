@@ -46,6 +46,7 @@
 .open {
   visibility: visible !important;
   opacity: 1 !important;
+  transform: translateX(0) !important;
 }
 
 .ai-box {
@@ -54,6 +55,8 @@
   right: 0;
   width: 45%;
   height: 100%;
+  transition: all 0.3s;
+  transform: translateX(100%);
 
   @media only screen and (max-width: 51.9375em) {
     width: 100%;
