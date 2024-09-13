@@ -7,6 +7,7 @@ import Footer from '@/components/MainLayout/Footer/Footer';
 import StoreProvider from '@/components/UI/Provider/StoreProvider';
 // import ToastContainer from '@/components/UI/Toast/ToastContainer';
 import GoToTheTopBtn from '@/components/MainLayout/Button/GoToTheTopBtn';
+import AIAgentLayla from '@/components/UI/AIAgent/AIAgentLayla';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -25,6 +26,7 @@ export default function RootLayout({ children }: Readonly<{
     <body className={inter.className}>
     <StoreProvider>
       <GoToTheTopBtn />
+      <AIAgentLayla />
       <div id={`toaster`}>
       </div>
       <Header />

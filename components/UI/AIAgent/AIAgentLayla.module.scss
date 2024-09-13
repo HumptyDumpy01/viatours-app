@@ -1,0 +1,61 @@
+.layla-ai-btn-container {
+  position: fixed;
+  bottom: 3.2rem;
+  right: 1rem;
+  z-index: 999;
+}
+
+.layla-ai-btn {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  width: 24.5rem;
+  height: 5.8rem;
+  padding: 2.2rem 2.3rem;
+  border-radius: 39px;
+  background: linear-gradient(90deg, #DD95FF 0%, #FF8181 100%), linear-gradient(92deg, #F28555 1.59%, #8C4D31 174.22%);
+
+  @media only screen and (max-width: 75em) {
+    svg {
+      width: 2rem;
+      height: 2rem;
+    }
+  }
+
+  p {
+    font-size: 1.467rem;
+    font-weight: 600;
+    color: var(--clr-white);
+  }
+
+}
+
+
+.ai-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.open {
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.ai-box {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 45%;
+  height: 100%;
+  background-color: var(--clr-white);
+  z-index: 1002;
+  visibility: hidden;
+  opacity: 0;
+}
