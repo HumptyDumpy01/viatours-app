@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import classes from '@/components/UI/AIAgent/AIAgentLayla.module.scss';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import LaylaComment from '@/components/UI/AIAgent/LaylaComment';
 import UserComment from '@/components/UI/AIAgent/UserComment';
 
@@ -34,9 +34,21 @@ export function formatTheDate(date: string) {
 export default function AIAgentLayla() {
   const [chatHistory, setChatHistory] = useState<LaylaCommentType[] | []>();
   const [loading, setLoading] = useState<boolean>(false);
-  const [response, setResponse] = useState<LaylaResponseType | null>();
   const [error, setError] = useState<string>(``);
-  const [showAIWindow, setShowAIWindow] = useState<boolean>(true);
+  const [showAIWindow, setShowAIWindow] = useState<boolean>(false);
+
+
+  useEffect(() => {
+    // fetch the chat history from the local storage
+    const chatHistoryFromLocalStorage = localStorage.getItem(`chatHistory`);
+    if (chatHistoryFromLocalStorage) {
+      try {
+        setChatHistory(JSON.parse(chatHistoryFromLocalStorage));
+      } catch (e) {
+        console.error('Failed to parse chat history from local storage:', e);
+      }
+    }
+  }, []);
 
   function toggleShowAIWindow(state: boolean) {
     setShowAIWindow(state);
@@ -55,6 +67,11 @@ export default function AIAgentLayla() {
       setLoading(false);
       return;
     }
+    if (results.query.length > 500) {
+      setError(`Please enter a query with less than 500 characters!`);
+      setLoading(false);
+      return;
+    }
 
     setChatHistory((prev) => {
       if (prev) {
@@ -63,11 +80,12 @@ export default function AIAgentLayla() {
         return [{ type: 'user', text: results.query, date: new Date().toISOString() }];
       }
     });
+    currObject.reset();
 
-    /* TODO: use your FastAPI endpoint to fetch the data from AI.
-    *   If the response is successful, then append the correctly formatted
-    *   response to chatHistory array.
-    *   If error occurs, push a new error message to the error state. */
+    /* use your FastAPI endpoint to fetch the data from AI.
+    *  If the response is successful, then append the correctly formatted
+    *  response to chatHistory array.
+    *  If error occurs, push a new error message to the error state. */
     const response = await fetch(`http://localhost:8000/viatours-agent/get-response`, {
       method: `POST`,
       headers: {
@@ -94,6 +112,16 @@ export default function AIAgentLayla() {
 
 
   }
+
+  function handleClearChatHistory() {
+    setChatHistory([]);
+    localStorage.removeItem(`chatHistory`);
+  }
+
+  // push the response to the chatHistory local Storage as well,
+  // so I can use it later on to display the chat history.
+  if (chatHistory)
+    localStorage.setItem(`chatHistory`, JSON.stringify(chatHistory));
 
 
   console.log(`Executing showAIWindow: `, showAIWindow);
@@ -132,7 +160,7 @@ export default function AIAgentLayla() {
           </div>
         </div>
         <form onSubmit={handleSubmit} className={`${classes[`ai-input-container`]}`}>
-          <input disabled={loading} name={`query`} type="text" className={`${classes[`ai-input`]}`}
+          <input maxLength={500} disabled={loading} name={`query`} type="text" className={`${classes[`ai-input`]}`}
                  placeholder={`Your message goes here! Ask her anything!`} required />
           <div className={`${classes[`ai-input-btn-container`]}`}>
             <div>
@@ -141,7 +169,7 @@ export default function AIAgentLayla() {
               </button>
             </div>
             <div className={`${classes[`ai-input-btn-aside-container`]}`}>
-              <button disabled={loading} type={'button'}
+              <button onClick={handleClearChatHistory} disabled={loading} type={'button'}
                       className={`${classes[`ai-input-btn-clear`]} cursor-pointer`}>Clear Chat
               </button>
               <button onClick={() => toggleShowAIWindow(false)} type={'button'}
