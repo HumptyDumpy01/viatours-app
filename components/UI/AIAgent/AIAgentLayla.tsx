@@ -110,23 +110,28 @@ export default function AIAgentLayla() {
       console.error(`Fetch error:`, error);
       setError(`An error occurred while fetching the response.`);
       setLoading(false);
-    });
 
-    console.log(`Response: `, response);
-    setLoading(false);
-    setError(``);
+      if (response.response) {
+        console.log(`Response: `, response);
+        setLoading(false);
+        setError(``);
 
-    setChatHistory((prev) => {
-      if (prev) {
-        return [...prev, { type: 'layla', text: response.response, date: response.date }];
-      } else {
-        return [{ type: 'layla', text: response.response, date: response.date }];
+        setChatHistory((prev) => {
+          if (prev) {
+            return [...prev, { type: 'layla', text: response.response, date: response.date }];
+          } else {
+            return [{ type: 'layla', text: response.response, date: response.date }];
+          }
+        });
       }
     });
+
 
     // smoothly scroll to the bottom of the chat history container
     // manually, as the chat history container is not a native scrollable element.
     chatHistoryContainer.current?.scrollBy(0, chatHistoryContainer.current.scrollHeight);
+
+    /* TODO: Create an API endpoint which would save each response to the mongodb database for analysis */
 
 
   }
@@ -138,7 +143,7 @@ export default function AIAgentLayla() {
 
   // push the response to the chatHistory local Storage as well,
   // so I can use it later on to display the chat history.
-  if (chatHistory)
+  if (chatHistory && error === ``)
     localStorage.setItem(`chatHistory`, JSON.stringify(chatHistory));
 
 
