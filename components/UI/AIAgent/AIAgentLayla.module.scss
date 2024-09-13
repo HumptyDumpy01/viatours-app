@@ -153,7 +153,7 @@
   overflow-y: auto;
   // make the scrollbar small and mor pretty
   scrollbar-width: thin;
-  scrollbar-color: var(--clr-primary) var(--clr-white);
+  scrollbar-color: #ffd6c7 var(--clr-white);
 }
 
 
@@ -216,4 +216,15 @@
   font-size: 1.6rem;
   font-weight: 600;
   border: none;
+}
+
+.error {
+  color: var(--clr-strawberry-red);
+  font-weight: 600;
+}
+
+.btn-disabled {
+  background-color: var(--clr-grey) !important;
+  color: var(--clr-white) !important;
+  cursor: not-allowed !important;
 }

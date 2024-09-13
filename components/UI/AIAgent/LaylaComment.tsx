@@ -1,16 +1,19 @@
-// 'use client';
+'use client';
+
+import { Skeleton } from '@mui/material';
+import classes from '@/components/UI/AIAgent/AIAgentLayla.module.scss';
 
 type LaylaCommentType = {
   text?: string;
   initialText?: boolean;
+  style: 'message' | 'error' | 'loading';
+  date: string;
   // children: ReactNode;
 }
 
-import classes from '@/components/UI/AIAgent/AIAgentLayla.module.scss';
+export default function LaylaComment({ text, initialText, style, date }: LaylaCommentType) {
 
-export default function LaylaComment({ text, initialText }: LaylaCommentType) {
-
-  if (!text && !initialText || text && initialText) {
+  if (text && initialText) {
     console.error(`Incorrect usage of LaylaComment component. Please provide either text or initialText prop.`);
     return;
   }
@@ -39,7 +42,11 @@ export default function LaylaComment({ text, initialText }: LaylaCommentType) {
           <div className={`${classes[`ai-box-comment-box-name-ai`]}`}>
             <p>Layla</p>
           </div>
-          <p className={`${classes[`ai-box-comment-box-time`]}`}>August 14, 13:50</p>
+          <p className={`${classes[`ai-box-comment-box-time`]}`}>
+            {style === `loading` ? <>
+              <Skeleton variant="text" width={`10rem`} />
+            </> : date}
+          </p>
         </div>
 
       </div>
@@ -50,7 +57,16 @@ export default function LaylaComment({ text, initialText }: LaylaCommentType) {
             I be of your assistance?</p>
         )}
         {!initialText && text && (
-          <p>{text}</p>
+          <p className={`${style === `error` ? classes[`error`] : ``}`}>{text}</p>
+        )}
+        {style === `loading` && (
+          <>
+            <div className={`${classes[`ai-box-comment-text-loading`]}`}>
+              <Skeleton variant="text" width={`100%`} />
+              <Skeleton variant="text" width={`80%`} />
+              <Skeleton variant="text" width={`50%`} />
+            </div>
+          </>
         )}
       </div>
     </div>
