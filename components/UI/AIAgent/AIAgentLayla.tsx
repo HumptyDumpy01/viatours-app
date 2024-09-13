@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import classes from '@/components/UI/AIAgent/AIAgentLayla.module.scss';
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
 import LaylaComment from '@/components/UI/AIAgent/LaylaComment';
 import UserComment from '@/components/UI/AIAgent/UserComment';
 
@@ -36,6 +36,14 @@ export default function AIAgentLayla() {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>(``);
   const [showAIWindow, setShowAIWindow] = useState<boolean>(false);
+  const chatHistoryContainer = useRef<HTMLDivElement>(null);
+
+  // when the user opens the chat window, scroll to the bottom of the chat history container
+  useEffect(() => {
+    if (showAIWindow) {
+      chatHistoryContainer.current?.scrollBy(0, chatHistoryContainer.current.scrollHeight);
+    }
+  }, [showAIWindow]);
 
 
   useEffect(() => {
@@ -73,6 +81,7 @@ export default function AIAgentLayla() {
       return;
     }
 
+
     setChatHistory((prev) => {
       if (prev) {
         return [...prev, { type: 'user', text: results.query, date: new Date().toISOString() }];
@@ -80,6 +89,7 @@ export default function AIAgentLayla() {
         return [{ type: 'user', text: results.query, date: new Date().toISOString() }];
       }
     });
+
     currObject.reset();
 
     /* use your FastAPI endpoint to fetch the data from AI.
@@ -110,6 +120,10 @@ export default function AIAgentLayla() {
       }
     });
 
+    // smoothly scroll to the bottom of the chat history container
+    // manually, as the chat history container is not a native scrollable element.
+    chatHistoryContainer.current?.scrollBy(0, chatHistoryContainer.current.scrollHeight);
+
 
   }
 
@@ -139,7 +153,7 @@ export default function AIAgentLayla() {
       <div onClick={() => toggleShowAIWindow(false)}
            className={`${classes['ai-backdrop']} ${showAIWindow ? classes['open'] : ''}`}></div>
       <div className={`${classes[`ai-box`]}  ${showAIWindow ? classes['open'] : ''}`}>
-        <div className={`${classes[`ai-box-comment-container`]}`}>
+        <div ref={chatHistoryContainer} className={`${classes[`ai-box-comment-container`]}`}>
           <div>
             <LaylaComment date={formattedDate} style={'message'} initialText />
             {/*<UserComment text={`How to request a refund for tickets I bought?`} initials={'Nikolas Baker'} />*/}
