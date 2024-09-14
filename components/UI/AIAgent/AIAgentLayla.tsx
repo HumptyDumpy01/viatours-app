@@ -6,7 +6,7 @@ import { FormEvent, useEffect, useRef, useState } from 'react';
 import LaylaComment from '@/components/UI/AIAgent/LaylaComment';
 import UserComment from '@/components/UI/AIAgent/UserComment';
 
-type LaylaResponseType = {
+export type LaylaResponseType = {
   response: string;
   status: number;
   query: string;
@@ -106,33 +106,46 @@ export default function AIAgentLayla() {
         'Content-Type': `application/json`
       },
       body: JSON.stringify({ query: results.query })
-    }).then((response) => response.json()).catch((error) => {
+    }).then((response) => response.json()
+    ).then(async (res) => {
+      return res;
+    }).catch((error) => {
       console.error(`Fetch error:`, error);
       setError(`An error occurred while fetching the response.`);
       setLoading(false);
 
-      if (response.response) {
-        console.log(`Response: `, response);
-        setLoading(false);
-        setError(``);
-
-        setChatHistory((prev) => {
-          if (prev) {
-            return [...prev, { type: 'layla', text: response.response, date: response.date }];
-          } else {
-            return [{ type: 'layla', text: response.response, date: response.date }];
-          }
-        });
-      }
     });
+    console.log(`Executing response: `, response);
+
+    if (response.response) {
+      console.log(`Response: `, response);
+      setLoading(false);
+      setError(``);
+
+      setChatHistory((prev) => {
+        if (prev) {
+          return [...prev, { type: 'layla', text: response.response, date: response.date }];
+        } else {
+          return [{ type: 'layla', text: response.response, date: response.date }];
+        }
+      });
+
+      /* Create an API endpoint which would save each response to the mongodb database for analysis */
+      await fetch(`api/store-ai-response-to-database`, {
+        method: `POST`,
+        headers: {
+          'Content-Type': `application/json`
+        },
+        body: JSON.stringify({ response: response })
+      }).then((response) => response.json()).catch((error) => {
+        console.error(`Fetch error:`, error);
+      });
 
 
+    }
     // smoothly scroll to the bottom of the chat history container
     // manually, as the chat history container is not a native scrollable element.
     chatHistoryContainer.current?.scrollBy(0, chatHistoryContainer.current.scrollHeight);
-
-    /* TODO: Create an API endpoint which would save each response to the mongodb database for analysis */
-
 
   }
 
