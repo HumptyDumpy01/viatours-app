@@ -93,19 +93,24 @@ export default function AIAgentLayla() {
         return [{ type: 'user', text: results.query, date: new Date().toISOString() }];
       }
     });
+    // Select up to 3 previous user comments and answers from Layla AI
+    // to send to the AI endpoint for better context.
+    // If the chat history is empty, then send an empty array.
+    const chatHistoryForAI = chatHistory ? chatHistory.slice(-5) : [];
+    console.log(`Chat history for AI: `, chatHistoryForAI);
 
     currObject.reset();
 
     /* use your FastAPI endpoint to fetch the data from AI.
     *  If the response is successful, then append the correctly formatted
     *  response to chatHistory array.
-    *  If error occurs, push a new error message to the error state. */
+    *  If an error occurs, push a new error message to the error state. */
     const response = await fetch(`http://localhost:8000/viatours-agent/get-response`, {
       method: `POST`,
       headers: {
         'Content-Type': `application/json`
       },
-      body: JSON.stringify({ query: results.query })
+      body: JSON.stringify({ query: results.query, chatHistory: chatHistoryForAI })
     }).then((response) => response.json()
     ).then(async (res) => {
       return res;

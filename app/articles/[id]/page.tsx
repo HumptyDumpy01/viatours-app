@@ -7,6 +7,7 @@ import { getServerSession } from 'next-auth';
 import { authConfig } from '@/lib/auth';
 import TourDescriptionLoadingPage from '@/app/tours/[id]/loading-page';
 import { notFound } from 'next/navigation';
+import { ArticleType } from '@/components/articles/search-article/SearchArticleContainer';
 
 interface ArticleDescriptionInterface {
   params: {
@@ -72,7 +73,7 @@ export default async function ArticleDescription({ params }: ArticleDescriptionI
   /* IMPORTANT: FOR PRODUCTION */
 
   // fetch the article from the server based on url id
-  /* const article: {
+   const article: {
      error: boolean;
      article: ArticleType[];
 
@@ -114,7 +115,6 @@ export default async function ArticleDescription({ params }: ArticleDescriptionI
        }
      };
    }
-   */
   // console.log(`Article: `, article.article[0]);
 
   ///////////////////////////////////////
@@ -122,6 +122,7 @@ export default async function ArticleDescription({ params }: ArticleDescriptionI
 
   /* IMPORTANT: FOR DEVELOPMENT */
   // @ts-ignore
+ /*
   const article: {
     error: boolean;
     article: ArticleDescrType[];
@@ -156,7 +157,7 @@ export default async function ArticleDescription({ params }: ArticleDescriptionI
         name: session!.user!.name
       }
     };
-  }
+  }*/
   // console.log(`Session: `, sessionVar);
   return (
     <>
