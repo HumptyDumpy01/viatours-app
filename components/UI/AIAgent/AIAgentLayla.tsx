@@ -7,7 +7,7 @@ import LaylaComment from '@/components/UI/AIAgent/LaylaComment';
 import UserComment from '@/components/UI/AIAgent/UserComment';
 
 export default function AIAgentLayla() {
-  const [showAIWindow, setShowAIWindow] = useState<boolean>(true);
+  const [showAIWindow, setShowAIWindow] = useState<boolean>(false);
 
   function toggleShowAIWindow(state: boolean) {
     setShowAIWindow(state);
@@ -18,14 +18,11 @@ export default function AIAgentLayla() {
     const currObject = e.currentTarget;
     const formData = new FormData(currObject);
     const results = Object.fromEntries(formData.entries());
+    console.log(`Executing results: `, results);
     // resetting the form
-    currObject.reset();
+    // currObject.reset();
     // output
-    console.log(results);
   }
-
-
-  console.log(`Executing showAIWindow: `, showAIWindow);
 
   return (
     <>
