@@ -11,6 +11,7 @@ export default function AIAgentLayla() {
   const [chatHistory, setChatHistory] = useState<
     { type: 'user' | 'layla'; text: string; date: string }[]
   >([]);
+  const [error, setError] = useState<string>(``);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
@@ -33,6 +34,7 @@ export default function AIAgentLayla() {
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    setError('');
     setIsLoading(true);
 
     const currObject = e.currentTarget;
@@ -58,6 +60,9 @@ export default function AIAgentLayla() {
     setChatHistory(updatedChatHistory);
     localStorage.setItem('chatHistory', JSON.stringify(updatedChatHistory));
 
+    // reset the form
+    currObject.reset();
+
     const queryResult = await fetch('http://127.0.0.1:8000/viatours-agent/get-response', {
       method: 'POST',
       headers: {
@@ -65,10 +70,12 @@ export default function AIAgentLayla() {
       },
       body: JSON.stringify({ query: results.query, chatHistory: updatedChatHistory })
     });
+    console.log(`Executing queryResult: `, queryResult);
+
+    // cleanse the input
+    const response = await queryResult.json();
 
     if (queryResult.status === 200) {
-      // cleanse the input
-      const response = await queryResult.json();
       const aiMessage = {
         type: 'layla' as const,
         text: response.response,
@@ -78,11 +85,33 @@ export default function AIAgentLayla() {
       updatedChatHistory = [...updatedChatHistory, aiMessage];
       setChatHistory(updatedChatHistory);
       localStorage.setItem('chatHistory', JSON.stringify(updatedChatHistory));
-      // reset the form
-      currObject.reset();
+
+      await fetch('/api/save-layla-response', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          response
+        })
+      });
+    } else {
+      console.error('Error in fetching response from the server`');
+      setError('Sorry, I could not answer the question. Please try again later!');
+
+      await fetch('/api/save-layla-response', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          response
+        })
+      });
     }
 
     setIsLoading(false);
+    setError('');
   }
 
   function clearChatHistory() {
@@ -105,6 +134,9 @@ export default function AIAgentLayla() {
             }
           })}
           {isLoading && <LaylaComment text={`Loading...`} date={new Date().toISOString()} />}
+          {error &&
+            <LaylaComment text={error || `Failed to answer the question! Sorry!`} date={new Date().toISOString()}
+                          error />}
         </div>
         <form onSubmit={handleSubmit} className={`${classes['ai-input-container']}`}>
           <input name="query" type="text" className={`${classes['ai-input']}`}

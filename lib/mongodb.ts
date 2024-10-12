@@ -5176,5 +5176,20 @@ export async function saveLaylaResponse(response: LaylaResponseType) {
   const client = await clientPromise;
   const db = client.db(`viatoursdb`);
 
+  const result = await db.collection(`laylaResponses`).insertOne(response);
+
+  if (result.acknowledged) {
+    return {
+      error: false,
+      message: `Layla response saved successfully.`
+    };
+  } else {
+    return {
+      error: true,
+      message: `Failed to save Layla response.`
+    };
+
+  }
+
 }
 
