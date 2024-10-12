@@ -3,17 +3,28 @@
 type LaylaCommentType = {
   text?: string;
   initialText?: boolean;
+  error?: boolean;
+  date: string;
   // children: ReactNode;
 }
 
 import classes from '@/components/UI/AIAgent/AIAgentLayla.module.scss';
 
-export default function LaylaComment({ text, initialText }: LaylaCommentType) {
+export default function LaylaComment({ text, initialText, date, error = false }: LaylaCommentType) {
 
   if (!text && !initialText || text && initialText) {
     console.error(`Incorrect usage of LaylaComment component. Please provide either text or initialText prop.`);
     return;
   }
+
+  // I do need to the date string to be in this format: "August 14, 13:50"
+  const dateObj = new Date(date);
+  const month = dateObj.toLocaleString('default', { month: 'long' });
+  const day = dateObj.getDate();
+  const hours = dateObj.getHours();
+  const minutes = dateObj.getMinutes();
+  const time = `${hours}:${minutes}`;
+  const formattedDate = `${month} ${day}, ${time}`;
 
   return (
     <div className={`${classes[`ai-box-comment-box-container`]}`}>
@@ -39,7 +50,7 @@ export default function LaylaComment({ text, initialText }: LaylaCommentType) {
           <div className={`${classes[`ai-box-comment-box-name-ai`]}`}>
             <p>Layla</p>
           </div>
-          <p className={`${classes[`ai-box-comment-box-time`]}`}>August 14, 13:50</p>
+          <p className={`${classes[`ai-box-comment-box-time`]}`}>{formattedDate}</p>
         </div>
 
       </div>
@@ -50,7 +61,7 @@ export default function LaylaComment({ text, initialText }: LaylaCommentType) {
             I be of your assistance?</p>
         )}
         {!initialText && text && (
-          <p>{text}</p>
+          <p className={`${error ? classes[`error-p`] : ``}`}>{text}</p>
         )}
       </div>
     </div>

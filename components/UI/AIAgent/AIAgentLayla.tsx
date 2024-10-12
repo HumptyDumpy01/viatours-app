@@ -2,52 +2,125 @@
 
 import { motion } from 'framer-motion';
 import classes from '@/components/UI/AIAgent/AIAgentLayla.module.scss';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
 import LaylaComment from '@/components/UI/AIAgent/LaylaComment';
 import UserComment from '@/components/UI/AIAgent/UserComment';
 
 export default function AIAgentLayla() {
-  const [showAIWindow, setShowAIWindow] = useState<boolean>(false);
+  const [showAIWindow, setShowAIWindow] = useState<boolean>(true);
+  const [chatHistory, setChatHistory] = useState<
+    { type: 'user' | 'layla'; text: string; date: string }[]
+  >([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const storedHistory = localStorage.getItem('chatHistory');
+    if (storedHistory) {
+      setChatHistory(JSON.parse(storedHistory));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
+  }, [chatHistory]);
 
   function toggleShowAIWindow(state: boolean) {
     setShowAIWindow(state);
   }
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    setIsLoading(true);
+
     const currObject = e.currentTarget;
     const formData = new FormData(currObject);
     const results = Object.fromEntries(formData.entries());
-    console.log(`Executing results: `, results);
-    // resetting the form
-    // currObject.reset();
-    // output
+
+    if (String(results.query).length === 0) {
+      setIsLoading(false);
+      return;
+    }
+
+    const newMessage = {
+      type: 'user' as const,
+      text: String(results.query),
+      date: new Date().toISOString()
+    };
+
+    let updatedChatHistory = [...chatHistory, newMessage];
+    if (updatedChatHistory.length > 6) {
+      updatedChatHistory = updatedChatHistory.slice(-6);
+    }
+
+    setChatHistory(updatedChatHistory);
+    localStorage.setItem('chatHistory', JSON.stringify(updatedChatHistory));
+
+    const queryResult = await fetch('http://127.0.0.1:8000/viatours-agent/get-response', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ query: results.query, chatHistory: updatedChatHistory })
+    });
+
+    if (queryResult.status === 200) {
+      // cleanse the input
+      const response = await queryResult.json();
+      const aiMessage = {
+        type: 'layla' as const,
+        text: response.response,
+        date: new Date().toISOString()
+      };
+
+      updatedChatHistory = [...updatedChatHistory, aiMessage];
+      setChatHistory(updatedChatHistory);
+      localStorage.setItem('chatHistory', JSON.stringify(updatedChatHistory));
+      // reset the form
+      currObject.reset();
+    }
+
+    setIsLoading(false);
+  }
+
+  function clearChatHistory() {
+    setChatHistory([]);
+    localStorage.removeItem('chatHistory');
   }
 
   return (
     <>
       <div onClick={() => toggleShowAIWindow(false)}
            className={`${classes['ai-backdrop']} ${showAIWindow ? classes['open'] : ''}`}></div>
-      <div className={`${classes[`ai-box`]}  ${showAIWindow ? classes['open'] : ''}`}>
-        <div className={`${classes[`ai-box-comment-container`]}`}>
-          <LaylaComment initialText />
-          <UserComment text={`How to request a refund for tickets I bought?`} initials={'Nikolas Baker'} />
-          <LaylaComment
-            text={'To request a refund for the tickets you bought you can visit “track-order” page here. Enter your order id and check out the available options you can perform there. \n' +
-              'Or if you are authenticated user, you can visit Account Settings here. Check whether you can request a refund for your tickets.'} />
-          <UserComment text={`Thanks a lot!`} initials={'Nikolas Baker'} />
+      <div className={`${classes['ai-box']}  ${showAIWindow ? classes['open'] : ''}`}>
+        <div ref={chatContainerRef} className={`${classes['ai-box-comment-container']}`}>
+          <LaylaComment date={new Date().toISOString()} initialText />
+          {chatHistory.map((chat, index) => {
+            if (chat.type === 'user') {
+              return <UserComment key={index} initials="YOU" text={chat.text} />;
+            } else {
+              return <LaylaComment key={index} text={chat.text} date={chat.date} />;
+            }
+          })}
+          {isLoading && <LaylaComment text={`Loading...`} date={new Date().toISOString()} />}
         </div>
-        <form onSubmit={handleSubmit} className={`${classes[`ai-input-container`]}`}>
-          <input type="text" className={`${classes[`ai-input`]}`}
-                 placeholder={`Your message goes here! Ask her anything!`} required />
-          <div className={`${classes[`ai-input-btn-container`]}`}>
+        <form onSubmit={handleSubmit} className={`${classes['ai-input-container']}`}>
+          <input name="query" type="text" className={`${classes['ai-input']}`}
+                 placeholder="Your message goes here! Ask her anything!" required disabled={isLoading} />
+          <div className={`${classes['ai-input-btn-container']}`}>
             <div>
-              <button type={'submit'} className={`${classes[`ai-input-btn-submit`]} cursor-pointer`}>Ask</button>
+              <button type="submit" className={`${classes['ai-input-btn-submit']} cursor-pointer`}
+                      disabled={isLoading}>Ask
+              </button>
             </div>
-            <div className={`${classes[`ai-input-btn-aside-container`]}`}>
-              <button type={'button'} className={`${classes[`ai-input-btn-clear`]} cursor-pointer`}>Clear Chat</button>
-              <button onClick={() => toggleShowAIWindow(false)} type={'button'}
-                      className={`${classes[`ai-input-btn-hide`]} cursor-pointer`}>Hide
+            <div className={`${classes['ai-input-btn-aside-container']}`}>
+              <button type="button" onClick={clearChatHistory}
+                      className={`${classes['ai-input-btn-clear']} cursor-pointer`} disabled={isLoading}>Clear Chat
+              </button>
+              <button onClick={() => toggleShowAIWindow(false)} type="button"
+                      className={`${classes['ai-input-btn-hide']} cursor-pointer`} disabled={isLoading}>Hide
               </button>
             </div>
           </div>

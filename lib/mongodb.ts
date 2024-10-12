@@ -5163,4 +5163,18 @@ export async function subscribeOnArticleNewsletter(email: string) {
 }
 
 ///////////////////////////////////////
+/* IMPORTANT: LAYLA AI */
+
+export type LaylaResponseType = {
+  response: string;
+  status: number;
+  query: string;
+  date: string;
+}
+
+export async function saveLaylaResponse(response: LaylaResponseType) {
+  const client = await clientPromise;
+  const db = client.db(`viatoursdb`);
+
+}
 
