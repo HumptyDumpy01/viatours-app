@@ -7,7 +7,7 @@ import LaylaComment from '@/components/UI/AIAgent/LaylaComment';
 import UserComment from '@/components/UI/AIAgent/UserComment';
 
 export default function AIAgentLayla() {
-  const [showAIWindow, setShowAIWindow] = useState<boolean>(true);
+  const [showAIWindow, setShowAIWindow] = useState<boolean>(false);
   const [chatHistory, setChatHistory] = useState<
     { type: 'user' | 'layla'; text: string; date: string }[]
   >([]);
