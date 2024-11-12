@@ -170,6 +170,7 @@
 }
 
 .hero-form {
+  z-index: 10;
   @media only screen and (max-width: 32.0625em) {
     width: 80%;
   }

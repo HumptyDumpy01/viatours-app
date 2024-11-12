@@ -31,7 +31,7 @@ export default function Feature({ title, text, type }: FeatureInterface) {
       viewport={{ once: true }}
       whileHover={{ y: -10, transition: { type: `spring`, damping: 10 } }}
       className="section-features__layout-el">
-      <div>
+      <div className={`z-index-minus-1`}>
         <Image className="section-features__layout__img" src={imageSrc} alt={`${type} icon`} />
       </div>
       <span>{title}</span>

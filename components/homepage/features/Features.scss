@@ -9,6 +9,7 @@
     grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
     column-gap: 7.4rem;
     row-gap: 3.2rem;
+    z-index: 1;
 
     &-el {
       transition: all .2s;
