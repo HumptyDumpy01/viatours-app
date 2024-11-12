@@ -243,7 +243,7 @@ export default function AIAgentLayla() {
           </div>
         </form>
       </div>
-      <motion.div
+      <motion.button
         whileHover={{ scale: 1.1 }}
         onClick={() => toggleShowAIWindow(true)}
         whileTap={{ scale: 0.9 }}
@@ -263,7 +263,7 @@ export default function AIAgentLayla() {
           </defs>
         </svg>
         <p>Chat with Layla AI</p>
-      </motion.div>
+      </motion.button>
     </>
   );
 }

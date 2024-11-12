@@ -13,9 +13,8 @@ import TravelArticles from '@/components/homepage/travel-articles/TravelArticles
 import React from 'react';
 
 export default function Home() {
-
-  return (
-    <main>
+ return (
+   <main>
       {/*<FormCompTemp />*/}
       <section className="hero flex flex-column">
         <HeroWrapper />
