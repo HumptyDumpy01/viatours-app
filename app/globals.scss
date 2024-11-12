@@ -1348,3 +1348,14 @@ b {
   width: 25rem !important;
   font-size: 1.5rem;
 }
+
+.z-index-10 {
+  z-index: 10;
+}
+
+.all-tours__content-input {
+  @media only screen and (max-width: 37.5em) {
+    flex-direction: column;
+  }
+}
+

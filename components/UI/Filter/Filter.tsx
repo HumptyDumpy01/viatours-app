@@ -62,6 +62,7 @@ export default function Filter({ tours }: FilterInterface) {
       initial={{ opacity: 0, x: -300 }}
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -300 }}
+      className={`z-index-10`}
       transition={{ type: 'spring', stiffness: 100, damping: 20 }}
     >
       <div className="all-tours__content__filter">
