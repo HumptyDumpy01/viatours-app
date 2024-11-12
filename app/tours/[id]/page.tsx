@@ -179,8 +179,8 @@ export default async function TourDescription({ params }: TourDescriptionInterfa
     </>
   );
 }
-
 */
+
 
 /* INFO: the reason why I do have two versions is that in build bundle I change the way how
 *   I parse the data by using separate fetch apis. It is not possible to do so without env variable

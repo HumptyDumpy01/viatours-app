@@ -229,10 +229,13 @@ export default function
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 300 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ type: `spring`, duration: 1, bounce: 0.25 }}
-      viewport={{ once: true }}
+      /* IMPORTANT: I DO NOT KNOW WHY, BUT THESE ANIMATIONS BREAK THE IMAGE FULL SCREEN
+      *   SLIDER WHEN USER CLICKS ON A COMMENT IMAGE */
+      /* INFO: THAT BEHAVIOUR WAS NOT THE CASE UNTIL I CLONED MY PROJECT FROM REPO */
+      // initial={{ opacity: 0, y: 300 }}
+      // whileInView={{ opacity: 1, y: 0 }}
+      // transition={{ type: `spring`, duration: 1, bounce: 0.25 }}
+      // viewport={{ once: true }}
     >
       <CustomizedSnackbar open={open} handleClose={handleClose} label={toastLabel} severity={toastSeverity} />
       <div className={`comments-wrapper`}>

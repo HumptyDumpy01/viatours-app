@@ -6,159 +6,244 @@ import { FormEvent, useEffect, useRef, useState } from 'react';
 import LaylaComment from '@/components/UI/AIAgent/LaylaComment';
 import UserComment from '@/components/UI/AIAgent/UserComment';
 
+export type LaylaResponseType = {
+  response: string;
+  status: number;
+  query: string;
+  date: string;
+}
+
+type LaylaCommentType = {
+  type: 'user' | 'layla';
+  text: string;
+  date: string;
+}
+
+export function formatTheDate(date: string) {
+
+  const dateVal = new Date(date);
+  const month = dateVal.toLocaleString('default', { month: 'long' });
+  const day = dateVal.getDate();
+  const hours = dateVal.getHours();
+  const minutes = dateVal.getMinutes();
+  const formattedDate = `${month} ${day}, ${hours}:${minutes}`;
+  return formattedDate;
+}
+
+
 export default function AIAgentLayla() {
-  const [showAIWindow, setShowAIWindow] = useState<boolean>(false);
-  const [chatHistory, setChatHistory] = useState<
-    { type: 'user' | 'layla'; text: string; date: string }[]
-  >([]);
+  const [chatHistory, setChatHistory] = useState<LaylaCommentType[] | []>();
+  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>(``);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const chatContainerRef = useRef<HTMLDivElement>(null);
+  const [showAIWindow, setShowAIWindow] = useState<boolean>(false);
+  const chatHistoryContainer = useRef<HTMLDivElement>(null);
+
+  // Function to scroll to the bottom of the chat history container
+  const scrollToBottom = () => {
+    chatHistoryContainer.current?.scrollBy(0, chatHistoryContainer.current.scrollHeight);
+  };
+  // when the user opens the chat window, scroll to the bottom of the chat history container
+  useEffect(() => {
+    if (showAIWindow) {
+      scrollToBottom();
+    }
+  }, [showAIWindow, chatHistory]);
+
 
   useEffect(() => {
-    const storedHistory = localStorage.getItem('chatHistory');
-    if (storedHistory) {
-      setChatHistory(JSON.parse(storedHistory));
+    // fetch the chat history from the local storage
+    const chatHistoryFromLocalStorage = localStorage.getItem(`chatHistory`);
+    if (chatHistoryFromLocalStorage) {
+      try {
+        setChatHistory(JSON.parse(chatHistoryFromLocalStorage));
+      } catch (e) {
+        console.error('Failed to parse chat history from local storage:', e);
+      }
     }
   }, []);
-
-  useEffect(() => {
-    if (chatContainerRef.current) {
-      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
-    }
-  }, [chatHistory]);
 
   function toggleShowAIWindow(state: boolean) {
     setShowAIWindow(state);
   }
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setError('');
-    setIsLoading(true);
+    setError(``);
+    setLoading(true);
 
+    e.preventDefault();
     const currObject = e.currentTarget;
     const formData = new FormData(currObject);
-    const results = Object.fromEntries(formData.entries());
-
-    if (String(results.query).length === 0) {
-      setIsLoading(false);
+    const results = Object.fromEntries(formData.entries()) as { query: string };
+    if (!results || results.query.trim() === ``) {
+      setError(`Please enter a valid query!`);
+      setLoading(false);
+      return;
+    }
+    if (results.query.length > 500) {
+      setError(`Please enter a query with less than 500 characters!`);
+      setLoading(false);
       return;
     }
 
-    const newMessage = {
-      type: 'user' as const,
-      text: String(results.query),
-      date: new Date().toISOString()
-    };
 
-    let updatedChatHistory = [...chatHistory, newMessage];
-    if (updatedChatHistory.length > 6) {
-      updatedChatHistory = updatedChatHistory.slice(-6);
-    }
+    setChatHistory((prev) => {
+      if (prev) {
+        return [...prev, { type: 'user', text: results.query, date: new Date().toISOString() }];
+      } else {
+        return [{ type: 'user', text: results.query, date: new Date().toISOString() }];
+      }
+    });
+    // Select up to 3 previous user comments and answers from Layla AI
+    // to send to the AI endpoint for better context.
+    // If the chat history is empty, then send an empty array.
+    const chatHistoryForAI = chatHistory ? chatHistory.slice(-5) : [];
+    console.log(`Chat history for AI: `, chatHistoryForAI);
 
-    setChatHistory(updatedChatHistory);
-    localStorage.setItem('chatHistory', JSON.stringify(updatedChatHistory));
-
-    // reset the form
     currObject.reset();
 
-    const queryResult = await fetch('http://127.0.0.1:8000/viatours-agent/get-response', {
-      method: 'POST',
+    /* use your FastAPI endpoint to fetch the data from AI.
+    *  If the response is successful, then append the correctly formatted
+    *  response to chatHistory array.
+    *  If an error occurs, push a new error message to the error state. */
+    const response = await fetch(`http://localhost:8000/viatours-agent/get-response`, {
+      method: `POST`,
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': `application/json`
       },
-      body: JSON.stringify({ query: results.query, chatHistory: updatedChatHistory })
+      body: JSON.stringify({ query: results.query, chatHistory: chatHistoryForAI })
+    }).then((response) => response.json()
+    ).then(async (res) => {
+      return res;
+    }).catch((error) => {
+      console.error(`Fetch error:`, error);
+      setError(`An error occurred while fetching the response.`);
+      setLoading(false);
+
     });
-    console.log(`Executing queryResult: `, queryResult);
+    console.log(`Executing response: `, response);
 
-    // cleanse the input
-    const response = await queryResult.json();
+    if (response.response) {
+      console.log(`Response: `, response);
+      setLoading(false);
+      setError(``);
 
-    if (queryResult.status === 200) {
-      const aiMessage = {
-        type: 'layla' as const,
-        text: response.response,
-        date: new Date().toISOString()
-      };
-
-      updatedChatHistory = [...updatedChatHistory, aiMessage];
-      setChatHistory(updatedChatHistory);
-      localStorage.setItem('chatHistory', JSON.stringify(updatedChatHistory));
-
-      await fetch('/api/save-layla-response', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          response
-        })
+      setChatHistory((prev) => {
+        if (prev) {
+          return [...prev, { type: 'layla', text: response.response, date: response.date }];
+        } else {
+          return [{ type: 'layla', text: response.response, date: response.date }];
+        }
       });
-    } else {
-      console.error('Error in fetching response from the server`');
-      setError('Sorry, I could not answer the question. Please try again later!');
 
-      await fetch('/api/save-layla-response', {
-        method: 'POST',
+      /* Create an API endpoint which would save each response to the mongodb database for analysis */
+      await fetch(`api/store-ai-response-to-database`, {
+        method: `POST`,
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': `application/json`
         },
-        body: JSON.stringify({
-          response
-        })
+        body: JSON.stringify({ response: response })
+      }).then((response) => response.json()).catch((error) => {
+        console.error(`Fetch error:`, error);
       });
+
+
     }
+    // smoothly scroll to the bottom of the chat history container
+    // manually, as the chat history container is not a native scrollable element.
+    chatHistoryContainer.current?.scrollBy(0, chatHistoryContainer.current.scrollHeight);
 
-    setIsLoading(false);
-    setError('');
   }
 
-  function clearChatHistory() {
+  function handleClearChatHistory() {
     setChatHistory([]);
-    localStorage.removeItem('chatHistory');
+    localStorage.removeItem(`chatHistory`);
   }
+
+  // push the response to the chatHistory local Storage as well,
+  // so I can use it later on to display the chat history.
+  if (chatHistory && error === ``)
+    localStorage.setItem(`chatHistory`, JSON.stringify(chatHistory));
+
+
+  console.log(`Executing showAIWindow: `, showAIWindow);
+
+
+  const date = new Date();
+  const month = date.toLocaleString('default', { month: 'long' });
+  const day = date.getDate();
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const formattedDate = `${month} ${day}, ${hours}:${minutes}`;
 
   return (
     <>
-      <div onClick={() => toggleShowAIWindow(false)}
-           className={`${classes['ai-backdrop']} ${showAIWindow ? classes['open'] : ''}`}></div>
-      <div className={`${classes['ai-box']}  ${showAIWindow ? classes['open'] : ''}`}>
-        <div ref={chatContainerRef} className={`${classes['ai-box-comment-container']}`}>
-          <LaylaComment date={new Date().toISOString()} initialText />
-          {chatHistory.map((chat, index) => {
-            if (chat.type === 'user') {
-              return <UserComment key={index} initials="YOU" text={chat.text} />;
-            } else {
-              return <LaylaComment key={index} text={chat.text} date={chat.date} />;
-            }
-          })}
-          {isLoading && <LaylaComment text={`Loading...`} date={new Date().toISOString()} />}
-          {error &&
-            <LaylaComment text={error || `Failed to answer the question! Sorry!`} date={new Date().toISOString()}
-                          error />}
+      {showAIWindow && (
+        <div
+          onClick={() => toggleShowAIWindow(false)}
+          className={`${classes['ai-backdrop']} ${showAIWindow ? classes['open'] : ''}`}></div>
+      )}
+
+      <div
+        className={`${classes[`ai-box`]} ${showAIWindow ? `${classes[`open`]}` : ``}`}>
+        <div ref={chatHistoryContainer} className={`${classes[`ai-box-comment-container`]}`}>
+          <div>
+            <LaylaComment date={formattedDate} style={'message'} initialText />
+            {/*<UserComment text={`How to request a refund for tickets I bought?`} initials={'Nikolas Baker'} />*/}
+          </div>
+          <div>
+            {chatHistory && chatHistory.length > 0 && chatHistory.map((comment, index) => {
+              if (comment.type === 'user') {
+                return <UserComment date={formatTheDate(comment.date)} key={index} text={comment.text}
+                                    initials={'You'} />;
+              } else {
+                return <LaylaComment style={'message'} key={index} text={comment.text}
+                                     date={formatTheDate(comment.date)} />;
+
+              }
+            })}
+            {error && <LaylaComment date={formatTheDate(date.toISOString())} style={'error'} text={error} />}
+            {loading && <LaylaComment date={formatTheDate(date.toISOString())} style={'loading'} />}
+          </div>
         </div>
-        <form onSubmit={handleSubmit} className={`${classes['ai-input-container']}`}>
-          <input name="query" type="text" className={`${classes['ai-input']}`}
-                 placeholder="Your message goes here! Ask her anything!" required disabled={isLoading} />
-          <div className={`${classes['ai-input-btn-container']}`}>
+        <form onSubmit={handleSubmit} className={`${classes[`ai-input-container`]}`}>
+          <input maxLength={500} disabled={loading} name={`query`} type="text" className={`${classes[`ai-input`]}`}
+                 placeholder={`Your message goes here! Ask her anything!`} required />
+          <div className={`${classes[`ai-input-btn-container`]}`}>
             <div>
-              <button type="submit" className={`${classes['ai-input-btn-submit']} cursor-pointer`}
-                      disabled={isLoading}>Ask
-              </button>
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                initial={{ scale: 0.8 }}
+                whileInView={{ scale: 1 }}
+                transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+                disabled={loading} type={'submit'}
+                className={`${classes[`ai-input-btn-submit`]} cursor-pointer ${loading ? `${classes[`btn-disabled`]}` : ''}`}>Ask
+              </motion.button>
             </div>
-            <div className={`${classes['ai-input-btn-aside-container']}`}>
-              <button type="button" onClick={clearChatHistory}
-                      className={`${classes['ai-input-btn-clear']} cursor-pointer`} disabled={isLoading}>Clear Chat
-              </button>
-              <button onClick={() => toggleShowAIWindow(false)} type="button"
-                      className={`${classes['ai-input-btn-hide']} cursor-pointer`} disabled={isLoading}>Hide
-              </button>
+            <div className={`${classes[`ai-input-btn-aside-container`]}`}>
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                initial={{ scale: 0.8 }}
+                whileInView={{ scale: 1 }}
+                transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+                onClick={handleClearChatHistory} disabled={loading || chatHistory?.length === 0} type={'button'}
+                className={`${classes[`ai-input-btn-clear`]} cursor-pointer`}>Clear Chat
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                initial={{ scale: 0.8 }}
+                whileInView={{ scale: 1 }}
+                transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+                onClick={() => toggleShowAIWindow(false)} type={'button'}
+                className={`${classes[`ai-input-btn-hide`]} cursor-pointer`}>Hide
+              </motion.button>
             </div>
           </div>
         </form>
       </div>
-      <motion.div
+      <motion.button
         whileHover={{ scale: 1.1 }}
         onClick={() => toggleShowAIWindow(true)}
         whileTap={{ scale: 0.9 }}
@@ -178,7 +263,7 @@ export default function AIAgentLayla() {
           </defs>
         </svg>
         <p>Chat with Layla AI</p>
-      </motion.div>
+      </motion.button>
     </>
   );
 }

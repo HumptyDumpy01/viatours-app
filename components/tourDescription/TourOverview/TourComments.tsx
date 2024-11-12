@@ -53,10 +53,13 @@ export default function TourComments({ currTourComments, session }: TourComments
 
   return (
     <motion.section
-      initial={{ opacity: 0, y: 300 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-      viewport={{ once: true }}
+      /* IMPORTANT: I DO NOT KNOW WHY, BUT THESE ANIMATIONS BREAK THE IMAGE FULL SCREEN
+      *   SLIDER WHEN USER CLICKS ON A COMMENT IMAGE */
+      /* INFO: THAT BEHAVIOUR WAS NOT THE CASE UNTIL I CLONED MY PROJECT FROM REPO */
+      // initial={{ opacity: 0 }}
+      // whileInView={{ opacity: 1, y: 0 }}
+      // transition={{ duration: 0.3 }}
+      // viewport={{ once: true }}
       className="comments">
       {addCommentSkeleton && (
         <CommentSkeleton showImageSkeleton />

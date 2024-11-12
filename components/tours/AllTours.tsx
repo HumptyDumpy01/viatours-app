@@ -221,20 +221,23 @@ export default function AllTours({ searchParams }: AllToursInterface) {
       initial={{ opacity: 0, y: 200 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ type: 'spring', stiffness: 100, damping: 20 }}
+      className={`z-index-10`}
       onSubmit={handleSubmit}>
       <div className={`all-tours__content-header`}>
         <ToursHeader />
         <div className="flex gap-sm">
-          <label>
-            <input ref={searchInput} type={`text`} name={`searchTerm`}
-                   className={`all-tours__search-tour-input`}
-                   placeholder={`Country, City, or Tour Name`} />
-          </label>
-          <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            className={`all-tours__search-tour-btn`} style={{ fontFamily: `Inter` }}>Search
-          </motion.button>
+          <div className={`flex gap-sm all-tours__content-input`}>
+            <label>
+              <input ref={searchInput} type={`text`} name={`searchTerm`}
+                     className={`all-tours__search-tour-input`}
+                     placeholder={`Country, City, or Tour Name`} />
+            </label>
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              className={`all-tours__search-tour-btn`} style={{ fontFamily: `Inter` }}>Search
+            </motion.button>
+          </div>
         </div>
       </div>
       <div className="all-tours__content grid">
