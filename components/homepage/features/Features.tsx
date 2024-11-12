@@ -10,7 +10,7 @@ export default function Features(/*{  }: FeaturesInterface*/) {
   return (
     <>
       <span className="subheading section-features__heading-span">features</span>
-      <h2 className="secondary-heading section-features__heading">Why choose Tourz</h2>
+      <h2 className="secondary-heading section-features__heading">Why choose Viatours</h2>
       <div className="section-features__layout grid">
         <Feature
           type={`ticket`}
