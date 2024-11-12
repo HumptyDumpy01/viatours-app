@@ -4,7 +4,6 @@
   overflow: hidden;
   border: 1px solid var(--clr-silver);
   padding: 2rem;
-  z-index: -1;
   animation-name: moveInBottom;
   animation-duration: .5s;
   //animation-delay: 0.2s;
@@ -39,7 +38,7 @@
 
 .all-tours__content__figures__figure-container {
   position: relative;
-  z-index: -1;
+  z-index: 1;
 
   @media only screen and (max-width: 64.375em) {
     display: grid;
