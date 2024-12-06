@@ -29,7 +29,7 @@ type ConfirmPasswordInputType = {
 
 type InputType = {
   type: `text` | `password` | `default`;
-  iconVisible: boolean;
+  iconVisible?: boolean;
   placeholder: string;
   name: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
