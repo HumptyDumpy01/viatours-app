@@ -13,7 +13,7 @@ import { generateVerificationToken } from '@/lib/tokens';
 import { sendVerificationCode } from '@/lib/mail';
 import { FormResultsType } from '@/components/article-description/leave-reply/ArticleDescrLeaveReply';
 import { SessionType } from '@/components/UI/Comment/Comment';
-import { LaylaResponseType } from '@/components/UI/AIAgent/AIAgentLayla';
+import { LaylaResponseType as LaylaType } from '@/components/UI/AIAgent/AIAgentLayla';
 
 // Extend the global interface
 // it resolves issues with the global variable missing type
@@ -5195,7 +5195,7 @@ export async function saveLaylaResponse(response: LaylaResponseType) {
 }
 
 /* IMPORTANT: CHATBOT AI LAYLA */
-export async function storeAIResponseToDatabase(response: LaylaResponseType) {
+export async function storeAIResponseToDatabase(response: LaylaType) {
   const client = await clientPromise;
   const db = client.db(`viatoursdb`);
 

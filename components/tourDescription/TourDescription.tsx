@@ -116,8 +116,8 @@ export default async function
           <TourIncluded what_included={tour.whatsIncluded} />
 
           <TourItinerary itinerary={tour.itinerary} />
-          <h2 className={`subheading`}>Here comes GoogleMap! Enable It when testing or deploying.</h2>
-          {/*<GoogleMap locations={tour.tourMap} />*/}
+          {/*<h2 className={`subheading`}>Here comes GoogleMap! Enable It when testing or deploying.</h2>*/}
+          <GoogleMap locations={tour.tourMap} />
           <QuestionAnswer />
           <CustomerReviews rating={tour.rating} />
           <TourCommentsContainer session={session} currTourComments={tour.tourComments} />
