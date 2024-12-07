@@ -163,6 +163,10 @@ export default function LeaveReply({ tourId, tourTitle, userEmail, userName, ses
       session
     };
 
+    // calculate the average rating
+    const sum = Object.values(formResults.rating).reduce((acc, curr) => acc + curr, 0);
+    const averageRating = sum / Object.values(formResults.rating).length;
+
     // Uncheck all checkboxes
     const checkboxes = document.querySelectorAll('input[type="checkbox"]');
     checkboxes.forEach((checkbox) => {
@@ -180,9 +184,6 @@ export default function LeaveReply({ tourId, tourTitle, userEmail, userName, ses
 
       const submitForm = await response.json();
 
-      console.log(`Executing submitForm: `, submitForm);
-
-
       if (submitForm.success) {
         e.preventDefault();
         setIsSubmitting(false);
@@ -191,6 +192,14 @@ export default function LeaveReply({ tourId, tourTitle, userEmail, userName, ses
 
         // removing the optimistically added comment skeleton
         dispatch(commentFormSliceActions.toggleOptimisticallyAddedComment(false));
+        dispatch(commentFormSliceActions.pushComment({
+          user: formResults.user,
+          rating: averageRating,
+          title: formResults.title,
+          images: submitForm.images,
+          text: formResults.text,
+          addedAt: new Date().toISOString()
+        }));
 
         const customerReviewsHeading = document.querySelector('.customer-reviews-heading');
         if (customerReviewsHeading) {

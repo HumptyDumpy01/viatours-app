@@ -6,7 +6,6 @@ import { FormContactDetailsType } from '@/components/checkout/form/CheckoutFormC
 import { transformedResultsType } from '@/components/checkout/form/CheckoutFormActivityDetails';
 import { OrderInterface } from '@/components/checkout/checkout-details/CheckoutDetails';
 import bcrypt from 'bcrypt';
-import { comment } from 'postcss';
 import { notFound, redirect } from 'next/navigation';
 import { FormDataType } from '@/components/account-settings/contents/user-profile/UserProfile';
 import { generateVerificationToken } from '@/lib/tokens';
