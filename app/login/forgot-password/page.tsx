@@ -6,12 +6,20 @@ import ForgotPasswordStepTwo from '@/components/forgot-password/ForgotPasswordFo
 import ForgotPasswordStepThree from '@/components/forgot-password/ForgotPasswordForm/ForgotPasswordStepThree';
 import ForgotPasswordStepFour from '@/components/forgot-password/ForgotPasswordForm/ForgotPasswordStepFour';
 import { useCartSelector } from '@/store/hooks';
-/*type ForgotPasswordPageType = {
-  // children: ReactNode;
-}*/
+import { useEffect, useState } from 'react';
 
-export default function ForgotPasswordPage(/*{  }: ForgotPasswordPageType*/) {
+export default function ForgotPasswordPage() {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   const forgotPasswordStage = useCartSelector((state) => state.forgotPassword.forgotPasswordStage);
+
+  if (!isMounted) {
+    return null; // Return null during SSR
+  }
 
   return (
     <>
