@@ -8,7 +8,6 @@ import CheckoutDetails, { OrderInterface } from '@/components/checkout/checkout-
 import React, { useEffect, useState } from 'react';
 import { TourInterface } from '@/app/tours/[id]/page';
 import { notFound } from 'next/navigation';
-import { getTourById } from '@/lib/mongodb';
 import CheckoutLoadingPage from '@/app/checkout/loading';
 import { SessionProvider } from 'next-auth/react';
 import { motion } from 'framer-motion';
@@ -27,13 +26,26 @@ export default function CheckoutDetailsContainer(/*{  }: CheckoutDetailsContaine
       const parsedOrder = JSON.parse(orderData);
       setOrder(parsedOrder);
 
-      getTourById(parsedOrder.tourId).then((tour) => {
-        if (!tour) {
-          console.error('Tour not found');
-          // throw new Error('Tour not found');
+      const response = fetch('/api/get-tour-data', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id: parsedOrder.tourId })
+      }).then((response) => {
+        if (!response.ok) {
+          console.error('Failed to fetch tour data');
+          // throw new Error('Failed to fetch tour data');
         }
-        setTour(tour);
+        return response.json();
+      }).then((data) => {
+        if (data.error) {
+          console.error(data.message);
+          // throw new Error(data.message);
+        }
+        setTour(data.response.currTour);
         setLoading(false);
+        return data.response;
       }).catch((error) => {
         console.error(error);
         setLoading(false);
