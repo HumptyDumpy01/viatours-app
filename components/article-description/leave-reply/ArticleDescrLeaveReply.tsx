@@ -5,7 +5,7 @@ import '@/components/UI/Layout/LeaveReply.scss';
 import IconIon from '@/components/UI/IonIcon/IconIon';
 import Rate from '@/components/UI/Checkbox/Rate';
 import React, { FormEvent, useRef, useState } from 'react';
-import { addArticleComment, getUser } from '@/lib/mongodb';
+import { addArticleComment } from '@/lib/mongodb';
 import { SessionType } from '@/components/UI/Comment/Comment';
 import Lottie from 'lottie-react';
 import { useCartDispatch } from '@/store/hooks';
@@ -59,9 +59,18 @@ export default function ArticleDescrLeaveReply({ session, articleId, author }: A
     setFormError([]);
 
     const errors = validateFormData(results);
-    const userExists = await getUser({ email: results.email }, { email: 1 });
 
-    if (!session.user.email && userExists.length > 0) {
+    const user = await fetch(`/api/fetch-user`, {
+      method: `POST`,
+      headers: {
+        'Content-Type': `application/json`
+      },
+      body: JSON.stringify({ userEmail: results.email, options: { email: 1, password: 1, _id: 1 } })
+    });
+
+    const userExists = await user.json();
+
+    if (!session.user.email && userExists.resp) {
       setFormError([`The user with the email ${results.email} already exists. Please sign in to proceed.`]);
       setIsSubmitting(false);
       scrollToLeaveReplyForm();
