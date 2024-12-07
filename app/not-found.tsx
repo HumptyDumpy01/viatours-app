@@ -6,15 +6,13 @@ import familyDrivingAnimated from '@/animations/family-driving.json';
 import Lottie from 'lottie-react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
 
-export default function NotFoundPage() {
+/*type NotFoundPageType = {
+  // children: ReactNode;
+}*/
+
+export default function NotFoundPage(/*{  }: NotFoundPageType*/) {
   const navigate = useRouter();
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   function handleNavigateBack() {
     navigate.back();
@@ -55,8 +53,17 @@ export default function NotFoundPage() {
         </div>
 
         <div className={`animation-404`}>
-          {isMounted && <Lottie animationData={familyDrivingAnimated} />}
+          {/*<Lottie animationData={manDrivingAnimated} />*/}
+          <Lottie animationData={familyDrivingAnimated} />
         </div>
+        {/*<div className="four-o-four__vid-container">*/}
+        {/*  /!*<!--      <img src="img/404/404-img.png" alt="A animal chilling high in the mountains." class="four-o-four__img">-->*!/*/}
+        {/*  /!*<!-- instead of the image, let's insert the mp4 video and loop it -->*!/*/}
+        {/*  <video className="four-o-four__vid" autoPlay loop muted>*/}
+        {/*    <source src={`/vid/nature-vid-2.mp4`} type="video/mp4" />*/}
+        {/*    Your browser does not support the video tag.*/}
+        {/*  </video>*/}
+        {/*</div>*/}
       </div>
     </section>
   );
