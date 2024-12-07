@@ -102,7 +102,7 @@ export default function LeaveReply({ tourId, tourTitle, userEmail, userName, ses
       headers: {
         'Content-Type': `application/json`
       },
-      body: JSON.stringify({ userEmail: results.email, options: { email: 1, password: 1 } })
+      body: JSON.stringify({ userEmail: results.email, options: { email: 1, password: 1, _id: 1 } })
     });
     const userExists = await user.json();
 
@@ -249,7 +249,7 @@ export default function LeaveReply({ tourId, tourTitle, userEmail, userName, ses
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          userId: userExists[0]._id,
+          userId: userExists._id,
           type: `ADDED_COMMENT`,
           data: {
             tourId,
