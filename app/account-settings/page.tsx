@@ -27,8 +27,6 @@ export default function AccountSettingsPage({ searchParams }: AccountSettingsPag
     notFound();
   }
 
-  // console.log(`Currently Active Page: `, activePage);
-
   return (
     <SessionProviderContainer>
       <AccountSettingsContainer page={page} />

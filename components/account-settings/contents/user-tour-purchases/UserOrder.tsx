@@ -35,10 +35,8 @@ export default function UserOrder({ order, counter }: UserOrderType) {
   useEffect(() => {
     if (window.innerWidth < 593) {
       setViewportIsLessThan593px(true);
-      console.log(`viewportIsLessThan593px`, viewportIsLessThan593px);
     } else {
       setViewportIsLessThan593px(false);
-      console.log(`viewportIsLessThan593px`, viewportIsLessThan593px);
     }
   }, []);
 
@@ -96,8 +94,6 @@ export default function UserOrder({ order, counter }: UserOrderType) {
   }
 
   async function handleSubmitRefundReq() {
-    console.log(`Refund requested`);
-
     if (order.extraDetails.refund.requested || !order.extraDetails.refund.available) {
       setErrorMessage(`Error! Refund is unavailable for this order`);
       return;

@@ -66,13 +66,11 @@ export default function SearchArticleContainer(/*{ results }: SearchArticleConta
       })
     }).then(res => res.json());
 
-    // console.log(`response:`, response);
     if (response.error) {
       setError(true);
     }
     setCurrentArticles(response.articles);
     setArticles(response.articles);
-    // console.log(`response.articles:`, response.articles);
     setCurrentPage(1);
     setIsLoading(false);
 
@@ -138,7 +136,6 @@ export default function SearchArticleContainer(/*{ results }: SearchArticleConta
       setDisableSearchBtn(false);
     }, 2000);
 
-    console.log(`fetchArticlesFilteredByType:`, fetchArticlesFilteredByType);
     dispatch(articlesSliceActions.resetArticlesState());
   }
 
@@ -160,7 +157,6 @@ export default function SearchArticleContainer(/*{ results }: SearchArticleConta
       const response = searchArticles({ searchTerm: heroSearchTerm }).then(res => {
         return res;
       }).then((res) => {
-        console.log(`res:`, res);
 
         // @ts-ignore
         const filteredArticles = res.articles.filter(article => article.type.includes(heroTagChosen));
@@ -198,7 +194,6 @@ export default function SearchArticleContainer(/*{ results }: SearchArticleConta
     const value = e.target.value as `all` | `newest` | `oldest` | `by-views` | `ascending` | `descending` | `culture` | `historic` | `nature` | `trips`;
     const articlesCopy = [...articles];
     const currentArticlesCopy = [...currentArticles];
-    console.log(`value:`, value);
 
     /* INFO: the point is, that all, all values should only filter articles that are currently on the screen, including paginated ones, if any.
     *   the difference is the "all" value because when it chosen, I just do need to fetch all articles again.*/

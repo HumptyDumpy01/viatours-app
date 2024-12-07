@@ -27,25 +27,17 @@ export default function NavigationResponsive(/*{  }: NavigationBurgerInterface*/
   useEffect(() => {
     // @ts-ignore
     if (session && status !== `loading`) {
-      // console.log(`Executing session: `, session);
       const name = session.user?.name?.split(' ');
       setUserName(name?.length === 1 ? name[0].charAt(0).toUpperCase() : `${name![0].charAt(0) + `.`}${name![1].charAt(0)}`.toUpperCase());
-
-      // @ts-ignore
-      console.log(session.user.image);
     }
-    // @ts-ignore
 
   }, [session, status]);
 
   function openNavBurger() {
-    // console.log(`openNavBurger clicked`);
     dispatch(navigationSliceActions.toggleNavigation(`open`));
-    // console.log(`Executing isOpen: `, isOpen);
   }
 
   function openSideNav() {
-    // console.log(`openSideNav clicked`);
     dispatch(navigationSliceActions.toggleSideNavigation(`open`));
   }
 

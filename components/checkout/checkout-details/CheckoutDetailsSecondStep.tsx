@@ -18,7 +18,6 @@ type CheckoutDetailsSecondStepType = {
 export default function CheckoutDetailsSecondStep({ tour, order }: CheckoutDetailsSecondStepType) {
 
   const openActivityDetails = useCartSelector((state) => state.checkout.openActivityDetails);
-  console.log(openActivityDetails);
 
   return (
     <div className="book-now__details-2">

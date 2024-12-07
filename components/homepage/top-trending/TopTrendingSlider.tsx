@@ -43,7 +43,6 @@ export default function TopTrendingSlider({ filter }: TopTrendingSliderType) {
         });
         const data = await response.json();
         setTours(data.tours);
-        console.log(`fetchTours: `, data.tours);
         setLoading(false);
       } catch (error) {
         console.error(`Error fetching tours: `, error);

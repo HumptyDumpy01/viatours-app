@@ -31,8 +31,6 @@ export default function NewestArticlesContainer(/*{ newestArticles }: NewestArti
 
       const data = await res.json();
 
-      console.log(`Executing data: `, data);
-
       if (data.error) {
         setError(true);
         setIsLoading(false);

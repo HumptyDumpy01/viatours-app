@@ -47,8 +47,6 @@ export default async function
                            userName
                          }: TourDescriptionType) {
 
-  // console.log(`Session, executed in TourDescriptionSection:`, session);
-
   return (
     <>
       <TourDescriptionNavigation title={tour.title} params={params} />

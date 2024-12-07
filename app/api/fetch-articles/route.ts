@@ -8,8 +8,6 @@ export async function POST(request: NextRequest) {
 
     const response = await getArticles(limit, project);
 
-    // console.log(`Executing response: `, response);
-
     if (response.error) {
       return NextResponse.json({
         error: true,

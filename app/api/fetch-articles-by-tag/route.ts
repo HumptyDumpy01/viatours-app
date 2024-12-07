@@ -6,8 +6,6 @@ export async function POST(request: NextRequest) {
 
     const { tags, limit } = await request.json();
 
-    console.log(`Executing tags: `, tags);
-
     if (!tags.includes(`hot`) && !tags.includes(`new`) && !tags.includes(`featured`) && !tags.includes(`top`)) {
       return NextResponse.json({
         error: true,

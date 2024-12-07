@@ -170,8 +170,6 @@ export default function UserSavedArticles({ userSavedArticles, userEmail }: User
       setToastSeverity(`error`);
       return;
     }
-
-    console.log(`Deleting article with id: `, id);
   }
 
   return (

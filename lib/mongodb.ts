@@ -168,7 +168,6 @@ export async function getTourById(id: string, incViews?: boolean) {
       }
     }
   ]).toArray();
-  // console.log(`Executing tour: `, tour);
   return JSON.parse(JSON.stringify(tour))[0] as TourInterface;
 }
 
@@ -211,8 +210,6 @@ submitTourComment({
   const db = client.db(`viatoursdb`);
 
   const userExists = await getUser({ email: email }, { email: 1, _id: 0 });
-
-  // console.log(`Executing userExists: (Server)`, userExists);
 
   if (!session) {
     if (userExists.length > 0) {
@@ -266,10 +263,7 @@ submitTourComment({
   const price = 0.1;
   const tourOperator = 0.2;
 
-  // console.log(Math.min(5, (rating.location * location) + (rating.amenities * amenities) + (rating.food * food) + (rating.room * room) + (rating.price * price) + (rating.tourOperator * tourOperator)));
-  // TODO: Create session for all 4 stages to be executed in one transaction
   // INFO: It is important to execute all 4 stages in one transaction to avoid any issues with the data consistency.
-
   try {
     /* IMPORTANT: 1/4 STAGE: inserting a new comment to "tourComments" collection
     *   Performing calculation of overall rating based on coefficients. */
@@ -375,8 +369,6 @@ submitTourComment({
       ]).toArray();
 
 
-      // console.log(`Executing recalculatedRatings: `, recalculatedRatings);
-
       /* IMPORTANT: 4/4 STAGE: recalculated rating, up-to-date stats are pushed to the corresponding tour */
       const updatedRating = {
         overall: Number(recalculatedRatings[0].avgOverall.toFixed(2)),
@@ -480,8 +472,6 @@ filterTours(
     searchTermObj = { $text: { $search: searchTerm } };
   }
 
-  console.log(`Executing tourTypeObj: `, tourTypeObj);
-
   const tours = await db.collection(`tours`).aggregate([
     // IS FOR conjunction of:
 
@@ -530,10 +520,6 @@ export async function createOrder(contactDetails: FormContactDetailsType,
 
   const client = await clientPromise;
   const db = client.db(`viatoursdb`);
-  console.log(`Executing contactDetails: `, contactDetails);
-  console.log(`Executing activityDetails: `, activityDetails);
-  console.log(`Executing order: `, order);
-
   // const isUserExists = false;
 
   if (!contactDetails || !activityDetails || !order) {
@@ -632,11 +618,7 @@ export async function createOrder(contactDetails: FormContactDetailsType,
 
   };
 
-  console.log(`transformedOrder: `, transformedOrder);
-
   const createdOrder = await db.collection(`orders`).insertOne(transformedOrder);
-
-  console.log(`Executing createdOrder: `, createdOrder);
 
   if (!createdOrder) {
     return {
@@ -644,7 +626,6 @@ export async function createOrder(contactDetails: FormContactDetailsType,
       acknowledged: false
     };
   } else {
-    console.log(`createdOrder: `, createdOrder);
     return createdOrder;
   }
 
@@ -668,7 +649,6 @@ export async function handleOrder(perform: `deletion` | `changeStatus` | `fetchB
     }
 
     if (perform === `changeStatus`) {
-      console.log(`Executing changeStatus: `, id);
 
       const updatedOrder = await db.collection(`orders`)
         .updateOne({ _id: new ObjectId(id) }, {
@@ -682,7 +662,6 @@ export async function handleOrder(perform: `deletion` | `changeStatus` | `fetchB
             }
           }
         });
-      console.log(`Executing updatedOrder: `, updatedOrder);
 
       const order = await db.collection(`orders`).findOne({ _id: new ObjectId(id) });
 
@@ -733,12 +712,8 @@ export async function getUser(filter: {}, options?: {}, unwind: boolean = false)
   if (!unwind) {
     const user = await db.collection(`users`).aggregate([{ $match: filter }, { $project: options }]).toArray();
 
-
-    // console.log(`Executing user: `, user);
-
     return JSON.parse(JSON.stringify(user));
   } else {
-    console.log(`User Email`, filter);
 
 
     /* IMPORTANT: if user's wishlist/savedArticles/orders is empty, an empty arr would be returned
@@ -1254,11 +1229,6 @@ export async function getUser(filter: {}, options?: {}, unwind: boolean = false)
 
     ]).toArray();
 
-    console.log(`Executing unwoundUser: `, unwoundUser);
-    // console.log(`Executing unwoundUser.wishlist: `, unwoundUser[0].wishlist);
-    // console.log(`Executing unwoundUser.orders: `, unwoundUser[0].orders);
-
-
     if (!unwoundUser || unwoundUser.length === 0) {
       return {
         error: true,
@@ -1359,8 +1329,6 @@ export async function createUser(formData: createUserType, createViaProvider?: b
     // un-hash password
     // const userPassword = await bcrypt.compare(formData.password, transformedUser.password);
     // const userEmail = await bcrypt.compare(formData.email, transformedUser.email);
-    // console.log(`Executing userPassword: `, userPassword);
-    // console.log(`Executing userEmail: `, userEmail);
 
     const createdUser = await db.collection(`users`).insertOne(transformedUser);
 
@@ -1375,9 +1343,6 @@ export async function createUser(formData: createUserType, createViaProvider?: b
       acknowledged: createdUser.acknowledged,
       insertedId: createdUser.insertedId
     };
-    // console.log(`Executing formData on Server: `, formData);
-    // console.log(`Executing transformedUser on Server: `, transformedUser);
-
 
   } catch (e) {
     return {
@@ -1492,9 +1457,6 @@ export async function addOrderIdToUserDocument(
     userPhone = userPhoneNumber;
   }
 
-  // console.log(`Executing tourId: `, tourId);
-  // console.log(`Executing tourTitle: `, tourTitle);
-
   // Push new notification to the user's document
   const newNotificationOrder: UserNotificationsType = {
     type: `green`,
@@ -1504,8 +1466,6 @@ export async function addOrderIdToUserDocument(
     text: `You successfully bought tickets to <a class="highlighted text-decoration-none" href="tours/${tourId}">“${tourTitle}”<a/> tour!`
   };
 
-  // console.log(`Executing getEmailsWithOffers: `, getEmailsWithOffers);
-  // console.log(`Executing user:
   // user[0].extra.signedOnNewsletter === false`, user[0].extra.signedOnNewsletter === false);
 
   // check if you have user email in the newsletter collection, if not, add it.
@@ -1760,13 +1720,6 @@ export async function handleCommentAction(commentId: string, userEmail: string, 
       };
     }
 
-    // console.log(`Executing fetchedComment: `, fetchedComment[0]);
-
-    // console.log(`Executing commentId on Server: `, commentId);
-    // console.log(`Executing userEmail on Server: `, userEmail);
-    // console.log(`Executing action on Server: `, action);
-
-
     if (action === `LIKE`) {
 
       // if the user already liked comment , and he did not dislike it before
@@ -1965,10 +1918,6 @@ export async function updateUserData(formData: FormDataType, method: `UPDATE_WIT
 
 
   if (method === `UPDATE_WITHOUT_PASSWORD`) {
-    console.log(`The UPDATE_WITHOUT_PASSWORD method is executed.`);
-
-    console.log(`Executing formData: `, formData);
-
     if (formData.image === null) {
       const updatedUser = await db.collection(`users`).updateOne({ email: formData.email }, {
         $set: {
@@ -1983,7 +1932,6 @@ export async function updateUserData(formData: FormDataType, method: `UPDATE_WIT
           error: `Failed to update the user.`
         };
       } else {
-        console.log(`Executing updatedUser: `, updatedUser);
         return {
           success: `The user was successfully updated.`,
           acknowledged: updatedUser.acknowledged
@@ -2068,8 +2016,6 @@ export async function updateUserData(formData: FormDataType, method: `UPDATE_WIT
         };
       }
     }
-
-    console.log(`The UPDATE_WITH_PASSWORD method is executed.`);
   }
 
   revalidatePath(`/`, `layout`);
@@ -2391,8 +2337,6 @@ export async function toggleOrderRequest(type: `Refund` | `Cancellation`,
 
       if (user && user.length > 0) {
 
-        console.log(`Order coming from server function:`, order);
-
         const transformedTourTitle = order.tourTitle.length > 40 ? order.tourTitle.slice(0, 40) + `...` : order.tourTitle;
         // silently push a notification to the user
         const response = await db.collection(`users`).updateOne({ email: order.contactDetails.email }, {
@@ -2476,8 +2420,6 @@ export async function toggleOrderRequest(type: `Refund` | `Cancellation`,
       const user = await getUser({ email: order.contactDetails.email }, { _id: 0 }) as UserType[] | [];
 
       if (user && user.length > 0) {
-
-        console.log(`Order coming from server function:`, order);
 
         const transformedTourTitle = order.tourTitle.length > 40 ? order.tourTitle.slice(0, 40) + `...` : order.tourTitle;
         // silently push a notification to the user
@@ -4109,7 +4051,6 @@ export async function searchArticles(searchTerm: string) {
       };
     });
 
-    // console.log(`Executing transformedArticles: `, transformedArticles);
 
     return {
       error: false,
@@ -4832,7 +4773,6 @@ export async function isUserHaveArticleInList(session: SessionType, articleId: s
   }
 
   const articleObjectId = new ObjectId(articleId);
-  // console.log(`Executing articleId`, articleObjectId);
 
   // @ts-ignore
   if (user.savedArticles.some((id: ObjectId) => id.equals(articleObjectId))) {
@@ -5007,8 +4947,6 @@ export async function deleteUserSavedArticle(userEmail: string, articleId: strin
 export async function fetchTrackedOrderData(orderId: string) {
   const client = await clientPromise;
   const db = client.db(`viatoursdb`);
-
-  console.log(`Executing orderId: `, orderId);
 
   // check if orderId is  a valid ObjectId
   if (!ObjectId.isValid(orderId)) {

@@ -72,7 +72,6 @@ export default function CheckoutFormPaymentDetails({ order }: CheckoutFormPaymen
       message: string;
       results: { acknowledged: boolean; insertedId: string; }
     };
-    console.log(`newOrder: `, newOrder);
 
     if (!newOrder.results.acknowledged) {
       setErrorMessage(newOrder.message);

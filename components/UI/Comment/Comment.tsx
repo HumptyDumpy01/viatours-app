@@ -69,9 +69,6 @@ export default function
 
   const router = useRouter();
 
-  // console.log(`likesArray: `, likesArray);
-  // console.log(`dislikesArray: `, dislikesArray);
-
   let isUserLikedComment: boolean = false;
   let isUserDislikedComment: boolean = false;
 

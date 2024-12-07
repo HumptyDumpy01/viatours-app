@@ -104,8 +104,6 @@ type ArticleDescrMainWrapperType = {
 
 export default function ArticleDescrMainWrapper({ session, article }: ArticleDescrMainWrapperType) {
 
-  console.log(`Executing article from ArticleDescrMainWrapper: `, article);
-
   // if views number is e.g. 1453, the views will be 1.5k etc.
   // if views number is e.g. 1000, the views will be 1k etc
   const formattedViews = article.views >= 1000 ? `${(article.views / 1000).toFixed()}k+` : article.views.toString();

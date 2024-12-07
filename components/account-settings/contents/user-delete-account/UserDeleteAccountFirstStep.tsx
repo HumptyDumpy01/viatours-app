@@ -47,8 +47,6 @@ export default function UserDeleteAccountFirstStep({ userEmail }: UserDeleteAcco
         return;
       }
       setErrorMessage(``);
-      console.log(`Password is correct`);
-      console.log(`response`, response);
       // Send a verification code to the email address and redirect to the next step
       const sendingVerificationCode = await fetch(`/api/create-delete-account-token`, {
         method: `POST`,

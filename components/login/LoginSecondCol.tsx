@@ -170,9 +170,6 @@ export default function LoginSecondCol({ message }: LoginSecondColType) {
       };
 
       await handleSignIn(results);
-
-      console.log(`Verifying user's two-factor auth token...`);
-      console.log(userTwoAuthCode);
     });
   }
 

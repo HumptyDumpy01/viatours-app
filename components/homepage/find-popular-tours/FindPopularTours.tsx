@@ -14,7 +14,6 @@ import { motion } from 'framer-motion';
 }*/
 
 export default function FindPopularTours(/*{ tours }: FindPopularToursInterface*/) {
-  // console.log(`Executing tours in FindPopularTours: `, tours);
   const [tours, setTours] = useState<TourInterface[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);
@@ -46,7 +45,6 @@ export default function FindPopularTours(/*{ tours }: FindPopularToursInterface*
 
         const data = await response.json();
         setTours(data.tours);
-        console.log(`fetchTours: `, data.tours);
         setLoading(false);
       } catch (error) {
         console.error(`Error fetching popular tours: `, error);

@@ -26,7 +26,6 @@ export default function
                      duration, fromPrice, location,
                      handleDeleteWishlistItem
                    }: UserWishlistItemType) {
-  console.log(image);
   return (
     <AnimatePresence>
       <motion.div

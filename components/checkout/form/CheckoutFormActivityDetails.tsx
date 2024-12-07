@@ -100,13 +100,10 @@ export default function
 
     dispatch(checkoutSliceActions.pushData({ type: `activity`, data: transformedResults }));
     dispatch(checkoutSliceActions.setOpenPaymentDetails(true));
-    // console.log(`Dispatched Activity Details data to store: `, transformedResults);
     setFormSubmitted(true);
 
     // by this we scroll 300px down to the next section: Payment Details
     window.scrollBy(0, 300);
-
-    // console.log(transformedResults);
   }
 
   function setSubmitFormToFalse() {

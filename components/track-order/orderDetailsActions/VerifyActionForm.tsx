@@ -32,15 +32,12 @@ export default function VerifyActionForm({ action }: VerifyActionFormType) {
 
   const userCode = useRef<HTMLInputElement>(null);
 
-  // console.log(`action.stage`, action.stage);
-
   async function handleSubmit() {
 
     if (userCode?.current?.value.toString().trim().length !== 6 || isNaN(+userCode.current.value)) {
       setError(`The code should be 6 digits long.`);
       return;
     }
-    // console.log(`userCode`, userCode.current.value);
 
     if (!userCode.current.value) {
       setError(`Please, enter the code.`);
@@ -70,8 +67,6 @@ export default function VerifyActionForm({ action }: VerifyActionFormType) {
           setError(data.message || `An error occurred. Please, try again.`);
           return;
         }
-
-        // console.log(`data`, data);
 
         /* Use api endpoint to push user's order to orderCancellations collection,
         *  and also remember to change the actual order data.
@@ -140,8 +135,6 @@ export default function VerifyActionForm({ action }: VerifyActionFormType) {
           setError(data.message || `An error occurred. Please, try again.`);
           return;
         }
-
-        console.log(`data`, data);
 
         /* Use api endpoint to push user's order to orderCancellations collection,
         *  and also remember to change the actual order data.

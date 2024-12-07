@@ -5,7 +5,6 @@ export async function POST(request: NextRequest) {
   try {
 
     const { orderId } = await request.json() as { orderId: string };
-    console.log(`Executing orderId: `, orderId);
 
     if (!orderId.trim() || orderId.length !== 24) {
       return NextResponse.json({
@@ -15,8 +14,6 @@ export async function POST(request: NextRequest) {
     }
 
     const response = await fetchTrackedOrderData(orderId);
-
-    console.log(`Response: `, response);
 
     if (!response) {
       return NextResponse.json({

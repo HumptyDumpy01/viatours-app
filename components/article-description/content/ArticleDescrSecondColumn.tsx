@@ -30,8 +30,6 @@ export default function ArticleDescrSecondColumn(/*{ articles }: any*/) {
 
       const data = await res.json();
 
-      // console.log(`Executing data from newestArticles: `, data);
-
       if (data.error) {
         setError(true);
         setIsLoading(false);

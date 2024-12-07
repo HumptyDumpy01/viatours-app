@@ -12,7 +12,6 @@ export default function HeroHeading(/*{  }: HeadingInterface*/) {
 
     let userName = '';
     if (session) {
-      console.log(`Current session: `, session);
       const name = session.user?.name?.split(' ');
       userName = name![0];
     }*/

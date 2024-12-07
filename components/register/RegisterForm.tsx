@@ -62,8 +62,6 @@ export default function RegisterForm(/*{  }: RegisterFormType*/) {
       router.push(`login?registered=success`);
     }
 
-    // console.log(`Executing results: `, results);
-
     setIsSubmitting(false);
   }
 
@@ -74,8 +72,6 @@ export default function RegisterForm(/*{  }: RegisterFormType*/) {
     const currObject = e.currentTarget;
     const formData = new FormData(currObject);
     const results = Object.fromEntries(formData.entries()) as RegisterFormType;
-
-    // console.log(`Executing results: `, results);
 
     const trimmedResults = {
       initials: results.initials.toString().trim(),
@@ -108,8 +104,6 @@ export default function RegisterForm(/*{  }: RegisterFormType*/) {
       })
     });
     const userExistsData = await userExists.json();
-    // console.log(userExistsData);
-
     if (userExistsData.resp) {
       setFormError([`The user with the email ${results.email} already exists. Please sign in to proceed.`]);
       setIsSubmitting(false);
@@ -171,9 +165,6 @@ export default function RegisterForm(/*{  }: RegisterFormType*/) {
       setFormError([`Please provide a 6-digit code sent to your email.`]);
       return;
     }
-    console.log(`User token: `, userToken);
-    console.log(`Final results: `, finalResultsObject);
-
     startTransition(async () => {
       const response = await fetch(`/api/validate-register-email-token`, {
         method: 'POST',

@@ -33,7 +33,6 @@ export default function CheckoutDetailsContainer(/*{  }: CheckoutDetailsContaine
           // throw new Error('Tour not found');
         }
         setTour(tour);
-        console.log(tour);
         setLoading(false);
       }).catch((error) => {
         console.error(error);

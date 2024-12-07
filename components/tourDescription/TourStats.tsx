@@ -38,8 +38,6 @@ type TourStatsType = {
 }
 
 export default function TourStats({ info, session }: TourStatsType) {
-
-  const router = useRouter();
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
@@ -69,7 +67,6 @@ export default function TourStats({ info, session }: TourStatsType) {
   };
 
   useEffect(() => {
-    console.log(`Session coming from tourStats:`, session);
     if (session && session.user?.email) {
       setIsLoading(true);
       //  create a function to check if the user has added this tour to the wishlist already,
@@ -85,7 +82,6 @@ export default function TourStats({ info, session }: TourStatsType) {
 
       }).then(res => res.json()).then(data => {
 
-        console.log(`whether user has this tour in wishlist:`, data.result);
         setIsUserAddedTourToWishlist(data.result);
         setIsLoading(false);
       });
@@ -130,7 +126,6 @@ export default function TourStats({ info, session }: TourStatsType) {
           console.error(`Failed to add/remove the tour to/from the wishlist!`);
           return;
         }
-        console.log(`Data from the server: `, data);
         setIsUserAddedTourToWishlist(data.status === `ADDED`);
         setIsLoading(false);
 

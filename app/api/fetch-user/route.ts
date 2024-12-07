@@ -10,7 +10,6 @@ export async function POST(request: Request) {
 
   if (!unwind) {
     const result = await getUser({ email: userEmail }, options);
-    console.log(`result: `, result);
 
     if (result.length > 0) {
       return NextResponse.json({
@@ -25,7 +24,6 @@ export async function POST(request: Request) {
   } else {
 
     const result = await getUser({ email: userEmail }, options, unwind);
-    console.log(`result: `, result);
 
     if (result.error) {
       return NextResponse.json({ error: true, message: 'Failed to fetch user data.', status: 500 });

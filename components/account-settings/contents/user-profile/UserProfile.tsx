@@ -93,8 +93,6 @@ export default function
     // Upload images to Cloudinary
     const imageUrls = await Promise.all(selectedFiles.map(uploadUserLogoImage));
 
-    // console.log(`Image urls: `, imageUrls);
-
     if (imageUrls.length > 0 && imageUrls.length > 1) {
       setFormError(['Failed to upload the images. You can only upload up to 3 or can omit image upload.']);
       window.scrollBy(0, 100);
@@ -170,9 +168,6 @@ export default function
     const formData = new FormData(currObject);
     const results = Object.fromEntries(formData.entries());
 
-    // console.log(`Executing results: `, results);
-
-
     const transformedResults = {
       email: userEmailFromSession,
       firstName: results.firstName.toString(),
@@ -194,15 +189,11 @@ export default function
     */
 
     await checkForErrors(transformedResults);
-    // console.log(transformedResults);
-
     if (!results.password) {
       await updateUserData(results, transformedResults, `UPDATE_WITHOUT_PASSWORD`);
     }
 
     if (results.password && !results.confirmOldPassword) {
-
-      console.log(`Executing userEmailFromSession: `, userEmailFromSession);
 
       const transformedResults = {
         email: userEmailFromSession,
@@ -232,8 +223,6 @@ export default function
     setReadOnly(true);
     setFormError([]);
   }
-
-  console.log(selectedFiles);
 
   return (
     <motion.div

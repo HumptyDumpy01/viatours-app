@@ -21,8 +21,6 @@ export default function ToursPage({ searchParams }: AllToursInterface) {
     [`filter-type`]: searchParams?.[`filter-type`] ?? '',
     [`filter-search`]: searchParams?.[`filter-search`] ?? ''
   };
-  // console.log(searchParamsData);
-
   return (
     <main className={`main`}>
       <section className="all-tours container-all-tours">

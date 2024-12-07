@@ -108,9 +108,6 @@ export default function ThanksForPurchase({ searchParams }: ThanksForPurchaseTyp
           throw new Error(`Failed to update order status.`);
         }
 
-        console.log(fetchedOrderData.order, `fetchedOrderData`);
-        console.log(`updateStatus`, updateStatus.json());
-
         const isUserExists = await getUser({ email: userEmail }, { email: 1, _id: 0 });
 
 

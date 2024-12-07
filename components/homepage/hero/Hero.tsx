@@ -42,8 +42,6 @@ export default function Hero() {
     const formData = new FormData(currObject);
     const results = Object.fromEntries(formData.entries());
     currObject.reset();
-    // console.log(results);
-
     router.push(`/tours?filter-search=${results.searchTerm}&filter-type=${results['tour-type']}`);
 
   }

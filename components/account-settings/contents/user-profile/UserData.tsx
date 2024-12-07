@@ -87,7 +87,6 @@ export default function
 
 
     if (responseData.error) {
-      console.log(`Error: `, responseData.error);
       setIsSubmitting(false);
       return;
     }
@@ -218,8 +217,6 @@ export default function
     setOpen(false);
   };
 
-  // console.log(`Executing confirmOldPasswordVal: `, confirmOldPasswordVal);
-
   async function toggleTwoFactorAuth(twoFactorAuthEnabled: boolean) {
 
     if (!registeredManually) {
@@ -227,7 +224,6 @@ export default function
     }
 
     setTwoFactorAuthEnabledVal(!twoFactorAuthEnabled);
-    console.log(`Two factor auth status: `, twoFactorAuthEnabled);
     setDisableTwoAuthSwitch(true);
 
     setOpen(true);

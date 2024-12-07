@@ -19,6 +19,10 @@ export default function
                        severity,
                        variant
                      }: CustomizedSnackbarType) {
+  if (typeof document === 'undefined') {
+    return null; // Return null if not in a browser environment
+  }
+
   const toasterElement = document.getElementById('toaster');
 
   if (!toasterElement) {

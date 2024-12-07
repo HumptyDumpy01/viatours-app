@@ -115,7 +115,6 @@ export default async function ArticleDescription({ params }: ArticleDescriptionI
        }
      };
    }
-  // console.log(`Article: `, article.article[0]);
 
   ///////////////////////////////////////
 
@@ -131,8 +130,6 @@ export default async function ArticleDescription({ params }: ArticleDescriptionI
   if (!article?.article?.[0]?._id) {
     notFound();
   }
-
-  // console.log(`Article: `, article.article[0]);
 
   // fetch the session from the server
   const session = await getServerSession(authConfig);
@@ -158,7 +155,6 @@ export default async function ArticleDescription({ params }: ArticleDescriptionI
       }
     };
   }*/
-  // console.log(`Session: `, sessionVar);
   return (
     <>
       {/*@ts-ignore*/}

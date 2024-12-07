@@ -47,10 +47,6 @@ export default function ForgotPasswordStepOne() {
         return;
       }
 
-      console.log(`userData`, userData.result[0].password);
-
-      // console.log(`userData`, userData.result[0].email);
-
       // send a verification code to the email address
       const response = fetch(`/api/generate-recovery-code-token`, {
         method: `POST`,

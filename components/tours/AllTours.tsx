@@ -20,8 +20,6 @@ export default function AllTours({ searchParams }: AllToursInterface) {
   const filterType = searchParams[`filter-type`] ? searchParams[`filter-type`] : null;
   const filterSearch = searchParams[`filter-search`] ? searchParams[`filter-search`] : null;
 
-  // console.log(`filterCountry`, filterCountry);
-
   function handleFetchTours(filter: unknown) {
 
     fetch('/api/fetch-tours', {
@@ -48,7 +46,6 @@ export default function AllTours({ searchParams }: AllToursInterface) {
 
       if (filter) {
         setLoading(true);
-        // console.log(`Executing filter: `, filter);
         // Fetch tours based on the filter
         // create an array of tags
         const tags = filter.split(',');
@@ -58,7 +55,6 @@ export default function AllTours({ searchParams }: AllToursInterface) {
 
       if (filterType && !filterSearch) {
         setLoading(true);
-        // console.log(`Executing filter: `, filter);
         // Fetch tours based on the filter
         // create an array of tags
         const type = filterType.split(',');
@@ -116,7 +112,6 @@ export default function AllTours({ searchParams }: AllToursInterface) {
           const val = (input as HTMLInputElement)
             .name.split(':')[1].replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
 
-          // console.log(val);
           tourType.push(val);
           // @ts-ignore
           results.tourType = tourType;
@@ -167,8 +162,6 @@ export default function AllTours({ searchParams }: AllToursInterface) {
       setLoading(true);
 
       // Output
-      // console.log('Collected Data:', results);
-
       fetch('/api/filter-tours', {
         method: 'POST',
         headers: {

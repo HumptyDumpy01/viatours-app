@@ -11,9 +11,6 @@ export async function POST(request: NextRequest) {
 
     const handleCreateUser = await createUser(formData);
 
-    console.log(`Executing handleCreateUser: `, handleCreateUser);
-
-
     if (!handleCreateUser.acknowledged) {
       return NextResponse.json({
         error: handleCreateUser.error,

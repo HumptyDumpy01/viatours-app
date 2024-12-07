@@ -5,7 +5,6 @@ export async function POST(request: NextRequest) {
   try {
 
     const { project, limit } = await request.json();
-    console.log(`Executing fetch-articles-authors: `, project);
     // create a serer function in e.g. mongodb.ts and then call it here
     const response = await fetchArticlesAuthors(project, limit);
 

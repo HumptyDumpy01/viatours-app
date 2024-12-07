@@ -21,7 +21,6 @@ export default function FooterNewsletter(/*{  }: FooterNewsletterInterface*/) {
   //
   //   if (timer.current) {
   //     clearTimeout(timer.current);
-  //     // console.log(`Newsletter sign up toast cleared!`);
   //   }
   //
   //   dispatch(ToastSliceActions.showNotification());
@@ -29,7 +28,6 @@ export default function FooterNewsletter(/*{  }: FooterNewsletterInterface*/) {
   //   // Hide the toast after 3 seconds
   //   timer.current = setTimeout(() => {
   //     dispatch(ToastSliceActions.hideNotification());
-  //     // console.log(`Newsletter sign up toast hidden!`);
   //   }, 6000);
   // }
 
@@ -53,7 +51,6 @@ export default function FooterNewsletter(/*{  }: FooterNewsletterInterface*/) {
     const results = Object.fromEntries(formData.entries()) as {
       email: string;
     };
-    // console.log(`Executing results: `, results);
 
     if (results.email.trim() === '' || !results.email.trim().includes(`@`)) {
       setData(prevState => ({
@@ -126,7 +123,6 @@ export default function FooterNewsletter(/*{  }: FooterNewsletterInterface*/) {
     }
     // resetting the form
     // output
-    // console.log(results);
     setIsSubmitting(false);
   }
 

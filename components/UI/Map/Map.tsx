@@ -14,7 +14,6 @@ interface GoogleMapProps {
 }
 
 export default function GoogleMap({ locations }: GoogleMapProps) {
-  // console.log(`Executing locations: `, locations);
 
   return (
     <MapComponent

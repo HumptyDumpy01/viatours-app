@@ -125,8 +125,6 @@ export default function
       return;
     }
 
-    // console.log(`Executing adultTickets: `, adultTickets);
-    // console.log(`Executing youthTickets: `, youthTickets);
     if (youthTickets > 0) {
       setTotalPrice(prevState => (prevState - (youthTickets * price.youth))
         + (youthTickets * price.youth) + (youthTickets * priceForExtra.youth));
@@ -142,8 +140,6 @@ export default function
   }
 
   function handleAddTicket(price: number, name: string) {
-    // console.log(`Executing adultTickets: `, adultTickets);
-
     if (name === `adultTickets` && !servicePerPersonActive) {
       setAdultTickets((prev) => prev + 1);
       setTotalPrice((prev) => prev + price);
@@ -277,8 +273,6 @@ export default function
     // resetting the form
     currObject.reset();
     // output
-    // console.log(data);
-
     // let's store the data in the local storage
     localStorage.setItem(`order`, JSON.stringify(data));
 

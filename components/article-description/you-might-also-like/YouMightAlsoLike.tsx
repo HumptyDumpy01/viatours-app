@@ -20,7 +20,6 @@ export default function YouMightAlsoLike({ types }: YouMightAlsoLikeType) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
 
-  console.log(`Executing types: `, types);
   useEffect(() => {
     async function fetchSimilarArticles() {
       const response = await fetch(`/api/fetch-articles-by-type`, {

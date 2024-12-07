@@ -51,16 +51,10 @@ export default function TrackOrderForm(/*{  }: TrackOrderFormType*/) {
         return;
       }
 
-      console.log(response.order);
-
       dispatch(trackOrderSliceActions.setOrderDetails(response.order));
       dispatch(trackOrderSliceActions.setOrderStage(2));
 
     });
-
-
-    // output
-    // console.log(results);
   }
 
   return (

@@ -10,7 +10,6 @@ export async function POST(request: Request) {
     tourLanguages,
     tourRatings,
   } = await request.json();
-  console.log(`tourRatings from route.ts`, tourRatings);
 
   const tours = await filterTours(
     searchTerm ? searchTerm : `find-all-tours`,
@@ -20,7 +19,5 @@ export async function POST(request: Request) {
     tourLanguages ? tourLanguages : false,
     tourRatings ? tourRatings : false
   );
-  // console.log(`fetching filtered tours: `, tours);
-
   return NextResponse.json({ tours });
 }

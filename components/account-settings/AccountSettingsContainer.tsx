@@ -112,9 +112,6 @@ export default function AccountSettingsContainer({ page }: AccountSettingsContai
 
   useEffect(() => {
     if (session && session.user?.email) {
-      // console.log(`Session data coming from AccountSettings:`, session);
-
-
       // use useEffect here, get access to user email via session data and
       // fetch it from the server to get the user data.
       const fetchedUser = fetch(`/api/fetch-user`, {
@@ -131,9 +128,7 @@ export default function AccountSettingsContainer({ page }: AccountSettingsContai
       }).then(res => res.json()).then(data => {
 
         setIsLoading(false);
-
         setUserData(data.result[0]);
-        console.log(`User data fetched: `, data.result[0]);
 
       }).catch((err) => {
         setIsLoading(false);

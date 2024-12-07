@@ -6,12 +6,7 @@ export async function POST(request: NextRequest) {
 
     const { email, method } = await request.json() as { email: string, method: 'ADD' | 'REMOVE' };
 
-    console.log(`Email: `, email);
-    console.log(`Method: `, method);
-
     const result = await addOrRemoveNewsletterEmail(email, method);
-
-    console.log(`Result: `, result);
 
     if (!result?.acknowledged) {
       return NextResponse.json({ error: true, message: 'Error adding email to newsletter' }, { status: 400 });

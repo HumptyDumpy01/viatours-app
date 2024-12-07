@@ -61,8 +61,6 @@ export default function ArticleDescrComments({ comments, session }: ArticleDescr
     if (value === `likes`) {
       setCurrArticlesComments([...comments].sort((a, b) => b.likes.length - a.likes.length));
     }
-
-    // console.log(value);
   }
 
 

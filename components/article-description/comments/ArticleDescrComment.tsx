@@ -117,9 +117,6 @@ export default function ArticleDescrComment({ comment, session }: ArticleDescrCo
       setToastSeverity(`error`);
       console.error(`Failed to perform action over the article comment: ${response.message}`);
     }
-
-
-    console.log(`Comment that should be liked: `, id);
   }
 
   async function handleDislikeComment(id: string) {

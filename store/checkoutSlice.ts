@@ -23,11 +23,9 @@ const checkoutSlice = createSlice({
     pushData(state, action: PayloadAction<{ type: `contact` | `activity`, data: any }>) {
       if (action.payload.type === 'contact') {
         state.contactDetails = action.payload.data;
-        console.log('state.contactDetails', state.contactDetails);
       }
       if (action.payload.type === 'activity') {
         state.activityDetails = action.payload.data;
-        console.log('state.activityDetails', state.activityDetails);
       }
     },
 

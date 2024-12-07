@@ -94,8 +94,6 @@ export default function
     setOpenPopup(state);
   }
 
-  // console.log(`User Signed Up On Newsletter State: `, userSignedUpOnNewsletterState);
-
   async function handleNewsletterSignUpOrSignOut() {
 
     if (userSignedUpOnNewsletterState) {

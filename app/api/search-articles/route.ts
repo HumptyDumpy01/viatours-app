@@ -21,7 +21,6 @@ export async function POST(request: NextRequest) {
     } else {
       // fetch articles by searchTerm
       const response = await searchArticles(searchTerm);
-      console.log(`response from route:`, response);
 
       return NextResponse.json({
         articles: response.articles

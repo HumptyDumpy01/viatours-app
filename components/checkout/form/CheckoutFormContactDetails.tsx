@@ -65,8 +65,6 @@ export default function CheckoutFormContactDetails() {
       body: JSON.stringify({ userEmail: results.email, options: { email: 1 } })
     });
     const userExistsData = await userExists.json() as { message: string, status: number, resp: boolean };
-    // console.log(`userExistsData`, userExistsData);
-
 
     const typedResults: FormContactDetailsType = {
       firstName: results.firstName as string,
@@ -97,7 +95,6 @@ export default function CheckoutFormContactDetails() {
     // resetting the form
     // currObject.reset();
     // output
-    console.log(typedResults);
     dispatch(checkoutSliceActions.pushData({ type: 'contact', data: typedResults }));
     dispatch(checkoutSliceActions.setOpenActivityDetails(true));
     // clear order prop from local storage
@@ -107,8 +104,6 @@ export default function CheckoutFormContactDetails() {
 
     // scroll6200px down
     window.scrollBy(0, 600);
-
-    console.log('dispatched contact details to store.');
   }
 
   function validateFormData(results: FormContactDetailsType) {

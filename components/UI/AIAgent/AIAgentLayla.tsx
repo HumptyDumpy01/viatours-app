@@ -97,7 +97,6 @@ export default function AIAgentLayla() {
     // to send to the AI endpoint for better context.
     // If the chat history is empty, then send an empty array.
     const chatHistoryForAI = chatHistory ? chatHistory.slice(-5) : [];
-    console.log(`Chat history for AI: `, chatHistoryForAI);
 
     currObject.reset();
 
@@ -120,10 +119,7 @@ export default function AIAgentLayla() {
       setLoading(false);
 
     });
-    console.log(`Executing response: `, response);
-
     if (response.response) {
-      console.log(`Response: `, response);
       setLoading(false);
       setError(``);
 
@@ -163,10 +159,6 @@ export default function AIAgentLayla() {
   // so I can use it later on to display the chat history.
   if (chatHistory && error === ``)
     localStorage.setItem(`chatHistory`, JSON.stringify(chatHistory));
-
-
-  console.log(`Executing showAIWindow: `, showAIWindow);
-
 
   const date = new Date();
   const month = date.toLocaleString('default', { month: 'long' });
