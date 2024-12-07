@@ -170,7 +170,6 @@ export default function LeaveReply({ tourId, tourTitle, userEmail, userName, ses
     });
 
     async function addComment() {
-      // @ts-ignore
       const response = await fetch(`/api/add-tour-comment`, {
         method: `POST`,
         headers: {

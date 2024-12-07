@@ -104,7 +104,7 @@ html {
 }
 
 body {
-  font-family: var(--font-inter), serif;
+  font-family: var(--font-inter), serif !important;
   font-weight: 400;
   overflow-x: hidden;
   font-size: 1.6rem;
@@ -1363,3 +1363,6 @@ b {
   }
 }
 
+a, span, p, h1, h2, h3, h4, h5, h6, li, button, input {
+  font-family: inherit;
+}
