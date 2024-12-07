@@ -195,6 +195,7 @@ li {
   }
 
   &-error {
+    width: fit-content;
     margin-bottom: 2.4rem;
     background-color: var(--clr-white);
     color: var(--clr-strawberry-red);

@@ -18,6 +18,9 @@ export async function POST(request: NextRequest) {
       });
     }
     const response = await addArticleComment(session, formResults, author);
+    console.log(`Executing response from back: `, response);
+
+    console.log(`Executing response.error: `, response.error);
 
     if (response.error) {
       return NextResponse.json({
@@ -29,7 +32,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       error: false,
       // @ts-ignore
-      insertedId: response.insertedId.toString(),
+      // insertedId: response.insertedId.toString(),
       message: `Article comment added successfully`
     });
 
@@ -37,7 +40,7 @@ export async function POST(request: NextRequest) {
   } catch (e) {
     return NextResponse.json({
       error: true,
-      message: `Failed to add an article comment: ${e}`
+      message: `Failed to add an article comment(caught): ${e}`
     });
   }
 }

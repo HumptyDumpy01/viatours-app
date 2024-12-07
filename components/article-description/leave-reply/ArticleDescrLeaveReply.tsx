@@ -5,7 +5,6 @@ import '@/components/UI/Layout/LeaveReply.scss';
 import IconIon from '@/components/UI/IonIcon/IconIon';
 import Rate from '@/components/UI/Checkbox/Rate';
 import React, { FormEvent, useRef, useState } from 'react';
-import { addArticleComment } from '@/lib/mongodb';
 import { SessionType } from '@/components/UI/Comment/Comment';
 import Lottie from 'lottie-react';
 import { useCartDispatch } from '@/store/hooks';
@@ -86,11 +85,11 @@ export default function ArticleDescrLeaveReply({ session, articleId, author }: A
 
     const formResults: FormResultsType = {
       articleId: articleId,
-      user: results.user,
+      user: results.user.trim(),
       rating: Number(results.rating),
-      title: results.title,
-      text: results.text,
-      email: results.email
+      title: results.title.trim(),
+      text: results.text.trim(),
+      email: results.email.trim()
     };
 
     async function submitComment() {
@@ -102,11 +101,20 @@ export default function ArticleDescrLeaveReply({ session, articleId, author }: A
       }, 100);
 
       dispatch(sliceArticleDescrActions.setArticleCommentAdded(true));
-
       setIsSubmitting(true);
 
       try {
-        const response = await addArticleComment(session, formResults, author);
+        const responseObj = await fetch(`/api/add-article-comment`, {
+          method: `POST`,
+          headers: {
+            'Content-Type': `application/json`
+          },
+          body: JSON.stringify({ session, formResults, author })
+        });
+        console.log(`Executing responseObj: `, responseObj);
+
+        const response = await responseObj.json();
+        console.log(`Executing response: `, response);
 
         if (response?.error) {
           setFormError([`Failed to submit the comment: ${response?.message}`]);
