@@ -120,6 +120,7 @@ export default function ThanksForPurchase({ searchParams }: ThanksForPurchaseTyp
         });
         const userData = await user.json();
 
+        console.log(`Executing fetchedOrderData: `, fetchedOrderData);
         if (userData.resp && fetchedOrderData.order.contactDetails.getEmailsWithOffers) {
           // if the user is not signed up, then add it to the newsletter
           const pushEmailToNewsletter = await fetch(`/api/newsletter`, {
@@ -223,7 +224,7 @@ export default function ThanksForPurchase({ searchParams }: ThanksForPurchaseTyp
           </SessionProviderContainer>
         </div>
         <AnimatePresence>
-          {(orderData && !loading && !error) && (
+          {(orderData && !loading) && (
             <motion.div
               initial={{ opacity: 0, x: 200 }}
               animate={{ opacity: 1, x: 0 }}
