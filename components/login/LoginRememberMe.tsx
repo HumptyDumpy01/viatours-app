@@ -6,7 +6,7 @@ import Link from 'next/link';
 type LoginRememberMeType = {
   label: string;
   name: string;
-  linkVisibility: boolean;
+  linkVisibility?: boolean;
   href: string;
   // children: ReactNode;
 }

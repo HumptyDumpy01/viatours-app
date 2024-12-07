@@ -7,9 +7,8 @@ import LoginRememberMe from '@/components/login/LoginRememberMe';
 import GoogleBtn from '@/components/UI/Button/GoogleBtn';
 import { motion } from 'framer-motion';
 
-import { FormEvent, useState, useTransition } from 'react';
+import { FormEvent, useEffect, useState, useTransition } from 'react';
 import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
 import GithubBtn from '@/components/UI/Button/GithubBtn';
 
 type LoginSecondColType = {
@@ -18,7 +17,7 @@ type LoginSecondColType = {
 }
 
 export default function LoginSecondCol({ message }: LoginSecondColType) {
-  const router = useRouter();
+
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [loginStages, setLoginStages] = useState(1);
@@ -28,10 +27,15 @@ export default function LoginSecondCol({ message }: LoginSecondColType) {
   const [userEmail, setUserEmail] = useState<string>(``);
   const [userPassword, setUserPassword] = useState<string>(``);
   const [rememberMeState, setRememberMeState] = useState<boolean>();
+  const [emailCookie, setEmailCookie] = useState<string | undefined>(undefined);
+  const [passwordCookie, setPasswordCookie] = useState<string | undefined>(undefined);
 
-  // extract the email and password from the cookies
-  const emailCookie = document?.cookie?.split(`; `).find(row => row.startsWith(`email=`))?.split(`=`)[1] || undefined;
-  const passwordCookie = document?.cookie?.split(`; `).find(row => row.startsWith(`password=`))?.split(`=`)[1] || undefined;
+  useEffect(() => {
+    if (typeof document !== 'undefined') {
+      setEmailCookie(document.cookie?.split(`; `).find(row => row.startsWith(`email=`))?.split(`=`)[1] || undefined);
+      setPasswordCookie(document.cookie?.split(`; `).find(row => row.startsWith(`password=`))?.split(`=`)[1] || undefined);
+    }
+  }, []);
 
   async function handleSignIn(results: { email: string, password: string, rememberMe: boolean }) {
     const signInResponse = await signIn('credentials', {
@@ -49,13 +53,17 @@ export default function LoginSecondCol({ message }: LoginSecondColType) {
       window.location.href = `/`;
 
       if (results.rememberMe) {
+
+        if (typeof document === 'undefined') {
+          return null; // Return null if not in a browser environment
+        }
+
         // clear cookies
         document.cookie = `email=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
         document.cookie = `password=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
 
         // store email and password entered onto cookies and apply expire date
         document.cookie = `email=${results.email}; expires=${expireDate.toUTCString()}; path=/;`;
-        document.cookie = `password=${results.password}; expires=${expireDate.toUTCString()}; path=/;`;
       }
 
 
