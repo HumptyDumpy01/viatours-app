@@ -193,11 +193,11 @@ export default function LeaveReply({ tourId, tourTitle, userEmail, userName, ses
         // removing the optimistically added comment skeleton
         dispatch(commentFormSliceActions.toggleOptimisticallyAddedComment(false));
         dispatch(commentFormSliceActions.pushComment({
-          user: formResults.user,
+          user: formResults.user.trim(),
           rating: averageRating,
-          title: formResults.title,
+          title: formResults.title.trim(),
           images: submitForm.images,
-          text: formResults.text,
+          text: formResults.text.trim(),
           addedAt: new Date().toISOString()
         }));
 

@@ -7,7 +7,6 @@ import IconIon from '@/components/UI/IonIcon/IconIon';
 import GallerySlider from '@/components/UI/Gallery/GallerySlider';
 import { useEffect, useState } from 'react';
 import { CldImage } from 'next-cloudinary';
-import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import CustomizedSnackbar from '@/components/UI/Toast/Snackbar';
 
@@ -69,8 +68,6 @@ export default function
   const [toastLabel, setToastLabel] = useState<string>(`Hello there!`);
   const [toastSeverity, setToastSeverity] = useState<string>(`info`);
 
-  const router = useRouter();
-
   let isUserLikedComment: boolean = false;
   let isUserDislikedComment: boolean = false;
 
@@ -126,9 +123,9 @@ export default function
   let nameParts;
   // if a user has a just one word in their name, we should take the first two letters of the name
   if (user.split(' ').length === 1) {
-    nameParts = user.slice(0, 2);
+    nameParts = user.trim().slice(0, 2);
   } else {
-    nameParts = user.split(' ');
+    nameParts = user.trim().split(' ');
   }
   // Take the first character of the first and last name part, capitalize them, and join with a period
   const userInitials = `${nameParts[0][0].toUpperCase()}${nameParts.length > 1 ? '.' + nameParts[nameParts.length - 1][0].toUpperCase() : ''}`;

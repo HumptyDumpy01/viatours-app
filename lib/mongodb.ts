@@ -269,8 +269,8 @@ submitTourComment({
     const result = await db.collection(`tourComments`).insertOne({
       userId: null,
       tourId: new ObjectId(tourId),
-      user: user,
-      email: email,
+      user: user.trim(),
+      email: email.trim(),
       rating: {
         // to calculate the overall rating based on the coefficients and the ratings, max rating is 5
         overall: Number(Math.min(5,
