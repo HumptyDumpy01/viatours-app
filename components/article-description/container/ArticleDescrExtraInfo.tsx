@@ -182,7 +182,7 @@ export default function ArticleDescrExtraInfo({ author, readTime, session, artic
                 disabled={disableBtn}
                 onClick={handleSaveArticleToList}
                 type="button"
-                className={`btn tour-article-descr__extra-info__actions-save background-white ${isArticleInUserList ? `highlighted` : ``}`}>
+                className={`btn text-no-wrap tour-article-descr__extra-info__actions-save background-white ${isArticleInUserList ? `highlighted` : ``}`}>
                 {isArticleInUserList ? `Remove from Saved` : `Save`}
               </motion.button>
             </>

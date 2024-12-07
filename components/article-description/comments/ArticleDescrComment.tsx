@@ -290,7 +290,7 @@ export default function ArticleDescrComment({
                   </button>
                 </div>
               )}
-              <div className="comments__comment__date">{formattedDate}</div>
+              <div className="comments__comment__date text-no-wrap">{formattedDate}</div>
             </div>
           </>
         </div>
