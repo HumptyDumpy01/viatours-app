@@ -5,7 +5,6 @@ import './LeaveReply.scss';
 import Rate from '@/components/UI/Checkbox/Rate';
 import LeaveReplyInputs from '@/components/UI/Input/LeaveReplyInputs';
 import IconIon from '@/components/UI/IonIcon/IconIon';
-import { getUser, submitTourComment } from '@/lib/mongodb';
 import { uploadImage } from '@/lib/cloudinary';
 import Lottie from 'lottie-react';
 import loadingSpinner from '@/animations/loading-spinner.json';
@@ -13,11 +12,35 @@ import { useCartDispatch } from '@/store/hooks';
 import { commentFormSliceActions } from '@/store/commentFormSlice';
 import { motion } from 'framer-motion';
 
-type LeaveReplyType = {
+export type LeaveReplyType = {
   tourId: string;
   userName: string | null;
   userEmail: string | null;
   tourTitle: string;
+  session: {
+    user: {
+      email: string | ``;
+      name: string | ``;
+      image: string | null | ``;
+    }
+  };
+}
+
+export type FormResultsType = {
+  tourId: string;
+  user: string;
+  rating: {
+    location: number;
+    amenities: number;
+    food: number;
+    room: number;
+    price: number;
+    tourOperator: number;
+  };
+  title: string;
+  images: File[];
+  email: string;
+  text: string;
   session: {
     user: {
       email: string | ``;
@@ -74,12 +97,19 @@ export default function LeaveReply({ tourId, tourTitle, userEmail, userName, ses
     const errors = validateFormData(results);
 
 
-    const userExists = await getUser({ email: results.email }, { email: 1 });
+    const user = await fetch(`/api/fetch-user`, {
+      method: `POST`,
+      headers: {
+        'Content-Type': `application/json`
+      },
+      body: JSON.stringify({ userEmail: results.email, options: { email: 1, password: 1 } })
+    });
+    const userExists = await user.json();
 
     // INFO: The first, default condition: if user is not authenticated and the email he enters
     //  is not in my db.
     if (!session.user.email) {
-      if (userExists.length > 0) {
+      if (userExists.resp) {
         setFormError([`The user with the email ${results.email} already exists. Please sign in to proceed.`]);
         setIsSubmitting(false);
         scrollToLeaveReplyForm();
@@ -141,7 +171,18 @@ export default function LeaveReply({ tourId, tourTitle, userEmail, userName, ses
 
     async function addComment() {
       // @ts-ignore
-      const submitForm = await submitTourComment(formResults);
+      const response = await fetch(`/api/add-tour-comment`, {
+        method: `POST`,
+        headers: {
+          'Content-Type': `application/json`
+        },
+        body: JSON.stringify(formResults)
+      });
+
+      const submitForm = await response.json();
+
+      console.log(`Executing submitForm: `, submitForm);
+
 
       if (submitForm.success) {
         e.preventDefault();

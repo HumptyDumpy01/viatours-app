@@ -386,7 +386,6 @@ submitTourComment({
           error: `Oops! We were unable to save this comment! Failed to update the tour rating...  We are working on it`
         };
       }
-
     }
 
   } catch (e) {
