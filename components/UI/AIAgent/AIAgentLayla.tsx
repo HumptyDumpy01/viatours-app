@@ -104,7 +104,7 @@ export default function AIAgentLayla() {
     *  If the response is successful, then append the correctly formatted
     *  response to chatHistory array.
     *  If an error occurs, push a new error message to the error state. */
-    const response = await fetch(`http://localhost:8000/viatours-agent/get-response`, {
+    const response = await fetch(`${process.env.CHATBOT_BACKEND_URL}/viatours-agent/get-response`, {
       method: `POST`,
       headers: {
         'Content-Type': `application/json`
