@@ -16,7 +16,6 @@ type ArticleDescrLeaveReplyType = {
   articleId: string;
   author: string;
   session: SessionType;
-  // children: ReactNode;
 }
 
 export type FormResultsType = {
@@ -29,7 +28,6 @@ export type FormResultsType = {
 }
 
 function scrollToLeaveReplyForm() {
-  // scroll to the .leave-a-reply form
   const leaveAReplyForm = document.querySelector('.leave-a-reply');
   if (leaveAReplyForm) {
     setTimeout(function() {
@@ -37,7 +35,6 @@ function scrollToLeaveReplyForm() {
     }, 10);
   }
 }
-
 
 export default function ArticleDescrLeaveReply({ session, articleId, author }: ArticleDescrLeaveReplyType) {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -57,27 +54,18 @@ export default function ArticleDescrLeaveReply({ session, articleId, author }: A
       email: string;
     };
 
-    // the userEmail comes directly from the session,
-    // if the user is authenticated, otherwise it comes from the form
     const userEmailData = session.user.email || results.email;
     results.email = userEmailData;
-    // Clear previous errors
     setFormError([]);
 
-    // Validate form data
     const errors = validateFormData(results);
-
     const userExists = await getUser({ email: results.email }, { email: 1 });
 
-    // INFO: The first, default condition: if user is not authenticated and the email he enters
-    //  is not in my db.
-    if (!session.user.email) {
-      if (userExists.length > 0) {
-        setFormError([`The user with the email ${results.email} already exists. Please sign in to proceed.`]);
-        setIsSubmitting(false);
-        scrollToLeaveReplyForm();
-        return;
-      }
+    if (!session.user.email && userExists.length > 0) {
+      setFormError([`The user with the email ${results.email} already exists. Please sign in to proceed.`]);
+      setIsSubmitting(false);
+      scrollToLeaveReplyForm();
+      return;
     }
 
     if (errors.length > 0) {
@@ -87,8 +75,6 @@ export default function ArticleDescrLeaveReply({ session, articleId, author }: A
       return;
     }
 
-
-    // formatted data for the db
     const formResults: FormResultsType = {
       articleId: articleId,
       user: results.user,
@@ -99,9 +85,6 @@ export default function ArticleDescrLeaveReply({ session, articleId, author }: A
     };
 
     async function submitComment() {
-
-      // Optimistically scroll the user to the comments section and
-      // add comment skeleton
       const commentsHeading = document.querySelector(`.comments__heading`)! as HTMLHeadingElement;
 
       timer.current = setTimeout(function() {
@@ -111,51 +94,38 @@ export default function ArticleDescrLeaveReply({ session, articleId, author }: A
 
       dispatch(sliceArticleDescrActions.setArticleCommentAdded(true));
 
-      e.preventDefault();
       setIsSubmitting(true);
 
-      // submit the comment to the db
+      try {
+        const response = await addArticleComment(session, formResults, author);
 
-      /*const response = await fetch(`/api/add-article-comment`, {
-        method: `POST`,
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ session, formResults })
-      }).then(res => res.json());*/
+        if (response?.error) {
+          setFormError([`Failed to submit the comment: ${response?.message}`]);
+          dispatch(sliceArticleDescrActions.setArticleCommentAdded(false));
+          setIsSubmitting(false);
+          scrollToLeaveReplyForm();
+          return;
+        }
 
-      const response = await addArticleComment(session, formResults, author);
-
-
-      if (response?.error) {
-        setFormError([`Failed to submit the comment: ${response?.message}`]);
         dispatch(sliceArticleDescrActions.setArticleCommentAdded(false));
         setIsSubmitting(false);
+        currObject.reset();
+      } catch (err) {
+        console.error(`Failed to submit the comment: ${err}`);
+        setFormError([`Failed to submit the comment: ${err}`]);
+        setIsSubmitting(false);
         scrollToLeaveReplyForm();
-        return;
       }
-
-      dispatch(sliceArticleDescrActions.setArticleCommentAdded(false));
-      setIsSubmitting(false);
-
-      currObject.reset();
-
     }
 
-    submitComment().catch(err => {
-      console.error(`Failed to submit the comment: ${err}`);
-      setFormError([`Failed to submit the comment: ${err}`]);
-      setIsSubmitting(false);
-      scrollToLeaveReplyForm();
-    });
-
+    submitComment();
   }
 
   function validateFormData(results: Record<string, FormDataEntryValue>): string[] {
     const errors: string[] = [];
 
     if (!results.rating) {
-      errors.push('A rating for should be provided.');
+      errors.push('A rating should be provided.');
     }
     if (!results.user) {
       errors.push('User is required.');
@@ -166,19 +136,15 @@ export default function ArticleDescrLeaveReply({ session, articleId, author }: A
     if (!results.title) {
       errors.push('Title is required.');
     }
-
     if (results.user.toString().length > 100 || results.user.toString().length < 2) {
       errors.push('User should be between 2 and 100 characters long.');
     }
-
     if (results.title.toString().length > 100 || results.title.toString().length < 5) {
       errors.push('Title should be between 5 and 100 characters long.');
     }
-
     if (results.text.toString().length > 600 || results.text.toString().length < 10) {
-      errors.push('Comment should be between 10 and 500 characters long.');
+      errors.push('Comment should be between 10 and 600 characters long.');
     }
-
     if (!results.text) {
       errors.push('Comment is required.');
     }
@@ -187,79 +153,70 @@ export default function ArticleDescrLeaveReply({ session, articleId, author }: A
   }
 
   return (
-    <>
-      <motion.section
-        initial={{ opacity: 0, y: 300 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3 }}
-        viewport={{ once: true }}
-        className="leave-a-reply container">
-        <div className="leave-a-reply__wrapper">
-          <h2 className="secondary-heading margin-bottom-small">Leave a reply</h2>
-          <p className="paragraph leave-a-reply-paragraph">Your email address will not be published. All fields are
-            required, though.</p>
-          <div className="leave-a-reply-form">
-            {formError.map(function(item) {
-              return (
-                <p key={item} className="paragraph paragraph-error">{item}</p>
-              );
-            })}
-            <form onSubmit={handleSubmit} className="leave-a-reply__form">
-              <div className="leave-a-reply__form-rate grid">
-                <Rate label={`Rate`} name={`rating`} />
-              </div>
-              <div className="leave-a-reply__form-inputs-container grid">
-                <div className="leave-a-reply__form-inputs flex flex-align-center flex-space-between">
-                  <div className="leave-a-reply__form-inputs-wrapper">
-                    <label htmlFor="user-initials"></label>
-                    <input minLength={2} maxLength={100} defaultValue={session.user.name || ``} type="text" name="user"
-                           id="user-initials"
-                           placeholder="Initials"
-                           required />
-                  </div>
-                  {session.user.email.trim() === `` && (
-                    <>
-                      <div className="leave-a-reply__form-inputs-wrapper">
-                        <label htmlFor="user-email"></label><input type="email" name="email" id="user-email"
-                                                                   placeholder="Email" required />
-                      </div>
-                    </>
-                  )}
+    <motion.section
+      initial={{ opacity: 0, y: 300 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+      viewport={{ once: true }}
+      className="leave-a-reply container">
+      <div className="leave-a-reply__wrapper">
+        <h2 className="secondary-heading margin-bottom-small">Leave a reply</h2>
+        <p className="paragraph leave-a-reply-paragraph">Your email address will not be published. All fields are
+          required, though.</p>
+        <div className="leave-a-reply-form">
+          {formError.map(function(item) {
+            return (
+              <p key={item} className="paragraph paragraph-error">{item}</p>
+            );
+          })}
+          <form onSubmit={handleSubmit} className="leave-a-reply__form">
+            <div className="leave-a-reply__form-rate grid">
+              <Rate label={`Rate`} name={`rating`} />
+            </div>
+            <div className="leave-a-reply__form-inputs-container grid">
+              <div className="leave-a-reply__form-inputs flex flex-align-center flex-space-between">
+                <div className="leave-a-reply__form-inputs-wrapper">
+                  <label htmlFor="user-initials"></label>
+                  <input minLength={2} maxLength={100} defaultValue={session.user.name || ``} type="text" name="user"
+                         id="user-initials" placeholder="Initials" required />
                 </div>
-                <label htmlFor="title"></label>
-                <input minLength={5} maxLength={100} type="text" name="title" id="title"
-                       className="leave-a-reply__form-inputs-title" placeholder="Title"
-                       required />
-                <label htmlFor="comment"></label>
-                <textarea minLength={10} maxLength={600} name="text" id="comment" cols={30} rows={6}
-                          className="leave-a-reply__form-inputs-comment"
-                          placeholder="Comment" required></textarea>
-              </div>
-              <div className={`margin-bottom-41px leave-a-reply-article-btn-container grid`}>
-                <motion.button
-                  whileHover={{ scale: 1.1, rotate: 2 }}
-                  whileTap={{ scale: 0.8 }}
-                  transition={{ type: 'spring', stiffness: 260, damping: 20 }}
-                  disabled={isSubmitting}
-                  className={`btn btn--submit flex flex-align-center ${isSubmitting ? `btn--submit-disabled` : ``}`}>
-                  {!isSubmitting ? (
-                    <>
-                      Post comment
-                      {/*<ion-icon name="arrow-forward-outline" className="icon icon--right-arrow"></ion-icon>*/}
-                      <IconIon type={`arrowForwardOutline`} className="icon icon--right-arrow" />
-                    </>
-                  ) : `Submitting...`}
-                </motion.button>
-                {isSubmitting && (
-                  <div className={`loading-spinner-add-article`}>
-                    <Lottie animationData={loadingSpinner} />
+                {session.user.email.trim() === `` && (
+                  <div className="leave-a-reply__form-inputs-wrapper">
+                    <label htmlFor="user-email"></label>
+                    <input type="email" name="email" id="user-email" placeholder="Email" required />
                   </div>
                 )}
               </div>
-            </form>
-          </div>
+              <label htmlFor="title"></label>
+              <input minLength={5} maxLength={100} type="text" name="title" id="title"
+                     className="leave-a-reply__form-inputs-title" placeholder="Title" required />
+              <label htmlFor="comment"></label>
+              <textarea minLength={10} maxLength={600} name="text" id="comment" cols={30} rows={6}
+                        className="leave-a-reply__form-inputs-comment" placeholder="Comment" required></textarea>
+            </div>
+            <div className={`margin-bottom-41px leave-a-reply-article-btn-container grid`}>
+              <motion.button
+                whileHover={{ scale: 1.1, rotate: 2 }}
+                whileTap={{ scale: 0.8 }}
+                transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+                disabled={isSubmitting}
+                className={`btn btn--submit flex flex-align-center ${isSubmitting ? `btn--submit-disabled` : ``}`}>
+                {!isSubmitting ? (
+                  <>
+                    Post comment
+                    <IconIon type={`arrowForwardOutline`} className="icon icon--right-arrow" />
+                  </>
+                ) : `Submitting...`}
+              </motion.button>
+              {isSubmitting && (
+                <div className={`loading-spinner-add-article`}>
+                  <Lottie animationData={loadingSpinner} />
+                </div>
+              )}
+            </div>
+          </form>
         </div>
-      </motion.section>
-    </>
+      </div>
+    </motion.section>
   );
 }
