@@ -23,11 +23,11 @@ export default function ArticleDescrComments({ comments, session }: ArticleDescr
   const [disableSorting, setDisableSorting] = useState(comments.length === 0);
 
   const isArticleCommentAdded = useCartSelector((state) => state.articleDescription.articleCommentAdded);
+  const newArticleReviews = useCartSelector((state) => state.articleDescription.newArticleReviews);
 
   useEffect(() => {
     setCurrArticlesComments(comments);
   }, [isArticleCommentAdded, comments]);
-
 
   const timer = useRef<NodeJS.Timeout | null>(null);
 
@@ -80,7 +80,7 @@ export default function ArticleDescrComments({ comments, session }: ArticleDescr
             { value: `likes`, label: `Likes` }]} handleOnChange={handleSorting} disabled={disableSorting} />
         </div>
 
-        {comments.length === 0 && (
+        {comments.length === 0 && newArticleReviews.length === 0 && (
           <p className="paragraph">No comments yet. Be the first to comment!</p>
         )}
         <div className="comments__comment-container">
@@ -91,6 +91,26 @@ export default function ArticleDescrComments({ comments, session }: ArticleDescr
                 <CommentSkeleton showImageSkeleton={false} />
               </>
             )}
+            {newArticleReviews?.length > 0 && newArticleReviews.map(function(review, index) {
+              return (
+                <ArticleDescrComment
+                  disableLikesAndDislikesBtn={true}
+                  key={index}
+                  session={session}
+                  comment={{
+                    _id: ``,
+                    user: review.user,
+                    rating: review.rating,
+                    title: review.title,
+                    text: review.text,
+                    addedAt: review.addedAt!,
+                    likes: [],
+                    dislikes: [],
+                    abuseReports: []
+                  }} />
+              );
+            })}
+
             {currentComments.map(function(comment) {
               return (
                 <ArticleDescrComment key={comment._id.toString()} session={session} comment={comment} />

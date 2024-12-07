@@ -24,6 +24,7 @@ export type FormResultsType = {
   title: string;
   text: string;
   email: string;
+  addedAt?: string;
 }
 
 function scrollToLeaveReplyForm() {
@@ -111,10 +112,8 @@ export default function ArticleDescrLeaveReply({ session, articleId, author }: A
           },
           body: JSON.stringify({ session, formResults, author })
         });
-        console.log(`Executing responseObj: `, responseObj);
 
         const response = await responseObj.json();
-        console.log(`Executing response: `, response);
 
         if (response?.error) {
           setFormError([`Failed to submit the comment: ${response?.message}`]);
@@ -125,6 +124,18 @@ export default function ArticleDescrLeaveReply({ session, articleId, author }: A
         }
 
         dispatch(sliceArticleDescrActions.setArticleCommentAdded(false));
+        dispatch(sliceArticleDescrActions.pushNewArticleReviews(
+          {
+            articleId: formResults.articleId,
+            user: formResults.user,
+            rating: formResults.rating,
+            title: formResults.title,
+            text: formResults.text,
+            email: formResults.email,
+            addedAt: new Date().toISOString()
+          }
+        ));
+
         setIsSubmitting(false);
         currObject.reset();
       } catch (err) {

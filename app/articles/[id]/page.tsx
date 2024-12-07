@@ -16,7 +16,7 @@ interface ArticleDescriptionInterface {
 }
 
 export type ArticleComment = {
-  _id: ObjectId;
+  _id: ObjectId | string;
   user: string;
   rating: number;
   title: string;

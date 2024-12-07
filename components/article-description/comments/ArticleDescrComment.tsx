@@ -12,10 +12,15 @@ import { motion } from 'framer-motion';
 type ArticleDescrCommentType = {
   comment: ArticleComment;
   session: SessionType;
+  disableLikesAndDislikesBtn?: boolean;
   // children: ReactNode;
 }
 
-export default function ArticleDescrComment({ comment, session }: ArticleDescrCommentType) {
+export default function ArticleDescrComment({
+                                              comment,
+                                              session,
+                                              disableLikesAndDislikesBtn = false
+                                            }: ArticleDescrCommentType) {
 
   const [open, setOpen] = useState(false);
   const [toastLabel, setToastLabel] = useState<string>(`Hello there!`);
@@ -236,8 +241,10 @@ export default function ArticleDescrComment({ comment, session }: ArticleDescrCo
         <div className="comments__comment__rate-container">
           <div className="flex flex-align-center gap-18px">
 
-            <button onClick={() => handleLikeComment(comment._id.toString())}
-                    className={`btn comments__comment__rate helpful text-decoration-none ${disableBtn ? `cursor-not-allowed` : ``} ${userLikedComment ? `highlighted` : ``}`}>
+            <button
+              disabled={disableLikesAndDislikesBtn}
+              onClick={() => handleLikeComment(comment._id.toString())}
+              className={`btn comments__comment__rate helpful text-decoration-none ${disableBtn ? `cursor-not-allowed` : ``} ${userLikedComment ? `highlighted` : ``}`}>
               <div className="comments__comment__rate-helpful flex flex-align-center ">
                 <span className="comments__comment__rate-helpful__count inline-block">{commentLikes.length}</span>
                 <svg className="comments__comment__rate-icon-like" xmlns="http://www.w3.org/2000/svg" width="16"
@@ -251,8 +258,10 @@ export default function ArticleDescrComment({ comment, session }: ArticleDescrCo
               </div>
             </button>
 
-            <button onClick={() => handleDislikeComment(comment._id.toString())}
-                    className={`${disableBtn ? `cursor-not-allowed` : ``} btn comments__comment__rate not-helpful text-decoration-none ${userDislikedComment ? `highlighted` : ``}`}>
+            <button
+              disabled={disableLikesAndDislikesBtn}
+              onClick={() => handleDislikeComment(comment._id.toString())}
+              className={`${disableBtn ? `cursor-not-allowed` : ``} btn comments__comment__rate not-helpful text-decoration-none ${userDislikedComment ? `highlighted` : ``}`}>
               <div className="comments__comment__rate-helpful flex flex-align-center">
                 <span className="comments__comment__rate-helpful__count inline-block">{commentDislikes.length}</span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 14 13" fill="none">
