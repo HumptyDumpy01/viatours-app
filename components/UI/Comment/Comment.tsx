@@ -26,7 +26,7 @@ type CommentType = {
   rated: number;
   title: string;
   text: string;
-  images: string[] | StaticImageData[];
+  images: string[] | StaticImageData[] | null;
   likes: number;
   dislikes: number;
   likesArray: string[];
@@ -262,7 +262,7 @@ export default function
           </div>
           <p className="comments__content-paragraph">{text}</p>
           <div className="comments__content-images">
-            {images.map(function(imgSrc) {
+            {images.length > 0 && images.map(function(imgSrc) {
               return (
                 <motion.div
                   whileHover={{ scale: 1.1, rotate: 15, zIndex: 2 }}

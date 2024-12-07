@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       error: false,
       success: true,
-      images: submitForm.images ? submitForm.images : null,
+      images: submitForm.images,
       message: `Tour comment added successfully`
     });
 

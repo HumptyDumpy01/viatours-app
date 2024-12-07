@@ -397,7 +397,7 @@ submitTourComment({
 
   return {
     success: `The comment has been successfully added.`,
-    images: images.length > 0 ? images : null
+    images: images && images.length > 0 ? images : []
   };
 
 }
