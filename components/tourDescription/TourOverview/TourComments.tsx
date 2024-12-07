@@ -29,6 +29,8 @@ export default function TourComments({ currTourComments, session }: TourComments
   *   FOR EACH PAGE, AFTER CLICKING IT, SHOWS "N" AMOUNT OF ITEMS, WHERE PREVIOUS ITEMS
   *   ARE SHOWN TOO */
   const addCommentSkeleton = useCartSelector((state) => state.commentForm.optimisticallyAddedComment);
+  const newComments = useCartSelector((state) => state.commentForm.newComments);
+
 
   // the number of comments to show per page
   const commentsPerPage = 3;
@@ -64,6 +66,24 @@ export default function TourComments({ currTourComments, session }: TourComments
       {addCommentSkeleton && (
         <CommentSkeleton showImageSkeleton />
       )}
+      {newComments.length > 0 && newComments.map((comment, index) => (
+        <Comment
+          disabledButtonsLikeAndDislike={true}
+          session={session}
+          key={index}
+          id={``}
+          user={comment.user}
+          date_added={comment.addedAt}
+          rated={comment.rating}
+          title={comment.title}
+          text={comment.text}
+          images={comment.images}
+          likes={0}
+          likesArray={[]}
+          dislikesArray={[]}
+          dislikes={0}
+        />
+      ))}
       {currentComments.map((comment) => (
         <Comment
           session={session}

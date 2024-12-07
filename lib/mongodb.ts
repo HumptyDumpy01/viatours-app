@@ -397,7 +397,8 @@ submitTourComment({
   revalidatePath(`/`, `layout`);
 
   return {
-    success: `The comment has been successfully added.`
+    success: `The comment has been successfully added.`,
+    images: images.length > 0 ? images : null
   };
 
 }

@@ -32,6 +32,7 @@ type CommentType = {
   likesArray: string[];
   dislikesArray: string[];
   session: SessionType;
+  disabledButtonsLikeAndDislike?: boolean;
   // abuseReports: number;
   // children: ReactNode;
 }
@@ -49,7 +50,8 @@ export default function
             dislikes,
             likesArray,
             dislikesArray,
-            session
+            session,
+            disabledButtonsLikeAndDislike = false
             // abuseReports
           }: CommentType) {
 
@@ -290,7 +292,8 @@ export default function
             />
           }
           <div className="comments__content-reaction">
-            <button className={`comments__content-reaction-btn ${userLikedComment ? `highlighted` : ``}`}
+            <button disabled={disabledButtonsLikeAndDislike}
+                    className={`comments__content-reaction-btn ${userLikedComment ? `highlighted` : ``}`}
                     onClick={handleLikeComment}>
               <span
                 className={`comments__content-reaction-btn--helpful ${userLikedComment ? `highlighted` : ``}`}>{commentLikes}</span>
@@ -298,8 +301,10 @@ export default function
                        className={`icon icon--thumbs-up ${userLikedComment ? `highlighted` : ``}`} />
               Helpful
             </button>
-            <button className={`comments__content-reaction-btn  ${userDislikedComment ? `highlighted` : ``}`}
-                    onClick={handleDislikeComment}>
+            <button
+              disabled={disabledButtonsLikeAndDislike}
+              className={`comments__content-reaction-btn  ${userDislikedComment ? `highlighted` : ``}`}
+              onClick={handleDislikeComment}>
               <span
                 className={`comments__content-reaction-btn--not-helpful  ${userDislikedComment ? `highlighted` : ``}`}>{commentDislikes}</span>
               <IconIon type={`thumbsDownOutline`}

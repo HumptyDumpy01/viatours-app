@@ -9,6 +9,7 @@ export async function POST(request: NextRequest) {
 
 
     const submitForm = await submitTourComment({ user, rating, email, session, text, images, tourId, title });
+    console.log(`Executing submitForm on  backend : `, submitForm);
 
     if (submitForm.error) {
       return NextResponse.json({
@@ -20,6 +21,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       error: false,
       success: true,
+      images: submitForm.images ? submitForm.images : null,
       message: `Tour comment added successfully`
     });
 
