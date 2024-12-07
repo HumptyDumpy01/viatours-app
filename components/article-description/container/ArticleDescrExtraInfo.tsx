@@ -55,7 +55,6 @@ export default function ArticleDescrExtraInfo({ author, readTime, session, artic
 
   async function handleArticleSaveOrRemoveAction(type: `add` | `remove`) {
 
-    /* TODO: Create an API endpoint who would delete article from user wishlist. */
     const response = await fetch(`/api/handle-add-or-remove-article-from-list`, {
       method: `POST`,
       headers: {
