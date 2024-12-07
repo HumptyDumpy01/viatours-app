@@ -9,7 +9,6 @@ import { useCartDispatch } from '@/store/hooks';
 import { useEffect, useState } from 'react';
 import { checkoutSliceActions } from '@/store/checkoutSlice';
 import LoadingCheckoutDetails from '@/app/checkout-details/loading';
-import { getUser } from '@/lib/mongodb';
 import SessionProviderContainer from '@/components/UI/Provider/SessionProviderContainer';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Skeleton } from '@mui/material';
@@ -108,10 +107,20 @@ export default function ThanksForPurchase({ searchParams }: ThanksForPurchaseTyp
           throw new Error(`Failed to update order status.`);
         }
 
-        const isUserExists = await getUser({ email: userEmail }, { email: 1, _id: 0 });
 
+        const user = await fetch(`/api/fetch-user`, {
+          method: `POST`,
+          headers: {
+            'Content-Type': `application/json`
+          },
+          body: JSON.stringify({
+            userEmail: fetchedOrderData.order.contactDetails.email,
+            options: { email: 1, password: 1 }
+          })
+        });
+        const userData = await user.json();
 
-        if (isUserExists.length === 0 && fetchedOrderData.order.contactDetails.getEmailsWithOffers) {
+        if (userData.resp && fetchedOrderData.order.contactDetails.getEmailsWithOffers) {
           // if the user is not signed up, then add it to the newsletter
           const pushEmailToNewsletter = await fetch(`/api/newsletter`, {
             method: 'POST',
@@ -135,7 +144,7 @@ export default function ThanksForPurchase({ searchParams }: ThanksForPurchaseTyp
 
         // if not, then just return. No need to save it onto user history.
         // This is the benefit for authenticated users.
-        if (isUserExists.length > 0) {
+        if (userData.resp) {
 
           // send back the inserted order id to user's orders array
           const addOrderIdToUser = await fetch(`/api/add-order-id`, {
