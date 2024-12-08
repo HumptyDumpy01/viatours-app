@@ -120,7 +120,7 @@ export default function ThanksForPurchase({ searchParams }: ThanksForPurchaseTyp
         });
         const userData = await user.json();
 
-        console.log(`Executing fetchedOrderData: `, fetchedOrderData);
+        // console.log(`Executing fetchedOrderData: `, fetchedOrderData);
         if (userData.resp && fetchedOrderData.order.contactDetails.getEmailsWithOffers) {
           // if the user is not signed up, then add it to the newsletter
           const pushEmailToNewsletter = await fetch(`/api/newsletter`, {

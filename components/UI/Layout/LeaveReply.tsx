@@ -89,6 +89,7 @@ export default function LeaveReply({ tourId, tourTitle, userEmail, userName, ses
     // the userEmail comes directly from the session,
     // if the user is authenticated, otherwise it comes from the form
     const userEmailData = userEmail || results.email;
+
     results.email = userEmailData;
     // Clear previous errors
     setFormError([]);
@@ -240,7 +241,7 @@ export default function LeaveReply({ tourId, tourTitle, userEmail, userName, ses
 
     // INFO: The second condition: if user is authenticated and the email he enters is IN MY DB ALREADY.
 
-    if (session.user.email && userEmail && userExists.resp) {
+    if (session.user.email && userExists.resp) {
 
       // find this user by his email and add a notification object to array.
       const pushNotification = await fetch(`/api/push-notification`, {
@@ -249,7 +250,7 @@ export default function LeaveReply({ tourId, tourTitle, userEmail, userName, ses
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          userId: userExists._id,
+          userId: userExists.result[0]._id,
           type: `ADDED_COMMENT`,
           data: {
             tourId,
