@@ -47,15 +47,18 @@ export default function AIAgentLayla() {
   }, [showAIWindow, chatHistory]);
 
   useEffect(() => {
-    const chatHistoryFromLocalStorage = localStorage.getItem(`chatHistory`);
-    if (chatHistoryFromLocalStorage) {
-      try {
-        setChatHistory(JSON.parse(chatHistoryFromLocalStorage));
-      } catch (e) {
-        console.error('Failed to parse chat history from local storage:', e);
+    if (typeof window !== 'undefined') {
+      const chatHistoryFromLocalStorage = localStorage.getItem(`chatHistory`);
+      if (chatHistoryFromLocalStorage) {
+        try {
+          setChatHistory(JSON.parse(chatHistoryFromLocalStorage));
+        } catch (e) {
+          console.error('Failed to parse chat history from local storage:', e);
+        }
       }
     }
   }, []);
+
 
   function toggleShowAIWindow(state: boolean) {
     setShowAIWindow(state);
