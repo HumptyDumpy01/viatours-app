@@ -11,6 +11,8 @@ import { notFound } from 'next/navigation';
 import CheckoutLoadingPage from '@/app/checkout/loading';
 import { SessionProvider } from 'next-auth/react';
 import { motion } from 'framer-motion';
+import { useCartDispatch } from '@/store/hooks';
+import { backdropSliceActions } from '@/store/backdropSlice';
 
 export default function CheckoutDetailsContainer(/*{  }: CheckoutDetailsContainerType*/) {
 
@@ -18,7 +20,10 @@ export default function CheckoutDetailsContainer(/*{  }: CheckoutDetailsContaine
   const [tour, setTour] = useState<TourInterface>();
   const [loading, setLoading] = useState(true);
 
+  const dispatch = useCartDispatch();
+
   useEffect(() => {
+    dispatch(backdropSliceActions.setBackdropOpen(false));
     const orderData = localStorage.getItem('order');
     if (!orderData) {
       notFound();

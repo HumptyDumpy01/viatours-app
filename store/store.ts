@@ -12,6 +12,7 @@ import deleteAccountSlice from '@/store/deleteAccountSlice';
 import articlesSlice from '@/store/articlesSlice';
 import sliceArticleDescr from '@/store/sliceArticleDescr';
 import trackOrderSlice from '@/store/trackOrderSlice';
+import backdropSlice from '@/store/backdropSlice';
 
 const store = configureStore({
   reducer: {
@@ -30,7 +31,8 @@ const store = configureStore({
     deleteAccount: deleteAccountSlice,
     articles: articlesSlice,
     articleDescription: sliceArticleDescr,
-    trackOrder: trackOrderSlice
+    trackOrder: trackOrderSlice,
+    backdrop: backdropSlice
   }
 });
 

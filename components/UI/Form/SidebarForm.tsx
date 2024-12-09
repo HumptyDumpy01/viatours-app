@@ -11,6 +11,8 @@ import React, { FormEvent, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import CustomizedSnackbar from '@/components/UI/Toast/Snackbar';
 import { SnackbarCloseReason } from '@mui/material/Snackbar/useSnackbar.types';
+import { useCartDispatch } from '@/store/hooks';
+import { backdropSliceActions } from '@/store/backdropSlice';
 
 type SidebarFormType = {
   price: {
@@ -42,6 +44,8 @@ export default function
               }: SidebarFormType) {
   const navigate = useRouter();
   // extract the current tour id
+
+  const dispatch = useCartDispatch();
 
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const [adultTickets, setAdultTickets] = useState<number>(0);
@@ -269,6 +273,7 @@ export default function
       tourTitle: tourTitle
     };
 
+    dispatch(backdropSliceActions.setBackdropOpen(true));
 
     // resetting the form
     currObject.reset();
