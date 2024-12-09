@@ -21,7 +21,7 @@ export default function BackdropMUI() {
       open={backdropOpen}
       onClick={handleClose}
     >
-      <CircularProgress color="inherit" />
+      <CircularProgress size={60} color="inherit" />
     </Backdrop>
   );
 }
