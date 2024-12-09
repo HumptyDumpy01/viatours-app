@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 const backdropSlice = createSlice({
   name: `backdrop-slice`,
   initialState: {
-    backdropOpen: true
+    backdropOpen: false
   },
   // here, by using createSlice method,
   // in reducers we specify the functions that would be
