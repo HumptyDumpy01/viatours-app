@@ -11,7 +11,6 @@ import TourOverviewHeading from '@/components/tourDescription/TourOverview/TourO
 import TourHighlights from '@/components/tourDescription/TourOverview/TourHighlights';
 import TourIncluded from '@/components/tourDescription/TourOverview/TourIncluded';
 import TourItinerary from '@/components/tourDescription/TourOverview/Itinerary/TourItinerary';
-// import GoogleMap from '@/components/UI/Map/Map';
 import QuestionAnswer from '@/components/tourDescription/FAQ/QuestionAnswer';
 import CustomerReviews from '@/components/tourDescription/CustomerReviews/CustomerReviews';
 import LeaveReply from '@/components/UI/Layout/LeaveReply';
@@ -115,7 +114,7 @@ export default async function
 
           <TourItinerary itinerary={tour.itinerary} />
           {/*<h2 className={`subheading`}>Here comes GoogleMap! Enable It when testing or deploying.</h2>*/}
-          {/*<GoogleMap locations={tour.tourMap} />*/}
+          <GoogleMap locations={tour.tourMap} />
           <QuestionAnswer />
           <CustomerReviews rating={tour.rating} />
           <TourCommentsContainer session={session} currTourComments={tour.tourComments} />
