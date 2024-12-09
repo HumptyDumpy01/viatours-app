@@ -12,7 +12,7 @@ type PopupType = {
   deleteAllItems: () => void;
   disableClearItems: boolean;
   clearBtnLabel: string;
-  showSignUpToNewsletterButton: boolean;
+  showSignUpToNewsletterButton?: boolean;
   labelText: string;
   // children: ReactNode;
 }
@@ -157,7 +157,7 @@ export default function
           {openPopup && (
 
             <motion.div
-              initial={{ opacity: 0, display: `none`, zIndex: 1000 }}
+              initial={{ opacity: 0, display: `none`, zIndex: 9999 }}
               animate={{ opacity: 1, display: `flex` }}
               exit={{ display: `none` }}
               // transition={{ type: `spring`, stiffness: 260, damping: 20 }}

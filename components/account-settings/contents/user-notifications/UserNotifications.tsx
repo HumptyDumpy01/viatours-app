@@ -18,7 +18,7 @@ type UserNotificationsTypeComponent = {
 }
 
 export default function UserNotifications({ notifications, userEmail }: UserNotificationsTypeComponent) {
-  const notificationsPerPage = 7;
+  const notificationsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
 
   const sortedNotificationsByDate = notifications.sort((a, b) => (new Date(a.addedAt) > new Date(b.addedAt)) ? -1 : 1);
@@ -159,7 +159,7 @@ export default function UserNotifications({ notifications, userEmail }: UserNoti
       className={`account-settings__content__title-wrapper-container`}>
       <CustomizedSnackbar open={open} handleClose={handleClose} label={toastLabel} severity={toastSeverity} />
       <div className="account-settings__content__title-wrapper flex">
-        <div className="flex flex-align-center gap-15px">
+        <div className="flex flex-align-center gap-15px z-index-999999">
           <motion.h2
             whileHover={{ scale: 1.1, backfaceVisibility: `hidden` }}
             whileTap={{ scale: 0.9 }}

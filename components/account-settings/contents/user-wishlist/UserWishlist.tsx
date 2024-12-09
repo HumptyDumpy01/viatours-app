@@ -19,7 +19,7 @@ export default function UserWishlist({ userEmail, wishlistItems }: UserWishlistT
   const [filteredWishlistItems, setFilteredWishlistItems] = useState<UserWishlistItemType[]>(wishlistItems);
   const [originalWishlistItems, setOriginalWishlistItems] = useState<UserWishlistItemType[]>([...wishlistItems]);
   const [userWishlistItems, setUserWishlistItems] = useState<UserWishlistItemType[]>(wishlistItems);
-  const wishlistItemsPerPage = 4;
+  const wishlistItemsPerPage = 6;
   const [currentPage, setCurrentPage] = useState(1);
   const [disableClearWishlist, setDisableClearWishlist] = useState<boolean>(false);
 
@@ -150,7 +150,7 @@ export default function UserWishlist({ userEmail, wishlistItems }: UserWishlistT
       <CustomizedSnackbar open={open} handleClose={handleClose} label={toastLabel} severity={toastSeverity} />
       <div className={`account-settings__content__title-wrapper-container`}>
         <div className="account-settings__content__title-wrapper flex">
-          <div className="flex flex-align-center gap-15px">
+          <div className="flex flex-align-center gap-15px z-index-999999">
             <motion.h2
               whileHover={{ scale: 1.1, backfaceVisibility: `hidden` }}
               whileTap={{ scale: 0.9 }}

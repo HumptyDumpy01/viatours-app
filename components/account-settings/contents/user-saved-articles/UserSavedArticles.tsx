@@ -32,7 +32,7 @@ export default function UserSavedArticles({ userSavedArticles, userEmail }: User
   const [filteredSavedArticlesItems, setFilteredSavedArticlesItems] = useState<savedArticlesType[]>(userSavedArticles);
   const [originalSavedArticlesItems, setOriginalSavedArticlesItems] = useState<savedArticlesType[]>([...userSavedArticles]);
 
-  const savedArticlesItemsPerPage = 4;
+  const savedArticlesItemsPerPage = 6;
   const [currentPage, setCurrentPage] = useState(1);
 
   const indexOfLastArticleItem = currentPage * savedArticlesItemsPerPage;
@@ -183,7 +183,7 @@ export default function UserSavedArticles({ userSavedArticles, userEmail }: User
         <CustomizedSnackbar open={open} handleClose={handleClose} label={toastLabel} severity={toastSeverity} />
         <div className={`account-settings__content__title-wrapper-container`}>
           <div className="account-settings__content__title-wrapper flex">
-            <div className="flex flex-align-center gap-15px">
+            <div className="flex flex-align-center gap-15px z-index-999999">
               <motion.h2
                 whileHover={{ scale: 1.1, backfaceVisibility: `hidden` }}
                 whileTap={{ scale: 0.9 }}

@@ -10,7 +10,7 @@
   top: 1.2rem;
   right: 1.2rem;
   background-color: #fff;
-  z-index: 99999999999999999999;
+  z-index: 999999999 !important;
   transition: all .3s cubic-bezier(0.41, 0.094, 0.212, 0.935);
 
   @media only screen and (max-width: 51.5625em) {

@@ -39,7 +39,7 @@ export default function
                      }: CustomizableDialogType) {
 
   return (
-    <React.Fragment>
+    <>
       <Dialog
         open={open}
         onClose={handleClose}
@@ -63,6 +63,6 @@ export default function
           </Button>
         </DialogActions>
       </Dialog>
-    </React.Fragment>
+    </>
   );
 }
