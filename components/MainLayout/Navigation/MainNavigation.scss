@@ -122,10 +122,12 @@
 
   &--search, &--datepicker-mobile {
     transition: all .3s;
-    border: 1px solid var(--clr-primary);
+    //border: 1px solid var(--clr-primary);
+    border: none;
     border-radius: 10rem;
     padding-left: 2.2rem;
     padding-right: 1.2rem;
+    font-weight: 400;
     height: 4.9rem;
     width: 35rem;
     margin-top: .6rem;

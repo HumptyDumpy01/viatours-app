@@ -991,7 +991,7 @@ button {
   position: fixed;
   bottom: 12rem;
   right: 5rem;
-  background-color: var(--clr-primary);
+  background-color: #F28555;
   color: var(--clr-white);
   border: none;
   border-radius: 50%;
@@ -1352,6 +1352,7 @@ b {
 .navigation--search {
   width: 25rem !important;
   font-size: 1.5rem;
+  font-weight: 300;
 }
 
 .z-index-10 {

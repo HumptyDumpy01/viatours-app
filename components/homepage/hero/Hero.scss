@@ -36,7 +36,8 @@
     padding-bottom: 17rem;
   }
   //url('../img/hero/heroBg.jpg')
-  background: linear-gradient(to right bottom, rgba(235, 0, 0, 0.3), rgba(0, 0, 0, 0.4)), url('/homepage/hero/heroBg.jpg');
+  //background: linear-gradient(to right bottom, rgba(235, 0, 0, 0.3), rgba(0, 0, 0, 0.4)), url('/homepage/hero/heroBg.jpg');
+  background: url('/homepage/hero/heroBg.jpg');
 
   // the same background as above but more with the primary color
   background-size: cover;

@@ -100,16 +100,11 @@ export default function MainNavigation(/*{  }: MainNavigationInterface*/) {
               variants={item}
               onSubmit={handleSubmit}>
               <label>
-                <motion.input
-                  variants={item}
-                  whileFocus={{
-                    scale: 1.02,
-                    transition: { type: `spring`, duration: .3, stiffness: 300, damping: 20 }
-                  }}
+                <input
                   type="search"
                   name={`searchTerm`}
                   className={`navigation--search`}
-                  placeholder="Search Tours" />
+                  placeholder="Search Destinations" />
               </label>
             </motion.form>
           </motion.div>
